@@ -109,7 +109,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/4.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/git.jpeg">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/5.png">
-<meta property="og:updated_time" content="2019-10-10T03:41:34.000Z">
+<meta property="og:updated_time" content="2019-11-13T07:04:20.282Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面经整理6">
 <meta name="twitter:description" content="SSM系列问题推荐阅读：SSM常见面试问题 汇总：趣链、蘑菇街、随手记、网易、招银、IBM、阿里 趣链Java一面之lh篇自我介绍。讲一下项目。 1. 类加载的过程。三个阶段：加载、连接、初始化。  加载：①class文件加载到内存中；②方法区生成运行时类文件；③堆区生成class对象，作为访问方法区中类文件的访问入口。 连接：①验证文件正确性；②为类的静态变量分配内存，并初始化默认值；③符号引用">
@@ -430,7 +430,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-10-10 11:41:34" itemprop="dateModified" datetime="2019-10-10T11:41:34+08:00">2019-10-10</time>
+                <time title="Modified: 2019-11-13 15:04:20" itemprop="dateModified" datetime="2019-11-13T15:04:20+08:00">2019-11-13</time>
               
             
           </span>
@@ -915,6 +915,7 @@
 </ol>
 </blockquote>
 <p>创建锁失败的原因可能是：当前 key 的锁已经被其他 client 占有、master 节点不可用</p>
+<p>推荐阅读：<a href="http://ifeve.com/redis-lock/" target="_blank" rel="noopener">《Redis官方文档》用Redis构建分布式锁</a></p>
 <h4 id="2-zk-实现的分布式锁"><a href="#2-zk-实现的分布式锁" class="headerlink" title="2. zk 实现的分布式锁"></a>2. zk 实现的分布式锁</h4><h5 id="2-1-临时-znode-方案"><a href="#2-1-临时-znode-方案" class="headerlink" title="2.1 临时 znode 方案"></a>2.1 临时 znode 方案</h5><blockquote>
 <p>zk 分布式锁，其实可以做的比较简单，就是某个节点尝试创建临时 znode，此时创建成功了就获取了这个锁；这个时候别的客户端来创建锁会失败，只能<strong>注册个监听器</strong>监听这个锁。释放锁就是删除这个 znode，一旦释放掉就会通知客户端，然后有一个等待着的客户端就可以再次重新加锁。</p>
 </blockquote>
@@ -1570,7 +1571,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">117</span>
+                    <span class="site-state-item-count">118</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1728,7 +1729,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
