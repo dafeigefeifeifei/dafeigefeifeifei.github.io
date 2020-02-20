@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="To the moon">
 <meta property="og:description" content="(转载)在linux下创建自定义服务原文链接：在linux下创建自定义服务 利用systemctl创建服务历史版本中的linux对服务的操作是通过service来完成的。若创建用户自定义的服务，则需要较为复杂的操作。目前linux新的发行版已经内置了systemctl来操作服务。 服务脚本编写新的自定义服务脚本以service为后缀，这些service文件存放于/lib/systemd/syste">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-20T02:28:39.731Z">
+<meta property="og:updated_time" content="2020-02-20T02:37:50.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（转载）在linux下创建自定义服务">
 <meta name="twitter:description" content="(转载)在linux下创建自定义服务原文链接：在linux下创建自定义服务 利用systemctl创建服务历史版本中的linux对服务的操作是通过service来完成的。若创建用户自定义的服务，则需要较为复杂的操作。目前linux新的发行版已经内置了systemctl来操作服务。 服务脚本编写新的自定义服务脚本以service为后缀，这些service文件存放于/lib/systemd/syste">
@@ -405,7 +405,7 @@
                 
               
 
-              <time title="Created: 2020-02-20 10:21:23 / Modified: 10:28:39" itemprop="dateCreated datePublished" datetime="2020-02-20T10:21:23+08:00">2020-02-20</time>
+              <time title="Created: 2020-02-20 10:21:23 / Modified: 10:37:50" itemprop="dateCreated datePublished" datetime="2020-02-20T10:21:23+08:00">2020-02-20</time>
             
 
             
@@ -473,6 +473,7 @@
         <h1 id="转载-在linux下创建自定义服务"><a href="#转载-在linux下创建自定义服务" class="headerlink" title="(转载)在linux下创建自定义服务"></a>(转载)在linux下创建自定义服务</h1><p>原文链接：<a href="https://www.jianshu.com/p/92208194d700" target="_blank" rel="noopener">在linux下创建自定义服务</a></p>
 <h2 id="利用systemctl创建服务"><a href="#利用systemctl创建服务" class="headerlink" title="利用systemctl创建服务"></a>利用systemctl创建服务</h2><p>历史版本中的linux对服务的操作是通过service来完成的。若创建用户自定义的服务，则需要较为复杂的操作。目前linux新的发行版已经内置了systemctl来操作服务。</p>
 <h2 id="服务脚本编写"><a href="#服务脚本编写" class="headerlink" title="服务脚本编写"></a>服务脚本编写</h2><p>新的自定义服务脚本以service为后缀，这些service文件存放于/lib/systemd/system中。我们只需要编写符合标准规范的service脚本文件，放在这个文件夹下面即可。这个标准的服务文件格式如下：</p>
+<a id="more"></a>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/systemd/system/halo.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Halo Service</span><br><span class="line">Documentation=https://halo.run</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/usr/bin/java -server -Xms256m -Xmx256m -jar YOUR_JAR_PATH</span><br><span class="line">ExecStop=/bin/<span class="built_in">kill</span> -s QUIT <span class="variable">$MAINPID</span></span><br><span class="line">Restart=always</span><br><span class="line">StandOutput=syslog</span><br><span class="line"></span><br><span class="line">StandError=inherit</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 <h2 id="三个部分"><a href="#三个部分" class="headerlink" title="三个部分"></a>三个部分</h2><p>这个脚本分为3个部分：[Unit] [Service] [Install]。</p>
 <h3 id="Unit"><a href="#Unit" class="headerlink" title="Unit"></a>Unit</h3><p>Unit表明该服务的描述，类型描述。我们称之为一个单元。比较典型的情况是单元A要求在单元B启动之后再启动。这种设置是通过Unit下面的<code>Requires、After、Before、Wants</code>来调整的。比如上述场景的编写可以这样（在A中编写）：</p>

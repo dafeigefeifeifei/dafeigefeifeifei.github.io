@@ -406,7 +406,7 @@
                 
               
 
-              <time title="Created: 2020-02-20 10:21:23 / Modified: 10:28:39" itemprop="dateCreated datePublished" datetime="2020-02-20T10:21:23+08:00">2020-02-20</time>
+              <time title="Created: 2020-02-20 10:21:23 / Modified: 10:37:50" itemprop="dateCreated datePublished" datetime="2020-02-20T10:21:23+08:00">2020-02-20</time>
             
 
             
@@ -464,94 +464,18 @@
 
       
         
-          
-            <h1 id="转载-在linux下创建自定义服务"><a href="#转载-在linux下创建自定义服务" class="headerlink" title="(转载)在linux下创建自定义服务"></a>(转载)在linux下创建自定义服务</h1><p>原文链接：<a href="https://www.jianshu.com/p/92208194d700" target="_blank" rel="noopener">在linux下创建自定义服务</a></p>
+          <h1 id="转载-在linux下创建自定义服务"><a href="#转载-在linux下创建自定义服务" class="headerlink" title="(转载)在linux下创建自定义服务"></a>(转载)在linux下创建自定义服务</h1><p>原文链接：<a href="https://www.jianshu.com/p/92208194d700" target="_blank" rel="noopener">在linux下创建自定义服务</a></p>
 <h2 id="利用systemctl创建服务"><a href="#利用systemctl创建服务" class="headerlink" title="利用systemctl创建服务"></a>利用systemctl创建服务</h2><p>历史版本中的linux对服务的操作是通过service来完成的。若创建用户自定义的服务，则需要较为复杂的操作。目前linux新的发行版已经内置了systemctl来操作服务。</p>
 <h2 id="服务脚本编写"><a href="#服务脚本编写" class="headerlink" title="服务脚本编写"></a>服务脚本编写</h2><p>新的自定义服务脚本以service为后缀，这些service文件存放于/lib/systemd/system中。我们只需要编写符合标准规范的service脚本文件，放在这个文件夹下面即可。这个标准的服务文件格式如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/systemd/system/halo.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Halo Service</span><br><span class="line">Documentation=https://halo.run</span><br><span class="line">After=network-online.target</span><br><span class="line">Wants=network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">ExecStart=/usr/bin/java -server -Xms256m -Xmx256m -jar YOUR_JAR_PATH</span><br><span class="line">ExecStop=/bin/<span class="built_in">kill</span> -s QUIT <span class="variable">$MAINPID</span></span><br><span class="line">Restart=always</span><br><span class="line">StandOutput=syslog</span><br><span class="line"></span><br><span class="line">StandError=inherit</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<h2 id="三个部分"><a href="#三个部分" class="headerlink" title="三个部分"></a>三个部分</h2><p>这个脚本分为3个部分：[Unit] [Service] [Install]。</p>
-<h3 id="Unit"><a href="#Unit" class="headerlink" title="Unit"></a>Unit</h3><p>Unit表明该服务的描述，类型描述。我们称之为一个单元。比较典型的情况是单元A要求在单元B启动之后再启动。这种设置是通过Unit下面的<code>Requires、After、Before、Wants</code>来调整的。比如上述场景的编写可以这样（在A中编写）：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Requires=B</span><br><span class="line">After=B</span><br></pre></td></tr></table></figure>
-<p>这段设置表明了A的启动依赖于B，同时有要求在B启动之后启动自己。设置十分简介。需要注意的是，依赖关系通常用在服务（Service）而不是目标（Target）上。</p>
-<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>Service是脚本的关键部分，这一部分用于设置一些关键参数：</p>
-<ul>
-<li><code>Type=forking</code> : 后台运行模式</li>
-<li><code>PIDFile=/xxx/xxx.xxx</code> : 存放PID文件的位置</li>
-<li><code>ExecStart=/bin/echo xxx</code> : 这是服务运行的具体执行命令</li>
-<li><code>ExecReload=/bin/echo xxx</code> ： 这是服务重启的执行命令</li>
-<li><code>EexcStop=/bin/echo xxx</code> : 这是服务停止的执行命令</li>
-</ul>
-<p>Service的启动方式，在Service段中，启动方式使用Type指定。具体可以参考<code>man systemd.service</code>。</p>
-<p>值得注意的是，在脚本中关于服务启动、重启、关闭的指令需要使用绝对路径，否则会出现无法识别的情况。</p>
-<p>当完成一个服务脚本后，我们就可以使用systemctl start|stop|restart xxx.service等指令了。若要开机启动这个服务我们使用如下的指令：</p>
-<ul>
-<li><code>systemctl enable xxx.service</code></li>
-</ul>
-<p>若要关闭开机启动:</p>
-<ul>
-<li><code>systemctl disable xxx.service</code></li>
-</ul>
-<p>当我们需要查看服务信息的使用可以使用如下指令：</p>
-<ul>
-<li><code>systemctl list-units --type=service</code> ： 列出正在运行的服务</li>
-</ul>
-<p>在service片段中有几个概念很重要，这直接影响到实践中创建自定义服务的最终结果。以下内容根据linux系统<br> 中<code>man systemd.service</code>用户手册说明经过翻译和整理而得。</p>
-<h3 id="service配置之Type"><a href="#service配置之Type" class="headerlink" title="service配置之Type"></a>service配置之Type</h3><p>首先是Type配置，在service片段中有Type的配置，这个配置给当前的服务单元用于设置进程的启动类型。<br> Type有如下几种可选项：</p>
-<ul>
-<li><code>simple</code></li>
-<li><code>forking</code></li>
-<li><code>oneshot</code></li>
-<li><code>dbus</code></li>
-<li><code>notify</code></li>
-<li><code>idel</code></li>
-</ul>
-<p><strong>simple</strong>，这是默认的Type，当Type和BusName配置都没有设置，指定了ExecStart设置后，simple就是默认的Type设置。simple使用ExecStart创建的进程作为服务的主进程。在此设置下systemd会立即启动服务，如果该服务要启动其他服务（simple不会forking），它们的通讯渠道应当在守护进程启动之前被安装好（e.g. sockets,通过sockets激活）。</p>
-<p><strong>forking</strong>，如果使用了这个Type，则ExecStart的脚本启动后会调用fork()函数创建一个进程作为其启动的一部分。当一切初始化完毕后，父进程会退出。子进程会继续作为主进程执行。这是传统UNIX主进程的行为。如果这个设置被指定，建议同时设置PIDFile选项来指定pid文件的路径，以便systemd能够识别主进程。</p>
-<p><strong>oneshot</strong>，onesh的行为十分类似simple，但是，在systemd启动之前，进程就会退出。这是一次性的行为。可能还需要设置RemainAfterExit=yes，以便systemd认为j进程退出后仍然处于激活状态。</p>
-<p><strong>dbus</strong>，这个设置也和simple很相似，该配置期待或设置一个name值，通过设置BusName=设置name即可。</p>
-<p><strong>notify</strong>，同样地，与simple相似的配置。顾名思义，该设置会在守护进程启动的时候发送推送消息(通过sd_notify(3))给systemd。</p>
-<h3 id="Service其他配置节点"><a href="#Service其他配置节点" class="headerlink" title="Service其他配置节点"></a>Service其他配置节点</h3><ul>
-<li><code>RemainAfterExit</code>：默认值no</li>
-</ul>
-<p>默认值为no，这个设置采用booleean值，可以是0、no、off、1、yes、on等值。它表明服务是否应当被视为激活的，即便当它所有的进程都退出了。简言之，这个设置用于告诉systemd服务是否应当是被视为激活状态，而不管进程是否退出。当为true时，即便服务退出，systemd依然将这个服务视为激活状态，反之则服务停止。</p>
-<ul>
-<li><code>GuessMainPID</code></li>
-</ul>
-<p>采用boolean值指定systemd在无法确切的查明服务的时候是否需要猜测服务的main pid。除非<code>Type=forking</code>被采用并且PIDFile没有被设置，否则这个选项会被忽略。因为当设置为Type的其他选项，或者显示的指定了PID文件后，systemd总是能够知道main pid。</p>
-<ul>
-<li><code>PIDFile</code></li>
-</ul>
-<p>采用一个绝对路径的文件名指定守护进程的PID文件。当Type=forking被设置的时候，建议采取这个设置。当服务启动后，systemd会读取守护进程的主进程id。systemd不会对该文件写入数据。</p>
-<ul>
-<li><code>BusName</code></li>
-</ul>
-<p>使用一个D-Bus的总线名称,作为该服务的可访问名称。当<code>Type=dbus</code>的时候，该设置被强制使用。</p>
-<ul>
-<li><code>BusPolicy</code></li>
-</ul>
-<p>如果该选项被指定，一个自定义的kdbus终结点将会被创建，并且会被指定为默认的dbus节点安装到服务上。这样的自定义终结点自身持有一个策略规则集合。这些规则将会在总线范围内被强制指定。该选项只有在kdbus被激活时有效。</p>
-<ul>
-<li><code>ExecStart</code></li>
-</ul>
-<p>当服务启动的时候（<code>systemctl start youservice.service</code>），会执行这个选项的值，这个值一般是<code>“ExecStart=指令 参数”</code>的形式。当<code>Type=oneshot</code>的时候，只有一个指令可以并且必须给出。原因是oneshot只会被执行一次。</p>
-<ul>
-<li><code>ExecStartPre</code>、<code>ExecStartPost</code> </li>
-</ul>
-<p>顾名思义，这两个设置的意义在于<code>ExecStart</code>被执行之前和之后被执行。</p>
-<ul>
-<li><code>ExecReload</code></li>
-</ul>
-<p>服务重启时执行。</p>
-<ul>
-<li><code>ExecStop</code></li>
-</ul>
-<p>服务停止时执行。</p>
-<ul>
-<li><code>ExecStopPost</code></li>
-</ul>
-<p>服务停止后执行。</p>
-
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/2020/02/20/（转载）在linux下创建自定义服务/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
