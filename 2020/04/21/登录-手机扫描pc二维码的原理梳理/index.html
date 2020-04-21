@@ -94,23 +94,23 @@
 
 
 
-  <meta name="description" content="先明确概念： 问：二维码是什么？ 答：二维码其实就是一串字符串，条形码其实就是一串数字。 问：app 首次进入时需要输入用户名密码登录，但之后不再需要就可以直接进入，这是为什么？ 答：因为 token 机制。">
+  <meta name="description" content="先明确概念： 问：二维码是什么？ 答：二维码其实就是一串字符串，条形码其实就是一串数字。二维码内容可以是惟一的 ID，也可以是包含该 ID 的地址。 问：app 首次进入时需要输入用户名密码登录，但之后不再需要就可以直接进入，这是为什么？ 答：因为 token 机制。">
 <meta name="keywords" content="web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="登录_手机扫描pc二维码的原理梳理">
 <meta property="og:url" content="http://yoursite.com/2020/04/21/登录-手机扫描pc二维码的原理梳理/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="先明确概念： 问：二维码是什么？ 答：二维码其实就是一串字符串，条形码其实就是一串数字。 问：app 首次进入时需要输入用户名密码登录，但之后不再需要就可以直接进入，这是为什么？ 答：因为 token 机制。">
+<meta property="og:description" content="先明确概念： 问：二维码是什么？ 答：二维码其实就是一串字符串，条形码其实就是一串数字。二维码内容可以是惟一的 ID，也可以是包含该 ID 的地址。 问：app 首次进入时需要输入用户名密码登录，但之后不再需要就可以直接进入，这是为什么？ 答：因为 token 机制。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2020/04/21/登录-手机扫描pc二维码的原理梳理/1.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/21/登录-手机扫描pc二维码的原理梳理/2.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/21/登录-手机扫描pc二维码的原理梳理/3_1.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/21/登录-手机扫描pc二维码的原理梳理/3_2.png">
 <meta property="og:image" content="http://yoursite.com/2020/04/21/登录-手机扫描pc二维码的原理梳理/3_3.png">
-<meta property="og:updated_time" content="2020-04-21T09:55:25.599Z">
+<meta property="og:updated_time" content="2020-04-21T10:08:21.099Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="登录_手机扫描pc二维码的原理梳理">
-<meta name="twitter:description" content="先明确概念： 问：二维码是什么？ 答：二维码其实就是一串字符串，条形码其实就是一串数字。 问：app 首次进入时需要输入用户名密码登录，但之后不再需要就可以直接进入，这是为什么？ 答：因为 token 机制。">
+<meta name="twitter:description" content="先明确概念： 问：二维码是什么？ 答：二维码其实就是一串字符串，条形码其实就是一串数字。二维码内容可以是惟一的 ID，也可以是包含该 ID 的地址。 问：app 首次进入时需要输入用户名密码登录，但之后不再需要就可以直接进入，这是为什么？ 答：因为 token 机制。">
 <meta name="twitter:image" content="http://yoursite.com/2020/04/21/登录-手机扫描pc二维码的原理梳理/1.png">
 
 
@@ -411,7 +411,7 @@
                 
               
 
-              <time title="Created: 2020-04-21 16:34:52 / Modified: 17:55:25" itemprop="dateCreated datePublished" datetime="2020-04-21T16:34:52+08:00">2020-04-21</time>
+              <time title="Created: 2020-04-21 16:34:52 / Modified: 18:08:21" itemprop="dateCreated datePublished" datetime="2020-04-21T16:34:52+08:00">2020-04-21</time>
             
 
             
@@ -478,7 +478,7 @@
       
         <p>先明确概念：</p>
 <p>问：二维码是什么？</p>
-<p>答：二维码其实就是一串字符串，条形码其实就是一串数字。</p>
+<p>答：二维码其实就是一串字符串，条形码其实就是一串数字。二维码内容可以是惟一的 ID，也可以是包含该 ID 的地址。</p>
 <p>问：app 首次进入时需要输入用户名密码登录，但之后不再需要就可以直接进入，这是为什么？</p>
 <p>答：因为 token 机制。</p>
 <a id="more"></a>
@@ -497,18 +497,28 @@
 <h4 id="扫码登录三大细节"><a href="#扫码登录三大细节" class="headerlink" title="扫码登录三大细节"></a>扫码登录三大细节</h4><ol>
 <li><p>pc 生成待扫描的二维码。</p>
 <p><img src="3_1.png" alt=""></p>
-<p>值得注意的是：此时二维码和 pc 设备信息都传递给了 server端。拿到设备信息是为了验证的需要。</p>
+<p>值得注意的是：此时二维码和 pc 设备信息都传递给了 server端。拿到设备信息是为了验证的需要。此时系统并不知道访问者是谁。</p>
 </li>
 <li><p>手机端扫码。</p>
 <p><img src="3_2.png" alt=""></p>
-<p>扫码时，server 可以拿到此二维码，也拿到了身份信息，只待用户在手机上确认登录后，就可以生成 pc token 了。</p>
+<p>扫码时，server 可以拿到此二维码，也拿到了身份信息，server 明确了访问者。使用临时 token，是为了 userId 被传递时的安全考量。只待用户在手机上确认登录后，就可以生成 pc token 了。</p>
 </li>
 <li><p>用户点击确认，pc 端完成登录。</p>
 <p><img src="3_3.png" alt=""></p>
 <p>pc 会一直轮询 server 并同步更新二维码状态。</p>
 </li>
 </ol>
-<p>本部分参考自极客时间江涌的<a href="https://time.geekbang.org/dailylesson/detail/100044032?utm_source=web&amp;utm_medium=geektime&amp;utm_campaign=306-presell&amp;utm_content=pc0420&amp;utm_term=pc_interstitial_250" target="_blank" rel="noopener">《二维码扫描登录是什么原理？》</a></p>
+<blockquote>
+<p>粘一下知乎中吕十田的科普解释：</p>
+<p>1、你用浏览器打开<a href="https://link.zhihu.com/?target=http%3A//wx.qq.com" target="_blank" rel="noopener">http://wx.qq.com</a>的时候，微信给你随机分配了一个链接，【相当于给你开了间房，房号1024，注意，只给你房号，没给你钥匙】，用二维码包装着，并且设置了有效时间【10分钟你不进房间，就给你取消】。这里面没有用户什么事情，所以不存在UID（user ID），只是一个随机的字母和数字组合。<br>2、二维码的转码规则是统一的，所以意味着，只要是个二维码扫描软件，谁都能拿到这个链接，微信可以扫出来，我查查也可以扫出来。<br>3、所以拿到链接没有用，重要的是谁拿到链接，微信拿到了，就可以从微信客户端发一条信息给服务器，告诉服务器，现在是谁使用了某个链接，其他二维码扫描软件，不能和微信服务器通话，所以毫无价值。【你拿到了房号，就给酒店老板打个电话，说是我，老板就知道张三又来开房了，其他人没有老板电话，知道房号也没用】<br>4、这时候，在你刚打开的浏览器窗口里面，就知道并显示了你的信息，理论上可以直接打开聊天窗口，但是为了不突兀不尴尬，微信选择再让你在手机上做一个确认操作。【你站到你的房间门口了，老板也知道你是张三了，并且把你的那个好基友也放到了你房间里，但是谁知道你基友会在房间里干点啥？如果他正好弯腰在捡肥皂，这时候恰好你后面有人经过，房门大开大家尴尬不尴尬？所以还是老板考虑周到，他要你在电话里确认一下才给你开门，你大可以等后面没人了再开门进去】<br>5、好了，现在你可以进去好好享用你的基友了。</p>
+</blockquote>
+<p>本部分参考自</p>
+<ol>
+<li><p>极客时间江涌的<a href="https://time.geekbang.org/dailylesson/detail/100044032?utm_source=web&amp;utm_medium=geektime&amp;utm_campaign=306-presell&amp;utm_content=pc0420&amp;utm_term=pc_interstitial_250" target="_blank" rel="noopener">《二维码扫描登录是什么原理？》</a></p>
+</li>
+<li><p>吕十田的知乎回答：<a href="https://www.zhihu.com/question/20368066/answer/23828176" target="_blank" rel="noopener">微信扫描二维码登录网页是什么原理</a></p>
+</li>
+</ol>
 
       
     </div>
