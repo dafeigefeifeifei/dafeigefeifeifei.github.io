@@ -361,6 +361,202 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/04/javaweb-forQuery2/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/04/javaweb-forQuery2/" class="post-title-link" itemprop="url">javaweb_forQuery2</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-04 10:03:30" itemprop="dateCreated datePublished" datetime="2018-05-04T10:03:30+08:00">2018-05-04</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-04-04 19:58:03" itemprop="dateModified" datetime="2019-04-04T19:58:03+08:00">2019-04-04</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><img src="forquery.png" alt="forquery.png"></p>
+<h1 id="学习内容："><a href="#学习内容：" class="headerlink" title="学习内容："></a>学习内容：</h1><ol>
+<li>接着forQuery1的内容,思路见上图</li>
+<li>新增add功能，URL为tmall_ssm/admin_category_list</li>
+<li>实现图片上传</li>
+</ol>
+<h1 id="实现思路："><a href="#实现思路：" class="headerlink" title="实现思路："></a>实现思路：</h1><ol>
+<li>首先在 CategoryMapper.xml中增加id=”add”的sql语句，使用keyProperty和useGeneratedKeys属性，将自动递增的id值设置在Category对象上</li>
+</ol>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;insert <span class="built_in">id</span>=<span class="string">"add"</span> keyProperty=<span class="string">"id"</span> useGeneratedKeys=<span class="string">"true"</span> parameterType=<span class="string">"Category"</span>&gt;</span><br><span class="line">	insert <span class="keyword">into</span> category (<span class="built_in">name</span>) values (<span class="comment">#&#123;name&#125;)</span></span><br><span class="line">&lt;/insert&gt;</span><br></pre></td></tr></table></figure>
+<p>[注] <a href="http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html" target="_blank" rel="noopener">Mapper  XML的Insert, Update, Delete ‘s Attributes</a></p>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/05/04/javaweb-forQuery2/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/03/javaweb-forQuery/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -596,7 +792,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">121</span>
+                    <span class="site-state-item-count">122</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
