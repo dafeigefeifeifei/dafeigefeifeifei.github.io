@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/1.png">
 <meta property="og:image" content="http://yoursite.com/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/2.png">
-<meta property="og:updated_time" content="2020-04-02T04:38:50.526Z">
+<meta property="og:updated_time" content="2020-07-04T03:31:53.118Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（转载）项目心得_ 一周爆肝上线百万高并发系统">
 <meta name="twitter:description" content="原文链接：https://www.nowcoder.com/discuss/368998?type=0&amp;amp;order=0&amp;amp;pos=7&amp;amp;page=1 作者木子鱼皮，是（腾讯广告全栈毕业生）从零开始一周紧急上线百万高并发系统的相关经验、思路及感悟，在此记录分享。 写的比较复杂，今天修改一下~欢迎大家先🐴后看 花5分钟阅读本文，你将收获：  加深对实际工作环境、工作状态的了解">
@@ -425,7 +425,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-04-02 12:38:50" itemprop="dateModified" datetime="2020-04-02T12:38:50+08:00">2020-04-02</time>
+                <time title="Modified: 2020-07-04 11:31:53" itemprop="dateModified" datetime="2020-07-04T11:31:53+08:00">2020-07-04</time>
               
             
           </span>
@@ -510,15 +510,19 @@
 <p>查询系统，顾名思义就是查询我们负责的DB的值，包括最基础的鉴权、查询等功能。</p>
 <p><strong>先分析一下系统中一些难点：</strong></p>
 <ol>
-<li><p>明显，查询系统是一个</p>
-<p>高扇入服务</p>
-<p>，被各其他业务侧调用，必然会存在三个问题：</p>
+<li><p>明显，查询系统是一个<strong>高扇入服务</strong>，被各其他业务侧调用，必然会存在三个问题：</p>
 <ul>
 <li>高并发：各业务侧流量聚集，经评估，会产生百万量级的高并发流量 </li>
-<li>兼容性：如何设计一套API，兼容各业务侧的同时易被理解 </li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>兼容性：如何设计一套API，兼容各业务侧的同时易被理解 <ul>
 <li>对接复杂：要同时与4个业务侧的同学沟通，想想就是一件很复杂的事情 </li>
 </ul>
 </li>
+</ul>
+<ol start="2">
 <li><p>状态流转系统逻辑相当复杂（最后光逻辑就300多行代码） </p>
 </li>
 <li><p>状态流转系统与查询系统、其他业务侧存在交互（比如互相发送通知），对时延、一致性要求很高 </p>
@@ -737,6 +741,43 @@
 <li>吹🐂能力 ↑ </li>
 </ol>
 <p><strong>工作简单而不简单，做着有意义的事就好~</strong></p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>项目上线后，通过总结复盘，发现了项目中值得优化的地方，也思考到了一些更健全的机制，将逐渐去实现。</p>
+<p>如下：</p>
+<h3 id="1-两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步"><a href="#1-两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步" class="headerlink" title="1. 两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步"></a>1. 两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步</h3><p>这种方式的优点是比较简单，无需额外的操作。但缺点也很明显，如果一个系统的配置改了，而忘了修改另一个系统的配置，就会出现错误。</p>
+<p>事实上，可以引入一个<strong>配置中心</strong>，集中管理配置文件，并且支持手动修改、多环境、灰度等功能。</p>
+<p>公司内部做了调研，发现了一个不错的开源协同项目。当然也可以采用阿里的Nacos或携程的Apollo。</p>
+<h3 id="2-曾经的进程闪退问题，必须重视！"><a href="#2-曾经的进程闪退问题，必须重视！" class="headerlink" title="2. 曾经的进程闪退问题，必须重视！"></a>2. 曾经的进程闪退问题，必须重视！</h3><p>无法保证进程不闪退，但是可以采取对进程实时监控，并自动对闪退进程进行重启的策略。</p>
+<p>实现方式有两种：</p>
+<ol>
+<li>使用工具，例如supervisor或monit，可以对进程进行管理和闪退重启 </li>
+<li>编写shell脚本，再通过定时任务，实现周期性观察进程状态及重启。推荐将定时任务接入<strong>分布式任务调度平台</strong>，尤其当定时任务很多时，进行可视化的管理和方便的控制调度是必要的！ </li>
+</ol>
+<p>由于公司内部的平台比较完善，我选择第二种方式。</p>
+<blockquote>
+<p>原来自己写过一个<a href="https://www.bilibili.com/video/av47442014" target="_blank" rel="noopener">分布式邮件调度平台</a>，参考了分布式任务调度平台的实现方式，大家有兴趣可以了解下原理，感觉对拓宽后端思路很有帮助。</p>
+</blockquote>
+<p><strong>工作简单而不简单，做着有意义的事就好~</strong></p>
+<p>================================<br>此处回答一些牛友们的问题，欢迎牛友们抛出疑问、指出不足、积极讨论。</p>
+<h2 id="问题讨论"><a href="#问题讨论" class="headerlink" title="问题讨论"></a>问题讨论</h2><p><strong>1. 事务依赖的服务也有事务，怎么处理？</strong></p>
+<p>答：同一个数据访问对象（dao）开启多个事务才会出现此问题，处理方式是不使用依赖服务中有事务的方法。比如可以用for循环单条删除来代替批量删除。</p>
+<p><strong>2. 为什么不用主流的Spring + SpringMVC，而是用Jersey + Guice框架？</strong></p>
+<p>的确，Spring是主流，生态好，一般大家都会选择SpringBoot + Tomcat。但主流不代表适用于所有的业务场景，还是要<strong>贴合业务去做技术选型</strong>。其实这里应该拿SpringMVC去对标Jersey、Spring对标Guice，但实际上SpringMVC也依赖Spring（一家人）。</p>
+<p>这里不用Spring有如下几个原因：</p>
+<ol>
+<li>系统较小型。Spring和SpringMVC功能虽大而全，但是相对于Jersey，显得有些重量级，需要做更多的工作（比如编写配置文件等等）。 </li>
+<li>系统仅提供查询服务。而Jersey框架专门提供Restful风格接口，完全可以满足需求。 </li>
+<li>由于Jersey轻量的特性，支持手动注册接口，相对Spring更为灵活，与其他框架搭配使用也很方便（比如Guice、Grizzly），不易出现版本冲突。 </li>
+<li>Guice可以在一个文件中手动注入管理所有依赖，便于查找。而用Spring的时候我们通常是在每个类上加注解扫包或者编写配置文件，虽然写起来爽的飞起，但非常不利于代码阅读（import *和lombok也是同理，最好不要用）！ </li>
+</ol>
+<p><strong>这里也提一下用Grizzly服务器来替代Tomcat的好处，主要是：</strong></p>
+<ol>
+<li>性能更高，高并发场景表现更稳定。 </li>
+<li>操作管理方便，在代码中启动即可（虽然Tomcat也提供了embed版本）。 </li>
+</ol>
+<p><strong>3. 负载均衡怎么实现？</strong></p>
+<p>企业负载均衡一般都是软硬结合（例如l5、Nginx）、四七层结合（例如lvs+keepalived、Nginx）。</p>
+<p>要提高负载，首先增加机器或扩容（以设置更大的jvm内存），给每个机器部署相同的服务，然后配置负载均衡器，增加到新机器的路由即可。当然完成上述操作后要去做验证，看是否有请求路由到了新机器。</p>
+<p>缓存和DB都是集群的，提供统一接口供查询服务调用，不用担心各机器的查询结果不一致。</p>
 
       
     </div>
@@ -1008,7 +1049,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目介绍"><span class="nav-number">2.</span> <span class="nav-text">项目介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计思路"><span class="nav-number">3.</span> <span class="nav-text">设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-高并发"><span class="nav-number">3.1.</span> <span class="nav-text">1. 高并发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存方案"><span class="nav-number">3.1.1.</span> <span class="nav-text">缓存方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-数据结构设计"><span class="nav-number">3.1.1.1.</span> <span class="nav-text">1. 数据结构设计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-兼容性"><span class="nav-number">3.2.</span> <span class="nav-text">2. 兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-消息通知"><span class="nav-number">3.3.</span> <span class="nav-text">3. 消息通知</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#风险评估"><span class="nav-number">3.4.</span> <span class="nav-text">风险评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TubeMQ风险"><span class="nav-number">3.4.1.</span> <span class="nav-text">TubeMQ风险</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-消息可靠性"><span class="nav-number">3.4.1.1.</span> <span class="nav-text">1. 消息可靠性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-消息顺序性"><span class="nav-number">3.4.1.2.</span> <span class="nav-text">2. 消息顺序性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-消息重复"><span class="nav-number">3.4.2.</span> <span class="nav-text">3. 消息重复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-监控告警"><span class="nav-number">3.4.3.</span> <span class="nav-text">4. 监控告警</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息可靠性方案"><span class="nav-number">3.4.4.</span> <span class="nav-text">消息可靠性方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-生产方消息可靠性"><span class="nav-number">3.4.4.1.</span> <span class="nav-text">1. 生产方消息可靠性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-消费方消息可靠性"><span class="nav-number">3.4.4.2.</span> <span class="nav-text">2. 消费方消息可靠性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据一致性方案"><span class="nav-number">3.4.5.</span> <span class="nav-text">数据一致性方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-设计消息补偿接口"><span class="nav-number">3.4.5.1.</span> <span class="nav-text">1. 设计消息补偿接口</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发过程"><span class="nav-number">4.</span> <span class="nav-text">开发过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题解决"><span class="nav-number">5.</span> <span class="nav-text">问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-事务提交时报错？"><span class="nav-number">5.1.</span> <span class="nav-text">1. 事务提交时报错？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-依赖包存在，项目启动却报错？"><span class="nav-number">5.2.</span> <span class="nav-text">2. 依赖包存在，项目启动却报错？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-缓存未即时更新"><span class="nav-number">5.3.</span> <span class="nav-text">3. 缓存未即时更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-缓存仍未即时更新？"><span class="nav-number">5.4.</span> <span class="nav-text">4. 缓存仍未即时更新？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-请求卡死"><span class="nav-number">5.5.</span> <span class="nav-text">5. 请求卡死</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-线上环境分析日志时突然告警磁盘IO占用超过99-！？"><span class="nav-number">5.6.</span> <span class="nav-text">6. 线上环境分析日志时突然告警磁盘IO占用超过99%！？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-进程闪退"><span class="nav-number">5.7.</span> <span class="nav-text">7. 进程闪退</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-线上环境的消息通知发送成功了，怎么没有预期的数据更新效果？"><span class="nav-number">5.8.</span> <span class="nav-text">8. 线上环境的消息通知发送成功了，怎么没有预期的数据更新效果？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-报告！流量太大，撑不住啊！"><span class="nav-number">5.9.</span> <span class="nav-text">9. 报告！流量太大，撑不住啊！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-上线前一天你跟我说接口设计有问题？"><span class="nav-number">5.10.</span> <span class="nav-text">10. 上线前一天你跟我说接口设计有问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-线上出bug了！！！"><span class="nav-number">5.11.</span> <span class="nav-text">11. 线上出bug了！！！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#血泪教训"><span class="nav-number">6.</span> <span class="nav-text">血泪教训</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目介绍"><span class="nav-number">2.</span> <span class="nav-text">项目介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计思路"><span class="nav-number">3.</span> <span class="nav-text">设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-高并发"><span class="nav-number">3.1.</span> <span class="nav-text">1. 高并发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#缓存方案"><span class="nav-number">3.1.1.</span> <span class="nav-text">缓存方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-数据结构设计"><span class="nav-number">3.1.1.1.</span> <span class="nav-text">1. 数据结构设计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-兼容性"><span class="nav-number">3.2.</span> <span class="nav-text">2. 兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-消息通知"><span class="nav-number">3.3.</span> <span class="nav-text">3. 消息通知</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#风险评估"><span class="nav-number">3.4.</span> <span class="nav-text">风险评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TubeMQ风险"><span class="nav-number">3.4.1.</span> <span class="nav-text">TubeMQ风险</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-消息可靠性"><span class="nav-number">3.4.1.1.</span> <span class="nav-text">1. 消息可靠性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-消息顺序性"><span class="nav-number">3.4.1.2.</span> <span class="nav-text">2. 消息顺序性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-消息重复"><span class="nav-number">3.4.2.</span> <span class="nav-text">3. 消息重复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-监控告警"><span class="nav-number">3.4.3.</span> <span class="nav-text">4. 监控告警</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#消息可靠性方案"><span class="nav-number">3.4.4.</span> <span class="nav-text">消息可靠性方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-生产方消息可靠性"><span class="nav-number">3.4.4.1.</span> <span class="nav-text">1. 生产方消息可靠性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-消费方消息可靠性"><span class="nav-number">3.4.4.2.</span> <span class="nav-text">2. 消费方消息可靠性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据一致性方案"><span class="nav-number">3.4.5.</span> <span class="nav-text">数据一致性方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-设计消息补偿接口"><span class="nav-number">3.4.5.1.</span> <span class="nav-text">1. 设计消息补偿接口</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开发过程"><span class="nav-number">4.</span> <span class="nav-text">开发过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题解决"><span class="nav-number">5.</span> <span class="nav-text">问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-事务提交时报错？"><span class="nav-number">5.1.</span> <span class="nav-text">1. 事务提交时报错？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-依赖包存在，项目启动却报错？"><span class="nav-number">5.2.</span> <span class="nav-text">2. 依赖包存在，项目启动却报错？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-缓存未即时更新"><span class="nav-number">5.3.</span> <span class="nav-text">3. 缓存未即时更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-缓存仍未即时更新？"><span class="nav-number">5.4.</span> <span class="nav-text">4. 缓存仍未即时更新？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-请求卡死"><span class="nav-number">5.5.</span> <span class="nav-text">5. 请求卡死</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-线上环境分析日志时突然告警磁盘IO占用超过99-！？"><span class="nav-number">5.6.</span> <span class="nav-text">6. 线上环境分析日志时突然告警磁盘IO占用超过99%！？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-进程闪退"><span class="nav-number">5.7.</span> <span class="nav-text">7. 进程闪退</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-线上环境的消息通知发送成功了，怎么没有预期的数据更新效果？"><span class="nav-number">5.8.</span> <span class="nav-text">8. 线上环境的消息通知发送成功了，怎么没有预期的数据更新效果？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-报告！流量太大，撑不住啊！"><span class="nav-number">5.9.</span> <span class="nav-text">9. 报告！流量太大，撑不住啊！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-上线前一天你跟我说接口设计有问题？"><span class="nav-number">5.10.</span> <span class="nav-text">10. 上线前一天你跟我说接口设计有问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-线上出bug了！！！"><span class="nav-number">5.11.</span> <span class="nav-text">11. 线上出bug了！！！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#血泪教训"><span class="nav-number">6.</span> <span class="nav-text">血泪教训</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#后续"><span class="nav-number">8.</span> <span class="nav-text">后续</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步"><span class="nav-number">8.1.</span> <span class="nav-text">1. 两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-曾经的进程闪退问题，必须重视！"><span class="nav-number">8.2.</span> <span class="nav-text">2. 曾经的进程闪退问题，必须重视！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题讨论"><span class="nav-number">9.</span> <span class="nav-text">问题讨论</span></a></li></ol></div>
             
 
           </div>
