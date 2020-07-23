@@ -110,7 +110,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/git.jpeg">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/7.jpg">
-<meta property="og:updated_time" content="2020-07-10T02:38:04.045Z">
+<meta property="og:updated_time" content="2020-07-23T10:31:48.175Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面经整理6">
 <meta name="twitter:description" content="SSM系列问题推荐阅读：SSM常见面试问题 汇总：趣链、蘑菇街、随手记、网易、招银、IBM、阿里 趣链Java一面之lh篇自我介绍。讲一下项目。 1. 类加载的过程。三个阶段：加载、连接、初始化。  加载：①class文件加载到内存中；②方法区生成运行时类文件；③堆区生成class对象，作为访问方法区中类文件的访问入口。 连接：①验证文件正确性；②为类的静态变量分配内存，并初始化默认值；③符号引用">
@@ -431,7 +431,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-07-10 10:38:04" itemprop="dateModified" datetime="2020-07-10T10:38:04+08:00">2020-07-10</time>
+                <time title="Modified: 2020-07-23 18:31:48" itemprop="dateModified" datetime="2020-07-23T18:31:48+08:00">2020-07-23</time>
               
             
           </span>
@@ -702,7 +702,7 @@
 </ol>
 <p>参考资料：<a href="https://blog.csdn.net/wxy941011/article/details/80428470" target="_blank" rel="noopener">TCP粘包，拆包及解决方法</a></p>
 <h3 id="9-一般-Web-开发会分为几层？"><a href="#9-一般-Web-开发会分为几层？" class="headerlink" title="9. 一般 Web 开发会分为几层？"></a>9. 一般 Web 开发会分为几层？</h3><h3 id="10-如果使用单例模式拿到的对象，在-JVM-中只能有一个吗？"><a href="#10-如果使用单例模式拿到的对象，在-JVM-中只能有一个吗？" class="headerlink" title="10. 如果使用单例模式拿到的对象，在 JVM 中只能有一个吗？"></a>10. 如果使用单例模式拿到的对象，在 JVM 中只能有一个吗？</h3><h3 id="11-一个Tomcat-可以部署多个项目吗？"><a href="#11-一个Tomcat-可以部署多个项目吗？" class="headerlink" title="11. 一个Tomcat 可以部署多个项目吗？"></a>11. 一个Tomcat 可以部署多个项目吗？</h3><h3 id="12-一个-Tomcat-是运行在一个-JVM-上的吗？（其实是问-Tomcat-跟-JVM-的关系）"><a href="#12-一个-Tomcat-是运行在一个-JVM-上的吗？（其实是问-Tomcat-跟-JVM-的关系）" class="headerlink" title="12. 一个 Tomcat 是运行在一个 JVM 上的吗？（其实是问 Tomcat 跟 JVM 的关系）"></a>12. 一个 Tomcat 是运行在一个 JVM 上的吗？（其实是问 Tomcat 跟 JVM 的关系）</h3><p>JVM ：Tomcat ：J2EE = 1 : 1 : N。运行应用程序的 JVM 就是运行 Tomcat 的那个 JVM。</p>
-<p>参考：<a href="http://likehui.top/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/" target="_blank" rel="noopener">面经整理5</a>，进入页面搜索“Tomcat”即可。</p>
+<p>参考：<a href="http://likehui.fun/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/" target="_blank" rel="noopener">面经整理5</a>，进入页面搜索“Tomcat”即可。</p>
 <h3 id="13-一个-JVM-上多个应用程序，他们有可能发生类冲突吗？jar-包冲突吗？"><a href="#13-一个-JVM-上多个应用程序，他们有可能发生类冲突吗？jar-包冲突吗？" class="headerlink" title="13. 一个 JVM 上多个应用程序，他们有可能发生类冲突吗？jar 包冲突吗？"></a>13. 一个 JVM 上多个应用程序，他们有可能发生类冲突吗？jar 包冲突吗？</h3><h3 id="14-Tomcat-的-classLoader-架构图？"><a href="#14-Tomcat-的-classLoader-架构图？" class="headerlink" title="14. Tomcat 的 classLoader 架构图？"></a>14. Tomcat 的 classLoader 架构图？</h3><h1 id="随手记-Java-一面"><a href="#随手记-Java-一面" class="headerlink" title="随手记 Java 一面"></a>随手记 Java 一面</h1><h3 id="1-Redis-缓存有个过期时间，过期了也就没了，或者有一种比较实时的，修改时马上修改这个缓存吗？"><a href="#1-Redis-缓存有个过期时间，过期了也就没了，或者有一种比较实时的，修改时马上修改这个缓存吗？" class="headerlink" title="1. Redis 缓存有个过期时间，过期了也就没了，或者有一种比较实时的，修改时马上修改这个缓存吗？"></a>1. Redis 缓存有个过期时间，过期了也就没了，或者有一种比较实时的，修改时马上修改这个缓存吗？</h3><ul>
 <li>项目中采用的是高一致性的主动更新策略。拿到真实数据后，立即更新缓存数据。<ul>
 <li>如果采用弱一致性的做法，可以只更新缓存，然后让缓存异步地批量更新数据库。</li>
@@ -1127,7 +1127,7 @@
 <li>不设最大停顿时间。</li>
 <li>GC 的停顿时间，不随堆的规模和存活对象的规模变化而变化。</li>
 <li>但使用读屏障，而且采用并发压缩的过程。</li>
-<li>建议查看本站另一篇文章，梳理的很清晰：<a href="http://likehui.top/2019/04/11/ZGC-%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/" target="_blank" rel="noopener">ZGC 特性解读</a></li>
+<li>建议查看本站另一篇文章，梳理的很清晰：<a href="http://likehui.fun/2019/04/11/ZGC-%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/" target="_blank" rel="noopener">ZGC 特性解读</a></li>
 </ol>
 </li>
 </ol>
@@ -1367,7 +1367,7 @@
 <li>client再生成一个随机的对称密钥，用server的公钥加密后发给server。server用自己的私钥解密，得到此对称密钥。</li>
 <li>之后可以相互访问。</li>
 </ol>
-<p>推荐阅读：<a href="http://likehui.top/2018/12/19/HTTP-1-1/" target="_blank" rel="noopener">HTTP-1-1</a></p>
+<p>推荐阅读：<a href="http://likehui.fun/2018/12/19/HTTP-1-1/" target="_blank" rel="noopener">HTTP-1-1</a></p>
 <h3 id="有了-HTTP协议，为什么还需要-RPC-协议呢？"><a href="#有了-HTTP协议，为什么还需要-RPC-协议呢？" class="headerlink" title="有了 HTTP协议，为什么还需要 RPC 协议呢？"></a>有了 HTTP协议，为什么还需要 RPC 协议呢？</h3><p><img src="7.jpg" alt="RPC&amp;Http"></p>
 <p>Http跟 RPC 不是同一级别的概念，但它们都是解决应用调用另一个应用的备选方案。</p>
 <p>Http：可读性好、跨语言性、有防火墙支持等优势。最佳实践—— Restful 。</p>

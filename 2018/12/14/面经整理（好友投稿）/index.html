@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/12/14/面经整理（好友投稿）/lock.gif">
 <meta property="og:image" content="http://yoursite.com/2018/12/14/面经整理（好友投稿）/1.jpg">
-<meta property="og:updated_time" content="2019-01-14T08:54:29.671Z">
+<meta property="og:updated_time" content="2020-07-23T10:31:48.167Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面经整理（好友投稿）">
 <meta name="twitter:description" content="天猫Java一面1. 常见集合类的区别和适用场景List集合ArrayList：  基于数组来实现集合的功能，内部维护了一个可变长的对象数组，集合扩容时会创建更大的数组空间，把原有数据复制到新的数组中。随机访问快，插入和删除的效率低。  LinkedList：  基于链表实现，数据的删除和插入快，随机访问的速度很慢。  ####Map集合 HashMap：  线程不安全，存储键值对，允许 key">
@@ -425,7 +425,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-01-14 16:54:29" itemprop="dateModified" datetime="2019-01-14T16:54:29+08:00">2019-01-14</time>
+                <time title="Modified: 2020-07-23 18:31:48" itemprop="dateModified" datetime="2020-07-23T18:31:48+08:00">2020-07-23</time>
               
             
           </span>
@@ -527,7 +527,7 @@
 <li>通过cookie中夹带的session，将session放在客户端。</li>
 </ol>
 <h3 id="6-BIO、NIO、AIO"><a href="#6-BIO、NIO、AIO" class="headerlink" title="6. BIO、NIO、AIO"></a>6. BIO、NIO、AIO</h3><p><strong>BIO</strong>：阻塞IO，一个Socket套接字需要一个线程处理。<br><strong>NIO</strong>：基于事件驱动思想，采用Reactor模式，统一通过Reactor对所有客户端的Socket套接字的事件做处理，然后派发到不同的线程。（线程与Socket是多对多的关系）。<br><strong>AIO</strong>：异步IO，NIO在有通知是可以进行相关操作，AIO在有通知时表示相关操作已经完成</p>
-<p>其实还有 IO 复用，信号驱动IO两种方式，具体参考：<a href="http://likehui.top/2018/12/07/interview%EF%BC%881%EF%BC%89/" target="_blank" rel="noopener">面经整理1</a></p>
+<p>其实还有 IO 复用，信号驱动IO两种方式，具体参考：<a href="http://likehui.fun/2018/12/07/interview%EF%BC%881%EF%BC%89/" target="_blank" rel="noopener">面经整理1</a></p>
 <h3 id="7-JVM内存模型"><a href="#7-JVM内存模型" class="headerlink" title="7. JVM内存模型"></a>7. JVM内存模型</h3><p>堆：主要存放对象实例，分为新生代、老年代，线程共享。<br>栈：主要存放局部变量，线程私有，方法调用的过程就是入栈到出栈的过程<br>方法区：线程共享，用于存放已被虚拟机加载的类信息、常量、静态变量、即使编译器编译后的代码等数据。<br>GC：引用计数法、可达性分析法。GC Roots：栈中引用的对象；方法区中类静态属性引用的对象，常量引用的对象；</p>
 <h3 id="8-Java的垃圾回收——标记算法和复制算法"><a href="#8-Java的垃圾回收——标记算法和复制算法" class="headerlink" title="8. Java的垃圾回收——标记算法和复制算法"></a>8. Java的垃圾回收——标记算法和复制算法</h3><p>标记算法：分为两个阶段：标记和清除。首先标记出所有需要回收的对象，在标记完成后统一回收。问题：效率不高；会产生内存碎片</p>
 <p>复制算法：将内存按容量分成大小相等的两块，每次只用其中的一块，当一块内存用完了，就将还存活的对象复制到另一块上，清空已使用过的内存空间。内存的利用率变高，只有百分之十的空间被浪费。</p>
@@ -578,7 +578,7 @@
 <li><p>AQS 抽象了绝大部分 Lock 的功能，只把<code>tryAcquire()</code>方法延迟到子类中实现。</p>
 <ul>
 <li><code>tryAcquire()</code>方法在于用子类来判断，请求线程是否可以获得锁。</li>
-<li>参考博文：<a href="http://likehui.top/2018/12/07/interview%EF%BC%881%EF%BC%89/" target="_blank" rel="noopener">interview（1）</a>的第八题</li>
+<li>参考博文：<a href="http://likehui.fun/2018/12/07/interview%EF%BC%881%EF%BC%89/" target="_blank" rel="noopener">interview（1）</a>的第八题</li>
 </ul>
 </li>
 </ul>

@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/12/14/面经整理3/线程状态图.jpeg">
 <meta property="og:image" content="http://yoursite.com/2018/12/14/面经整理3/12.jpg">
-<meta property="og:updated_time" content="2019-01-13T13:40:28.975Z">
+<meta property="og:updated_time" content="2020-07-23T10:31:48.182Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面经整理3">
 <meta name="twitter:description" content="部分题目来源：美团 java 后台 哈尔滨现场面试面经 1. 数据库主从同步、读写分离主要用来提升数据库的并发负载能力。  数据的热备； 架构的扩展； 支持更大的并发；   主从复制的步骤：  从库生成两个线程，一个 IO 线程，一个 SQL 线程； IO 线程去请求主库的 binlog，并将得到的 binlog 日志写入 relay log 文件中。主库会生成一个 binlog dump 线程，">
@@ -425,7 +425,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-01-13 21:40:28" itemprop="dateModified" datetime="2019-01-13T21:40:28+08:00">2019-01-13</time>
+                <time title="Modified: 2020-07-23 18:31:48" itemprop="dateModified" datetime="2020-07-23T18:31:48+08:00">2020-07-23</time>
               
             
           </span>
@@ -590,7 +590,7 @@
 <li>判断通过，则返回 Connection（即数据库厂商提供的实例）。</li>
 </ol>
 <p>主要原因：因为 JVM 双亲委托机制的限制，启动类加载器不可能加载得到第三方厂商提供的具体实验。有了线程上下文类加载器，启动类加载器（根加载器）反倒需要委托子类加载器去加载厂商提供的实现。<br>将父委托变成子委托的方式。</p>
-<p>参考《Java 高并发编程详解》第11章 P178 详述<br>也可以参考<a href="http://likehui.top/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/" target="_blank" rel="noopener">面经整理5</a>的第 2 题</p>
+<p>参考《Java 高并发编程详解》第11章 P178 详述<br>也可以参考<a href="http://likehui.fun/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/" target="_blank" rel="noopener">面经整理5</a>的第 2 题</p>
 <h4 id="9-mysql-中-char-和-varchar-的区别"><a href="#9-mysql-中-char-和-varchar-的区别" class="headerlink" title="9. mysql 中 char 和 varchar 的区别"></a>9. mysql 中 char 和 varchar 的区别</h4><ol>
 <li>char 和 varchar 在存储和检索方面有所不同。</li>
 <li>char 长度为创建表时声明的长度（定长），长度值范围在 1 到 255。Varchar 存储可变长的字符数据。而且varchar 会用额外的字节来记录字符串的长度。</li>
@@ -654,7 +654,7 @@
 <li>初始化子类会导致父类的初始化。</li>
 <li>启动类。也就是 main 函数所在的类会被初始化。</li>
 </ol>
-<p>参考本站另一篇博文：<a href="http://likehui.top/2018/12/22/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">类加载机制笔记</a></p>
+<p>参考本站另一篇博文：<a href="http://likehui.fun/2018/12/22/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">类加载机制笔记</a></p>
 <h4 id="16-线程池的拒绝策略"><a href="#16-线程池的拒绝策略" class="headerlink" title="16. 线程池的拒绝策略"></a>16. 线程池的拒绝策略</h4><ol>
 <li>CallerRunsPolicy：线程调用运行该任务的 execute 本身。这个策略显然不想放弃执行任务。但是由于池中已经没有任何资源了，那么就直接使用调用该execute的线程本身来执行。</li>
 <li>AbortPolicy：处理程序遭到拒绝将抛出运行时 RejectedExecutionException。这种策略直接抛出异常，丢弃任务。</li>

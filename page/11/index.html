@@ -1893,7 +1893,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-04-04 19:58:48" itemprop="dateModified" datetime="2019-04-04T19:58:48+08:00">2019-04-04</time>
+                <time title="Modified: 2020-07-23 18:31:48" itemprop="dateModified" datetime="2020-07-23T18:31:48+08:00">2020-07-23</time>
               
             
           </span>
@@ -1953,7 +1953,7 @@
 <ul>
 <li>一般<code>Servlet</code>都是继承自<code>HttpServlet</code>，而<code>HttpServlet</code>是<code>GenericServlet</code>的子类。<code>getInitParameter()</code>方法来自于<code>GenericServlet</code>，所以Servlet可以调用此方法去获取web.xml配置文件中的配置信息。</li>
 <li>容器初始化一个servlet时，会为这个servlet建一个唯一的ServletConfig。其出场顺序为：先由容器加载servlet类，然后init()初始化，初始化完成前得到了ServletConfig对象，同时可以调用getInitParameter方法，从DD中读取初始化参数，经由ServletConfig传递给init()方法。</li>
-<li><strong>划重点</strong>：先 <code>init()</code>，后得到<code>ServletConfig</code>，同时使用<code>初始化参数（只能读一次）</code>！可参考<a href="http://likehui.top/2018/05/14/notes-for-HeadFirstServletsAndJsp3/" target="_blank" rel="noopener">Head First Servlets&amp;JSP 读书笔记_3</a>中关于init()方法的讲解</li>
+<li><strong>划重点</strong>：先 <code>init()</code>，后得到<code>ServletConfig</code>，同时使用<code>初始化参数（只能读一次）</code>！可参考<a href="http://likehui.fun/2018/05/14/notes-for-HeadFirstServletsAndJsp3/" target="_blank" rel="noopener">Head First Servlets&amp;JSP 读书笔记_3</a>中关于init()方法的讲解</li>
 <li>以上的代码只是专属于此Servlet的初始化参数，无法全局使用；若采取保存下来的方式，又必须使此Servlet最早先运行，这么一来可维护性极差</li>
 </ul>
           <!--noindex-->

@@ -103,7 +103,7 @@
 <meta property="og:description" content="ARTS 第八周 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2019/05/14/ARTS-8/1.png">
-<meta property="og:updated_time" content="2019-05-26T12:14:01.587Z">
+<meta property="og:updated_time" content="2020-07-23T10:31:48.196Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ARTS(8)">
 <meta name="twitter:description" content="ARTS 第八周 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
@@ -424,7 +424,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-05-26 20:14:01" itemprop="dateModified" datetime="2019-05-26T20:14:01+08:00">2019-05-26</time>
+                <time title="Modified: 2020-07-23 18:31:48" itemprop="dateModified" datetime="2020-07-23T18:31:48+08:00">2020-07-23</time>
               
             
           </span>
@@ -507,7 +507,7 @@
 <p>思路：划分左右区间，然后枚举分界点的位置，找到最小差值，详细看代码注解。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Assert;</span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这里把中文标题当作类名只是为了方便使用，class 名称不建议使用中文</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 最小差值<span class="title">II</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[] A = &#123;<span class="number">1</span>, <span class="number">3</span>, <span class="number">6</span>&#125;;</span><br><span class="line">		<span class="keyword">int</span> K = <span class="number">3</span>;</span><br><span class="line">		<span class="keyword">int</span> result = smallestRangeII(A, K);</span><br><span class="line">		Assert.assertEquals(result, <span class="number">3</span>);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">smallestRangeII</span><span class="params">(<span class="keyword">int</span>[] A, <span class="keyword">int</span> K)</span> </span>&#123;</span><br><span class="line">		Arrays.sort(A);</span><br><span class="line">		<span class="keyword">int</span> n = A.length;</span><br><span class="line">		<span class="keyword">int</span> result = A[n - <span class="number">1</span>] - A[<span class="number">0</span>];</span><br><span class="line">		<span class="comment">// 按 i 的位置划分左右区间，左区间元素全部+K，右区间元素全部-K</span></span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; ++i) &#123;</span><br><span class="line">			<span class="keyword">int</span> min = Math.min(A[<span class="number">0</span>] + K, A[i] - K); <span class="comment">// 左右区间的最小值选最小</span></span><br><span class="line">			<span class="keyword">int</span> max = Math.max(A[i - <span class="number">1</span>] + K, A[n - <span class="number">1</span>] - K);</span><br><span class="line">			result = Math.min(result, max - min);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>本周分享英文文章为：<a href="https://dev.to/softchris/weekend-read-serverless-docker-kubernetes-56co" target="_blank" rel="noopener">Weekend read, Serverless, Docker, Kubernetes</a></p>
-<p>解读见本站另一篇文章：<a href="http://likehui.top/2019/05/26/K8s%20-%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">K8s 入门笔记</a></p>
+<p>解读见本站另一篇文章：<a href="http://likehui.fun/2019/05/26/K8s%20-%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">K8s 入门笔记</a></p>
 <h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><ol>
 <li>在印象笔记的笔记本中，将各条笔记按照标题分类，如下图：</li>
 </ol>
@@ -516,7 +516,7 @@
 <ol start="2">
 <li>在笔记中，特意增加一页”解惑”，把每天遇到的难题记录下来，抽空用来咨询公司其他老司机，把自己的思路和答案写在后面。</li>
 </ol>
-<h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><p>分享内容见本站另一篇文章，点链接：<a href="http://likehui.top/2019/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%90%8D%E8%AF%8D%E8%BE%A8%E6%9E%90/" target="_blank" rel="noopener">深度学习名词辨析</a></p>
+<h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><p>分享内容见本站另一篇文章，点链接：<a href="http://likehui.fun/2019/05/18/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%90%8D%E8%AF%8D%E8%BE%A8%E6%9E%90/" target="_blank" rel="noopener">深度学习名词辨析</a></p>
 
       
     </div>

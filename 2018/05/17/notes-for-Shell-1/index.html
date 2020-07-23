@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="To the moon">
 <meta property="og:description" content="Shell入门知识1学习链接Shell教程 名词解释 Shell：一种应用程序，用户通过这个界面访问OS内核的服务。 Shell脚本（shell script）：A shell script is a text file containing shell commands. 为shell编写的脚本程序。一般来说的shell编程都是指shell脚本编程。 脚本语言：短小的，用来让计算机自动化完成一系">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-05-17T13:36:48.087Z">
+<meta property="og:updated_time" content="2020-07-23T10:31:48.187Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="notes for Shell 1">
 <meta name="twitter:description" content="Shell入门知识1学习链接Shell教程 名词解释 Shell：一种应用程序，用户通过这个界面访问OS内核的服务。 Shell脚本（shell script）：A shell script is a text file containing shell commands. 为shell编写的脚本程序。一般来说的shell编程都是指shell脚本编程。 脚本语言：短小的，用来让计算机自动化完成一系">
@@ -405,12 +405,24 @@
                 
               
 
-              <time title="Created: 2018-05-17 13:16:16 / Modified: 21:36:48" itemprop="dateCreated datePublished" datetime="2018-05-17T13:16:16+08:00">2018-05-17</time>
+              <time title="Created: 2018-05-17 13:16:16" itemprop="dateCreated datePublished" datetime="2018-05-17T13:16:16+08:00">2018-05-17</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-07-23 18:31:48" itemprop="dateModified" datetime="2020-07-23T18:31:48+08:00">2020-07-23</time>
               
             
           </span>
@@ -488,10 +500,10 @@
 </ol>
 <ol start="3">
 <li><p>readonly修饰只读变量</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">myurl=<span class="string">"http://likehui.top"</span></span><br><span class="line"><span class="built_in">readonly</span> myurl</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">myurl=<span class="string">"http://likehui.fun"</span></span><br><span class="line"><span class="built_in">readonly</span> myurl</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>删除变量 </p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">myurl=<span class="string">"http://likehui.top"</span></span><br><span class="line"><span class="built_in">unset</span> myurl</span><br></pre></td></tr></table></figure>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">myurl=<span class="string">"http://likehui.fun"</span></span><br><span class="line"><span class="built_in">unset</span> myurl</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <a id="more"></a>
@@ -509,7 +521,7 @@
   <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">your_name</span>=<span class="string">"qinjx"</span></span><br><span class="line"><span class="attribute">greeting</span>=<span class="string">"hello, "</span><span class="variable">$your_name</span><span class="string">" !"</span></span><br><span class="line"><span class="attribute">greeting_1</span>=<span class="string">"hello, <span class="variable">$&#123;your_name&#125;</span> !"</span></span><br><span class="line">echo <span class="variable">$greeting</span> <span class="variable">$greeting_1</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>获取字符串长度,提取子字符串,查找子字符串</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">string=<span class="string">"abcd"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;#string&#125;</span> <span class="comment">#输出 4</span></span><br><span class="line"></span><br><span class="line">string=<span class="string">"likehui.top is a great site"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;string:1:4&#125;</span> <span class="comment"># 输出 ikeh</span></span><br><span class="line"></span><br><span class="line">string=<span class="string">"likehui is a great man"</span></span><br><span class="line"><span class="built_in">echo</span> `expr index <span class="string">"<span class="variable">$string</span>"</span> is`  <span class="comment"># 查找i或s的位置，输出 1</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">string=<span class="string">"abcd"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;#string&#125;</span> <span class="comment">#输出 4</span></span><br><span class="line"></span><br><span class="line">string=<span class="string">"likehui.fun is a great site"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="variable">$&#123;string:1:4&#125;</span> <span class="comment"># 输出 ikeh</span></span><br><span class="line"></span><br><span class="line">string=<span class="string">"likehui is a great man"</span></span><br><span class="line"><span class="built_in">echo</span> `expr index <span class="string">"<span class="variable">$string</span>"</span> is`  <span class="comment"># 查找i或s的位置，输出 1</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h4 id="shell数组"><a href="#shell数组" class="headerlink" title="shell数组"></a>shell数组</h4><p>bash只支持一维数组，并对数组大小没有限定</p>
