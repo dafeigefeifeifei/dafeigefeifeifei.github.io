@@ -94,25 +94,32 @@
 
 
 
-  <meta name="description" content="计算机网络第二章——物理层1. 什么是奈氏准则，什么是香农定理? 推荐阅读：奈氏准则和香农公式 奈氏准则： 在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。 比特率bps（bit pe">
+  <meta name="description" content="副标题：webRTC 使用准备之流媒体协议 参考文章：WebRTC中RTP/RTCP协议实现分析 RTP 协议定义流媒体数据在互联网上传输的数据包格式，而 RTCP 协议则负责可靠传输、流量控制和拥塞控制等服务质量保证。有名的是Google的GCC（拥塞控制算法(Google Congestion Control,简称GCC[1])））.">
 <meta name="keywords" content="computer network">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机网络第二章练习">
-<meta property="og:url" content="http://yoursite.com/2018/08/23/计算机网络第二章练习/index.html">
+<meta property="og:title" content="webRTC使用记录3">
+<meta property="og:url" content="http://yoursite.com/2020/07/24/webRTC使用记录3/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="计算机网络第二章——物理层1. 什么是奈氏准则，什么是香农定理? 推荐阅读：奈氏准则和香农公式 奈氏准则： 在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。 比特率bps（bit pe">
+<meta property="og:description" content="副标题：webRTC 使用准备之流媒体协议 参考文章：WebRTC中RTP/RTCP协议实现分析 RTP 协议定义流媒体数据在互联网上传输的数据包格式，而 RTCP 协议则负责可靠传输、流量控制和拥塞控制等服务质量保证。有名的是Google的GCC（拥塞控制算法(Google Congestion Control,简称GCC[1])））.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-25T01:10:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC使用记录3/SR.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC使用记录3/Sender_info.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC使用记录3/Report_block.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC使用记录3/RR.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC使用记录3/SDES.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC使用记录3/FB.png">
+<meta property="og:updated_time" content="2020-07-24T10:03:20.912Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机网络第二章练习">
-<meta name="twitter:description" content="计算机网络第二章——物理层1. 什么是奈氏准则，什么是香农定理? 推荐阅读：奈氏准则和香农公式 奈氏准则： 在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。 比特率bps（bit pe">
+<meta name="twitter:title" content="webRTC使用记录3">
+<meta name="twitter:description" content="副标题：webRTC 使用准备之流媒体协议 参考文章：WebRTC中RTP/RTCP协议实现分析 RTP 协议定义流媒体数据在互联网上传输的数据包格式，而 RTCP 协议则负责可靠传输、流量控制和拥塞控制等服务质量保证。有名的是Google的GCC（拥塞控制算法(Google Congestion Control,简称GCC[1])））.">
+<meta name="twitter:image" content="http://yoursite.com/2020/07/24/webRTC使用记录3/SR.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/23/计算机网络第二章练习/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/07/24/webRTC使用记录3/"/>
 
 
 
@@ -122,7 +129,7 @@
   };
 </script>
 
-  <title>计算机网络第二章练习 | To the moon</title>
+  <title>webRTC使用记录3 | To the moon</title>
   
 
 
@@ -362,7 +369,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/23/计算机网络第二章练习/"/>
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/24/webRTC使用记录3/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
@@ -379,7 +386,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">计算机网络第二章练习
+          <h1 class="post-title" itemprop="name headline">webRTC使用记录3
 
               
             
@@ -405,24 +412,12 @@
                 
               
 
-              <time title="Created: 2018-08-23 10:04:22" itemprop="dateCreated datePublished" datetime="2018-08-23T10:04:22+08:00">2018-08-23</time>
+              <time title="Created: 2020-07-24 11:57:34 / Modified: 18:03:20" itemprop="dateCreated datePublished" datetime="2020-07-24T11:57:34+08:00">2020-07-24</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-08-25 09:10:43" itemprop="dateModified" datetime="2018-08-25T09:10:43+08:00">2018-08-25</time>
               
             
           </span>
@@ -439,7 +434,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
 
                 
                 
@@ -482,167 +477,221 @@
       
 
       
-        <h1 id="计算机网络第二章——物理层"><a href="#计算机网络第二章——物理层" class="headerlink" title="计算机网络第二章——物理层"></a>计算机网络第二章——物理层</h1><h4 id="1-什么是奈氏准则，什么是香农定理"><a href="#1-什么是奈氏准则，什么是香农定理" class="headerlink" title="1. 什么是奈氏准则，什么是香农定理?"></a>1. 什么是奈氏准则，什么是香农定理?</h4><ul>
-<li>推荐阅读：<a href="https://blog.csdn.net/Dallin0408/article/details/59510405" target="_blank" rel="noopener">奈氏准则和香农公式</a></li>
-<li>奈氏准则：<ul>
-<li>在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。</li>
-<li>比特率bps（bit per second），每秒传输数据的位数。</li>
-<li>比特率=log(2)V×波特率</li>
-<li>极限数据传输率为2Wlog(2)V。一秒一个码元等价于一秒log(2)V个单位的数据，其中V是指每个码元离散电平的数量。</li>
-</ul>
-</li>
-<li>信道容量：<ul>
-<li>数据在信道中传输中，最高的比特率就叫做这个信道的容量，单位是bps</li>
-<li>口语中也会把信道容量叫做“带宽”的，比如“带宽10M的网络”，“网络带宽是10M”等等。所以这两个概念也很容易混淆：我们平常所说的“带宽”不是带宽，而是信道容量。</li>
-</ul>
-</li>
-<li>香农定理：<ul>
-<li>信道的极限数据传输速率=Wlog(2)[1+S/N]，单位b/s。其中，W是信道的带宽，S为信道所传输信号的平均功率，N为信道内部的高斯噪声功率。S/N表示信噪比，即信号的平均功率和噪声的平均功率之比，常用分贝dB来表示，信噪比=10log(10)(S/N)，当S/N为10时，信噪比为10dB，当S/N为1000时，信噪比为30dB。</li>
-<li>香农公式表明，信道的带宽或信道中的信噪比越大，信息的极限传输速率就越高。</li>
-<li>香农公式是用来估测，一个信道中能传输的数据的速度的上限</li>
-<li>香农定理可以解释现代各种无线制式由于带宽不同，所支持的单载波最大吞吐量的不同。</li>
-</ul>
-</li>
-</ul>
+        <p>副标题：webRTC 使用准备之流媒体协议</p>
+<p>参考文章：<a href="https://www.jianshu.com/p/c84be6f3ddf3" target="_blank" rel="noopener">WebRTC中RTP/RTCP协议实现分析</a></p>
+<p>RTP 协议定义流媒体数据在互联网上传输的数据包格式，而 RTCP 协议则负责可靠传输、流量控制和拥塞控制等服务质量保证。有名的是Google的GCC（拥塞控制算法(Google Congestion Control,简称GCC[1])））.</p>
 <a id="more"></a>
-<hr>
-<h4 id="2-数据变成信号的四种情况："><a href="#2-数据变成信号的四种情况：" class="headerlink" title="2. 数据变成信号的四种情况："></a>2. 数据变成信号的四种情况：</h4><pre><code>数字数据/模拟数据 -&gt; 数字信号/模拟信号
-</code></pre><ol>
-<li>数字数据编码为数字信号。<ul>
-<li>通常有非归零码(简单的高低位)、曼彻斯特编码(高低位与时钟信号异或，<strong>应用于以太网</strong>，一个数据两个电平，波特率是数据率的两倍，差分曼彻斯特也是如此  )、差分曼彻斯特编码（与前一个码元比较）、<a href="https://www.cnblogs.com/laojie4321/archive/2012/04/09/2439470.html" target="_blank" rel="noopener">4B/5B编码</a>（用5bit表示4bit）</li>
-<li><strong>属于基带传输，是原始的电脉冲信号，不经过调制解调，信号以脉冲的形式在信道上传输，设备花费少，适用于较小范围的数据传输。</strong></li>
+<p>UDP 协议：源端口、目的端口、UDP 长度、校验和、数据</p>
+<ul>
+<li>相比 TCP 协议，数据有效性、有序性等等完全不管，更适合流媒体的实时传输。</li>
+<li>TCP 为了保证包的有序到达，具有丢包重传机制，比如丢包时的计时器从 200ms 到 400ms 到更久的时间，所以不适合实时传输。但当 UDP 不通时，需要换用 TCP 来保证连通率。但当 TCP 不通时，需要换用 HTTPS 来保证连通。</li>
+<li>UDP 无法解决的有序性等问题，由应用层的协议来解决。</li>
 </ul>
-</li>
-<li>数字数据调制为模拟信号<ul>
-<li>对应调制解调器，走模拟通信信道</li>
-<li>基本调制方法有：幅移键控（振幅，抗干扰能力差），频移键控（频率，应用较多），相移键控（相位，分绝对调相和相对调相），正交振幅调制（振幅和相位的结合叠加信号）</li>
-<li><strong>属于频带传输，对数字信号进行某种变换，将代表数据的二进制“1”和“0”，变换成具有一定频带范围的模拟信号，以适应在模拟信道上传输。长途信道是无法传输原始电脉冲信号的</strong></li>
-<li>最后还有一类叫做宽带传输，指比音频（4KHZ）带宽还要宽的频带，包括了大部分电磁波频谱的频带。使用这种宽频带进行传输的系统就称为宽带传输系统，它可以容纳所有的广播，并且还可以进行高速率的数据传输。</li>
+<p>RTP 协议：UDP 的上层协议，也能跑在 TCP 上（但一般不会这么干）。</p>
+<ul>
+<li>具有 sequence number 字段，用于对数据包进行排序。</li>
+<li>timestamp 字段，用于判断某些包是否属于同一帧。若多个包具有相同的 timestamp，说明它们属于同一帧。</li>
+<li>SSRC 字段，synchronization source identifier，同步信源。占 32 位，用于标识同步信源。该标识符是随机选择的，参加同一视频会议的两个同步信源不能有相同的SSRC。</li>
+<li>CSRC 字段，共享源。每个 CSRC 标识符占 32 位，可以有 0～15 个。每个 CSRC 标识了包含在该RTP报文有效载荷中的所有特约信源。  </li>
 </ul>
-</li>
-<li>模拟数据编码为数字信号<ul>
-<li>常用的是对音频信号进行编码的脉码调制（PCM），应用采样定理</li>
-<li>脉冲编码调制PCM就是把一个时间连续，取值连续的模拟信号变换成时间离散，取值离散的数字信号后在信道中传输。脉冲编码调制就是对模拟信号先抽样，再对样值幅度量化，编码的过程。</li>
-<li>抽样，就是对模拟信号进行周期性扫描，把时间上连续的信号变成时间上离散的信号，抽样必须遵循奈奎斯特抽样定理（也叫采样定理）。该模拟信号经过抽样后还应当包含原信号中所有信息，也就是说能无失真的恢复原模拟信号。</li>
-<li>量化，就是把经过抽样得到的瞬时值将其幅度离散，即用一组规定的电平，把瞬时抽样值用最接近的电平值来表示,通常是用二进制表示。</li>
-<li>量化误差：量化后的信号和抽样信号的差值。量化误差在接收端表现为噪声，称为量化噪声。 量化级数越多误差越小，相应的二进制码位数越多，要求传输速率越高，频带越宽。 </li>
-<li>一个模拟信号经过抽样量化后，得到已量化的脉冲幅度调制信号，它仅为有限个数值。    </li>
-<li>编码，就是用一组二进制码组来表示每一个有固定电平的量化值。然而，实际上量化是在编码过程中同时完成的，故编码过程也称为模/数变换，可记作A/D。</li>
-</ul>
-</li>
-<li>模拟数据调制为模拟信号<ul>
-<li>频分（FDM）复用技术，电话机与本地交换机所传输的信号就是采用模拟信号传输模拟数据的编码方式。</li>
-</ul>
-</li>
+<ol>
+<li>视频或音频的接收端通常有一个环形队列，计算：一秒 30 帧数据，控制 200 毫秒以内的延迟，然后一个队列中能够装多少包，是可以计算出的，进而推算出环形队列的大小。</li>
 </ol>
-<hr>
-<h4 id="3-比较电路交换、报文交换、分组交换"><a href="#3-比较电路交换、报文交换、分组交换" class="headerlink" title="3. 比较电路交换、报文交换、分组交换"></a>3. 比较电路交换、报文交换、分组交换</h4><ul>
-<li>电路交换。要先建立一条专用（双方独占）的物理通信路径，<strong>用户始终占用端到端的固定传输带宽</strong>，分为三个阶段：连接建立、数据传输、连接释放。<ul>
-<li>优点：通信时延小，有序传输，没有冲突，使用范围广（既适合模拟信号，又适合数字信号），实时性强，控制简单。</li>
-<li>缺点：建立连接时间长，线路独占使用效率低，灵活性差（出现故障必须重新拨号等），难以规格化难以进行差错控制（无法纠正传输过程中发生的数据差错，如为保证数据无差错地传送，不建议采用电路交换）。</li>
-<li>不采用存储转发的方式，任何中间结点都采用“直通式”收发数据。</li>
+<p>RTCP 协议：</p>
+<ul>
+<li>标准的 Header：version+P(即 padding)+Count+Type+Length = 2 + 1 + 5 + 8 + 16 bit</li>
 </ul>
-</li>
-<li>报文交换。报文携带目标地址、源地址等信息，在各交换节点采用存储转发的机制。<ul>
-<li>优点：无需建立连接，动态分配线路，提高线路可靠性（故障时可更换线路），提高线路利用率，提供多目标服务（电路交换中很难做到）。不适合实时通信应用环境（如语音、视频等）。</li>
-<li>缺点：由于采用存储转发机制，所以存在转发时延（包括接受报文，检验正确性、排队、发送时间等），报文交换对报文大小没有限制，需要网络结点有较大的缓存空间。</li>
-</ul>
-</li>
-<li>分组交换。正在报文交换的基础上，解决了报文交换中大报文传输的问题。分组交换限制了每次传送的数据块大小的上限，把大的数据块分成合理大小的小数据块，并加上必要的控制信息。<ul>
-<li>优点：在报文交换的基础上，简化了存储管理，交换结点的缓冲区大小固定，管理简化。加速传输，后一个分组的存储操作与前一个分组的转发操作并行，这种流水线的方式减少了报文的传输时间，因缓冲区不足等待发送的几率和时间也必然小很多。减少了出错几率和重发数据量。</li>
-<li>缺点：传输时延比报文交换略短，但仍存在，而且结点交换机必须具有较强的处理能力。需要传输额外的信息量，总信息量多了5%~10%。当分组交换采用<strong>数据报</strong>的服务时，可能出现失序、丢失或重复分组，分组到达目的结点时，要对分组按编号进行排序等工作。若采用<strong>虚电报</strong>的服务，虽无失序问题，但有呼叫建立、数据传输和虚电路释放三个过程。</li>
-</ul>
-</li>
-<li>若传送数据量很大，且传送时间远大于呼叫时间，可以采用电路交换；当端到端的通路由很多段的链路组成时，采用分组交换较合适。针对计算机之间的突发式的数据通信，分组交换则更为合适。</li>
-</ul>
-<hr>
-<h4 id="4-比较数据报和虚电路"><a href="#4-比较数据报和虚电路" class="headerlink" title="4. 比较数据报和虚电路"></a>4. 比较数据报和虚电路</h4><ul>
-<li>这两个服务都属于分组交换，虚电路结合了部分电路交换的特色。</li>
-<li>数据报服务：派出一堆小兵，每个带着双方地址，让他们独立送信。</li>
-<li>虚电路：先修路到目的地，让一堆骡子每个带着路号，无脑沿路送信。</li>
-<li>数据报中网络具有冗余路径，当故障时，可以相应地更新转发表。</li>
-<li>虚电路的通信分为三个阶段：虚电路建立（时间开销）、数据传输、虚电路释放（时间开销）。虚电路每个结点维持一张虚电路表，包括了接收链路和发送链路上的虚电路号、前一个后一个结点的标识。</li>
-<li>虚电路不只是临时性的，它提供的服务包括永久性虚电路（PVC）和交换性虚电路（SVC）。前者是提前定义好的，基本不需要任何建立时间的端点之间的连接；而后者是端点之间的一种临时性的连接，这些连接只持续所需的时间，并且当会话结束时就取消这种连接。</li>
-</ul>
+<p>RTCP Type：</p>
 <table>
 <thead>
 <tr>
-<th style="text-align:center"></th>
-<th style="text-align:center">数据报服务</th>
-<th style="text-align:center">虚电路服务</th>
+<th>PT</th>
+<th>缩写</th>
+<th>说明</th>
+<th>tips</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">连接的建立</td>
-<td style="text-align:center">不要</td>
-<td style="text-align:center">必须有</td>
+<td>200</td>
+<td>SR</td>
+<td>Sender Report packet</td>
+<td>重要※</td>
 </tr>
 <tr>
-<td style="text-align:center">目的地址</td>
-<td style="text-align:center">每个分组都有完整的目的地址</td>
-<td style="text-align:center">仅在建立连接阶段使用，之后每个分组使用长度较短的虚电路号</td>
+<td>201</td>
+<td>RR</td>
+<td>Receiver Report packet</td>
+<td>重要※</td>
 </tr>
 <tr>
-<td style="text-align:center">路由选择</td>
-<td style="text-align:center">每个分组独立地进行路由选择和转发</td>
-<td style="text-align:center">属于同一条虚电路的分组按照同一路由转发</td>
+<td>202</td>
+<td>SDES</td>
+<td>Source Description packet</td>
+<td>源描述协议，用于切源</td>
 </tr>
 <tr>
-<td style="text-align:center">分组顺序</td>
-<td style="text-align:center">不保证分组的有序到达</td>
-<td style="text-align:center">保证分组的有序到达</td>
+<td>203</td>
+<td>BYE</td>
+<td>Goodbye packet</td>
+<td></td>
 </tr>
 <tr>
-<td style="text-align:center">可靠性</td>
-<td style="text-align:center">不保证可靠通信，可靠性由用户主机来保证</td>
-<td style="text-align:center">可靠性由网络保证</td>
+<td>204</td>
+<td>APP</td>
+<td>Application-defined packet</td>
+<td>应用层自定义</td>
 </tr>
 <tr>
-<td style="text-align:center">对网络故障的适应性</td>
-<td style="text-align:center">出故障的结点丢失分组，其他分组路径选择发生变化，可正常传输</td>
-<td style="text-align:center">所有经过故障结点的虚电路均不能正常工作</td>
+<td>192</td>
+<td>FIR</td>
+<td>Full INTRA-frame Request</td>
+<td>请求完整的I-帧，用于完全重新开始接收时（废弃，功能由 206 完成）</td>
 </tr>
 <tr>
-<td style="text-align:center">差错处理和流量控制</td>
-<td style="text-align:center">由用户主机进行流量控制，不保证数据报的可靠性</td>
-<td style="text-align:center">可由分组交换网负责，也可由用户主机负责</td>
+<td>193</td>
+<td>NACK</td>
+<td>Negative Acknowledgement</td>
+<td>标记收包情况（废弃，功能由 206 完成）</td>
+</tr>
+<tr>
+<td>205</td>
+<td>RTPFB</td>
+<td>Generic RTP Feedback</td>
+<td>传输层的返回包</td>
+</tr>
+<tr>
+<td>206</td>
+<td>PSFB</td>
+<td>Payload-specific Feedback</td>
+<td>应用层的返回包，对内容编解码器进行反馈</td>
 </tr>
 </tbody>
 </table>
 <hr>
-<h4 id="5-主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms"><a href="#5-主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms" class="headerlink" title="5. 主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms"></a>5. 主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms</h4><ul>
-<li>对于报文交换，在结点处一次全文发送耗时为800ms，因为中间经过一次转发，所以总耗时为1600ms；</li>
-<li>对于分组交换，分组分成800份；每份在结点处发送一次耗时为1ms，虽然存在中间结点，但源结点的发送和中间结点的转发并行，所以经过800ms后，最后一个组从源结点发出，再经过1ms到达目标结点，所以总耗时为801ms。 </li>
+<p>Intra的含义是图像内编码，不需要其他图像信息即可解码.</p>
+<h2 id="RTCP-SR"><a href="#RTCP-SR" class="headerlink" title="RTCP SR"></a>RTCP SR</h2><p><img src="SR.png" alt=""></p>
+<ol>
+<li>SR = header + sender info + report block * N 。</li>
+<li>header  也就是标准的 RTCP header。</li>
+<li>Sender info block 和 report block 如下。</li>
+</ol>
+<p>Sender Information block：</p>
+<p><img src="Sender_info.png" alt=""></p>
+<ul>
+<li>NTP timestamp，用于音视频同步的时间戳，网络时间戳，64 位。</li>
+<li>RTP timestamp， RTP 的普通时间戳，32 位，与 RTP 包时间戳一致。</li>
+<li><strong>SPC</strong>，发送的包的总数，32 位。</li>
+<li><strong>SOC</strong>，发送的包的全部字节，32 位。</li>
 </ul>
+<p>Report block:</p>
+<p><img src="Report_block.png" alt=""></p>
+<ul>
+<li>SSRC_1：标识哪个 SSRC，32 位</li>
+<li>fraction lost：丢包率，8 位。</li>
+<li>packets lost：自接收开始的丢包总数，迟到包不计入，24 位。</li>
+<li>cumulative number of packets lost：丢包总数</li>
+<li>extended highest sequence number received：一般 2^16个<strong>包</strong>算一个<strong>段</strong>，这个字段里面，高 16 位标识属于哪个段，低 16 位标识属于段中哪里 sequence number。</li>
+<li>jitter：RTP 包接收时间间隔的统计方差，用于拥塞防止的重要参考字段，如果持续增长，说明可能存在拥塞。</li>
+<li>last SR（LSR），上次发送SR 的时间戳，34 位。</li>
+<li>delay since last SR： 接收 SR 的时间与发送 SR 的时间差。</li>
+</ul>
+<h2 id="RTCP-RR"><a href="#RTCP-RR" class="headerlink" title="RTCP RR"></a>RTCP RR</h2><p>RR = header + report block * N</p>
+<p>看下图，跟  SR 类似，不再赘述。</p>
+<p><img src="RR.png" alt=""></p>
 <hr>
-<h4 id="6-物理层传输介质"><a href="#6-物理层传输介质" class="headerlink" title="6. 物理层传输介质"></a>6. 物理层传输介质</h4><ul>
-<li>导向传输介质：双绞线、同轴电缆、光纤。<ul>
-<li>双绞线分为含金属丝屏蔽层的屏蔽双绞线（STP），无屏蔽层的非屏蔽双绞线（UTP）。双绞线的带宽取决于铜线的粗细和传输的距离。模拟传输和数字传输都可以使用双绞线。</li>
-<li>同轴电缆因为有外导体屏蔽层，其抗干扰能力较好，被广泛应用于较高速率的数据（更高屏蔽性，抗噪性高）。分为50Ω的基带同轴电缆和75Ω的宽带同轴电缆，前者主要用在局域网，后者用在有线电视系统。利用一根同轴电缆互联主机构成以太网，主机间是以半双工的方式通信。</li>
-<li>光纤的宽带范围极大。如果有多条不同入射角的光纤在一条光纤中传输，这种光纤成为多模光纤，多模光纤只适用于近距离传输。如果光纤的直径减小到只有一个光的波长，就不会产生多次反射，这种叫做单模光纤，衰耗较小，适合远距离传输。要求其光源是定向性很好的激光二极管。</li>
+<h2 id="RTCP-SDES"><a href="#RTCP-SDES" class="headerlink" title="RTCP SDES"></a>RTCP SDES</h2><p><img src="SDES.png" alt=""></p>
+<p>SDES：header + （SSRC + SDES items）* N</p>
+<p>SDES item 采用TLV 结构类型：type + length + value</p>
+<ul>
+<li>举例： CNAME + length + name…</li>
 </ul>
-</li>
-<li>非导向传输介质：无线电波、微波、红外线、激光。<ul>
-<li>无线电波具有较强的穿透能力，信号向所有方向散播，被应用于通信领域，如无线手机通信、无线局域网WLAN。</li>
-<li>微波、红外线和激光都是沿直线传播，具有很强的方向性。</li>
-<li>卫星通信就是利用同步卫星作为中继转发微波信号，优点是通信容量大、距离远、覆盖广，缺点是端到端的传播延迟时间较长，而且受气候影响大、保密性差、误码率较高等</li>
-</ul>
-</li>
-</ul>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>CNAME</strong></td>
+<td><strong>CNAME 与 SSRC 对应，CNAME 为源的唯一标识</strong></td>
+</tr>
+<tr>
+<td>NAME</td>
+<td>用于描述源名，人类可读</td>
+</tr>
+<tr>
+<td>EMAIL</td>
+<td></td>
+</tr>
+<tr>
+<td>PHONE</td>
+<td></td>
+</tr>
+<tr>
+<td>LOC</td>
+<td></td>
+</tr>
+<tr>
+<td>TOOL</td>
+<td>没啥用</td>
+</tr>
+<tr>
+<td>NOTE</td>
+<td>备注</td>
+</tr>
+<tr>
+<td>PRIV</td>
+<td>私有扩展</td>
+</tr>
+</tbody>
+</table>
 <hr>
-<h4 id="7-物理层接口的特性"><a href="#7-物理层接口的特性" class="headerlink" title="7. 物理层接口的特性"></a>7. 物理层接口的特性</h4><ul>
-<li>物理层要为数据链路层提供统一的服务，所以要尽可能屏蔽各种物理设备的差异，对于传输媒体的接口的特性进行相关的规定。</li>
-<li>机械特性：物理连接点，即接插设备。规定规格、引脚数量等。</li>
-<li>电气特定：规定电压高低、阻抗匹配、传输速率和距离限制等。</li>
-<li>功能特性：规定某一电平的电压表示何意义，接口部件的信号线的用途。</li>
-<li>规程特性：定义各条物理线路的工作规程和时序关系。</li>
-</ul>
-<h4 id="8-中继器和集线器"><a href="#8-中继器和集线器" class="headerlink" title="8. 中继器和集线器"></a>8. 中继器和集线器</h4><ul>
-<li>中继器，将从入口端进入的因噪声或其他原因造成失真和衰减的信号（数字信号，放大器处理的是模拟信号）进行信号再生，发送到出口端。中继器不能连接两个具有不同速率的局域网，中继器两端的网段一定是同一个协议（因为中继器没有存储转发功能）。中继器的个数遵守“5-4-3规则”：互相串联的中继器的个数不能超过4个，而且被4个中继器串联的5段通信介质中只有3个段可以挂接计算机，其余两个段只能用作扩展通信范围的链路段。</li>
-<li>集线器。多端口的中继器，将输入的信号，整形放大后转发到其他所有处于工作状态的端口上（没有寻址功能）。主要应用在使用双绞线组建的共享网络中，是解决从服务器连接到桌面最经济的方案。只能够在半双工下工作，网络吞吐量受限。集线器在物理层上扩大了物理网络的覆盖范围，无法解决冲突域（第二层交换机可解决）与广播域（第三层交换机可解决）的问题，而且使冲突的概率更大了。</li>
-<li>物理层设备还有转发器等</li>
-</ul>
+<h2 id="RTCP-BYE"><a href="#RTCP-BYE" class="headerlink" title="RTCP BYE"></a>RTCP BYE</h2><p>BYE = header + SSRC * N + length + opt（reason for leaving）</p>
+<hr>
+<h2 id="RTCP-APP"><a href="#RTCP-APP" class="headerlink" title="RTCP APP"></a>RTCP APP</h2><p>APP = header + SSRC + nameN + applicationData</p>
+<hr>
+<h2 id="RTCP-RTPFB-amp-PSFB"><a href="#RTCP-RTPFB-amp-PSFB" class="headerlink" title="RTCP RTPFB &amp; PSFB"></a>RTCP RTPFB &amp; PSFB</h2><p><img src="FB.png" alt=""></p>
+<p>FB = header(传统 RTCP 的 header 小改) + SSRC + SSRC2 + FCI</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>传输层的 FB</td>
+<td>RTPFB，是对传输层的控制，如 NACK</td>
+</tr>
+<tr>
+<td>负载层的 FB</td>
+<td>PSFB，是对负载层的控制，如编解码器，如 PLI</td>
+</tr>
+<tr>
+<td>应用层的 FB</td>
+<td>应用层自己识别，一般认为是一种特殊的 PSFB</td>
+</tr>
+</tbody>
+</table>
+<p>RTPFB分类：</p>
+<ol>
+<li>NACK：对丢包请求的</li>
+<li>TMMBR：最大媒体流比特率请求，max media stream bitrate request。表明接收端当前带宽受限，告诉发送端控制码率。</li>
+<li>TMMBN：max media stream bitrate notification.响应的通知，会告知最大的带宽，是 TMMBR 的响应。</li>
+</ol>
+<p>PsFB 分类：</p>
+<ol>
+<li>PLI：picture loss indication, 图片丢失，可能会将这个帧的所有包都发送过来。</li>
+<li>SLI：slice loss indication, 每个视频帧可能包含多个 slice，每个 slice 可能对应一个包，slice 如果丢失时可能会发送这个请求。</li>
+<li>RPSI：reference picture selection indication, 参考图片丢失，相当于 B 帧丢失。</li>
+<li>FIR：full intra request command, 请求一个完整的内部帧。</li>
+<li>TSTR：temporal-spatial trade-off request, 空间时间交互系统的请求。</li>
+<li>TSTN：temporal-spatial trade-off notification, 上面 5 的响应。</li>
+</ol>
 
       
     </div>
@@ -692,8 +741,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/22/计算机网络练习题之一/" rel="next" title="计算机网络练习题之一">
-                <i class="fa fa-chevron-left"></i> 计算机网络练习题之一
+              <a href="/2020/07/23/webRTC使用记录2/" rel="next" title="webRTC使用记录2">
+                <i class="fa fa-chevron-left"></i> webRTC使用记录2
               </a>
             
           </div>
@@ -701,10 +750,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/25/操作系统第一章练习/" rel="prev" title="操作系统第一章练习">
-                操作系统第一章练习 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -774,7 +819,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">123</span>
+                    <span class="site-state-item-count">125</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -914,7 +959,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机网络第二章——物理层"><span class="nav-number">1.</span> <span class="nav-text">计算机网络第二章——物理层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-什么是奈氏准则，什么是香农定理"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1. 什么是奈氏准则，什么是香农定理?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-数据变成信号的四种情况："><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2. 数据变成信号的四种情况：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-比较电路交换、报文交换、分组交换"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3. 比较电路交换、报文交换、分组交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-比较数据报和虚电路"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4. 比较数据报和虚电路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">5. 主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-物理层传输介质"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">6. 物理层传输介质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-物理层接口的特性"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">7. 物理层接口的特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-中继器和集线器"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">8. 中继器和集线器</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-SR"><span class="nav-number">1.</span> <span class="nav-text">RTCP SR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-RR"><span class="nav-number">2.</span> <span class="nav-text">RTCP RR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-SDES"><span class="nav-number">3.</span> <span class="nav-text">RTCP SDES</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-BYE"><span class="nav-number">4.</span> <span class="nav-text">RTCP BYE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-APP"><span class="nav-number">5.</span> <span class="nav-text">RTCP APP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-RTPFB-amp-PSFB"><span class="nav-number">6.</span> <span class="nav-text">RTCP RTPFB &amp; PSFB</span></a></li></ol></div>
             
 
           </div>

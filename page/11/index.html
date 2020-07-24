@@ -361,6 +361,214 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/InnoDB-读书笔记-1/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/30/InnoDB-读书笔记-1/" class="post-title-link" itemprop="url">InnoDB 读书笔记 1</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-30 15:01:56" itemprop="dateCreated datePublished" datetime="2018-07-30T15:01:56+08:00">2018-07-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-02-24 10:58:02" itemprop="dateModified" datetime="2019-02-24T10:58:02+08:00">2019-02-24</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="数据库内容纵览"><a href="#数据库内容纵览" class="headerlink" title="数据库内容纵览"></a>数据库内容纵览</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记  1</p>
+<ul>
+<li><p>MySQL被设计为 一个单进程多线程架构的数据库，故<strong>MySQL数据库实例在系统上的表现就是一个进程</strong></p>
+  <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">	[root@VM_0_2_centos bin]# mysql --<span class="keyword">help</span> | <span class="keyword">grep</span> my.<span class="keyword">cnf</span></span><br><span class="line"></span><br><span class="line">	order of preference, my.<span class="keyword">cnf</span>, $MYSQL_TCP_PORT,</span><br><span class="line">/etc/my.<span class="keyword">cnf</span> /etc/mysql/my.<span class="keyword">cnf</span> /usr/etc/my.<span class="keyword">cnf</span> ~/.my.<span class="keyword">cnf</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>- 可以看出，MySQL数据库实例启动时，是按照`/etc/my.cnf` -&gt; `/etc/mysql/my.cnf` -&gt;`/usr/etc/my.cnf`-&gt; `~/.my.cnf`的顺序读取配置文件。
+- 配置文件有一个参数 `datadir`指定了数据库所在的路径，如`datadir=/var/lib/mysql`
+</code></pre><ul>
+<li>数据库是由一个个文件（二进制）组成的，要对这些文件执行SELECT、INSERT等操作，不能通过操作文件更改数据库的内容，需要通过数据库实例来完成</li>
+<li>MySQL组成部分：<ul>
+<li>连接池组件</li>
+<li>管理服务和工具组件</li>
+<li>SQL接口组件</li>
+<li>查询分析器组件</li>
+<li>优化器组件</li>
+<li>缓冲组件</li>
+<li><strong>插件式存储引擎</strong>（important）</li>
+<li>物理文件</li>
+</ul>
+</li>
+<li>InnoDB存储引擎支持事务，通过使用多版本并发控制（MVCC）来获得高并发性，并实现SQL标准的4种隔离级别。同时使用next-key locking的策略（也就是间隙锁）来避免幻读（phantom）现象的产生。此外，提供了插入缓存 、二次写、自适应哈希索引、预读等高性能和高可用的功能（其他引擎略过）</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/30/InnoDB-读书笔记-1/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/29/Note-for-Computer-Network-6/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2239,200 +2447,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/30/Set-Character-utf8/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/30/Set-Character-utf8/" class="post-title-link" itemprop="url">Set Character utf8</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-05-30 16:17:14 / Modified: 16:20:17" itemprop="dateCreated datePublished" datetime="2018-05-30T16:17:14+08:00">2018-05-30</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/debug/" itemprop="url" rel="index"><span itemprop="name">debug</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="MySQL修改默认字符集为utf8的方法"><a href="#MySQL修改默认字符集为utf8的方法" class="headerlink" title="MySQL修改默认字符集为utf8的方法"></a>MySQL修改默认字符集为utf8的方法</h1><p>安装MySQL默认是latin1，而不是utf8，所以最好在本地修改为utf8格式，以下是具体方法 。</p>
-<ol>
-<li><p>在MySQL下输入：</p>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show <span class="keyword">variables</span> like <span class="comment">'character%'</span>;</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>检查各项是否为utf8格式，其中character_set_filesystem为binary。</p>
-<ol start="2">
-<li><p>MySQL安装在Linux环境下，其配置文件位于/etc/my.cnf，如果不清楚路径可以输入：</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">whereis <span class="keyword">my</span>.cnf</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用vim进入修改，修改之前一定要将mysql服务关闭，可以使用</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo<span class="built_in"> service </span>mysqld stop</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在[mysql]和[client] 下加上</p>
-<figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span>-character-<span class="keyword">set</span> = utf8</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在[mysqld]下加上</p>
-<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">character-set-server</span> = utf8</span><br><span class="line"><span class="attr">collation-server</span> = utf8_general_ci</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>保存退出my.cnf文件，重启mysql服务，再次输入show variables like ‘character%’验证是否已经修改完成。</p>
-</li>
-</ol>
-<ul>
-<li>注1：如果使用set names utf8，貌似只能临时修改，一旦服务重启可能就失效，所以建议采用前6步一劳永逸。</li>
-<li>注2：在 mysqld 中使用 default-character-set 设置， mysql 启动会报错而无法启动。<br>其他信息可以参考<a href="http://www.jb51.net/article/92802.htm" target="_blank" rel="noopener">mysql通过my.cnf修改默认字符集为utf-8的方法和注意事项</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2480,7 +2494,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">124</span>
+                    <span class="site-state-item-count">125</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
