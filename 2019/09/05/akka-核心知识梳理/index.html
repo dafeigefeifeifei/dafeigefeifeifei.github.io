@@ -102,10 +102,12 @@
 <meta property="og:site_name" content="To the moon">
 <meta property="og:description" content="Akka 核心知识梳理本文参考自 segmentfault 中的 JVM 并发框架 Akka 专栏，此专栏质量非常高，推荐！ 以下是我对核心知识的梳理：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-28T05:21:25.000Z">
+<meta property="og:image" content="http://yoursite.com/2019/09/05/akka-核心知识梳理/luckymoney.png">
+<meta property="og:updated_time" content="2020-09-07T11:21:10.131Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="akka 核心知识梳理">
 <meta name="twitter:description" content="Akka 核心知识梳理本文参考自 segmentfault 中的 JVM 并发框架 Akka 专栏，此专栏质量非常高，推荐！ 以下是我对核心知识的梳理：">
+<meta name="twitter:image" content="http://yoursite.com/2019/09/05/akka-核心知识梳理/luckymoney.png">
 
 
 
@@ -420,7 +422,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-09-28 13:21:25" itemprop="dateModified" datetime="2019-09-28T13:21:25+08:00">2019-09-28</time>
+                <time title="Modified: 2020-09-07 19:21:10" itemprop="dateModified" datetime="2020-09-07T19:21:10+08:00">2020-09-07</time>
               
             
           </span>
@@ -519,6 +521,8 @@
 </li>
 </ol>
 </li>
+</ol>
+<ol start="2">
 <li><p>ActorSystem</p>
 <ol>
 <li>对 Actor 进行统一调度，主要做<strong>①管理调度、②配置相关参数、③日志</strong><ol>
@@ -545,8 +549,6 @@
 </ol>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Message</span></span>&#123;<span class="keyword">val</span> content: <span class="type">String</span>&#125;</span><br><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Business</span>(<span class="params">content: <span class="type">String</span></span>) <span class="keyword">extends</span> <span class="title">Message</span></span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  方法一：ActorSystem.actorOf 创建 ActorRef</span></span><br><span class="line"><span class="comment">// 注： 需要提前定义好 BossActor</span></span><br><span class="line"><span class="keyword">val</span> actorSystem = <span class="type">ActorSystem</span>(<span class="string">"company-system"</span>)</span><br><span class="line"><span class="keyword">val</span> bossActor = actorSystem.actorOf(<span class="type">Props</span>[<span class="type">BossActor</span>],<span class="string">"boss"</span>)</span><br><span class="line">bossActor ! <span class="type">Business</span>(<span class="string">"Fitness industry has great prospects"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 方法二：ActorContext.actorOf 创建 ActorRef</span></span><br><span class="line"><span class="comment">// 注： 需要提前定义好 ManagerActor</span></span><br><span class="line"><span class="keyword">val</span> managerActors = (<span class="number">1</span> to <span class="number">3</span>).map(i =&gt; context.actorOf(<span class="type">Props</span>[<span class="type">ManagerActor</span>],<span class="string">s"manager<span class="subst">$&#123;i&#125;</span>"</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment">//方法三：由路径取得已存在的 ActorRef，甚至父 Actor：*Actor.actorPath</span></span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol start="3">
 <li><p><strong>路径</strong>：示例<code>/user/boss</code>，根守护者<code>/</code>，然后是下级 Actor：user，再下级 Actor：boss。</p>
 <ol>
 <li>由路径可以找到具体 Actor 的位置，上面示例的完整位置是：<code>akka://company-system/user/boss</code>，如果是远程 akka，那么地址就会变成<code>akka.tcp://company-system/user/boss</code>，或者是 akka.udp 开头等。</li>
@@ -561,7 +563,7 @@
 </li>
 <li><p>主要执行“父监管”的形式</p>
 </li>
-<li><p>系统创建时会至少启动三个 Actor，<code>/</code>、<code>/user</code>、<code>/system</code>。user、system 都是顶级 Actor，顶级 Actor 还有：deadLetters、temp、remote</p>
+<li><p>系统创建时会至少启动三个 Actor：<code>/</code>、<code>/user</code>、<code>/system</code>。user、system 都是顶级 Actor，顶级 Actor 还有：deadLetters、temp、remote</p>
 <ol>
 <li>user：用户创建的actor 放在此子树下，比如<code>ActorSystem.actorOf</code>创建的</li>
 <li>system：系统创建的 actor 放在此子树下，比如日志 actor<ol>
@@ -575,12 +577,12 @@
 </li>
 <li><p>监管策略：恢复下属、重启下属、永久停用下属、升级失败（沿监管树向上传递失败，由此失败自己），比如下面自定义的策略：</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">val</span> supervisorStrategy =</span><br><span class="line">   <span class="type">OneForOneStrategy</span>(maxNrOfRetries = <span class="number">10</span>, withinTimeRange = <span class="number">1</span> minute) &#123;</span><br><span class="line">     <span class="keyword">case</span> _: <span class="type">ArithmeticException</span> =&gt; <span class="type">Resume</span>  <span class="comment">//恢复</span></span><br><span class="line">     <span class="keyword">case</span> _: <span class="type">NullPointerException</span> =&gt; <span class="type">Restart</span> <span class="comment">//重启</span></span><br><span class="line">     <span class="keyword">case</span> _: <span class="type">IllegalArgumentException</span> =&gt; <span class="type">Stop</span> <span class="comment">//停止</span></span><br><span class="line">     <span class="keyword">case</span> _: <span class="type">Exception</span> =&gt; <span class="type">Escalate</span>  <span class="comment">//向上级传递</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>自定义监管策略时，需要重写<code>supervisorStrategy</code>方法，而且需要指定采用策略应用范围：<code>OneForOneStrategy</code>或<code>AllForOneStrategy</code>，前者策略只会用在发生故障的子 actor 上，后者策略应用到所有的子 actor 上，<strong>一般都会用前者</strong>。</li>
+</ul>
 </li>
 </ol>
 </li>
-</ol>
-<pre><code>1. 自定义监管策略时，需要重写`supervisorStrategy`方法，而且需要指定采用策略应用范围：`OneForOneStrategy`或`AllForOneStrategy`，前者策略只会用在发生故障的子 actor 上，后者策略应用到所有的子 actor 上，**一般都会用前者**。
-</code></pre><ol start="5">
 <li><p>Akka 共享内存</p>
 <ol>
 <li>通过通讯实现共享内存，而不是通过共享内存实现通讯<ol>
@@ -613,8 +615,6 @@
 <li><p>Scala 中的 Future</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. Future 基础用法</span></span><br><span class="line"><span class="keyword">val</span> fut = <span class="type">Future</span> &#123;</span><br><span class="line">    <span class="type">Thread</span>.sleep(<span class="number">1000</span>)</span><br><span class="line">    <span class="number">1</span> + <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fut onComplete &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Success</span>(r) =&gt; println(<span class="string">s"the result is <span class="subst">$&#123;r&#125;</span>"</span>)</span><br><span class="line">    <span class="keyword">case</span> _ =&gt; println(<span class="string">"some Exception"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">println(<span class="string">"I am working"</span>)</span><br><span class="line"><span class="type">Thread</span>.sleep(<span class="number">2000</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">//console:</span></span><br><span class="line">  <span class="comment">// I am working</span></span><br><span class="line">  <span class="comment">// the result is 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. Future 高级用法：多个 Future 组合</span></span><br><span class="line"><span class="keyword">val</span> fut1 = <span class="type">Future</span> &#123;</span><br><span class="line">    println(<span class="string">"enter task1"</span>)</span><br><span class="line">    <span class="type">Thread</span>.sleep(<span class="number">2000</span>)</span><br><span class="line">    <span class="number">1</span> + <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> fut2 = <span class="type">Future</span> &#123;</span><br><span class="line">    println(<span class="string">"enter task2"</span>)</span><br><span class="line">    <span class="type">Thread</span>.sleep(<span class="number">1000</span>)</span><br><span class="line">    <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> &#123;</span><br><span class="line">    v1 &lt;- fut1</span><br><span class="line">    v2 &lt;- fut2</span><br><span class="line">&#125; <span class="keyword">yield</span> println(<span class="string">s"the result is <span class="subst">$&#123;v1 + v2&#125;</span>"</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">//console:</span></span><br><span class="line">	<span class="comment">//enter task1</span></span><br><span class="line">  <span class="comment">//enter task2</span></span><br><span class="line">  <span class="comment">//the result is 6</span></span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<ol start="8">
 <li><p>Akka persistence.</p>
 <ol>
 <li><p>需要持久化的 Actor 都要继承<code>PersistentActor</code>并实现三个属性：<code>persistenceId</code>、<code>receiveCommand</code>、<code>receiveRecover</code>。</p>
@@ -641,11 +641,8 @@
 </ol>
 </li>
 </ol>
-<pre><code>   ![](luckymoney.png)
-
-
-
-4. 系统在持久化相应的领域事件后和修改内存中的库存（这个处理非常迅速）后便可马上向用户做出反应，真正的具体信息持久可以异步进行。
+<p><img src="/2019/09/05/akka-核心知识梳理/luckymoney.png" alt></p>
+<pre><code>4. 系统在持久化相应的领域事件后和修改内存中的库存（这个处理非常迅速）后便可马上向用户做出反应，真正的具体信息持久可以异步进行。
 </code></pre><ol start="9">
 <li><p>Akka Remote</p>
 <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 通信双方都要进行配置（remote、client）：</span></span><br><span class="line">akka &#123;</span><br><span class="line">  actor &#123;</span><br><span class="line">    provider = <span class="string">"akka.remote.RemoteActorRefProvider"</span></span><br><span class="line">  &#125;</span><br><span class="line">  remote &#123;</span><br><span class="line">    enabled-transports = [<span class="string">"akka.remote.netty.tcp"</span>]</span><br><span class="line">    netty.tcp &#123;</span><br><span class="line">      hostname = $localIp  <span class="comment">//比如127.0.0.1</span></span><br><span class="line">      port = $port <span class="comment">//比如2552</span></span><br><span class="line">    &#125;</span><br><span class="line">    log-sent-messages = on</span><br><span class="line">    log-received-messages = on</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 远程服务器上创建 RemoteActor，接收 msg，并打印 response 到 console</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RemoteActor</span> <span class="keyword">extends</span> <span class="title">Actor</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">receive</span> </span>= &#123;</span><br><span class="line">    <span class="keyword">case</span> msg: <span class="type">String</span> =&gt;</span><br><span class="line">      println(<span class="string">s"RemoteActor received message '<span class="subst">$msg</span>'"</span>)</span><br><span class="line">      sender ! <span class="string">"Hello from the RemoteActor"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">val</span> system = <span class="type">ActorSystem</span>(<span class="string">"RemoteDemoSystem"</span>)</span><br><span class="line"><span class="keyword">val</span> remoteActor = system.actorOf(<span class="type">Props</span>[<span class="type">RemoteActor</span>], name = <span class="string">"RemoteActor"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 本地 client 端：</span></span><br><span class="line"><span class="comment">// 配置文件中 remote.actor.name.test值为：akka.tcp://RemoteDemoSystem@127.0.0.1:4444/user/RemoteActor</span></span><br><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">object</span> <span class="title">Init</span></span></span><br><span class="line"><span class="class"><span class="title">case</span> <span class="title">object</span> <span class="title">SendNoReturn</span></span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">LocalActor</span> <span class="keyword">extends</span> <span class="title">Actor</span></span>&#123;</span><br><span class="line">  <span class="keyword">val</span> path = <span class="type">ConfigFactory</span>.defaultApplication().getString(<span class="string">"remote.actor.name.test"</span>)</span><br><span class="line">  <span class="keyword">implicit</span> <span class="keyword">val</span> timeout = <span class="type">Timeout</span>(<span class="number">4.</span>seconds)</span><br><span class="line">  <span class="keyword">val</span> remoteActor = context.actorSelection(path) <span class="comment">// 获取 remote actor</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">receive</span></span>: <span class="type">Receive</span> = &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Init</span> =&gt; <span class="string">"init local actor"</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">SendNoReturn</span> =&gt; remoteActor ! <span class="string">"hello remote actor"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -694,9 +691,8 @@
 4. 集群中各节点的功能允许有所不同，即拥有不同的 Roles，比如 request、compute、store 等等。
 
 5. cluster client，可以将集群中某一个节点作为集群客户端，作为外部通信的接入口，此节点按以下配置：
+</code></pre><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">akka.extensions = [<span class="string">"akka.cluster.client.ClusterClientReceptionist"</span>]</span><br></pre></td></tr></table></figure>
 
-   <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">akka.extensions = [<span class="string">"akka.cluster.client.ClusterClientReceptionist"</span>]</span><br></pre></td></tr></table></figure>
-</code></pre>
       
     </div>
 
