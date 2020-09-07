@@ -1,23 +1,1382 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
 
-{% block content %}
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Pandas 基础用法) Cookbook 以及一些乱七八糟的东西，随用随查">
+<meta name="keywords" content="statistical machine learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pandas 使用小技巧">
+<meta property="og:url" content="http://yoursite.com/2020/06/26/pandas-使用小技巧/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="Pandas 基础用法) Cookbook 以及一些乱七八糟的东西，随用随查">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-30T03:00:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pandas 使用小技巧">
+<meta name="twitter:description" content="Pandas 基础用法) Cookbook 以及一些乱七八糟的东西，随用随查">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/06/26/pandas-使用小技巧/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>pandas 使用小技巧 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
   </div>
 
-{% endblock %}
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="Searching..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/26/pandas-使用小技巧/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one.">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">pandas 使用小技巧
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-06-26 18:09:41" itemprop="dateCreated datePublished" datetime="2020-06-26T18:09:41+08:00">2020-06-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2020-06-30 11:00:27" itemprop="dateModified" datetime="2020-06-30T11:00:27+08:00">2020-06-30</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ML/" itemprop="url" rel="index"><span itemprop="name">ML</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon">
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a href="[https://www.pypandas.cn/docs/getting_started/basics.html#%E5%87%BD%E6%95%B0%E5%BA%94%E7%94%A8](https://www.pypandas.cn/docs/getting_started/basics.html#函数应用">Pandas 基础用法</a>)</p>
+<p><a href="https://pandas.pydata.org/pandas-docs/stable/user_guide/cookbook.html" target="_blank" rel="noopener">Cookbook</a></p>
+<p>以及一些乱七八糟的东西，随用随查</p>
+<a id="more"></a>
+<p>注：以下代码基本省略了import 的内容，需要的自己补上</p>
+<h3 id="dataframe-的列处理：空值、替换、整列删除"><a href="#dataframe-的列处理：空值、替换、整列删除" class="headerlink" title="dataframe 的列处理：空值、替换、整列删除"></a>dataframe 的列处理：空值、替换、整列删除</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">df_train[<span class="string">"标签1"</span>].fillna(<span class="string">"normal"</span>,inplace=<span class="literal">True</span>)  <span class="comment">## 处理空值</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 按 map 型替换</span></span><br><span class="line">df_train[<span class="string">'标签1'</span>].replace(&#123;<span class="string">'钱庄账户'</span>:<span class="string">'target'</span>,<span class="string">'上游钱庄账户'</span>:<span class="string">'up'</span>&#125;,inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 按序号删列</span></span><br><span class="line">x=[<span class="number">4</span>,<span class="number">5</span>,<span class="number">8</span>,<span class="number">15</span>]</span><br><span class="line">df_train.drop(df_train.columns[x], axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 按多列排序</span></span><br><span class="line">df = df_train.sort_values([<span class="string">'year'</span>, <span class="string">'month'</span>,<span class="string">'day'</span>,<span class="string">'hour'</span>,<span class="string">'minute'</span>,<span class="string">'second'</span>], ascending=[<span class="literal">True</span>, <span class="literal">True</span>,<span class="literal">True</span>, <span class="literal">True</span>,<span class="literal">True</span>, <span class="literal">True</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment">## 删除某列元素中多余的空格、换行符等（rstrip 右，lstrip 左，strip 左右）</span></span><br><span class="line">data[<span class="string">'交易日期(总)'</span>] = data[<span class="string">'交易日期(总)'</span>].apply(<span class="keyword">lambda</span> x: str(x).rstrip())</span><br><span class="line"></span><br><span class="line"><span class="comment">## 判断某一列是否有nan</span></span><br><span class="line">data_ra.isnull().any(axis=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 指定列元素的数据格式</span></span><br><span class="line">data_raw[[<span class="string">'交易金额'</span>,<span class="string">'交易余额'</span>]] = data_raw[[<span class="string">'交易金额'</span>,<span class="string">'交易余额'</span>]].astype(float)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 列名重命名</span></span><br><span class="line">data_a.columns = [<span class="string">'交易账卡号'</span>,<span class="string">'交易总天数'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">## 查看各列中的 null 元素个数</span></span><br><span class="line">data00.isnull().sum()</span><br></pre></td></tr></table></figure>
+<h3 id="dataframe-的行处理："><a href="#dataframe-的行处理：" class="headerlink" title="dataframe 的行处理："></a>dataframe 的行处理：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 删除有nan的行</span></span><br><span class="line">data_ra.drop(data_ra[np.isnan(data_ra[<span class="string">'交易金额'</span>])].index, inplace=<span class="literal">True</span>) </span><br><span class="line"></span><br><span class="line"><span class="comment">## 删除重复行</span></span><br><span class="line">data_ra.drop_duplicates(subset=[<span class="string">'交易账卡号'</span>,<span class="string">'交易日期(总)'</span>,<span class="string">'收付标志'</span>,<span class="string">'交易金额'</span>,<span class="string">'交易余额'</span>],keep=<span class="string">'first'</span>,inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 删除空字符串的行（删除指定的行编号）</span></span><br><span class="line">data_ra.drop(labels=list(data_ra.loc[data_ra[<span class="string">'交易金额'</span>] == <span class="string">''</span>].index), inplace=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="dataframe-的拼接用法（新列）"><a href="#dataframe-的拼接用法（新列）" class="headerlink" title="dataframe 的拼接用法（新列）"></a>dataframe 的拼接用法（新列）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 接入整个 dataframe，然后取某列数据进行数学计算，得出的结果被 apply 添加成新列</span></span><br><span class="line">a0[<span class="string">"交易笔数"</span>] = a0.apply(<span class="keyword">lambda</span> x: <span class="number">1</span> <span class="keyword">if</span> x.交易余额&lt;<span class="number">1000</span> <span class="keyword">else</span> <span class="number">0</span>, axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="dataframe-的拼接用法（新行）"><a href="#dataframe-的拼接用法（新行）" class="headerlink" title="dataframe 的拼接用法（新行）"></a>dataframe 的拼接用法（新行）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## output4拼接到 output3 下面，按字段匹配，结果：行数增加</span></span><br><span class="line">data_ra=pd.concat([output3,output4,output5])</span><br></pre></td></tr></table></figure>
+<h3 id="dataframe-的-groupby-用法"><a href="#dataframe-的-groupby-用法" class="headerlink" title="dataframe 的 groupby 用法"></a>dataframe 的 groupby 用法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## groupby + agg 组合用法，diff 等需要提前 def</span></span><br><span class="line">a1 = a0.groupby([<span class="string">'交易账号'</span>,<span class="string">'交易日期'</span>]).agg(&#123;<span class="string">'交易账号'</span>:<span class="string">'first'</span>,<span class="string">'标签1'</span>:<span class="string">'first'</span>,<span class="string">'交易金额'</span>:diffAmont,<span class="string">'交易笔数'</span>:diff&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="dataframe-处理时间"><a href="#dataframe-处理时间" class="headerlink" title="dataframe 处理时间"></a>dataframe 处理时间</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 按时间格式取 year</span></span><br><span class="line">df_train[<span class="string">"date"</span>] = pd.to_datetime(df_train[<span class="string">"交易日期"</span>],format=<span class="string">'%Y/%m/%d'</span>)</span><br><span class="line">df_train[<span class="string">"year"</span>] = pd.to_datetime(df_train[<span class="string">"date"</span>]).dt.year</span><br><span class="line"></span><br><span class="line"><span class="comment">## 按yyyy-mm-dd HH-MM-SS 排序</span></span><br><span class="line">data_raw[<span class="string">'交易日期(总)'</span>] = pd.to_datetime(data_raw[<span class="string">'交易日期(总)'</span>])</span><br><span class="line">data_raw = data_raw.sort_values(<span class="string">'交易日期(总)'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 24 小时分时段统计</span></span><br><span class="line">data_7[<span class="string">'交易时间段'</span>]=pd.cut(data_7[<span class="string">'交易时刻'</span>],[<span class="number">0</span>,<span class="number">4</span>,<span class="number">8</span>,<span class="number">12</span>,<span class="number">16</span>,<span class="number">20</span>,<span class="number">24</span>],labels=[<span class="string">'(0,4]'</span>,<span class="string">'(4,8]'</span>,<span class="string">'(8,12]'</span>,<span class="string">'(12,16]'</span>,<span class="string">'(16,20]'</span>,<span class="string">'(20,24]'</span>]</span><br><span class="line">,include_lowest=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 将字符串转换为时间序列时间戳格式</span></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">transforms</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> int(time.mktime(time.strptime(s, <span class="string">"%Y-%m-%d %H:%M:%S"</span>)))</span><br><span class="line">data_raw[<span class="string">'交易日期(总)'</span>] = data_raw[<span class="string">'交易日期(总)'</span>].astype(str)</span><br><span class="line">data_raw[<span class="string">'交易日期(总)'</span>] = data_raw[<span class="string">'交易日期(总)'</span>].apply(transforms)</span><br></pre></td></tr></table></figure>
+<h3 id="Z-score-处理全部-feature"><a href="#Z-score-处理全部-feature" class="headerlink" title="Z-score 处理全部 feature"></a>Z-score 处理全部 feature</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 提前声明好 train_fea</span></span><br><span class="line"><span class="comment"># z分数标准化（全部特征）</span></span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler </span><br><span class="line"><span class="comment"># 实例化方法 </span></span><br><span class="line">scaler = StandardScaler() </span><br><span class="line">data_mean_scaled = pd.DataFrame(scaler.fit_transform(data01[train_fea]),columns=train_fea)</span><br></pre></td></tr></table></figure>
+<h3 id="seaborn-绘图"><a href="#seaborn-绘图" class="headerlink" title="seaborn 绘图"></a>seaborn 绘图</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 一行双图</span></span><br><span class="line">f, (ax1,ax2) = plt.subplots(<span class="number">1</span>,<span class="number">2</span>, figsize=(<span class="number">20</span>, <span class="number">6</span>))</span><br><span class="line">sns.distplot(v14_fraud_dist,ax=ax1, fit=norm, color=<span class="string">'#FB8861'</span>)</span><br><span class="line">sns.distplot(v14_fraud_dist,ax=ax2, fit=norm, color=<span class="string">'#FB8861'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 一行四图</span></span><br><span class="line">f, axes = plt.subplots(ncols=<span class="number">4</span>, figsize=(<span class="number">20</span>,<span class="number">4</span>))</span><br><span class="line">sns.boxplot(x=<span class="string">"target"</span>, y=<span class="string">'间隔交易时间_std'</span>, data=data, palette=<span class="literal">None</span>, ax=axes[<span class="number">0</span>])</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">## 两行四图</span></span><br><span class="line">f= plt.figure(figsize=(<span class="number">20</span>,<span class="number">10</span>))</span><br><span class="line">axes = [plt.subplot2grid((<span class="number">2</span>,<span class="number">2</span>),(<span class="number">0</span>,<span class="number">0</span>)),plt.subplot2grid((<span class="number">2</span>,<span class="number">2</span>),(<span class="number">0</span>,<span class="number">1</span>)),</span><br><span class="line">       plt.subplot2grid((<span class="number">2</span>,<span class="number">2</span>),(<span class="number">1</span>,<span class="number">0</span>)),plt.subplot2grid((<span class="number">2</span>,<span class="number">2</span>),(<span class="number">1</span>,<span class="number">1</span>))]</span><br><span class="line">sns.boxplot(x=<span class="string">"target"</span>, y=<span class="string">"交易金额大于1000的次数"</span>, data=data, palette=<span class="literal">None</span>, ax=axes[<span class="number">0</span>])</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment">## 查看柱状计数图</span></span><br><span class="line">colors = [<span class="string">"#0101DF"</span>, <span class="string">"#DF0101"</span>]</span><br><span class="line">sns.countplot(<span class="string">'target'</span>, data=data_show, palette=colors)</span><br><span class="line">plt.title(<span class="string">'Class Distributions \n (0: normal || 1: suspect)'</span>, fontsize=<span class="number">14</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 查看特征间的散点相关图</span></span><br><span class="line">cols = [<span class="string">'isMulti_y'</span>, <span class="string">'in_out_ratio'</span>, <span class="string">'交易余额均值'</span>, <span class="string">'密集交易数据'</span>]</span><br><span class="line">sns.pairplot(data01[cols], size = <span class="number">2.5</span>)</span><br><span class="line">plt.show();</span><br></pre></td></tr></table></figure>
+<h3 id="python-md5-加密"><a href="#python-md5-加密" class="headerlink" title="python+md5 加密"></a>python+md5 加密</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取原始密码+salt的md5值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">create_md5</span><span class="params">(pwd,salt=<span class="string">'128t'</span>)</span>:</span></span><br><span class="line">    <span class="keyword">if</span>(pwd != <span class="string">''</span>):</span><br><span class="line">        md5_obj = hashlib.md5()  </span><br><span class="line">        md5_obj.update((str(pwd) + str(salt)).encode(<span class="string">"utf-8"</span>))  </span><br><span class="line"><span class="comment">#         print("pwd:",pwd,",salt:",salt,",md5:",md5_obj.hexdigest())</span></span><br><span class="line">        <span class="keyword">return</span> md5_obj.hexdigest()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">''</span></span><br><span class="line">data[<span class="string">'target'</span>] = data[<span class="string">'target'</span>].apply(create_md5)  <span class="comment">## target 列原地加密</span></span><br></pre></td></tr></table></figure>
+<h3 id="树模型查看特征重要性"><a href="#树模型查看特征重要性" class="headerlink" title="树模型查看特征重要性"></a>树模型查看特征重要性</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 以下传参中的 gbm 是训练好的模型</span></span><br><span class="line">plt.rcParams[<span class="string">'savefig.dpi'</span>] = <span class="number">100</span> <span class="comment">#图片像素</span></span><br><span class="line">plt.rcParams[<span class="string">'figure.dpi'</span>] = <span class="number">100</span> <span class="comment">#分辨率</span></span><br><span class="line"><span class="comment">#模型特征重要性</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">_show_feature_import</span><span class="params">(clf,train_x)</span>:</span></span><br><span class="line">    print(<span class="string">'------feature importance------'</span>)</span><br><span class="line">    feature_imp = np.zeros([train_x.shape[<span class="number">1</span>]])  <span class="comment">#df.shape[0] 行数 df.shape[1] 列数</span></span><br><span class="line">    feature_imp += clf.feature_importances_</span><br><span class="line">  feature_importance=pd.DataFrame(&#123;<span class="string">'features'</span>:train_x.columns,<span class="string">'importance'</span>:feature_imp&#125;)</span><br><span class="line">    feature_importance[<span class="string">'importance_rate'</span>]=feature_importance[<span class="string">'importance'</span>]/feature_importance[<span class="string">'importance'</span>].sum()</span><br><span class="line">    feature_importance=feature_importance.sort_values(by=<span class="string">'importance'</span>,ascending=<span class="literal">False</span>).reset_index(drop=<span class="literal">True</span>)  </span><br><span class="line">    feature_importance[<span class="string">'cumsum_rate'</span>]=np.cumsum(feature_importance[<span class="string">'importance_rate'</span>])</span><br><span class="line">    plt.figure(figsize=(<span class="number">5</span>,<span class="number">6</span>))</span><br><span class="line">    sns.barplot(x=<span class="string">'importance'</span>,y=<span class="string">'features'</span>,data=feature_importance[<span class="number">0</span>:<span class="number">10</span>])</span><br><span class="line">    plt.show()</span><br><span class="line">    <span class="keyword">return</span> feature_importance </span><br><span class="line"><span class="comment">#调用函数，得到特征重要性</span></span><br><span class="line">feature_importance = _show_feature_import(gbm,x_train)</span><br></pre></td></tr></table></figure>
+<h3 id="lightgbm"><a href="#lightgbm" class="headerlink" title="lightgbm"></a>lightgbm</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">x_train, x_test, y_train, y_test = train_test_split(X_train,</span><br><span class="line">                                                    Y_train,</span><br><span class="line">                                                   test_size= <span class="number">0.25</span>)</span><br><span class="line"></span><br><span class="line">params = &#123;<span class="string">'num_leaves'</span>: <span class="number">250</span>,</span><br><span class="line">          <span class="string">'max_depth'</span>:<span class="number">7</span>,</span><br><span class="line">          <span class="string">'min_child_weight'</span>: <span class="number">0.8</span>,</span><br><span class="line">          <span class="string">'feature_fraction'</span>: <span class="number">0.8</span>,</span><br><span class="line">          <span class="string">'bagging_fraction'</span>: <span class="number">0.8</span>,</span><br><span class="line">          <span class="string">'min_data_in_leaf'</span>: <span class="number">1</span>,</span><br><span class="line">          <span class="string">'learning_rate'</span>: <span class="number">0.03</span>,</span><br><span class="line">          <span class="string">"boosting_type"</span>: <span class="string">"gbdt"</span>,</span><br><span class="line">          <span class="string">"bagging_seed"</span>: <span class="number">11</span>,</span><br><span class="line">          <span class="string">"metric"</span>: <span class="string">'auc'</span>,</span><br><span class="line">          <span class="comment">#"metric": 'map',</span></span><br><span class="line">          <span class="string">'reg_alpha'</span>: <span class="number">1</span>,</span><br><span class="line">          <span class="string">'reg_lambda'</span>: <span class="number">1</span>,</span><br><span class="line">          <span class="string">'random_state'</span>: <span class="number">233</span>,</span><br><span class="line">          <span class="string">'is_unbalanced'</span>:<span class="literal">False</span></span><br><span class="line">         &#125;</span><br><span class="line">gbm = lgb.LGBMClassifier(**params,n_estimators=<span class="number">500</span>)</span><br><span class="line">gbm.fit(x_train,y_train.astype(<span class="string">'int'</span>),</span><br><span class="line">        eval_set=[(x_test,y_test)],</span><br><span class="line">        early_stopping_rounds=<span class="number">50</span>,</span><br><span class="line">        verbose=<span class="number">100</span>)</span><br><span class="line"><span class="comment"># 绘制 ROC</span></span><br><span class="line">y_probs = gbm.predict_proba(X_test)[:,<span class="number">1</span>]<span class="comment">#模型的预测得分</span></span><br><span class="line">fpr, tpr, thresholds = metrics.roc_curve(Y_test,y_probs)</span><br><span class="line">roc_auc = auc(fpr, tpr)  <span class="comment">#auc为Roc曲线下的面积#开始画ROC曲线</span></span><br><span class="line">plt.plot(fpr, tpr, <span class="string">'b'</span>,label=<span class="string">'AUC = %0.2f'</span>% roc_auc)</span><br><span class="line">plt.legend(loc=<span class="string">'lower right'</span>)</span><br><span class="line">plt.plot([<span class="number">0</span>,<span class="number">1</span>],[<span class="number">0</span>,<span class="number">1</span>],<span class="string">'r--'</span>)</span><br><span class="line">plt.xlim([<span class="number">-0.1</span>,<span class="number">1.1</span>])</span><br><span class="line">plt.ylim([<span class="number">-0.1</span>,<span class="number">1.1</span>])</span><br><span class="line">plt.xlabel(<span class="string">'False Positive Rate'</span>) <span class="comment">#横坐标是fpr</span></span><br><span class="line">plt.ylabel(<span class="string">'True Positive Rate'</span>)  <span class="comment">#纵坐标是tpr</span></span><br><span class="line">plt.title(<span class="string">'lightgbm模型ROC曲线'</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+<h3 id="随机森林-GridSearchCV"><a href="#随机森林-GridSearchCV" class="headerlink" title="随机森林+GridSearchCV"></a>随机森林+GridSearchCV</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将分类随机森林实例化</span></span><br><span class="line">rd = RandomForestClassifier(random_state=<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">param_grid = &#123;</span><br><span class="line">    <span class="string">"n_estimators"</span>:np.arange(<span class="number">2</span>,<span class="number">30</span>), <span class="comment"># 决策树的数量</span></span><br><span class="line">    <span class="string">"max_depth"</span>: np.arange(<span class="number">2</span>,<span class="number">20</span>),  <span class="comment"># 最大决策深度</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用这个方法可以直接对随机森林调参</span></span><br><span class="line">algo = GridSearchCV(estimator=rd, param_grid=param_grid, cv=<span class="number">5</span>, verbose=<span class="literal">True</span>)</span><br><span class="line">algo.fit(X_train, Y_train)  <span class="comment"># 训练模型</span></span><br><span class="line">pre_x = algo.predict(X_test)  <span class="comment"># 预测</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">"训练集模型评分:"</span>,algo.score(X_train,Y_train)) <span class="comment"># 训练集准确率</span></span><br><span class="line">print(<span class="string">"测试集模型评分:"</span>,algo.score(X_test,Y_test))  <span class="comment"># 测试集准确率</span></span><br><span class="line"></span><br><span class="line">sns.heatmap(confusion_matrix(Y_test, pre_x),annot=<span class="literal">True</span>, fmt=<span class="string">'.10g'</span>)  <span class="comment"># 混淆矩阵</span></span><br><span class="line">plt.xlabel(<span class="string">'真实值'</span>)</span><br><span class="line">plt.ylabel(<span class="string">'预测值'</span>)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line">print(<span class="string">"Classification report (validation):\n &#123;0&#125;"</span>.format(classification_report(pre_x, Y_test,digits =<span class="number">4</span>)))</span><br><span class="line"></span><br><span class="line">best_params_ = algo.best_params_</span><br><span class="line">print(<span class="string">"最优参数列表:&#123;&#125;"</span>.format(best_params_))</span><br></pre></td></tr></table></figure>
+<h3 id="LR"><a href="#LR" class="headerlink" title="LR"></a>LR</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">lr = LogisticRegression()   <span class="comment"># 初始化LogisticRegression</span></span><br><span class="line">lr.fit(X_train,Y_train)   <span class="comment"># 使用训练集对测试集进行训练</span></span><br><span class="line">lr_y_predit=lr.predict(X_test)  <span class="comment"># 使用逻辑回归函数对测试集进行预测</span></span><br><span class="line"><span class="keyword">print</span> (<span class="string">'Accuracy of LR Classifier:%f'</span>%lr.score(X_test,Y_test))   <span class="comment"># 使得逻辑回归模型自带的评分函数score获得模型在测试集上的准确性结果</span></span><br><span class="line"><span class="keyword">print</span> (classification_report(Y_test,lr_y_predit,target_names=[<span class="string">'Benign'</span>,<span class="string">'Malignant'</span>]) ) <span class="comment">#良性，恶性</span></span><br></pre></td></tr></table></figure>
+<h3 id="SVM"><a href="#SVM" class="headerlink" title="SVM"></a>SVM</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># rbf核函数，设置数据权重</span></span><br><span class="line">svc = SVC(kernel=<span class="string">'rbf'</span>, class_weight=<span class="string">'balanced'</span>,)</span><br><span class="line">c_range = np.logspace(<span class="number">-5</span>, <span class="number">15</span>, <span class="number">11</span>, base=<span class="number">2</span>)</span><br><span class="line">gamma_range = np.logspace(<span class="number">-9</span>, <span class="number">3</span>, <span class="number">13</span>, base=<span class="number">2</span>)</span><br><span class="line"><span class="comment"># 网格搜索交叉验证的参数范围，cv=3,3折交叉</span></span><br><span class="line">param_grid = [&#123;<span class="string">'kernel'</span>: [<span class="string">'rbf'</span>], <span class="string">'C'</span>: c_range, <span class="string">'gamma'</span>: gamma_range&#125;]</span><br><span class="line">grid = GridSearchCV(svc, param_grid, cv=<span class="number">3</span>, n_jobs=<span class="number">-1</span>)</span><br><span class="line"><span class="comment"># 训练模型</span></span><br><span class="line">clf = grid.fit(X_train, Y_train)</span><br><span class="line"><span class="comment"># 计算测试集精度</span></span><br><span class="line">score = grid.score(X_test, Y_test)</span><br><span class="line">print(<span class="string">'精度为%s'</span> % score)</span><br><span class="line">svc_y_predit = grid.predict(X_test)</span><br><span class="line"><span class="keyword">print</span> (classification_report(Y_test,svc_y_predit,target_names=[<span class="string">'Benign'</span>,<span class="string">'Malignant'</span>]) ) <span class="comment">#良性，恶性</span></span><br></pre></td></tr></table></figure>
+<h3 id="五折-Stacking"><a href="#五折-Stacking" class="headerlink" title="五折 Stacking"></a>五折 Stacking</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">'''模型融合中使用到的各个单模型'''</span></span><br><span class="line">lr = LogisticRegression()</span><br><span class="line">svc = SVC(kernel=<span class="string">'rbf'</span>, class_weight=<span class="string">'balanced'</span>, probability=<span class="literal">True</span>)</span><br><span class="line">rf = RandomForestClassifier(n_estimators=<span class="number">5</span>, n_jobs=<span class="number">-1</span>, criterion=<span class="string">'gini'</span>)</span><br><span class="line">clfs = [rf ,lr ,svc]</span><br><span class="line"></span><br><span class="line"><span class="string">'''切分一部分数据作为测试集'''</span></span><br><span class="line">X, X_predict, y, y_predict = np.array(X_train), np.array(X_test), np.array(Y_train), np.array(Y_test)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dataset_blend_train = np.zeros((X.shape[<span class="number">0</span>], len(clfs)))</span><br><span class="line">dataset_blend_test = np.zeros((X_predict.shape[<span class="number">0</span>], len(clfs)))</span><br><span class="line"></span><br><span class="line"><span class="string">'''5折stacking'''</span></span><br><span class="line">n_folds = <span class="number">5</span></span><br><span class="line">skf = list(StratifiedKFold(y, n_folds))</span><br><span class="line"><span class="keyword">for</span> j, clf <span class="keyword">in</span> enumerate(clfs):</span><br><span class="line">    <span class="string">'''依次训练各个单模型'''</span></span><br><span class="line">    print(<span class="string">'========================='</span>)</span><br><span class="line">    dataset_blend_test_j = np.zeros((X_predict.shape[<span class="number">0</span>], len(skf)))</span><br><span class="line">    <span class="keyword">for</span> i, (train, test) <span class="keyword">in</span> enumerate(skf):</span><br><span class="line">        <span class="string">'''使用第i个部分作为预测，剩余的部分来训练模型，获得其预测的输出作为第i部分的新特征。'''</span></span><br><span class="line">        print(<span class="string">'+++++++++++++'</span>)</span><br><span class="line">        X_train1, y_train1, X_test1, y_test1 = X[train], y[train], X[test], y[test]</span><br><span class="line">        clf.fit(X_train1, y_train1)</span><br><span class="line">        y_submission = clf.predict_proba(X_test1)[:, <span class="number">1</span>]</span><br><span class="line">        dataset_blend_train[test, j] = y_submission</span><br><span class="line">        dataset_blend_test_j[:, i] = clf.predict_proba(X_predict)[:, <span class="number">1</span>]</span><br><span class="line">    <span class="string">'''对于测试集，直接用这k个模型的预测值均值作为新的特征。'''</span></span><br><span class="line">    dataset_blend_test[:, j] = dataset_blend_test_j.mean(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">params = &#123;<span class="string">'num_leaves'</span>: <span class="number">250</span>,</span><br><span class="line">          <span class="string">'max_depth'</span>:<span class="number">7</span>,</span><br><span class="line">          <span class="string">'min_child_weight'</span>: <span class="number">0.8</span>,</span><br><span class="line">          <span class="string">'feature_fraction'</span>: <span class="number">0.8</span>,</span><br><span class="line">          <span class="string">'bagging_fraction'</span>: <span class="number">0.8</span>,</span><br><span class="line">          <span class="string">'min_data_in_leaf'</span>: <span class="number">1</span>,</span><br><span class="line">          <span class="string">'learning_rate'</span>: <span class="number">0.2</span>,</span><br><span class="line">          <span class="string">"boosting_type"</span>: <span class="string">"gbdt"</span>,</span><br><span class="line">          <span class="string">"bagging_seed"</span>: <span class="number">11</span>,</span><br><span class="line">          <span class="string">"metric"</span>: <span class="string">'auc'</span>,</span><br><span class="line">          <span class="comment">#"metric": 'map',</span></span><br><span class="line">          <span class="string">'reg_alpha'</span>: <span class="number">1</span>,</span><br><span class="line">          <span class="string">'reg_lambda'</span>: <span class="number">1</span>,</span><br><span class="line">          <span class="string">'random_state'</span>: <span class="number">233</span>,</span><br><span class="line">          <span class="string">'is_unbalanced'</span>:<span class="literal">False</span></span><br><span class="line">         &#125;</span><br><span class="line">clf = lgb.LGBMClassifier(**params,n_estimators=<span class="number">300</span>)</span><br><span class="line">clf.fit(dataset_blend_train,y,</span><br><span class="line">        eval_set=[(X_predict,y_predict)],</span><br><span class="line">        verbose=<span class="number">100</span>)</span><br><span class="line"></span><br><span class="line">y_submission_real = clf.predict(dataset_blend_test)</span><br><span class="line">accuracy = accuracy_score(y_predict, y_submission_real)</span><br><span class="line">print(<span class="string">'模型的准确率为：'</span>,accuracy)</span><br><span class="line"></span><br><span class="line">sns.heatmap(confusion_matrix(y_predict, y_submission_real),annot=<span class="literal">True</span>, fmt=<span class="string">'.10g'</span>)  <span class="comment"># 混淆矩阵</span></span><br><span class="line">plt.show()</span><br><span class="line">print(<span class="string">"Classification report (validation):\n &#123;0&#125;"</span>.format(classification_report(y_submission_real,y_predict,digits =<span class="number">4</span>)))</span><br><span class="line">print(<span class="string">"val auc Score: %f"</span> % roc_auc_score(y_predict, y_submission_real))</span><br></pre></td></tr></table></figure>
+<h3 id="OPTICS-优化的-DBScan-聚类"><a href="#OPTICS-优化的-DBScan-聚类" class="headerlink" title="OPTICS _优化的 DBScan 聚类"></a>OPTICS _优化的 DBScan 聚类</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 显示决策图</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plotReachability</span><span class="params">(data,eps)</span>:</span></span><br><span class="line">    plt.figure()</span><br><span class="line">    plt.plot(range(<span class="number">0</span>,len(data)), data)</span><br><span class="line">    plt.plot([<span class="number">0</span>, len(data)], [eps, eps])</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示分类的类别</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plotFeature</span><span class="params">(data,labels)</span>:</span></span><br><span class="line">    clusterNum = len(set(labels))</span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    scatterColors = [<span class="string">'black'</span>, <span class="string">'blue'</span>, <span class="string">'green'</span>, <span class="string">'yellow'</span>, <span class="string">'red'</span>, <span class="string">'purple'</span>, <span class="string">'orange'</span>, <span class="string">'brown'</span>]</span><br><span class="line">    ax = fig.add_subplot(<span class="number">111</span>)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">-1</span>, clusterNum):</span><br><span class="line">        colorSytle = scatterColors[i % len(scatterColors)]</span><br><span class="line">        subCluster = data[np.where(labels == i)]</span><br><span class="line">        ax.scatter(subCluster[:, <span class="number">0</span>], subCluster[:, <span class="number">1</span>], c=colorSytle, s=<span class="number">12</span>)</span><br><span class="line">    plt.show()</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">OPTICS1</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,data,eps=np.inf,minPts=<span class="number">15</span>)</span>:</span></span><br><span class="line">        self.data=data</span><br><span class="line">        self.disMat = self.compute_squared_EDM(data)  <span class="comment"># 获得距离矩阵</span></span><br><span class="line"></span><br><span class="line">        self.number_sample=data.shape[<span class="number">0</span>]</span><br><span class="line">        self.eps=eps</span><br><span class="line">        self.minPts=minPts</span><br><span class="line">        self.core_distances = self.disMat[np.arange(<span class="number">0</span>, self.number_sample), np.argsort(self.disMat)[:, minPts - <span class="number">1</span>]]  <span class="comment"># 计算核心距离</span></span><br><span class="line">        self.core_points_index = np.where(np.sum(np.where(self.disMat &lt;= self.eps, <span class="number">1</span>, <span class="number">0</span>), axis=<span class="number">1</span>) &gt;= self.minPts)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 计算距离矩阵</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compute_squared_EDM</span><span class="params">(self,X)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> squareform(pdist(X, metric=<span class="string">'euclidean'</span>))</span><br><span class="line">    <span class="comment">#训练</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">train</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 初始化每一个点的最终可达距离(未定义)</span></span><br><span class="line">        self.reach_dists = np.full((self.number_sample,), np.nan)</span><br><span class="line">        self.orders=[]<span class="comment">#结果数组</span></span><br><span class="line">        start_core_point=self.core_points_index[<span class="number">0</span>]<span class="comment">#从一个核心点开始</span></span><br><span class="line">        <span class="comment">#标记数组</span></span><br><span class="line">        isProcess = np.full((self.number_sample,), <span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment">#训练</span></span><br><span class="line">        isProcess[start_core_point] = <span class="number">1</span></span><br><span class="line">        <span class="comment">#选择一个核心点作为开始节点，并将其核心距离作为可达距离</span></span><br><span class="line">        self.reach_dists[start_core_point] = self.core_distances[start_core_point]</span><br><span class="line">        self.orders.append(start_core_point)  <span class="comment"># 加入结果数组</span></span><br><span class="line">        seeds = &#123;&#125;<span class="comment">#种子数组，或者叫排序数组</span></span><br><span class="line">        seeds = self.updateSeeds(seeds, start_core_point, isProcess)<span class="comment">#更新排序数组</span></span><br><span class="line">        <span class="keyword">while</span> len(seeds) &gt; <span class="number">0</span>:</span><br><span class="line">            nextId = sorted(seeds.items(), key=operator.itemgetter(<span class="number">1</span>))[<span class="number">0</span>][<span class="number">0</span>]  <span class="comment"># 按可达距离排序，取第一个(最小的)</span></span><br><span class="line">            <span class="keyword">del</span> seeds[nextId]</span><br><span class="line">            isProcess[nextId] = <span class="number">1</span></span><br><span class="line">            self.orders.append(nextId)  <span class="comment"># 加入结果数组</span></span><br><span class="line">            seeds = self.updateSeeds(seeds, nextId, isProcess)<span class="comment">#更新种子数组和可达距离数组的可达距离</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#更新可达距离</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">updateSeeds</span><span class="params">(self,seeds, core_PointId, isProcess)</span>:</span></span><br><span class="line">        <span class="comment"># 获得核心点core_PointId的核心距离</span></span><br><span class="line">        core_dist = self.core_distances[core_PointId]</span><br><span class="line">        <span class="comment"># 计算所未访问的样本点更新可达距离</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(self.number_sample):</span><br><span class="line">            <span class="keyword">if</span> (isProcess[i] == <span class="number">-1</span>):</span><br><span class="line">                <span class="comment"># 计算可达距离</span></span><br><span class="line">                new_reach_dist = max(core_dist, self.disMat[core_PointId][i])</span><br><span class="line">                <span class="keyword">if</span> (np.isnan(self.reach_dists[i])):</span><br><span class="line">                    <span class="comment"># 可达矩阵更新</span></span><br><span class="line">                    self.reach_dists[i] = new_reach_dist</span><br><span class="line">                    seeds[i] = new_reach_dist</span><br><span class="line">                <span class="keyword">elif</span> (new_reach_dist &lt; self.reach_dists[i]):</span><br><span class="line">                    self.reach_dists[i] = new_reach_dist</span><br><span class="line">                    seeds[i] = new_reach_dist</span><br><span class="line">        <span class="keyword">return</span> seeds</span><br><span class="line">    <span class="comment">#生成label</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">predict</span><span class="params">(self)</span>:</span></span><br><span class="line">        clusterId = <span class="number">0</span></span><br><span class="line">        self.labels = np.full((self.number_sample,), <span class="number">-1</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> self.orders:</span><br><span class="line">            <span class="keyword">if</span> self.reach_dists[i]&lt;=self.eps:</span><br><span class="line">                self.labels[i]=clusterId</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> self.core_distances[i]&lt;=self.eps:</span><br><span class="line">                    clusterId +=<span class="number">1</span></span><br><span class="line">                    self.labels[i] = clusterId</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    data = X</span><br><span class="line">    OP=OPTICS1(data,<span class="number">3</span>,<span class="number">15</span>)</span><br><span class="line">    OP.train()</span><br><span class="line">    OP.predict()</span><br><span class="line">    plotReachability(OP.reach_dists[OP.orders], <span class="number">1.7</span>)</span><br><span class="line">    plotFeature(np.array(data),OP.labels)</span><br><span class="line">    le = pd.Series(OP.labels)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/statistical-machine-learning/" rel="tag"><i class="fa fa-tag"></i> statistical machine learning</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="next" title="登录_手机扫描pc二维码的原理梳理">
+                <i class="fa fa-chevron-left"></i> 登录_手机扫描pc二维码的原理梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/22/webRTC使用记录1/" rel="prev" title="webRTC使用记录1">
+                webRTC使用记录1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">127</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#dataframe-的列处理：空值、替换、整列删除"><span class="nav-number">1.</span> <span class="nav-text">dataframe 的列处理：空值、替换、整列删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dataframe-的行处理："><span class="nav-number">2.</span> <span class="nav-text">dataframe 的行处理：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dataframe-的拼接用法（新列）"><span class="nav-number">3.</span> <span class="nav-text">dataframe 的拼接用法（新列）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dataframe-的拼接用法（新行）"><span class="nav-number">4.</span> <span class="nav-text">dataframe 的拼接用法（新行）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dataframe-的-groupby-用法"><span class="nav-number">5.</span> <span class="nav-text">dataframe 的 groupby 用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dataframe-处理时间"><span class="nav-number">6.</span> <span class="nav-text">dataframe 处理时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Z-score-处理全部-feature"><span class="nav-number">7.</span> <span class="nav-text">Z-score 处理全部 feature</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#seaborn-绘图"><span class="nav-number">8.</span> <span class="nav-text">seaborn 绘图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-md5-加密"><span class="nav-number">9.</span> <span class="nav-text">python+md5 加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#树模型查看特征重要性"><span class="nav-number">10.</span> <span class="nav-text">树模型查看特征重要性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lightgbm"><span class="nav-number">11.</span> <span class="nav-text">lightgbm</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#随机森林-GridSearchCV"><span class="nav-number">12.</span> <span class="nav-text">随机森林+GridSearchCV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#LR"><span class="nav-number">13.</span> <span class="nav-text">LR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVM"><span class="nav-number">14.</span> <span class="nav-text">SVM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五折-Stacking"><span class="nav-number">15.</span> <span class="nav-text">五折 Stacking</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OPTICS-优化的-DBScan-聚类"><span class="nav-number">16.</span> <span class="nav-text">OPTICS _优化的 DBScan 聚类</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>
