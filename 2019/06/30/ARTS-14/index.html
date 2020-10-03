@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="To the moon">
 <meta property="og:description" content="ARTS 第十四周(终篇)ARTS 活动持续了 100 天，到本周正式宣告结束！撒花！！！ 虽然ARTS 结束了，但是还要生生不息地折腾啊~~  每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-03T16:28:57.000Z">
+<meta property="og:updated_time" content="2020-09-24T03:44:42.011Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ARTS(14)">
 <meta name="twitter:description" content="ARTS 第十四周(终篇)ARTS 活动持续了 100 天，到本周正式宣告结束！撒花！！！ 虽然ARTS 结束了，但是还要生生不息地折腾啊~~  每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-07-04 00:28:57" itemprop="dateModified" datetime="2019-07-04T00:28:57+08:00">2019-07-04</time>
+                <time title="Modified: 2020-09-24 11:44:42" itemprop="dateModified" datetime="2020-09-24T11:44:42+08:00">2020-09-24</time>
               
             
           </span>
@@ -514,6 +514,8 @@
 <p>还有：<a href="https://github.com/Vonng/ddia" target="_blank" rel="noopener">《Designing Data-Intensive Application》DDIA中文翻译</a></p>
 <h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><p>分享一个 lambda 表达式的骚操作：链接：<a href="https://segmentfault.com/q/1010000015013616/a-1020000015018865" target="_blank" rel="noopener">如何使用java8 stream 将两个List<integer> 集合中的相同下标的值相加生成一个新的List</integer></a></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; list1 =Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">List&lt;Integer&gt; list2 =Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">List&lt;Integer&gt; result = IntStream.range(<span class="number">0</span>, list1.size())</span><br><span class="line">                                .map(i -&gt; list1.get(i) + list2.get(i))</span><br><span class="line">                                .boxed()</span><br><span class="line">                                .collect(Collectors.toList());</span><br><span class="line">                                </span><br><span class="line"><span class="comment">//生成 result ：&#123;2,4,6,8,10&#125;</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/xujanus/p/6133865.html" target="_blank" rel="noopener">使用java8的lambda将list转为map（转）</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;Long, String&gt; <span class="title">getIdNameMap</span><span class="params">(List&lt;Account&gt; accounts)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> accounts.stream().collect(Collectors.toMap(Account::getId, Account::getUsername));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 其实有缺陷（Duplicate key 问题），参考上面的链接原文</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
