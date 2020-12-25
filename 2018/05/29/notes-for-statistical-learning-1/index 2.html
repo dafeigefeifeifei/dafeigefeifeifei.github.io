@@ -94,25 +94,25 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="统计学习方法入门学习笔记1名词解释 统计学习：即统计机器学习，目的是对数据进行预测和分析；以方法为中心，统计学习方法1.构建模型2.应用模型进行预测和分析；系统通过数据及统计方法提高系统性能的机器学习，即是统计学习。 统计学习的前提：同类数据具有一定的统计规律性。 统计学习三要素：模型，策略（模型选择的准则），算法（求解最优模型的方法）。 监督学习：从training data出发，由算法实现最优">
+<meta name="keywords" content="statistical machine learning">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="notes for statistical learning 1">
+<meta property="og:url" content="http://yoursite.com/2018/05/29/notes-for-statistical-learning-1/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="统计学习方法入门学习笔记1名词解释 统计学习：即统计机器学习，目的是对数据进行预测和分析；以方法为中心，统计学习方法1.构建模型2.应用模型进行预测和分析；系统通过数据及统计方法提高系统性能的机器学习，即是统计学习。 统计学习的前提：同类数据具有一定的统计规律性。 统计学习三要素：模型，策略（模型选择的准则），算法（求解最优模型的方法）。 监督学习：从training data出发，由算法实现最优">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:updated_time" content="2018-06-02T06:59:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="notes for statistical learning 1">
+<meta name="twitter:description" content="统计学习方法入门学习笔记1名词解释 统计学习：即统计机器学习，目的是对数据进行预测和分析；以方法为中心，统计学习方法1.构建模型2.应用模型进行预测和分析；系统通过数据及统计方法提高系统性能的机器学习，即是统计学习。 统计学习的前提：同类数据具有一定的统计规律性。 统计学习三要素：模型，策略（模型选择的准则），算法（求解最优模型的方法）。 监督学习：从training data出发，由算法实现最优">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/05/29/notes-for-statistical-learning-1/">
 
 
 
@@ -122,7 +122,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>notes for statistical learning 1 | To the moon</title>
   
 
 
@@ -360,7 +360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/29/notes-for-statistical-learning-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +377,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">notes for statistical learning 1
 
               
             
@@ -403,7 +403,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-05-29 11:08:25" itemprop="dateCreated datePublished" datetime="2018-05-29T11:08:25+08:00">2018-05-29</time>
             
 
             
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2018-06-02 14:59:18" itemprop="dateModified" datetime="2018-06-02T14:59:18+08:00">2018-06-02</time>
               
             
           </span>
@@ -479,28 +479,87 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+        <h1 id="统计学习方法入门学习笔记1"><a href="#统计学习方法入门学习笔记1" class="headerlink" title="统计学习方法入门学习笔记1"></a>统计学习方法入门学习笔记1</h1><h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li>统计学习：即统计机器学习，目的是对数据进行预测和分析；以方法为中心，统计学习方法1.构建模型2.应用模型进行预测和分析；系统通过数据及统计方法提高系统性能的机器学习，即是统计学习。</li>
+<li>统计学习的前提：同类数据具有一定的统计规律性。</li>
+<li>统计学习三要素：模型，策略（模型选择的准则），算法（求解最优模型的方法）。</li>
+<li>监督学习：从training data出发，由算法实现最优模型的选取，使它对training data和test data在给定评价准则下有最优的预测（假设两种 data独立同分布）。学习一个由输入到输出的映射，这一映射由模型来表示。换句话说，学习的目的就在于找到最好的这样的模型。<strong>由人工给出训练集，所以是监督学习</strong>。</li>
+<li><p>模型f(X)：属于由输入空间到输出空间的<strong>映射的集合</strong>，此集合就是假设空间。模型一般由P(Y|X)或Y=f(X)表示，前者是条件概率分布，后者是决策函数。</p>
+<blockquote>
+<p>决策函数：非概率模型,类似y=f(x)即Label=f（Features），</p>
+</blockquote>
+  <figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">classify</span><span class="params">(features)</span></span><span class="symbol">:</span></span><br><span class="line"><span class="comment"># do some logic</span></span><br><span class="line">	<span class="keyword">return</span> label</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>假设空间：假设‘要学习的模型属于某个函数’的集合，是<strong>理论上所有可能属性值构成的集合空间</strong>，一般有无穷多个。</p>
+</li>
+</ul>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
-<ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
+<ul>
+<li>回归/分类/标注问题：基于输入输出变量的不同类型，对预测任务的三种分类，三者都属监督学习，1.近邻法、感知机、朴素贝叶斯法、决策树、逻辑斯谛回归模型、SVM、adaBoost、贝叶斯网络、神经网络都适合于解决分类问题。2.隐性马尔可夫模型、条件随机场适合解决标注问题。3.最小二乘法适合解决回归问题。<strong>分类问题输出值，标记问题输出向量</strong>。</li>
+<li><p>损失函数<strong>L(Y,f(X))</strong>：使用决策函数的输出与真实值之间不一致（出错）的程度。通常分为：</p>
+<ul>
+<li>0-1损失，（非此即彼）</li>
+<li>平方损失，（见名知意）</li>
+<li>绝对损失，（见名知意）</li>
+<li><p>对数损失，（将多项式转换成log加和的形式）</p>
+<p>损失函数值越小，模型就越好。特点：真实值不可得，故Rexp无法得到<br>损失函数的期望（期望风险）Rexp是联合分布P(X,Y)与<br>L(Y,f(X))与微元dxdy对空间X和Y的积分，所以欲选最小的Rexp，就需要已知P，而P又是未知的，所以需要学习得到。</p>
 </li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
+</ul>
 </li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
-</ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<li>经验风险Remp：训练数据集的平均损失Remp =1/N(sigema L(y,f(x))。特点：可以得到，用于估计期望风险Rexp，但因训练样本数量少，需要矫正后再估计。若f(x)，L，N已知，则可知Remp。</li>
+<li>经验风险最小化：使得Remp最小化的某f(x)，就是经验风险最小化模型。一个常见的例子就是极大似然估计（需要较大样本）。若样本量过小易发生过拟合的现象。</li>
+<li>过拟合：一味追求提高对训练数据的预测能力，所选模型的复杂度则 往往会比真模型更高。[理解]训练中你的天鹅全是白色的，于是机器经过学习后，会认为天鹅的羽毛都是白的，以后看到羽毛是黑的天鹅就会认为那不是天鹅。课后题硬背全对，考试全不会。学习太彻底（比如训练误差为0），把训练集中的所有特征几乎都习得了，于是机器学到了太多由于噪声带来的假特征。所以需要限制机器学习，使其学习不那么彻底，因此提升识别正确率；并关注选取良好的训练数据。</li>
+<li>两种常用的模型选择的方法：正则化与交叉验证。</li>
+<li>正则化：结构风险最小化策略的实现，在经验风险上加上一个正则化项，即一个模型复杂度的单调递增函数。正则化的作用是选择经验风险与模型复杂度同时较小的模型。</li>
+<li>交叉验证：在数据较不足的情况下，重复地使用数据，将给定数据进行切分组合为训练集与测试集，在此基础上反复训练。有简单交叉验证（一分为二，不等分），S折交叉验证（一分为S，等分，应用较多），留一交叉验证（相当于N折交叉验证，适用数据缺乏情况）等方法。</li>
+<li>结构风险：在经验风险上加上表示模型复杂度的正则化项（与模型复杂度正相关）。</li>
+<li>结构风险最小化SRM：防止过拟合的应对策略，等价于正则化。</li>
+<li>算法：学习模型采用的具体算法。统计学习问题归结为最优化问题，通常最优化问题没有显式的解析解，所以需要用数值计算的方法求解。统计学习有时可以利用已有的最优化算法，有时需要开发独自的最优化算法。</li>
+<li>训练误差：采用模型关于训练数据集的平均误差。</li>
+<li>测试误差：采用模型关于测试数据集的平均误差。反映了学习方法对未知的测试数据集的预测能力，是学习中的重要概念。选取模型时的真实目的是使测试误差达到最小。</li>
+<li>泛化能力：学习方法对未知数据的预测能力。使用测试误差来评价。</li>
+<li>泛化误差：使用学习模型对未知数据预测的误差。即模型的期望风险。通常以泛化误差上界进行研究。</li>
+<li>泛化误差上界性质：样本容量增加时，泛化误差上界趋于0；假设空间容量增加时，模型越难学，泛化误差上界就越大。供参考：<a href="https://blog.csdn.net/winter_evening/article/details/70196011" target="_blank" rel="noopener">正则化、误差上界的证明等</a></li>
+<li>生成方法：由数据学习联合概率分布P(X,Y)，然后求出条件概率分布P(Y|X)作为预测的模型，因为模型表示了给定输入X产生输出Y的生成关系。有朴素贝叶斯法和隐马尔可夫模型。[理解]列出Y的概率，由人进行判别。学习收敛速度更快，当样本容量增加时，学到的模型可以更快地收敛于真实模型；当存在隐变量时依旧适用。</li>
+<li>隐变量：广义上的隐变量主要就是指“不能被直接观察到，但是对系统的状态和能观察到的输出存在影响的一种东西”。<a href="https://www.zhihu.com/question/43216440/answer/156368711" target="_blank" rel="noopener">隐变量是什么?</a></li>
+<li>判别方法：由数据直接学习决策函数f(X)或者条件概率分布P(Y|X)作为预测的模型，即判别模型。判别方法关心的是对给定的输入X，应该预测什么样的输出Y。[理解]机器替人作出选择。直接面对预测，往往学习的准确率更高，由于直接学习所以可以对数据进行各种程度上的抽象，可以简化学习问题。</li>
+<li>分类器：监督学习从数据中学习一个分类模型或分类决策函数，称为分类器。一般有学习和分类两个过程。学习过程中，根据已知训练集利用有效学习方法学习一个分类器；在分类过程中，利用学习到的分类器对新的输入实例进行分类。</li>
+<li>分类：分类器对新的输入进行输出的预测，即分类；输出称为类。</li>
+<li>以关注的类为正类，其他类为负类。    </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">TP</td>
+<td style="text-align:center">将正类预测为正类</td>
+</tr>
+<tr>
+<td style="text-align:center">FN</td>
+<td style="text-align:center">将正类预测为负类</td>
+</tr>
+<tr>
+<td style="text-align:center">FP</td>
+<td style="text-align:center">将负类预测为正类</td>
+</tr>
+<tr>
+<td style="text-align:center">TN</td>
+<td style="text-align:center">将负类预测为负类</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>精确率precision：P=TP/(TP+FP)，[理解]所有被预测为正类中预测结果正确的比例。</li>
+<li>召回率recall：R=TP/(TP+FN)，[理解]真实的正类中被正确预测到的比例。</li>
+<li>F1值：精确率和召回率的调和平均值，2/F1=1/P+1/R，即F1=2TP/(2TP+FP+FN)；精确率和召回率都高时，F1值也会高。</li>
+<li>标注问题：是结构预测问题的简单形式，输入是一个观测序列，输出是一个标记序列或状态序列，目标在于学习一个模型，使它能够对观测序列给出标记序列作为预测。可能的标记个数是有限的，单其组合所称的标记序列的个数是依序列长度呈指数级增长的。常用的有隐马尔可夫模型/条件随机场。举例：自然语言处理中的词性标注。</li>
+<li>回归问题：回归用于预测输入变量和输出变量之间的关系，回归问题的学习等价于函数拟合。</li>
+</ul>
 
       
     </div>
@@ -537,7 +596,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/statistical-machine-learning/" rel="tag"><i class="fa fa-tag"></i> statistical machine learning</a>
           
         </div>
       
@@ -550,8 +609,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/05/17/notes-for-Shell-1/" rel="next" title="notes for Shell 1">
+                <i class="fa fa-chevron-left"></i> notes for Shell 1
               </a>
             
           </div>
@@ -560,8 +619,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/30/Set-Character-utf8/" rel="prev" title="Set Character utf8">
+                Set Character utf8 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +831,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#统计学习方法入门学习笔记1"><span class="nav-number">1.</span> <span class="nav-text">统计学习方法入门学习笔记1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#名词解释"><span class="nav-number">1.1.</span> <span class="nav-text">名词解释</span></a></li></ol></li></ol></div>
             
 
           </div>

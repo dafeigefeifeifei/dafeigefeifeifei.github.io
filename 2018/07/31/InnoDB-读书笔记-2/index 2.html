@@ -94,25 +94,25 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+  <meta name="description" content="缓冲池副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记 2 缓冲池的简介 InnoDB引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理 缓冲池是一块内存区域，在数据库进行读取页的操作，首先将磁盘读到的页放在缓冲池中，称为将页“FIX”在缓冲池。下一次读到相同页时，首先判断该页是否在缓冲池中，若是则直接在缓冲池中读取该页，否则，读取磁盘上的页 对于数据库中页的修改操作，首先">
 <meta name="keywords" content="mySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="InnoDB 读书笔记 2">
+<meta property="og:url" content="http://yoursite.com/2018/07/31/InnoDB-读书笔记-2/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="缓冲池副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记 2 缓冲池的简介 InnoDB引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理 缓冲池是一块内存区域，在数据库进行读取页的操作，首先将磁盘读到的页放在缓冲池中，称为将页“FIX”在缓冲池。下一次读到相同页时，首先判断该页是否在缓冲池中，若是则直接在缓冲池中读取该页，否则，读取磁盘上的页 对于数据库中页的修改操作，首先">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:updated_time" content="2018-08-22T09:22:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="InnoDB 读书笔记 2">
+<meta name="twitter:description" content="缓冲池副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记 2 缓冲池的简介 InnoDB引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理 缓冲池是一块内存区域，在数据库进行读取页的操作，首先将磁盘读到的页放在缓冲池中，称为将页“FIX”在缓冲池。下一次读到相同页时，首先判断该页是否在缓冲池中，若是则直接在缓冲池中读取该页，否则，读取磁盘上的页 对于数据库中页的修改操作，首先">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/07/31/InnoDB-读书笔记-2/">
 
 
 
@@ -122,7 +122,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>InnoDB 读书笔记 2 | To the moon</title>
   
 
 
@@ -360,7 +360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/InnoDB-读书笔记-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +377,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">InnoDB 读书笔记 2
 
               
             
@@ -403,7 +403,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-07-31 07:43:28" itemprop="dateCreated datePublished" datetime="2018-07-31T07:43:28+08:00">2018-07-31</time>
             
 
             
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2018-08-22 17:22:49" itemprop="dateModified" datetime="2018-08-22T17:22:49+08:00">2018-08-22</time>
               
             
           </span>
@@ -479,28 +479,55 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+        <h1 id="缓冲池"><a href="#缓冲池" class="headerlink" title="缓冲池"></a>缓冲池</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记 2</p>
+<h2 id="缓冲池的简介"><a href="#缓冲池的简介" class="headerlink" title="缓冲池的简介"></a>缓冲池的简介</h2><ul>
+<li>InnoDB引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理</li>
+<li>缓冲池是一块内存区域，在数据库进行读取页的操作，首先将磁盘读到的页放在缓冲池中，称为将页“FIX”在缓冲池。下一次读到相同页时，首先判断该页是否在缓冲池中，若是则直接在缓冲池中读取该页，否则，读取磁盘上的页</li>
+<li>对于数据库中页的修改操作，首先修改在缓冲池中的页，然后以一定的频率刷新到磁盘上。但并不是每一次修改都会触发刷回数据的操作，而是按照一种称为checkpoint的机制进行</li>
+<li><p>缓冲池的大小直接影响数据库的整体性能，32位操作系统下，该值最多可以设置为3G，此外用户可以打开操作系统的PAE选项来获得32位OS下最大64G内存的支持</p>
+  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//查看缓冲池的大小，以下134217728B表示128MB</span><br><span class="line">mysql&gt; show variables like 'innodb<span class="emphasis">_buffer_</span>pool_size'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>size</span><br><span class="line"><span class="code">        Value: 134217728</span></span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+<ul>
+<li>缓冲池中缓存的数据页类型：索引页、数据页、undo页、插入缓冲、自适应哈希索引、InnoDB存储的锁信息、数据字典信息等，如下图</li>
+</ul>
+<pre><code>![1](1.png)
+</code></pre><ul>
+<li><p>InnoDB允许有多个缓冲池实例，如下图查看，可以在配置文件中修改。同时也可以使用命令<code>SHOW ENGINE INNODB STATUS</code>查看每个缓冲池实例对象运行的状态</p>
+  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables  like 'innodb<span class="emphasis">_buffer_</span>pool_instances'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>instances</span><br><span class="line"><span class="code">        Value: 1</span></span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">//部分代码：</span><br><span class="line">mysql&gt; show engine innodb  status\G;</span><br><span class="line">Total large memory allocated 137428992</span><br><span class="line">Dictionary memory allocated 216425</span><br><span class="line">Buffer pool size   8191</span><br><span class="line">Free buffers       6983</span><br><span class="line">Database pages     1190</span><br><span class="line">Old database pages 419</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="InnoDB如何管理缓存池（即一大块内存）"><a href="#InnoDB如何管理缓存池（即一大块内存）" class="headerlink" title="InnoDB如何管理缓存池（即一大块内存）"></a>InnoDB如何管理缓存池（即一大块内存）</h2><ul>
+<li>通常的缓冲池是通过LRU（Latest Recent Used）算法来进行管理的，最常使用页放在LRU列表的前端，最少使用的页放在尾端。当缓冲池不能存放新读取的页时，将首先释放LRU列表中尾段的页。</li>
+<li>InnoDB对LRU算法进行了一些优化，在LRU列表中新增了midpoiont位置，新读取的页并不放在首部，而是放在midpoint处，约5/8的位置，可由参数innodb_old_blocks_pct控制。至于为什么不放在首部，是因为新读取的页通常仅是这次查询操作中需要，并不是活跃的热点数据。所以InnoDB引入另一个参数来进一步管理LRU列表，即innodb_old_blocks_time，用于表示页读取到mid位置后需要等待多久才会被加入到LRU列表的热端。</li>
+<li>当页从LRU列表的old部分加入到new部分时，此时发生的操作为page made young，而因为innodb_old_blocks_time的设置导致页没有从old部分移动到new部分的操作称为page not made young，page made young显示了LRU列表中页移动到热端的次数。</li>
+<li>还有一个重要的观察变量——Buffer pool hit rate ，表示缓冲池的命中率，通常不应该小于95%。</li>
+<li>在LRU列表中的页被修改后，称该页为脏页，这时DB会通过CheckPoint机制将脏页刷回磁盘，而Flush列表中的页即为脏页列表。</li>
+</ul>
+<h4 id="日志缓存和额外的内存池"><a href="#日志缓存和额外的内存池" class="headerlink" title="日志缓存和额外的内存池"></a>日志缓存和额外的内存池</h4><ul>
+<li>InnoDB将重做日志信息先放入重做日志缓存区，一般每一秒钟将重做日志缓冲刷新到日志文件，由参数innodb_log_buffer_size 控制，默认为8MB；</li>
+<li>InnoDB对内存的管理使用heap的方式，详略</li>
+</ul>
+<h4 id="CheckPoint技术"><a href="#CheckPoint技术" class="headerlink" title="CheckPoint技术"></a>CheckPoint技术</h4><ul>
+<li>背景：如果每次update或delete都要将新页的版本刷新到磁盘，这个开销是非常大的。同时如果在刷新时发生了宕机，那么数据就不能恢复了。</li>
+<li>所以为了避免数据丢失的情况，事务数据库系统普遍采取了Write Ahead Log策略，即当事务提交时，先写重做日志，再修改页。</li>
+<li><p>CheckPoint技术目的是为了解决以下几个问题：</p>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>缩短DB的恢复时间；</li>
+<li>缓冲池不够用时，将脏页刷新到磁盘；</li>
+<li>重做日志不可用时（重做日志被需要，不能被覆盖的情形下），刷新脏页</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>InnoDB采用LSN（Log Sequence Number）来标记版本，每个页有LSN，重做日志也有LSN，CheckPoint也有LSN。</p>
+</li>
+<li><p>CheckPoint有两种：Sharp CheckPoint和Fuzzy CheckPoint</p>
+<ol>
+<li>Sharp CheckPoint发生在DB关闭时将所有脏页刷回磁盘；</li>
+<li>Fuzzy Checkpoint只刷新部分脏页，有四种方式，此处咱不讨论</li>
+</ol>
+</li>
+</ul>
 
       
     </div>
@@ -550,8 +577,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/07/30/InnoDB-读书笔记-1/" rel="next" title="InnoDB 读书笔记 1">
+                <i class="fa fa-chevron-left"></i> InnoDB 读书笔记 1
               </a>
             
           </div>
@@ -560,8 +587,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/08/10/Java实现WEB-SSO单点登录/" rel="prev" title="Java实现WEB-SSO单点登录">
+                Java实现WEB-SSO单点登录 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +799,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#缓冲池"><span class="nav-number">1.</span> <span class="nav-text">缓冲池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓冲池的简介"><span class="nav-number">1.1.</span> <span class="nav-text">缓冲池的简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB如何管理缓存池（即一大块内存）"><span class="nav-number">1.2.</span> <span class="nav-text">InnoDB如何管理缓存池（即一大块内存）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#日志缓存和额外的内存池"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">日志缓存和额外的内存池</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CheckPoint技术"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">CheckPoint技术</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

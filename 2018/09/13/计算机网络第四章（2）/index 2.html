@@ -94,25 +94,27 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="计算机网络——网络层（2）IPv6 从根源上解决了IPv4地址耗尽的问题。 特点： IPv4的32位增大到了128位，共16字节 IPv6不允许分片，只有在包的源结点才能分片，是端到端的 扩展阅读：闲谈IPv6-尴尬的IPv4。大意是解析IPv4的痛点，精华部分理解： 原本的arp协议其实是没有使用IP协议进行封包，导致每一种链路层都需要一个arp协议。使用IPv6后，arp的功能由ICMPv6来">
+<meta name="keywords" content="computer network">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="计算机网络第四章（2）">
+<meta property="og:url" content="http://yoursite.com/2018/09/13/计算机网络第四章（2）/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="计算机网络——网络层（2）IPv6 从根源上解决了IPv4地址耗尽的问题。 特点： IPv4的32位增大到了128位，共16字节 IPv6不允许分片，只有在包的源结点才能分片，是端到端的 扩展阅读：闲谈IPv6-尴尬的IPv4。大意是解析IPv4的痛点，精华部分理解： 原本的arp协议其实是没有使用IP协议进行封包，导致每一种链路层都需要一个arp协议。使用IPv6后，arp的功能由ICMPv6来">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/09/13/计算机网络第四章（2）/1.png">
+<meta property="og:updated_time" content="2020-07-23T10:31:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="计算机网络第四章（2）">
+<meta name="twitter:description" content="计算机网络——网络层（2）IPv6 从根源上解决了IPv4地址耗尽的问题。 特点： IPv4的32位增大到了128位，共16字节 IPv6不允许分片，只有在包的源结点才能分片，是端到端的 扩展阅读：闲谈IPv6-尴尬的IPv4。大意是解析IPv4的痛点，精华部分理解： 原本的arp协议其实是没有使用IP协议进行封包，导致每一种链路层都需要一个arp协议。使用IPv6后，arp的功能由ICMPv6来">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/13/计算机网络第四章（2）/1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/09/13/计算机网络第四章（2）/">
 
 
 
@@ -122,7 +124,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>计算机网络第四章（2） | To the moon</title>
   
 
 
@@ -360,7 +362,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/13/计算机网络第四章（2）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +379,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">计算机网络第四章（2）
 
               
             
@@ -403,7 +405,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-09-13 20:47:04" itemprop="dateCreated datePublished" datetime="2018-09-13T20:47:04+08:00">2018-09-13</time>
             
 
             
@@ -420,7 +422,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2020-07-23 18:31:48" itemprop="dateModified" datetime="2020-07-23T18:31:48+08:00">2020-07-23</time>
               
             
           </span>
@@ -437,7 +439,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
 
                 
                 
@@ -479,28 +481,234 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+        <h1 id="计算机网络——网络层（2）"><a href="#计算机网络——网络层（2）" class="headerlink" title="计算机网络——网络层（2）"></a>计算机网络——网络层（2）</h1><h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><ul>
+<li>从根源上解决了IPv4地址耗尽的问题。</li>
+<li>特点：<ul>
+<li>IPv4的32位增大到了128位，共16字节</li>
+<li>IPv6不允许分片，只有在包的源结点才能分片，是端到端的</li>
+<li>扩展阅读：<a href="https://blog.csdn.net/dog250/article/details/8169953" target="_blank" rel="noopener">闲谈IPv6-尴尬的IPv4</a>。大意是解析IPv4的痛点，精华部分理解：<ul>
+<li>原本的arp协议其实是没有使用IP协议进行封包，导致每一种链路层都需要一个arp协议。使用IPv6后，arp的功能由ICMPv6来替代，是使用IP承载的；</li>
+<li>IPv6自动完成：电脑接入网络后，网口按照规则生成一个链路本地地址，使用此地址和本链路的其他节点通信；</li>
+<li>IPv6不再需要NAT；</li>
+<li>原来IPv4的分类地址使美国占据大量A类地址，IPv6使得地区分布更加均匀；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
-<ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">IPv4</th>
+<th style="text-align:center">IPv6</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">同一链路的通信</td>
+<td style="text-align:center">必须使用DHCP或者手工指定同一网段的IP地址</td>
+<td style="text-align:center">可以直接使用自动配置的链路本地地址</td>
+</tr>
+<tr>
+<td style="text-align:center">同一机构内通信</td>
+<td style="text-align:center">人工配置IP地址，如果使用全局的公网地址，时刻注意着不能有地址冲突。</td>
+<td style="text-align:center">使用本地唯一地址</td>
+</tr>
+<tr>
+<td style="text-align:center">互联网通信</td>
+<td style="text-align:center">需要在出口路由器或者防火墙上配置多条策略，防止私有地址的外泄。</td>
+<td style="text-align:center">私有的链路本地地址和机构地址跑不出出口路由器</td>
+</tr>
+<tr>
+<td style="text-align:center">关于私有地址</td>
+<td style="text-align:center">针对ABC类的每一类地址都有一个私有段，私有段不连续。私有段和地址分类有交集，必须显式进行区分</td>
+<td style="text-align:center">直接针对限域来规定是否私有，私有段连续。可以直接解析地址本身得到地址的限域</td>
+</tr>
+</tbody>
+</table>
+<h3 id="IPv6的地址结构"><a href="#IPv6的地址结构" class="headerlink" title="IPv6的地址结构"></a>IPv6的地址结构</h3><ul>
+<li>推荐阅读：<a href="https://blog.csdn.net/u011784495/article/details/71693296" target="_blank" rel="noopener">IPv6数据报头部格式</a></li>
+<li>目的地址：<ul>
+<li>单播：</li>
+<li>多播：一个交给多个</li>
+<li>任播：一个交给多个中的某一个</li>
+</ul>
 </li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
+<li>地址表示法：（紧凑型）每4位用一个十六进制数表示，并且用冒号分隔，例，4B5F:AA12:0216:FEBC:BA5F:039A:BE9A:2170（8部分×4个×进制代表的4位=128位）；以及为0时的::省略办法。</li>
+<li>首部40B，地址长度16B</li>
+<li>分级概念：<ul>
+<li>顶级：指明全球都知道的公共拓扑；</li>
+<li>二级：指明单个场点；</li>
+<li>三级：指明单个的网络接口。</li>
+</ul>
 </li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
+<li>IPv6要能够向后兼容；</li>
+<li>两种协议的选择问题上，可以采用双协议栈和隧道技术两种策略：<ul>
+<li>双协议栈：一部分主机或路由器装有两个协议栈，来回切换；</li>
+<li>隧道技术：将整个IPv6数据报封装到IPv4数据报的数据部分，这样使得IPV6的数据报能载IPv4网络的隧道中传输。</li>
+</ul>
 </li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+</ul>
+<h2 id="IGP、EGP"><a href="#IGP、EGP" class="headerlink" title="IGP、EGP"></a>IGP、EGP</h2><ul>
+<li>有关概念可以参考上一篇博客：<a href="http://likehui.fun/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/#more" target="_blank" rel="noopener">计算机网络——网络层（1）</a>的层次路由段。简单来说，IGP是域内的内部使用路由协议，主要有RIP协议和OSPF协议；EGP是域间使用的外部网关协议，如BGP-4等。</li>
+</ul>
+<h3 id="RIP路由信息协议"><a href="#RIP路由信息协议" class="headerlink" title="RIP路由信息协议"></a>RIP路由信息协议</h3><ul>
+<li>RIP：Routing Information Protocol，是根据最少跳数进行路径选择的协议。使用距离向量路由算法。</li>
+<li>规定：<ul>
+<li>每个路由器都要维护它自己到其他每一个目的网络的距离记录（即跳数）；</li>
+<li>RIP允许一条路径最多只能包含15跳，距离等于16时被视为不可达；</li>
+<li>默认在任意两个使用RIP协议的路由器之间每30秒（固定时间间隔）广播一次RIP路由更新信息，以便自动建立并维护路由表（动态维护，仅发生在相邻路由器，而且交换的是全部信息）；</li>
+<li>不支持子网掩码的RIP广播，所以每个网络的子网掩码必须相同。但在新的RIP2中，支持变长子网掩码和CIDR。</li>
+</ul>
+</li>
+<li>一般，第一次广播后，每一路由器知道自己相邻路由器的路由表信息；第二次广播后，就知道了距离自己2跳的路由表信息；若干次后，在一个小型互联网中，所有路由器就知道了整个IP网络的路由表，称为RIP协议最终是收敛的。收敛之后，每个路由器到每个目标网络的路由都是距离最短的。</li>
+<li>优点：实现简单，开销小，收敛过程快；</li>
+<li>缺点：<ul>
+<li>RIP限制了网络的规模；</li>
+<li>路由器之间交换的是完整的路由表，因此网络规模越大，开销也越大；</li>
+<li>当出现网络故障时，会出现慢收敛现象（即需要较长时间才能将此消息传送到所有路由器），称为“好消息传得快，坏消息传的慢”，使更新过程的收敛时间长。</li>
+</ul>
+</li>
+<li>RIP是应用层协议，它在传输层使用UDP传送数据。</li>
+</ul>
+<h3 id="OSPF开放最短路径优先协议"><a href="#OSPF开放最短路径优先协议" class="headerlink" title="OSPF开放最短路径优先协议"></a>OSPF开放最短路径优先协议</h3><ul>
+<li>使用分布式链路状态路由算法。</li>
+<li>与RIP对比的区别：<ol>
+<li>向<strong>所有路由器</strong>发送<strong>部分</strong>信息（只有本路由相邻的所有路由器的链路状态而已，并非整个路由表）；</li>
+<li>只有当链路状态发生变化时，才会使用洪泛法发送消息，而RIP是定期发送；</li>
+<li>OSPF是网络层协议，不使用UDP或TCP而是直接IP数据报发送。</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</li>
+<li>更多特点：<ol>
+<li>可对于不同类型的业务灵活计算出不同的路由（根据IP分组的不同服务类型将链路设置为不同的代价）；</li>
+<li>如果同一个目的网络有多条相同代价的路径，可使用<strong>负载均衡</strong>分配给这几条路径；</li>
+<li>路由器之间交换的分组具有鉴别功能，可以保证只在可信赖的路由器之间交换信息；</li>
+<li>支持可变长度的子网划分和CIDR；</li>
+<li>每一个链路状态都带上一个32位的序号，序号越大，状态就越新；</li>
+<li>30分钟刷新一次数据库中的链路状态。</li>
+</ol>
+</li>
+<li>OSPF原理：交换链路状态信息后，建立一个全网的拓扑结构图，使用Dijkstra最短路径算法计算自己到各网络最短路径，以及构建自己的路由表。（路由表不会存储完整路径，只会存储下一跳去哪）。</li>
+<li>OSPF应用在规模很大的网络时，会将一个自治系统划分为若干个更小的范围（区域），使用洪泛法时，交换信息的范围局限在区域内，而不是整个网络拓扑。这些区域也有层次之分，上层的叫主干区域，负责连通下层的区域和其他自治域。 连接主干区域和其他下层区域的路由器称为区域边界路由器。主干区域中的路由器都叫主干路由器。</li>
+<li>OSPF的五种分组类型<ul>
+<li>问候分组：检测可达性，通常10秒一次；</li>
+<li>数据库描述分组：向邻站发送自己的链路状态数据库中的摘要信息；</li>
+<li>链路状态请求分组：向对方请求某些链路的信息；</li>
+<li>链路状态更新分组，使用洪泛法对全网更新链路状态；</li>
+<li>链路状态确认分组：对链路更新分组的确认。</li>
+</ul>
+</li>
+</ul>
+<h3 id="BGP边界网关协议"><a href="#BGP边界网关协议" class="headerlink" title="BGP边界网关协议"></a>BGP边界网关协议</h3><ul>
+<li>BGP，Border Gateway Protocol。是一种外部网关协议。</li>
+<li>扩展阅读：<a href="https://blog.csdn.net/pgl608/article/details/80260725" target="_blank" rel="noopener">BGP协议基本原理</a></li>
+<li>BGP是自治系统外部路由协议，用来在AS之间传递路由信息；</li>
+<li>路径矢量路由协议，从设计上避免了环路的发生；</li>
+<li>支持CIDR和路由聚合；</li>
+<li>只发送增量路由更新。在建立邻居关系后，路由器会将自己的全部路由信息告知邻居，此后如果路由表发生了变化，只将增量/更新部分发送给邻居。</li>
+<li>路由表包括：    <ul>
+<li>已知路由器的列表；</li>
+<li>路由器能够达到的地址</li>
+<li>每个路由器的路径的跳数</li>
+</ul>
+</li>
+<li>BGP是应用层协议，基于TCP的。</li>
+<li>BGP发言者（BGP Speaker）：发送BGP消息的路由器称为BGP发言者，它接收或者产生新的路由信息，并发布给其他BGP发言者。</li>
+<li>使用四种报文：<ol>
+<li>打开报文：与相邻的发言人建立关系</li>
+<li>更新报文：发送更新信息</li>
+<li>保活报文：确认打开报文、周期性确认邻站关系</li>
+<li>通知报文：用来发送检测到的错误</li>
+</ol>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">协议</th>
+<th style="text-align:center">RIP</th>
+<th style="text-align:center">OSPF</th>
+<th style="text-align:center">BGP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">类型</td>
+<td style="text-align:center">内部</td>
+<td style="text-align:center">内部</td>
+<td style="text-align:center">外部</td>
+</tr>
+<tr>
+<td style="text-align:center">路由算法</td>
+<td style="text-align:center">距离-向量</td>
+<td style="text-align:center">链路状态</td>
+<td style="text-align:center">路径-向量</td>
+</tr>
+<tr>
+<td style="text-align:center">传递协议</td>
+<td style="text-align:center">UDP</td>
+<td style="text-align:center">IP</td>
+<td style="text-align:center">TCP</td>
+</tr>
+<tr>
+<td style="text-align:center">路径选择</td>
+<td style="text-align:center">跳数最少</td>
+<td style="text-align:center">代价最低</td>
+<td style="text-align:center">较好，非最佳</td>
+</tr>
+<tr>
+<td style="text-align:center">交换结点</td>
+<td style="text-align:center">和本结点相邻的路由器</td>
+<td style="text-align:center">网络中的所有路由器</td>
+<td style="text-align:center">和本结点相邻的路由器</td>
+</tr>
+<tr>
+<td style="text-align:center">交换内容</td>
+<td style="text-align:center">当前本路由器知道的全部信息</td>
+<td style="text-align:center">与本路由器相邻的所有路由器的链路状态</td>
+<td style="text-align:center">首次发整个路由表，非首次发有变化的部分</td>
+</tr>
+</tbody>
+</table>
+<h2 id="IP组播"><a href="#IP组播" class="headerlink" title="IP组播"></a>IP组播</h2><ul>
+<li>组播机制：让源计算机一次发送的单个分组可以抵达用一个组地址标识的若干台目标主机，并被它们正确接收。是应用于UDP的（因为TCP是一对一的）。</li>
+<li>流程：源主机把单个分组发送给一个组播地址（标识一组地址），网络将分组给该组播地址内每一台主机投递一份拷贝。</li>
+<li>在IP组播中，组播地址在D类地址空间进行分配（IPv6中也有一部分地址空间交给了组播组）。</li>
+<li>主机可以选择加入或离开一个组，一台主机可以属于多个组。主机使用IGMP（因特网组管理协议）的协议加入组播组。它们使用该协议通知在本地网络上的路由器关于要接收发送给某个组播组的分组的愿望。</li>
+<li>IP组播地址：使用D类地址格式作为目的地址（不可作为组播组的源地址），每一个D类IP地址标志一个组播组。范围是224.0.0.0~239.255.255.255（并不是所有D类地址）。</li>
+<li>对组播数据报不产生ICMP差错报文，因此ping不通。</li>
+<li>IP组播分为两类，只在本局域网上进行硬件组播，在因特网范围内进行组播：<ul>
+<li>在因特网上进行组播的最后阶段，仍要把组播数据报放在局域网上用硬件组播交付给组播组的所有成员。</li>
+<li>IANA拥有的以太网组播地址范围是：01-00-5E-00-00-00到01-00-5E-7F-FF-FF。只有23位可作为组播。D类IP地址可供分配的也只有23位。1110+空5位+23位=32位IP地址。举例：224.215.145.231映射到组播MAC地址： 01-00-5E-57-91-E6（后23位是87.145.231，转化为16进制就是57-91-E6）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="移动IP"><a href="#移动IP" class="headerlink" title="移动IP"></a>移动IP</h2><ul>
+<li>移动IP技术：移动结点以固定的网络IP地址，实现跨越不同网段的漫游功能，并保证了基于网络IP的网络权限在漫游过程中不发生任何改变。是为了满足移动结点在移动时保持连接性而设计的。举例：出差到外地，也能使用公司内网或者共享的资料。</li>
+<li>移动IP技术使漫游的主机可以用多种方式连接到因特网，移动IP的核心网络功能仍然是基于在固定互联网中一直在使用的各种路由选择协议。移动IP技术不同于移动自组网络（此处不做延伸）。</li>
+<li>关键技术：代理搜索（判断自己是否处于漫游状态）；转交地址（移动节点来到外网时从外代理处得到的临时地址）；登录（移动节点到达外网时进行一系列认证、注册、建立隧道的过程）；隧道（家代理与外代理之间临时建立的双向数据通道）。</li>
+<li>通信流程：<ol>
+<li>移动结点在本地网时，按传统的TCP/IP方式进行通信；</li>
+<li>漫游到外地网络时，仍使用固定IP通信。为了能够收到通信端发给它的IP分组，移动结点需要向本地代理注册当前的位置地址（即转交地址）；</li>
+<li>本地代理收到转交地址的注册后，会构建一条通向转交地址的隧道，将截获的发给移动结点的IP分组通过隧道送到转交地址处；</li>
+<li>在转交地址处解除隧道封装，恢复原始的IP分组，最后送到移动结点，这样移动结点就收到了这些发给它的IP分组；</li>
+<li>移动结点在外网通过外网的路由器或者外代理向通信对端发送IP数据包；</li>
+<li>当移动结点来到另一个外网时，向本地代理更新注册的转交地址；</li>
+<li>当移动结点回到本地网时，向本地代理注销转交地址，恢复TCP/IP的方式进行通信。</li>
+</ol>
+</li>
+</ul>
+<h2 id="网络层设备——路由器"><a href="#网络层设备——路由器" class="headerlink" title="网络层设备——路由器"></a>网络层设备——路由器</h2><p><img src="/2018/09/13/计算机网络第四章（2）/1.png" alt="路由器"></p>
+<ul>
+<li>任务：连接不同的网络（连接异构网络）并完成路由转发（1.路由计算；2.分组转发）。在多个逻辑网络（即多个广播域）互联时必须使用路由器。</li>
+<li>路由器具有两个部分：分组转发部分（输入端口、输出端口、交换开关）和控制部分（路由处理器，任务是选择出路由表，并定期更新维护路由表）。</li>
+<li>路由器是面向协议的，能够完成不同线路、不同协议之间转换。网桥不行。</li>
+<li>路由表具有四个项目：目的网络IP地址、子网掩码、下一跳IP地址、接口。</li>
+<li>转发表由路由表得出：目的站、下一跳的MAC地址。</li>
+<li>路由表总是由软件实现，转发表可以用软件，可以用特殊的硬件实现。</li>
+</ul>
 
       
     </div>
@@ -537,7 +745,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
           
         </div>
       
@@ -550,8 +758,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/09/12/操作系统第三章（2）/" rel="next" title="操作系统第三章（2）">
+                <i class="fa fa-chevron-left"></i> 操作系统第三章（2）
               </a>
             
           </div>
@@ -560,8 +768,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/09/17/计算机网络第五章/" rel="prev" title="计算机网络第五章">
+                计算机网络第五章 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +980,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机网络——网络层（2）"><span class="nav-number">1.</span> <span class="nav-text">计算机网络——网络层（2）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6"><span class="nav-number">1.1.</span> <span class="nav-text">IPv6</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IPv6的地址结构"><span class="nav-number">1.1.1.</span> <span class="nav-text">IPv6的地址结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IGP、EGP"><span class="nav-number">1.2.</span> <span class="nav-text">IGP、EGP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RIP路由信息协议"><span class="nav-number">1.2.1.</span> <span class="nav-text">RIP路由信息协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSPF开放最短路径优先协议"><span class="nav-number">1.2.2.</span> <span class="nav-text">OSPF开放最短路径优先协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BGP边界网关协议"><span class="nav-number">1.2.3.</span> <span class="nav-text">BGP边界网关协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP组播"><span class="nav-number">1.3.</span> <span class="nav-text">IP组播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#移动IP"><span class="nav-number">1.4.</span> <span class="nav-text">移动IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络层设备——路由器"><span class="nav-number">1.5.</span> <span class="nav-text">网络层设备——路由器</span></a></li></ol></li></ol></div>
             
 
           </div>

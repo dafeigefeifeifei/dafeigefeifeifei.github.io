@@ -94,25 +94,25 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="推荐阅读：HTTP1.0 HTTP1.1 HTTP2.0 主要特性对比 比较 HTTP1.0 、HTTP1.1、 HTTP2.0共同点：  都是应用层协议，基于 TCP/IP 协议。 无状态      HTTP1.0 HTTP1.1 HTTP2.0     特点 无连接、队头阻塞 长连接、管道化、缓存处理 二进制分帧、多路复用、头部压缩、服务器推送">
+<meta name="keywords" content="computer network">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="HTTP-1-1">
+<meta property="og:url" content="http://yoursite.com/2018/12/19/HTTP-1-1/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="推荐阅读：HTTP1.0 HTTP1.1 HTTP2.0 主要特性对比 比较 HTTP1.0 、HTTP1.1、 HTTP2.0共同点：  都是应用层协议，基于 TCP/IP 协议。 无状态      HTTP1.0 HTTP1.1 HTTP2.0     特点 无连接、队头阻塞 长连接、管道化、缓存处理 二进制分帧、多路复用、头部压缩、服务器推送">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:updated_time" content="2019-09-03T23:50:21.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="HTTP-1-1">
+<meta name="twitter:description" content="推荐阅读：HTTP1.0 HTTP1.1 HTTP2.0 主要特性对比 比较 HTTP1.0 、HTTP1.1、 HTTP2.0共同点：  都是应用层协议，基于 TCP/IP 协议。 无状态      HTTP1.0 HTTP1.1 HTTP2.0     特点 无连接、队头阻塞 长连接、管道化、缓存处理 二进制分帧、多路复用、头部压缩、服务器推送">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/19/HTTP-1-1/">
 
 
 
@@ -122,7 +122,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>HTTP-1-1 | To the moon</title>
   
 
 
@@ -360,7 +360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/HTTP-1-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +377,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">HTTP-1-1
 
               
             
@@ -403,7 +403,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-12-19 09:56:21" itemprop="dateCreated datePublished" datetime="2018-12-19T09:56:21+08:00">2018-12-19</time>
             
 
             
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2019-09-04 07:50:21" itemprop="dateModified" datetime="2019-09-04T07:50:21+08:00">2019-09-04</time>
               
             
           </span>
@@ -437,7 +437,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -479,28 +479,91 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+        <p>推荐阅读：<a href="https://segmentfault.com/a/1190000013028798" target="_blank" rel="noopener">HTTP1.0 HTTP1.1 HTTP2.0 主要特性对比</a></p>
+<h2 id="比较-HTTP1-0-、HTTP1-1、-HTTP2-0"><a href="#比较-HTTP1-0-、HTTP1-1、-HTTP2-0" class="headerlink" title="比较 HTTP1.0 、HTTP1.1、 HTTP2.0"></a>比较 HTTP1.0 、HTTP1.1、 HTTP2.0</h2><p>共同点：</p>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>都是应用层协议，基于 TCP/IP 协议。</li>
+<li>无状态</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">HTTP1.0</th>
+<th style="text-align:center">HTTP1.1</th>
+<th style="text-align:center">HTTP2.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">特点</td>
+<td style="text-align:center">无连接、队头阻塞</td>
+<td style="text-align:center">长连接、管道化、缓存处理</td>
+<td style="text-align:center">二进制分帧、多路复用、头部压缩、服务器推送</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h3 id="HTTP1-0"><a href="#HTTP1-0" class="headerlink" title="HTTP1.0"></a>HTTP1.0</h3><ul>
+<li>无连接：在 HTTP1.0 中，浏览器的每次请求都需要新建连接，服务器处理完毕后立即断开连接。</li>
+<li>队头阻塞：在 HTTP1.0 中，浏览器需要收到上一个请求的响应后，才能发送下一个请求，如果响应不到，那么之后的请求都将被阻塞。</li>
+</ul>
+<h3 id="HTTP1-1"><a href="#HTTP1-1" class="headerlink" title="HTTP1.1"></a>HTTP1.1</h3><ul>
+<li>长连接：HTTP1.1 可以设置 keep-Alive 来保持 HTTP 连接不断开。如果浏览器想关闭 HTTP 连接，可以在请求头中携带 Connection：false 来告知服务器关闭请求。</li>
+<li>管道化：  使用管道，可以“并行”发送多个请求。但<strong>服务器仍必须按照客户端请求的先后顺序依次回送相应的结果</strong>，以保证客户端能够区分出每次请求的响应内容。<ul>
+<li>也就是说管道化，可以让 FIFO 队列从客户端（请求队列）迁移到服务端（响应队列）。</li>
+</ul>
+</li>
+<li>缓存处理：增加了<code>cache-control</code>字段，支持<strong>断点传输</strong>、增加了 <strong>Host</strong> 字段（使得一个服务器能够用来创建多个Web站点）。</li>
+</ul>
+<h3 id="HTTP2-0"><a href="#HTTP2-0" class="headerlink" title="HTTP2.0"></a>HTTP2.0</h3><ul>
+<li>二进制分帧：在 HTTP2.0 中，在应用层和传输层之间增加一个二进制分帧层，改进了传输性能。</li>
+<li>多路复用：在 HTTP2.0 中，一个 TCP 连接可以承载任意数量的双向数据流。<ul>
+<li>一个请求是一个数据流，数据流以消息的方式发送，消息可以分成多个帧，帧头部记录着<code>stream id</code>来标识所属，所以不同属的帧可以在连接中随机混杂。接收方可以根据<code>stream id</code>再将帧归属到不同的请求当中去。</li>
+<li>实现了真正的并行传输。</li>
+</ul>
+</li>
+<li>头部压缩：在 HTTP1.x 版本中，头部元数据太大。在 HTTP2.0 中，使用<code>encoder</code>来大幅度减少 header 的大小。通讯双方各自<code>cache</code>一份<code>header fields</code>表，header 会减小。</li>
+<li>服务器推送：在 HTTP2.0 中，服务器可以额外向客户端推送资源。</li>
+</ul>
+<p>核心总结比较：</p>
+<ol>
+<li>Http1.0 中，一个请求就要一个 HTTP，每个 HTTP 就要建立一个 TCP 连接。</li>
+<li>Http1.1 中，多个请求共用一个 HTTP，每个 HTTP 就要建立一个 TCP 连接。<ol>
+<li>此多个请求实现了按请求FIFO的管道化发送和接收。</li>
+</ol>
+</li>
+<li>Http2.0 中，多个请求共用一个 HTTP，多个 HTTP 也可以共用一个 TCP 连接。<ol>
+<li>请求的数据流分多帧，帧头部的 stream id 标识所属。</li>
+<li>在 TCP 连接中，允许双向不同属的帧随机混杂，接收方负责按 stream id 将帧归属到不同的请求中去。</li>
+</ol>
+</li>
+</ol>
+<h2 id="HTTPS-流程"><a href="#HTTPS-流程" class="headerlink" title="HTTPS 流程"></a>HTTPS 流程</h2><p>client 向 server 发送请求：</p>
+<ol>
+<li>client 访问 Https://…；</li>
+<li>server 返回数字证书（包括 server 的公钥）；</li>
+<li>client 使用预置的 CA 列表验证证书，如果有问题，则提示风险；（是为了避免中间人劫持，正常传输 server 的公钥）</li>
+<li>client 生成随机的对称密钥，用 server 的公钥加密；</li>
+<li>server 用自己的私钥解密，得到对称密钥；</li>
+<li>自此，双方都知道对称密钥，可以进行加密传输。</li>
+</ol>
+<p>第 1~3 步是为了安全传输 server 的公钥；<br>第 4~6 步是为了安全传输对称密钥。</p>
+<ul>
+<li><p><strong>数字证书</strong> = <strong>数字签名</strong> + （server 的公钥 &amp; server 的个人信息）。</p>
+<ul>
+<li>其中（server 的公钥 &amp; server 的个人信息）可以使用 Hash 算法得到<strong>消息摘要</strong>。<br><strong>消息摘要</strong>使用 CA 的私钥可以得到<strong>数字签名</strong>。</li>
+</ul>
+</li>
+<li><p>client 验证证书的过程：</p>
+<ol>
+<li>取出证书中的（server 的公钥 &amp; server 的个人信息），使用相同的 Hash 算法得到消息摘要1；</li>
+<li>取出证书中的<strong>数字签名</strong>，使用 CA 的公钥解密，得到消息摘要2；</li>
+<li>比较两份消息摘要，如果不同，说明可能遭到了篡改。</li>
+</ol>
+</li>
+</ul>
+<p>推荐阅读《码农翻身》第 199~207 页。</p>
 
       
     </div>
@@ -537,7 +600,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
           
         </div>
       
@@ -550,8 +613,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/12/17/vue-入门一/" rel="next" title="vue 入门一">
+                <i class="fa fa-chevron-left"></i> vue 入门一
               </a>
             
           </div>
@@ -560,8 +623,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/12/22/类加载机制笔记/" rel="prev" title="类加载机制笔记">
+                类加载机制笔记 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +835,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#比较-HTTP1-0-、HTTP1-1、-HTTP2-0"><span class="nav-number">1.</span> <span class="nav-text">比较 HTTP1.0 、HTTP1.1、 HTTP2.0</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP1-0"><span class="nav-number">1.1.</span> <span class="nav-text">HTTP1.0</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP1-1"><span class="nav-number">1.2.</span> <span class="nav-text">HTTP1.1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP2-0"><span class="nav-number">1.3.</span> <span class="nav-text">HTTP2.0</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTPS-流程"><span class="nav-number">2.</span> <span class="nav-text">HTTPS 流程</span></a></li></ol></div>
             
 
           </div>

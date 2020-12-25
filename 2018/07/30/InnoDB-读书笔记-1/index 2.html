@@ -94,25 +94,25 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+  <meta name="description" content="数据库内容纵览副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记  1  MySQL被设计为 一个单进程多线程架构的数据库，故MySQL数据库实例在系统上的表现就是一个进程   1234	[root@VM_0_2_centos bin]# mysql --help | grep my.cnf	order of preference, my.cnf, $MYSQL_TCP_PORT,">
 <meta name="keywords" content="mySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="InnoDB 读书笔记 1">
+<meta property="og:url" content="http://yoursite.com/2018/07/30/InnoDB-读书笔记-1/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="数据库内容纵览副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记  1  MySQL被设计为 一个单进程多线程架构的数据库，故MySQL数据库实例在系统上的表现就是一个进程   1234	[root@VM_0_2_centos bin]# mysql --help | grep my.cnf	order of preference, my.cnf, $MYSQL_TCP_PORT,">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:updated_time" content="2019-02-24T02:58:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="InnoDB 读书笔记 1">
+<meta name="twitter:description" content="数据库内容纵览副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记  1  MySQL被设计为 一个单进程多线程架构的数据库，故MySQL数据库实例在系统上的表现就是一个进程   1234	[root@VM_0_2_centos bin]# mysql --help | grep my.cnf	order of preference, my.cnf, $MYSQL_TCP_PORT,">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/07/30/InnoDB-读书笔记-1/">
 
 
 
@@ -122,7 +122,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>InnoDB 读书笔记 1 | To the moon</title>
   
 
 
@@ -360,7 +360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/InnoDB-读书笔记-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +377,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">InnoDB 读书笔记 1
 
               
             
@@ -403,7 +403,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-07-30 15:01:56" itemprop="dateCreated datePublished" datetime="2018-07-30T15:01:56+08:00">2018-07-30</time>
             
 
             
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2019-02-24 10:58:02" itemprop="dateModified" datetime="2019-02-24T10:58:02+08:00">2019-02-24</time>
               
             
           </span>
@@ -479,28 +479,76 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+        <h1 id="数据库内容纵览"><a href="#数据库内容纵览" class="headerlink" title="数据库内容纵览"></a>数据库内容纵览</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记  1</p>
+<ul>
+<li><p>MySQL被设计为 一个单进程多线程架构的数据库，故<strong>MySQL数据库实例在系统上的表现就是一个进程</strong></p>
+  <figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">	[root@VM_0_2_centos bin]# mysql --<span class="keyword">help</span> | <span class="keyword">grep</span> my.<span class="keyword">cnf</span></span><br><span class="line"></span><br><span class="line">	order of preference, my.<span class="keyword">cnf</span>, $MYSQL_TCP_PORT,</span><br><span class="line">/etc/my.<span class="keyword">cnf</span> /etc/mysql/my.<span class="keyword">cnf</span> /usr/etc/my.<span class="keyword">cnf</span> ~/.my.<span class="keyword">cnf</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<pre><code>- 可以看出，MySQL数据库实例启动时，是按照`/etc/my.cnf` -&gt; `/etc/mysql/my.cnf` -&gt;`/usr/etc/my.cnf`-&gt; `~/.my.cnf`的顺序读取配置文件。
+- 配置文件有一个参数 `datadir`指定了数据库所在的路径，如`datadir=/var/lib/mysql`
+</code></pre><ul>
+<li>数据库是由一个个文件（二进制）组成的，要对这些文件执行SELECT、INSERT等操作，不能通过操作文件更改数据库的内容，需要通过数据库实例来完成</li>
+<li>MySQL组成部分：<ul>
+<li>连接池组件</li>
+<li>管理服务和工具组件</li>
+<li>SQL接口组件</li>
+<li>查询分析器组件</li>
+<li>优化器组件</li>
+<li>缓冲组件</li>
+<li><strong>插件式存储引擎</strong>（important）</li>
+<li>物理文件</li>
+</ul>
+</li>
+<li>InnoDB存储引擎支持事务，通过使用多版本并发控制（MVCC）来获得高并发性，并实现SQL标准的4种隔离级别。同时使用next-key locking的策略（也就是间隙锁）来避免幻读（phantom）现象的产生。此外，提供了插入缓存 、二次写、自适应哈希索引、预读等高性能和高可用的功能（其他引擎略过）</li>
+</ul>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+<ul>
+<li>MVCC，是行锁的一种妥协，很多情况下避免使用锁，同时提供更小的开销，根据实现的不同，可以允许非阻塞式读，写操作时只锁定必要的记录<ul>
+<li>MVCC是通过保存数据在某个时间点的<strong>快照</strong>来实现的，在每行后面保存两个隐藏列（创建时系统version、销毁时系统version），每开始一个新的事务，系统version会递增</li>
+<li>SELECT时，InnoDB按照以下两个条件检查每行记录：<ul>
+<li>只会查找创建version早于（小于）当前事务version的数据行，这样可以确保事务读取的行，要么是事务开始前已经存在的，要么是事务自身插入或修改过的（属于快照读的方式，另一种方式当前读即加锁读）</li>
+<li>行的删除version要么未定义，要么大于当前的事务version，这样可以确保事务读取到的行，在事务开始之前未被删除</li>
+<li>只有同时满足了以上两点，才能返回作为查询结果</li>
+</ul>
+</li>
+<li>DELEDE时，会将当前事务version，写入该行的销毁version项中</li>
+<li>UPDATE时，会生成新的一行，version写入新行的创建时间中，同时在原来要修改的行的销毁version项上，写上当前事务的version</li>
+</ul>
+</li>
+<li>进程连接MySQL数据库实例进行通信<ul>
+<li>常用的方式有：管道、命名管道、命名字、TCP/IP套接字、UNIX套接字 </li>
+<li>用户在客户端，可以请求一台远程服务器上的MySQL实例</li>
+</ul>
+</li>
+</ul>
+<h2 id="InnoDB特性"><a href="#InnoDB特性" class="headerlink" title="InnoDB特性"></a>InnoDB特性</h2><ul>
+<li><p>InnoDB存储引擎有多个内存块，组成了一个大的内存池，负责：</p>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>维护所有进程/线程 需要访问的多个内部数据结构</li>
+<li>缓存磁盘上的数据，方便快速的读取，同时在对磁盘文件的数据修改之前在这里缓存</li>
+<li>redo log缓冲</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</li>
+<li>因为是多线程的模型，负责处理不同的任务：</li>
+</ul>
+<h3 id="多线程的任务"><a href="#多线程的任务" class="headerlink" title="多线程的任务"></a>多线程的任务</h3><ol>
+<li>Master Thread。负责将缓冲池的数据异步刷到磁盘，保证数据的一致性</li>
+<li>IO Thread。InnoDB使用了大量的AIO（Async）来处理IO请求，此线程的作用就是负责这些IO请求的回调处理。</li>
+</ol>
+<pre><code><figure class="highlight pf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">//查看InnoDB版本</span><br><span class="line">mysql&gt; show variables like 'innodb_version'\G</span><br><span class="line">*************************** <span class="number">1</span>. row ***************************</span><br><span class="line">Variable_name: innodb_version</span><br><span class="line">        Value: <span class="number">5.7</span>.<span class="number">22</span></span><br><span class="line"><span class="number">1</span> row <span class="keyword">in</span> <span class="built_in">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">//read和write线程各<span class="number">4</span>个</span><br><span class="line">mysql&gt; show variables like 'innodb_%io_threads'\G;</span><br><span class="line">*************************** <span class="number">1</span>. row ***************************</span><br><span class="line">Variable_name: innodb_read_io_threads</span><br><span class="line">        Value: <span class="number">4</span></span><br><span class="line">*************************** <span class="number">2</span>. row ***************************</span><br><span class="line">Variable_name: innodb_write_io_threads</span><br><span class="line">        Value: <span class="number">4</span></span><br><span class="line"><span class="number">2</span> rows <span class="keyword">in</span> <span class="built_in">set</span> (<span class="number">0.00</span> sec)</span><br><span class="line"></span><br><span class="line">//查看IO Thread细节(放上部分关键代码 )</span><br><span class="line">mysql&gt; show engine  innodb  status\G;</span><br><span class="line">--------</span><br><span class="line">FILE I/O</span><br><span class="line">--------</span><br><span class="line">I/O thread <span class="number">0</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (insert buffer thread)</span><br><span class="line">I/O thread <span class="number">1</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (<span class="keyword">log</span> thread)</span><br><span class="line">I/O thread <span class="number">2</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (read thread)</span><br><span class="line">I/O thread <span class="number">3</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (read thread)</span><br><span class="line">I/O thread <span class="number">4</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (read thread)</span><br><span class="line">I/O thread <span class="number">5</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (read thread)</span><br><span class="line">I/O thread <span class="number">6</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (write thread)</span><br><span class="line">I/O thread <span class="number">7</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (write thread)</span><br><span class="line">I/O thread <span class="number">8</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (write thread)</span><br><span class="line">I/O thread <span class="number">9</span> <span class="keyword">state</span>: waiting <span class="keyword">for</span> completed aio requests (write thread)</span><br><span class="line">Pending normal aio reads: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>] , aio writes: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>] ,</span><br><span class="line"> ibuf aio reads:, <span class="keyword">log</span> i/o's:, sync i/o's:</span><br><span class="line">Pending flushes (fsync) <span class="keyword">log</span>: <span class="number">0</span>; buffer pool: <span class="number">0</span></span><br><span class="line"><span class="number">318</span> OS file reads, <span class="number">13231</span> OS file writes, <span class="number">5396</span> OS fsyncs</span><br><span class="line"><span class="number">0.00</span> reads/s, <span class="number">0</span> avg bytes/read, <span class="number">0.00</span> writes/s, <span class="number">0.00</span> fsyncs/s</span><br><span class="line">-------------------------------------</span><br></pre></td></tr></table></figure>
+
+说明：
+&gt; 可以看到IO Thread 0 为insert buffer thread。IO Thread 1 为log thread，之后就是根据innodb\_read\_io\_threads和innodb\_write\_io\_threads来设置的读写线程，并且读线程的ID总是小于写线程
+</code></pre><ol start="3">
+<li><p>Purge Thread。事务被提交后，所使用的undolog可能不再需要，因此需要PurgeThread来回收已经使用并分配的undo页。在InnoDB高版本中，还支持多个PurgeThread，可以进一步加快undo页的回收，同时由于PurgeThread需要离散的读取undo页，这样也能更近一步利用磁盘的随机读取性能</p>
+ <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">	mysql&gt; show variables like <span class="string">'innodb_purge_threads'</span>\G</span><br><span class="line">	*************************** 1. row ***************************</span><br><span class="line">	Variable_name: innodb_purge_threads</span><br><span class="line">	        Value: 4</span><br><span class="line">	1 row <span class="keyword">in</span> <span class="builtin-name">set</span> (0.00 sec)</span><br><span class="line">	```	</span><br><span class="line">	以上显示PurgeThread有4个</span><br><span class="line">	</span><br><span class="line">4.<span class="built_in"> Page </span>Cleaner Thread。将脏页的刷新操作放入单独的线程中完成</span><br></pre></td></tr></table></figure>
+<p> mysql&gt; show variables like ‘innodb_page_cleaners’\G<br> <strong><strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong></strong> 1. row <strong><strong><strong><strong><strong><strong>***</strong></strong></strong></strong></strong></strong><br> Variable_name: innodb_page_cleaners</p>
+<pre><code>Value: 1
+</code></pre><p> 1 row in set (0.00 sec)<br> <code>`</code></p>
+</li>
+</ol>
+<p>完成全书36页 </p>
 
       
     </div>
@@ -550,8 +598,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/07/29/Note-for-Computer-Network-6/" rel="next" title="Note for Computer Network 6">
+                <i class="fa fa-chevron-left"></i> Note for Computer Network 6
               </a>
             
           </div>
@@ -560,8 +608,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/31/InnoDB-读书笔记-2/" rel="prev" title="InnoDB 读书笔记 2">
+                InnoDB 读书笔记 2 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +820,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库内容纵览"><span class="nav-number">1.</span> <span class="nav-text">数据库内容纵览</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#InnoDB特性"><span class="nav-number">1.1.</span> <span class="nav-text">InnoDB特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#多线程的任务"><span class="nav-number">1.1.1.</span> <span class="nav-text">多线程的任务</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

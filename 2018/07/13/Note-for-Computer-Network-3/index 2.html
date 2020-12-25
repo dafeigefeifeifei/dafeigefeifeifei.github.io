@@ -94,25 +94,28 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="协议栈如何处理数据发送请求副标题：阅读《网络是怎么连接的（户根勤）》读书笔记3  Tips:  IEEE802.3/802.2因长度太长、效率降低并未完全普及，更古老的以太网DIX规格仍在使用 TCP/IP协议以前是合为一体的，现在分开成两个 像浏览器、邮件等一般的应用程序都是使用TCP收发数据的，而像 DNS 查询等收发较短的控制数据的时候则使用UDP ICMP用于告知网络包传送过程中产生的错误">
+<meta name="keywords" content="computer network">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="Note for Computer Network 3">
+<meta property="og:url" content="http://yoursite.com/2018/07/13/Note-for-Computer-Network-3/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="协议栈如何处理数据发送请求副标题：阅读《网络是怎么连接的（户根勤）》读书笔记3  Tips:  IEEE802.3/802.2因长度太长、效率降低并未完全普及，更古老的以太网DIX规格仍在使用 TCP/IP协议以前是合为一体的，现在分开成两个 像浏览器、邮件等一般的应用程序都是使用TCP收发数据的，而像 DNS 查询等收发较短的控制数据的时候则使用UDP ICMP用于告知网络包传送过程中产生的错误">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/07/13/Note-for-Computer-Network-3/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/13/Note-for-Computer-Network-3/2.png">
+<meta property="og:updated_time" content="2018-07-13T12:08:32.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="Note for Computer Network 3">
+<meta name="twitter:description" content="协议栈如何处理数据发送请求副标题：阅读《网络是怎么连接的（户根勤）》读书笔记3  Tips:  IEEE802.3/802.2因长度太长、效率降低并未完全普及，更古老的以太网DIX规格仍在使用 TCP/IP协议以前是合为一体的，现在分开成两个 像浏览器、邮件等一般的应用程序都是使用TCP收发数据的，而像 DNS 查询等收发较短的控制数据的时候则使用UDP ICMP用于告知网络包传送过程中产生的错误">
+<meta name="twitter:image" content="http://yoursite.com/2018/07/13/Note-for-Computer-Network-3/1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/07/13/Note-for-Computer-Network-3/">
 
 
 
@@ -122,7 +125,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>Note for Computer Network 3 | To the moon</title>
   
 
 
@@ -360,7 +363,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/13/Note-for-Computer-Network-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +380,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">Note for Computer Network 3
 
               
             
@@ -403,24 +406,12 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-07-13 14:58:56 / Modified: 20:08:32" itemprop="dateCreated datePublished" datetime="2018-07-13T14:58:56+08:00">2018-07-13</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
               
             
           </span>
@@ -479,28 +470,58 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
+        <h1 id="协议栈如何处理数据发送请求"><a href="#协议栈如何处理数据发送请求" class="headerlink" title="协议栈如何处理数据发送请求"></a>协议栈如何处理数据发送请求</h1><p>副标题：阅读《网络是怎么连接的（户根勤）》读书笔记3</p>
+<p><img src="/2018/07/13/Note-for-Computer-Network-3/1.png" alt="1"></p>
+<p>Tips:</p>
+<ul>
+<li>IEEE802.3/802.2因长度太长、效率降低并未完全普及，更古老的以太网DIX规格仍在使用</li>
+<li>TCP/IP协议以前是合为一体的，现在分开成两个</li>
+<li>像浏览器、邮件等一般的应用程序都是使用TCP收发数据的，而像 DNS 查询等收发较短的控制数据的时候则使用UDP</li>
+<li>ICMP用于告知网络包传送过程中产生的错误以及各种控制消息，ARP 用于根据IP地址查询相应的以太网MAC地址</li>
+<li>套接字的实体就是通信控制信息：IP地址、端口号、通信操作的进行状态、是否收到响应、执行发送操作后经过了多长时间等</li>
+</ul>
+<p><img src="/2018/07/13/Note-for-Computer-Network-3/2.png" alt="2"></p>
+<ul>
+<li>图2.3的步骤1中，协议栈申请内存空间准备存放套接字（控制信息），刚刚创建时，数据收发操作还未开始，故写入初始状态的控制信息；之后将套接字描述符告知应用程序</li>
+<li>步骤2的连接是指双方交换控制信息，必要的信息放在了网络包的头部，另一类放在套接字内存区<ul>
+<li>将浏览器查到的对方IP和端口号等告知协议栈</li>
+<li>服务器创建套接字（其实一般在服务器启动时已经创建好了），客户端将本机IP和端口号等告知服务器</li>
+<li>创建一块缓存区，用于临时存放收发的数据</li>
+<li>connect详见后面段落</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>    
+<ul>
+<li>步骤3为数据收发阶段，步骤2结束时，控制流程被交还给应用程序，应用程序调用write将数据以一大串二进制字节序列的形式交给协议栈，协议栈将数据存入发送缓存区中（不选择一次性发送是因为应用程序可能逐行或其他形式发送数据，或者积攒一定量的数据再发送以避免小包）<ul>
+<li>积累多少数据才能发送，要看操作系统的种类和版本，主要看以下参数：</li>
+<li>MTU参数（即一个网络包的最大长度，以太网中一般为1500字节）</li>
+<li>等待时间（避免积攒太久）</li>
+</ul>
+</li>
+<li>步骤3补：TCP模块会设计<code>序号</code>和<code>ACK号</code>，可以计算发送的某包是从第几个字节开始，长度多少了，可以用来确认遗漏情况</li>
+<li>步骤3补补：客户端在连接时需要计算出与从客户端到服务器方向通信相关的<code>序号初始值</code>，发送给服务器，写在SYN值中，不是从1开始，可避免网络攻击；服务器返回ACK号表示确认，并返回反方向的<code>序号初始值</code>，客户端接收完毕，发送ACK给服务器，服务器接收表示两个<code>序号初始值</code>传递完毕。注：此步操作再connect中完成</li>
+<li>步骤4，read程序接收响应，数据进入数据缓存区，在发送请求后接收响应前，read的工作会被挂起，等响应到达时再处理</li>
+<li>步骤5，调用Socket库的close程序，将TCP头部的FIN比特设为1，套接字记录断开的控制信息，同时通过IP模块向对方发送数据，对方接收到数据后，返回FIN为1和ACK的包，并更改自己的套接字为断开操作状态。此数据被协议栈调取，协议栈告知应用程序数据已经全部收到，通信结束。</li>
+<li>步骤5补，为了避免误操作，套接字会延迟删除，大约是几分钟</li>
+</ul>
+<h3 id="重要！connect过程"><a href="#重要！connect过程" class="headerlink" title="重要！connect过程"></a>重要！connect过程</h3><ol>
+<li>协议栈中的TCP 模块处创建表示连接控制信息的<code>头部</code>，通过 TCP 头部中的发送方和接收方端口号可以找到要连接的套接字</li>
+<li>TCP模块会将信息传递给IP模块并委托它发送</li>
+<li>网络包由IP模块经网络发送到服务器的IP模块再传递给TCP模块</li>
+<li>服务器的TCP模块会根据TCP头部信息找到端口号对应的套接字，服务器的套接字会改变状态为<code>正在连接</code></li>
+<li>发回响应：在TCP头部设置双方的端口号、设<code>SYN比特</code>(接收连接设为1，若不接受，则不设SYN，改设RST为1)，设<code>ACK比特</code>为1(客户端向服务器发送第一个网络包时，ACK设为0，ACK比特并非前文ACK号，是一个ACK号字段的两个部分)，将TCP头部传递给IP模块，委托IP模块向客户端发回响应</li>
+<li>到达客户端的网络包通过IP模块到达TCP模块，并通过TCP头部的信息确认连接是否成功</li>
+<li>SYN为1表示连接成功，之后向套接字写入服务器的IP、端口，并将状态改为<code>连接完毕</code></li>
+<li>ACK为1的响应信息已经到达客户端，相应的，客户端需要将ACK设置为1并发回服务器，告知服务器刚刚的响应包已收到，等服务器收到此包则意味着整个连接操作全部完成</li>
+<li>此connect也有人称为’session‘，此处不作延伸</li>
 </ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
-<ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<h3 id="ACK号的管理"><a href="#ACK号的管理" class="headerlink" title="ACK号的管理"></a>ACK号的管理</h3><ol>
+<li>根据网络包平均往返时间调整 ACK 号等待时间，TCP采用了动态调整等待时间的方法，ACK号返回变慢，就延长ACK号等待时间</li>
+<li>使用滑动窗口管理：在发送一个包之后，不等待 ACK 号返回，而是直接发送后续的一系列包。但是可能出现发送包的频率超过接收方处理能力的情况，严重的后果是造成缓存区溢出。避免的方法是，接收方先告诉发送方自己的承载能力，然后发送方根据这个值对数据发送操作进行控制，注：其中有个名词<code>窗口字段</code>，能够接收的最大数据量的大小称为<code>窗口大小</code>，一般与接收方的缓存区大小一致 </li>
+<li>每接收到一个包，就要向发送方传递ACK号和窗口更新这两个独立的包，会造成效率下降。解决办法：独立包发送前等待一下，凑足两个后一齐发送，可以减少包的数量</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<p>已完成全书219页</p>
 
       
     </div>
@@ -537,7 +558,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
           
         </div>
       
@@ -550,8 +571,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/07/06/Pictures-play-in-turn/" rel="next" title="Pictures play in turn">
+                <i class="fa fa-chevron-left"></i> Pictures play in turn
               </a>
             
           </div>
@@ -560,8 +581,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/14/Note-for-Computer-Network-4/" rel="prev" title="Note for Computer Network 4">
+                Note for Computer Network 4 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +793,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#协议栈如何处理数据发送请求"><span class="nav-number">1.</span> <span class="nav-text">协议栈如何处理数据发送请求</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#重要！connect过程"><span class="nav-number">1.0.1.</span> <span class="nav-text">重要！connect过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ACK号的管理"><span class="nav-number">1.0.2.</span> <span class="nav-text">ACK号的管理</span></a></li></ol></li></ol></div>
             
 
           </div>

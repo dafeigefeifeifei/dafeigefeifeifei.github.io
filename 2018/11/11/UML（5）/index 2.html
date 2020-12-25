@@ -94,25 +94,32 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="面向对象系统分析与设计（5） 为什么要对系统进行分析： 因为需求的特殊性； 用开发语言描述出来，更加正规且准确； 理解上的需要； 设计的需要。   系统分析的过程： 分析结构； 分析用例； 分析 classes； 分析 packages；">
+<meta name="keywords" content="UML">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="UML（5）">
+<meta property="og:url" content="http://yoursite.com/2018/11/11/UML（5）/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="面向对象系统分析与设计（5） 为什么要对系统进行分析： 因为需求的特殊性； 用开发语言描述出来，更加正规且准确； 理解上的需要； 设计的需要。   系统分析的过程： 分析结构； 分析用例； 分析 classes； 分析 packages；">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML（5）/3.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML（5）/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML（5）/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML（5）/4.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML（5）/5.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML（5）/6.png">
+<meta property="og:updated_time" content="2018-11-13T07:40:34.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="UML（5）">
+<meta name="twitter:description" content="面向对象系统分析与设计（5） 为什么要对系统进行分析： 因为需求的特殊性； 用开发语言描述出来，更加正规且准确； 理解上的需要； 设计的需要。   系统分析的过程： 分析结构； 分析用例； 分析 classes； 分析 packages；">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/11/UML（5）/3.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/11/UML（5）/">
 
 
 
@@ -122,7 +129,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>UML（5） | To the moon</title>
   
 
 
@@ -360,7 +367,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/11/UML（5）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +384,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">UML（5）
 
               
             
@@ -403,7 +410,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-11-11 22:02:11" itemprop="dateCreated datePublished" datetime="2018-11-11T22:02:11+08:00">2018-11-11</time>
             
 
             
@@ -420,7 +427,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2018-11-13 15:40:34" itemprop="dateModified" datetime="2018-11-13T15:40:34+08:00">2018-11-13</time>
               
             
           </span>
@@ -437,7 +444,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UML/" itemprop="url" rel="index"><span itemprop="name">UML</span></a></span>
 
                 
                 
@@ -479,28 +486,241 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
+        <h1 id="面向对象系统分析与设计（5）"><a href="#面向对象系统分析与设计（5）" class="headerlink" title="面向对象系统分析与设计（5）"></a>面向对象系统分析与设计（5）</h1><ul>
+<li>为什么要对系统进行分析：<ol>
+<li>因为需求的特殊性；</li>
+<li>用开发语言描述出来，更加正规且准确；</li>
+<li>理解上的需要；</li>
+<li>设计的需要。</li>
 </ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>系统分析的过程：<ol>
+<li>分析结构；</li>
+<li>分析用例；</li>
+<li>分析 classes；</li>
+<li>分析 packages；</li>
+</ol>
+</li>
+</ul>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+<h2 id="1-analyze-classes"><a href="#1-analyze-classes" class="headerlink" title="1. analyze classes"></a>1. analyze classes</h2><ul>
+<li>致力于解决功能性需求。</li>
+<li>对 class 的描述仍是概念上的，不涉及具体实现。</li>
+<li>分类：Boundary class、entity class、control class。</li>
+<li>理解：将一个 use-case 分为三类，相当于细节化这个 use-case。如下图：</li>
+</ul>
+<p><img src="/2018/11/11/UML（5）/3.png" alt></p>
+<h3 id="1-1-boundary-class"><a href="#1-1-boundary-class" class="headerlink" title="1.1 boundary class"></a>1.1 boundary class</h3><ul>
+<li>边界类。</li>
+<li>定义：将 system 和 actors 之间的交互模型化，主要是界面。</li>
+<li>是对 UI 元素或者设备的抽象。举例：窗口、表格、控件、打印页面、传感器、终端等。不应太过细节，比如按钮、菜单项等是不合适的。</li>
+</ul>
+<p><img src="/2018/11/11/UML（5）/1.png" alt></p>
+<h3 id="1-2-entity-class"><a href="#1-2-entity-class" class="headerlink" title="1.2 entity class"></a>1.2 entity class</h3><ul>
+<li>实体类。<br>太常见了，略</li>
+</ul>
+<h3 id="1-3-control-class"><a href="#1-3-control-class" class="headerlink" title="1.3 control class"></a>1.3 control class</h3><ul>
+<li>控制类。</li>
+<li>定义：体现应用程序的执行逻辑。</li>
+<li>举例：增加商品的行为，对应一个“增加商品类”。</li>
+<li>tips：一个 control class 最多与一个 actor 相关联。</li>
+</ul>
+<p>哪些可以直接相连：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">actors</th>
+<th style="text-align:center">boundary class</th>
+<th style="text-align:center">entity class</th>
+<th style="text-align:center">control class</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">actors</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">×</td>
+</tr>
+<tr>
+<td style="text-align:center">boundary class</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">✔️</td>
+</tr>
+<tr>
+<td style="text-align:center">entity class</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">✔️</td>
+</tr>
+<tr>
+<td style="text-align:center">control class</td>
+<td style="text-align:center">×</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">✔️</td>
+</tr>
+</tbody>
+</table>
+<p><img src="/2018/11/11/UML（5）/2.png" alt></p>
+<h3 id="1-4-CRC-cards-概念模型"><a href="#1-4-CRC-cards-概念模型" class="headerlink" title="1.4 CRC cards 概念模型"></a>1.4 CRC cards 概念模型</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">Class name</th>
+<th style="text-align:center">Class name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Responsibililities</td>
+<td style="text-align:center">Collaborators</td>
+</tr>
+<tr>
+<td style="text-align:center">this class knows or does</td>
+<td style="text-align:center">anothor class(this class interacts with) to fulfill its responsibilities</td>
+</tr>
+</tbody>
+</table>
+<p>Tips: </p>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>有助于理解“面向对象”</li>
+<li>如果 responsibilities 过多，会造成低内聚；</li>
+<li>如果collaborators 过多，会造成高耦合。</li>
+<li>以 3~5 个responsibilities 为宜。</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<h2 id="2-statechart-diagram"><a href="#2-statechart-diagram" class="headerlink" title="2. statechart diagram"></a>2. statechart diagram</h2><ul>
+<li>推荐阅读：<a href="http://www.michael-richardson.com/processes/rup_for_sqa/core.base_rup/guidances/guidelines/statechart_diagram_640B5D0B.html" target="_blank" rel="noopener">Guideline: Statechart Diagram</a></li>
+<li>定义：描述对象内部行为的图表，比如：当外界传来 message 时，这个对象内部会作出的反应。</li>
+<li>这个图表需要展示的信息：<ol>
+<li>以<strong>结点</strong>的形式，表示单个对象的<strong>状态</strong>；</li>
+<li>以<strong>连线</strong>的形式，表示造成改变的<strong>原因</strong>；</li>
+<li>如果 state 发生变化，会导致的 <strong>actions</strong> 要表现出来。</li>
+<li>展示出这个 object 收发的所有 messages；</li>
+<li>展示这个 object 生命周期内的所有 states；</li>
+</ol>
+</li>
+</ul>
+<p>什么是states？</p>
+<h3 id="2-1-states"><a href="#2-1-states" class="headerlink" title="2.1 states"></a>2.1 states</h3><ul>
+<li>定义：一个 object 在其生命周期的某一刻的状态，具有 duration 的特点（指一段时间）。</li>
+<li>判定 object 是否处于某个 state，可以根据 ① 这个类的某些 attribute（有时属性的改变会触发 state 的变化）、② 这个类与其他类的 link（有时 link 的改变会触发 state 的变化）。</li>
+</ul>
+<h3 id="2-2-start-state-和-stop-state"><a href="#2-2-start-state-和-stop-state" class="headerlink" title="2.2 start state 和 stop state"></a>2.2 start state 和 stop state</h3><ul>
+<li>start state：每个状态图，有且仅有一个 start state。在 UML 中用黑色实心圆表示。</li>
+<li>stop state：每个状态图，可以有多个 stop state。在 UML 中用同心圆表示（内圆黑色实心，外圆环空心）。</li>
+<li>注：states 必须命名，未命名的将被当作匿名状态。</li>
+</ul>
+<h3 id="2-3-transitions"><a href="#2-3-transitions" class="headerlink" title="2.3 transitions"></a>2.3 transitions</h3><blockquote>
+<p>A state machine consists of states, linked by transitions. </p>
+</blockquote>
+<ul>
+<li>过渡态，在 UML 中用带箭头的实线表示，通常从一个 state 指向另一个 state（也可以指回自己 self-transition）。</li>
+<li>特点：<ul>
+<li>过渡态通常在一瞬间完成，不会被打断。</li>
+<li>一个状态图中，某一时间点，只会有一个 transition 在发生。</li>
+</ul>
+</li>
+<li>transitions 的发生条件：<ol>
+<li>当一个 state activity 完成时，将会自动进入 transitions，进而进入下一个 state。关键词：自动。</li>
+<li>被某 event 触发。关键词：非自动。</li>
+</ol>
+</li>
+<li>transitions 的伴随现象（可选）：<ol>
+<li>event signature：[理解]transitions 一定程度上跟 event 是同一件事，所以要有自己的命名。</li>
+<li>guard condition：相当于先决条件</li>
+<li>action：当 transitions 发生时执行的一系列 actions</li>
+<li>message sending：给其他 objects 发消息</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-4-events"><a href="#2-4-events" class="headerlink" title="2.4 events"></a>2.4 events</h3><ul>
+<li>瞬时发生的事件。</li>
+<li>两个事件之间，可能无关，可能相关（比如有时间先后关系等）</li>
+<li>分类：<ol>
+<li>call event：做出某些操作，作为某 message 的回应；</li>
+<li>signal event：objects 之间的实时 signal；</li>
+<li>change event：判定事件，类似 if 语句。</li>
+<li>time event：定时/周期性的事件。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-5-actions-amp-activities"><a href="#2-5-actions-amp-activities" class="headerlink" title="2.5 actions &amp; activities"></a>2.5 actions &amp; activities</h3><ul>
+<li>actions：瞬时、不会被中断；</li>
+<li>activities：花时间才能完成，具有时间段的特性，可以被打断。</li>
+</ul>
+<p>state 的五种 behavior：</p>
+<ol>
+<li>no behavior: 静等 event 发生后离开这个 state。</li>
+<li>event name[guard condition]/action: 等某 event 发生后，满足设定的条件后，执行 action。</li>
+<li>do/activity: 执行某个 operation。</li>
+<li>entry/action: 进入此 state 时会发生的 atomic action。</li>
+<li>exit/action: 离开此 state 时会发生的 atomic action。</li>
+</ol>
+<h2 id="3-composite-statechart-diagrams"><a href="#3-composite-statechart-diagrams" class="headerlink" title="3. composite statechart diagrams"></a>3. composite statechart diagrams</h2><ul>
+<li>定义：有一个或多个重叠 statecharts 的状态图。</li>
+</ul>
+<h3 id="3-1-sequential-composite-statechart-diagram"><a href="#3-1-sequential-composite-statechart-diagram" class="headerlink" title="3.1 sequential composite statechart diagram"></a>3.1 sequential composite statechart diagram</h3><p><img src="/2018/11/11/UML（5）/4.png" alt></p>
+<p>[理解]：上图的 substate 明显具有时序性。主要体现：abstract/generalize states。</p>
+<h3 id="3-2-concurrent-composite-statechart-diagram"><a href="#3-2-concurrent-composite-statechart-diagram" class="headerlink" title="3.2 concurrent composite statechart diagram"></a>3.2 concurrent composite statechart diagram</h3><p><img src="/2018/11/11/UML（5）/5.png" alt></p>
+<p>主要用来体现多线程的行为。</p>
+<h3 id="3-3-从-UML-上看-composite-状态图"><a href="#3-3-从-UML-上看-composite-状态图" class="headerlink" title="3.3 从 UML 上看 composite 状态图"></a>3.3 从 UML 上看 composite 状态图</h3><ol>
+<li>（从外界）指向状态图的边框，意味着进入 initial state。</li>
+<li>自状态图的边框指向（外界），意味着触发 exit actions。</li>
+</ol>
+<p><strong>上面是状态图，下面是活动图</strong></p>
+<h2 id="4-activity-diagram"><a href="#4-activity-diagram" class="headerlink" title="4. activity diagram"></a>4. activity diagram</h2><p>与状态图的区别：推荐阅读：<a href="https://blog.csdn.net/u013201439/article/details/49821467" target="_blank" rel="noopener">状态图与活动图的联系和区别</a></p>
+<blockquote>
+<p>状态图是描述某一对象的状态转化的，它主要展示的是对象的状态。描述的是一个对象的事情。从状态图中我们可以看出，对象在接受了事件刺激后，会做出什么样的反应。</p>
+</blockquote>
+<blockquote>
+<p>活动图是描述系统在执行某一用例时的具体步骤的，它主要表现的是系统的动作，描述的是整个系统的事情。</p>
+</blockquote>
+<h3 id="4-0-活动图的应用场景"><a href="#4-0-活动图的应用场景" class="headerlink" title="4.0 活动图的应用场景"></a>4.0 活动图的应用场景</h3><ol>
+<li>需要展示系统活动规律的场景。</li>
+<li>并行工作流的建模中。</li>
+</ol>
+<h3 id="4-1-activity-action"><a href="#4-1-activity-action" class="headerlink" title="4.1 activity/action"></a>4.1 activity/action</h3><p>与状态图中 activities/actions 的概念类似。</p>
+<h3 id="4-2-transitions"><a href="#4-2-transitions" class="headerlink" title="4.2 transitions"></a>4.2 transitions</h3><ol>
+<li>与状态图的 transitions 概念类似。</li>
+<li>没有 internal transitions；</li>
+<li>没有事件驱动的 actions；</li>
+</ol>
+<h3 id="4-3-一些特殊的-activities"><a href="#4-3-一些特殊的-activities" class="headerlink" title="4.3 一些特殊的 activities"></a>4.3 一些特殊的 activities</h3><ol>
+<li>decision：多分支，每条分支都有自己的 guard condition；而且必须进入子分支中。</li>
+<li>dead end activity：允许 non-terminating 的活动图。  </li>
+</ol>
+<h3 id="4-4-synchronization-bar"><a href="#4-4-synchronization-bar" class="headerlink" title="4.4 synchronization bar"></a>4.4 synchronization bar</h3><blockquote>
+<p>Combines two concurrent activities and re-introduces them to a flow where only one activity occurs at a time. Represented with a thick vertical or horizontal line.</p>
+</blockquote>
+<p><img src="/2018/11/11/UML（5）/6.png" alt></p>
+<ul>
+<li>不指定同步条件时，默认要等所有进入的 transitions 发生后，才能进入。</li>
+</ul>
+<h2 id="5-package"><a href="#5-package" class="headerlink" title="5. package"></a>5. package</h2><ul>
+<li>为了使用的方便，将 analysis classes 等打包的一种机制。</li>
+<li>可以包含：<ol>
+<li>analysis classes；</li>
+<li>use-case realizations；</li>
+<li>其他 package，建议 2~3 层即可。</li>
+</ol>
+</li>
+<li>包依赖：简单、不解释。</li>
+<li>shared classes：将此 classes 独立打包，让其他 package 依赖它。</li>
+<li>命名空间：一个 package 对应一个命名空间。包内元素命名唯一。跨包访问时，要带上路径，举例：Package1::classname。</li>
+<li>使用 <code>&lt;&lt;access&gt;&gt;</code>和<code>&lt;&lt;import&gt;&gt;</code>标记。</li>
+<li>包可视化，同类，不赘述。</li>
+<li>包的设计原则：高内聚、低耦合。</li>
+<li>按照用途分类（分层或分区）：<ol>
+<li>application-specific：不被其他包使用。</li>
+<li>application-general：能被其他包共享。</li>
+</ol>
+</li>
+</ul>
 
       
     </div>
@@ -537,7 +757,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/UML/" rel="tag"><i class="fa fa-tag"></i> UML</a>
           
         </div>
       
@@ -550,8 +770,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/11/10/UML（4）/" rel="next" title="UML（4）">
+                <i class="fa fa-chevron-left"></i> UML（4）
               </a>
             
           </div>
@@ -560,8 +780,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/12/UML（6）/" rel="prev" title="UML（6）">
+                UML（6） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +992,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面向对象系统分析与设计（5）"><span class="nav-number">1.</span> <span class="nav-text">面向对象系统分析与设计（5）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-analyze-classes"><span class="nav-number">1.1.</span> <span class="nav-text">1. analyze classes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-boundary-class"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 boundary class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-entity-class"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 entity class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-control-class"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 control class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-CRC-cards-概念模型"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 CRC cards 概念模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-statechart-diagram"><span class="nav-number">1.2.</span> <span class="nav-text">2. statechart diagram</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-states"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 states</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-start-state-和-stop-state"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 start state 和 stop state</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-transitions"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 transitions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-events"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 events</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-actions-amp-activities"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 actions &amp; activities</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-composite-statechart-diagrams"><span class="nav-number">1.3.</span> <span class="nav-text">3. composite statechart diagrams</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-sequential-composite-statechart-diagram"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 sequential composite statechart diagram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-concurrent-composite-statechart-diagram"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 concurrent composite statechart diagram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-从-UML-上看-composite-状态图"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 从 UML 上看 composite 状态图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-activity-diagram"><span class="nav-number">1.4.</span> <span class="nav-text">4. activity diagram</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-0-活动图的应用场景"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.0 活动图的应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-activity-action"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.1 activity/action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-transitions"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.2 transitions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-一些特殊的-activities"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.3 一些特殊的 activities</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-synchronization-bar"><span class="nav-number">1.4.5.</span> <span class="nav-text">4.4 synchronization bar</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-package"><span class="nav-number">1.5.</span> <span class="nav-text">5. package</span></a></li></ol></li></ol></div>
             
 
           </div>

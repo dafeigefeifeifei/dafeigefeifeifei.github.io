@@ -94,25 +94,25 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="ARTS 第十三周 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
+<meta name="keywords" content="ARTS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="ARTS(13)">
+<meta property="og:url" content="http://yoursite.com/2019/06/23/ARTS-13/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="ARTS 第十三周 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:updated_time" content="2020-07-23T10:31:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="ARTS(13)">
+<meta name="twitter:description" content="ARTS 第十三周 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2019/06/23/ARTS-13/">
 
 
 
@@ -122,7 +122,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>ARTS(13) | To the moon</title>
   
 
 
@@ -360,7 +360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/23/ARTS-13/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +377,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">ARTS(13)
 
               
             
@@ -403,7 +403,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2019-06-23 16:45:46" itemprop="dateCreated datePublished" datetime="2019-06-23T16:45:46+08:00">2019-06-23</time>
             
 
             
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2020-07-23 18:31:48" itemprop="dateModified" datetime="2020-07-23T18:31:48+08:00">2020-07-23</time>
               
             
           </span>
@@ -437,7 +437,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ARTS/" itemprop="url" rel="index"><span itemprop="name">ARTS</span></a></span>
 
                 
                 
@@ -479,28 +479,64 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+        <h1 id="ARTS-第十三周"><a href="#ARTS-第十三周" class="headerlink" title="ARTS 第十三周"></a>ARTS 第十三周</h1><blockquote>
+<p>每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）： </p>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>每周至少做一个 leetcode 的算法题</li>
+<li>阅读并点评至少一篇英文技术文章</li>
+<li>学习至少一个技术技巧</li>
+<li>分享一篇有观点和思考的技术文章。</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p> <a href="https://leetcode-cn.com/problems/random-flip-matrix/" target="_blank" rel="noopener">力扣 519. 随机翻转矩阵</a></p>
+<p>题中给出一个 n 行 n 列的二维矩阵 (n_rows,n_cols)，且所有值被初始化为 0。要求编写一个 flip 函数，均匀随机的将矩阵中的 0 变为 1，并返回该值的位置下标 [row_id,col_id]；同样编写一个 reset 函数，将所有的值都重新置为 0。尽量最少调用随机函数 Math.random()，并且优化时间和空间复杂度。</p>
+<p>注意:</p>
+<p>1.1 &lt;= n_rows, n_cols &lt;= 10000</p>
+<ol start="2">
+<li>0 &lt;= row.id &lt; n_rows 并且 0 &lt;= col.id &lt; n_cols</li>
+</ol>
+<p>3.当矩阵中没有值为 0 时，不可以调用 flip 函数</p>
+<p>4.调用 flip 和 reset 函数的次数加起来不会超过 1000 次</p>
+<p>示例 1：</p>
+<p>输入:<br>[“Solution”,”flip”,”flip”,”flip”,”flip”]<br>[[2,3],[],[],[],[]]<br>输出: [null,[0,1],[1,2],[1,0],[1,1]]<br>示例 2：</p>
+<p>输入:<br>[“Solution”,”flip”,”flip”,”reset”,”flip”]<br>[[1,2],[],[],[],[]]<br>输出: [null,[0,0],[0,1],null,[0,0]]</p>
+<blockquote>
+<p>执行结果：通过 </p>
+<p>显示详情 执行用时 :125 ms, 在所有 Java 提交中击败了100.00%的用户 </p>
+<p>内存消耗 :39 MB, 在所有 Java 提交中击败了100.00% 的用户</p>
+</blockquote>
+<p>思路：</p>
+<ol>
+<li>首先二维数组摊平成一维数组，使用以下方式转换： int x = result % n_rows; int y = result / n_rows; </li>
+<li>size 表示当前未被访问的数字个数，随机数从 0~size-1 之间产生，但随机数并不一定是最终的数字。</li>
+<li>维护一个黑名单 map，若随机数已经存在于当前黑名单中，那么取出黑名单中的 value 代替此随机数。</li>
+<li>此 value 讲道理应该不在黑名单中，若不幸还在黑名单里，那就以此 value 继续查找黑名单。 </li>
+<li>确定最终的数字后，就要往黑名单中添加当前的记录：最终的数字做 key，size 做 value，记录在黑名单中。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n_rows;</span><br><span class="line">	<span class="keyword">int</span> n_cols;</span><br><span class="line">	<span class="keyword">int</span> size;</span><br><span class="line">	Map&lt;Integer, Integer&gt; visitedMap;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Solution</span><span class="params">(<span class="keyword">int</span> n_rows, <span class="keyword">int</span> n_cols)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.n_rows = n_rows;</span><br><span class="line">		<span class="keyword">this</span>.n_cols = n_cols;</span><br><span class="line">		<span class="keyword">this</span>.size = n_cols * n_rows;</span><br><span class="line">		<span class="keyword">this</span>.visitedMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span>[] flip() &#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> index = (<span class="keyword">int</span>) (Math.random() * size);</span><br><span class="line">		--size;</span><br><span class="line">		<span class="keyword">int</span> result = index;</span><br><span class="line">		<span class="keyword">while</span> (visitedMap.containsKey(result)) &#123;</span><br><span class="line">			result = visitedMap.get(result);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">int</span> x = result % n_rows;</span><br><span class="line">		<span class="keyword">int</span> y = result / n_rows;</span><br><span class="line">		visitedMap.put(result, size); <span class="comment">// K - V : 黑名单 - 白名单</span></span><br><span class="line">		<span class="keyword">int</span>[] ret = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">		ret[<span class="number">0</span>] = x;</span><br><span class="line">		ret[<span class="number">1</span>] = y;</span><br><span class="line">		<span class="keyword">return</span> ret;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reset</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.size = n_cols * n_rows;</span><br><span class="line">		<span class="keyword">this</span>.visitedMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>本周分享英文文章是:<a href="https://dzone.com/articles/data-streaming-made-easy-with-apache-kafka" target="_blank" rel="noopener">Data Streaming Made Easy With Apache Kafka</a> 和 <a href="https://dzone.com/articles/hands-on-apache-kafka-with-scala?fromrel=true" target="_blank" rel="noopener">Apache Kafka With Scala Tutorial</a>。</p>
+<p>解读：</p>
+<ol>
+<li>kafka 适用于微服务架构(也就是 MSA)，主要原因就是消息队列的异步特性。producer 什么时候生产 topic 跟 consumer 什么时候消费 topic，是不存在<strong>time、task</strong>依赖的，也无需担心同步锁的问题。</li>
+<li>消息中的数据其实就是字节数组，能够以任意形式存储。kafka 中的消息以 topic 数据结构存储，</li>
+<li>kafka 的 servers 集群称为 brokers，每个 broker 会存储一个或多个分区。</li>
+<li>producer 发布消息的过程是线程安全的，而且能够控制 message 进入哪个分区。<ol>
+<li>支持多个 server 发布同一个 topic。</li>
+</ol>
+</li>
+<li>无论 topic 被消费与否，kafka 都会保存消息到一定时间(时间可配置)。</li>
+<li>运行 kafka 之前，还需要 zookeeper对 broker 进行管理，参考：<a href="https://blog.csdn.net/u011311291/article/details/85264046" target="_blank" rel="noopener">为啥Kafka依赖Zookeeper</a>。</li>
+</ol>
+<h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><p>今天分享一个 很方便通过可视化的方式进行git 操作的软件——sourcetree，我觉得优点有这么几个：</p>
+<ol>
+<li>图形化展示工作区、各分支、commit 等</li>
+<li>所有 git 命令</li>
+<li>能做简单的代码 diff</li>
+<li>学习成本低，半天上手</li>
+</ol>
+<h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><p>本周对本站之前的一篇 k8s 的文章进行了补充，加了不少干货，参考以下链接：</p>
+<p><a href="http://likehui.fun/2019/05/26/K8s%20-%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">K8s 入门笔记</a></p>
 
       
     </div>
@@ -537,7 +573,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/ARTS/" rel="tag"><i class="fa fa-tag"></i> ARTS</a>
           
         </div>
       
@@ -550,8 +586,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2019/06/22/zk学习笔记/" rel="next" title="zk学习笔记">
+                <i class="fa fa-chevron-left"></i> zk学习笔记
               </a>
             
           </div>
@@ -560,8 +596,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/30/ARTS-14/" rel="prev" title="ARTS(14)">
+                ARTS(14) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +808,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ARTS-第十三周"><span class="nav-number">1.</span> <span class="nav-text">ARTS 第十三周</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Review"><span class="nav-number">1.2.</span> <span class="nav-text">Review</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip"><span class="nav-number">1.3.</span> <span class="nav-text">Tip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Share"><span class="nav-number">1.4.</span> <span class="nav-text">Share</span></a></li></ol></li></ol></div>
             
 
           </div>

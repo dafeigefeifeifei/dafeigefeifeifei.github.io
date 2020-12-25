@@ -94,25 +94,28 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="ARTS 第三周分享 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
+<meta name="keywords" content="ARTS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="ARTS(3)">
+<meta property="og:url" content="http://yoursite.com/2019/04/02/ARTS-3/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="ARTS 第三周分享 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2019/04/02/ARTS-3/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/02/ARTS-3/2.png">
+<meta property="og:updated_time" content="2020-07-23T10:31:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="ARTS(3)">
+<meta name="twitter:description" content="ARTS 第三周分享 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/02/ARTS-3/1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/02/ARTS-3/">
 
 
 
@@ -122,7 +125,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>ARTS(3) | To the moon</title>
   
 
 
@@ -360,7 +363,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/02/ARTS-3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +380,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">ARTS(3)
 
               
             
@@ -403,7 +406,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2019-04-02 11:15:49" itemprop="dateCreated datePublished" datetime="2019-04-02T11:15:49+08:00">2019-04-02</time>
             
 
             
@@ -420,7 +423,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2020-07-23 18:31:48" itemprop="dateModified" datetime="2020-07-23T18:31:48+08:00">2020-07-23</time>
               
             
           </span>
@@ -437,7 +440,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ARTS/" itemprop="url" rel="index"><span itemprop="name">ARTS</span></a></span>
 
                 
                 
@@ -479,28 +482,79 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+        <h1 id="ARTS-第三周分享"><a href="#ARTS-第三周分享" class="headerlink" title="ARTS 第三周分享"></a>ARTS 第三周分享</h1><blockquote>
+<p>每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）： </p>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>每周至少做一个 leetcode 的算法题</li>
+<li>阅读并点评至少一篇英文技术文章</li>
+<li>学习至少一个技术技巧</li>
+<li>分享一篇有观点和思考的技术文章。</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p><a href="https://leetcode.com/problems/valid-square/" target="_blank" rel="noopener">LeetCode 593. Valid Square</a></p>
+<p>Given the coordinates of four points in 2D space, return whether the four points could construct a square.</p>
+<p>The coordinate (x,y) of a point is represented by an integer array with two integers.</p>
+<blockquote>
+<p>Input: p1 = [0,0], p2 = [1,1], p3 = [1,0], p4 = [0,1]<br>Output: True</p>
+</blockquote>
+<p>思路：以某点（如 p1）为顶点，确定与其他三点的距离是否满足等边及勾股定理。<br>如果满足，轮换顶点（一般三个点即可，轮换四个点更稳妥）</p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">import org.junit.Assert;</span><br><span class="line">import org.junit.Test;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">public class ValidSquare &#123;</span><br><span class="line"></span><br><span class="line">	@Test</span><br><span class="line"><span class="keyword">	public</span> void getResult() &#123;</span><br><span class="line">		int[] p1 = &#123;0, 1&#125;;</span><br><span class="line">		int[] p2 = &#123;1, 1&#125;;</span><br><span class="line">		int[] p3 = &#123;1, 0&#125;;</span><br><span class="line">		int[] p4 = &#123;0, 0&#125;;</span><br><span class="line"></span><br><span class="line">		boolean actual = validSquare(p1, p2, p3, p4);</span><br><span class="line">		Assert.assertTrue(actual);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">	public</span> boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) &#123;</span><br><span class="line">	<span class="built_in">	return </span>validOnce(p1, p2, p3, p4)</span><br><span class="line">				&amp;&amp; validOnce(p2, p3, p4, p1)</span><br><span class="line">				&amp;&amp; validOnce(p3, p1, p2, p4)</span><br><span class="line">				&amp;&amp; validOnce(p4, p1, p2, p3);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">	public</span> boolean validOnce(int[] p1, int[] p2, int[] p3, int[] p4) &#123;</span><br><span class="line">	<span class="built_in">	int </span>len1 = getLen(p1, p2);</span><br><span class="line">	<span class="built_in">	int </span>len2 = getLen(p1, p3);</span><br><span class="line">	<span class="built_in">	int </span>len3 = getLen(p1, p4);</span><br><span class="line"></span><br><span class="line">		int[] a = &#123;len1, len2, len3&#125;;</span><br><span class="line">		Arrays.sort(a);</span><br><span class="line">	<span class="built_in">	if </span>(a[2] == 0) &#123;</span><br><span class="line">		<span class="built_in">	return </span>false; // 避免四点重合的情况</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="built_in">	if </span>(a[0] != a[1] || a[0] * 2 != a[2]) &#123;</span><br><span class="line">		<span class="built_in">	return </span>false;</span><br><span class="line">		&#125;</span><br><span class="line">	<span class="built_in">	return </span>true;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">	private</span><span class="built_in"> int </span>getLen(int[] a, int[] b) &#123;</span><br><span class="line">	<span class="built_in">	return </span>((a[0] - b[0]) * (a[0] - b[0]) + (a[1] - b[1]) * (a[1] - b[1]));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><a href="https://leetcode.com/problems/palindromic-substrings/" target="_blank" rel="noopener">LeetCode 647. Palindromic Substrings</a></p>
+<p>Given a string, your task is to count how many palindromic substrings in this string.</p>
+<p>The substrings with different start indexes or end indexes are counted as different substrings even they consist of same characters.</p>
+<blockquote>
+<p>Input: “abc”<br>Output: 3<br>Explanation: Three palindromic strings: “a”, “b”, “c”.</p>
+</blockquote>
+<blockquote>
+<p>Input: “aaa”<br>Output: 6<br>Explanation: Six palindromic strings: “a”, “a”, “a”, “aa”, “aa”, “aaa”.</p>
+</blockquote>
+<p>思路：求回文子串的个数，使用动归时边找边统计。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">import org.junit.Test;</span><br><span class="line"></span><br><span class="line">public class PalindromicSubstrings &#123;</span><br><span class="line"></span><br><span class="line">	@Test</span><br><span class="line">	public void testResult() &#123;</span><br><span class="line">		String s = <span class="string">"aaa"</span>;</span><br><span class="line">		System.out.println(countSubstrings(s));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public int countSubstrings(String s) &#123;</span><br><span class="line">		<span class="keyword">if</span> (s == null || s.<span class="built_in">length</span>() == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		int n = s.<span class="built_in">length</span>();</span><br><span class="line">		int result = <span class="number">0</span>;</span><br><span class="line">		int[][] dp = new int[n][n];</span><br><span class="line">		<span class="keyword">for</span> (int <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> &lt; n; ++<span class="built_in">i</span>) &#123;</span><br><span class="line">			dp[<span class="built_in">i</span>][<span class="built_in">i</span>] = <span class="number">1</span>;</span><br><span class="line">			++result;</span><br><span class="line">			<span class="keyword">if</span> (<span class="built_in">i</span> &lt; n - <span class="number">1</span>) &#123;</span><br><span class="line">				<span class="keyword">if</span> (s.charAt(<span class="built_in">i</span>) == s.charAt(<span class="built_in">i</span> + <span class="number">1</span>)) &#123;</span><br><span class="line">					dp[<span class="built_in">i</span>][<span class="built_in">i</span> + <span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">					++result;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					dp[<span class="built_in">i</span>][<span class="built_in">i</span> + <span class="number">1</span>] = <span class="number">0</span>;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">for</span> (int step = <span class="number">3</span>; step &lt;= n; ++step) &#123;</span><br><span class="line">			<span class="keyword">for</span> (int <span class="built_in">i</span> = <span class="number">0</span>; <span class="built_in">i</span> + step &lt;= n; ++<span class="built_in">i</span>) &#123;</span><br><span class="line">				int <span class="built_in">j</span> = <span class="built_in">i</span> + step - <span class="number">1</span>;</span><br><span class="line">				<span class="keyword">if</span> (dp[<span class="built_in">i</span> + <span class="number">1</span>][<span class="built_in">j</span> - <span class="number">1</span>] == <span class="number">0</span>) &#123;</span><br><span class="line">					dp[<span class="built_in">i</span>][<span class="built_in">j</span>] = <span class="number">0</span>;</span><br><span class="line">				&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">					<span class="keyword">if</span> (s.charAt(<span class="built_in">i</span>) == s.charAt(<span class="built_in">j</span>)) &#123;</span><br><span class="line">						dp[<span class="built_in">i</span>][<span class="built_in">j</span>] = <span class="number">1</span>;</span><br><span class="line">						++result;</span><br><span class="line">					&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">						dp[<span class="built_in">i</span>][<span class="built_in">j</span>] = <span class="number">0</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><a href="https://leetcode.com/problems/increasing-subsequences/" target="_blank" rel="noopener">LeetCode 491. Increasing Subsequences</a></p>
+<p>Given an integer array, your task is to find all the different possible increasing subsequences of the given array, and the length of an increasing subsequence should be at least 2 .</p>
+<blockquote>
+<p>Example:<br>Input: [4, 6, 7, 7]<br>Output: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7,7]]</p>
+</blockquote>
+<p>思路：使用 DFS 以及 visited 数组去重。</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">IncreasingSubsequences</span> &#123;</span></span><br><span class="line"></span><br><span class="line">	@Test</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[] nums = &#123;<span class="number">4</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">7</span>&#125;;</span><br><span class="line">		List&lt;List&lt;Integer&gt;&gt; <span class="built_in">list</span> = findSubsequences(nums);</span><br><span class="line">		<span class="keyword">for</span> (List&lt;Integer&gt; subList : <span class="built_in">list</span>) &#123;</span><br><span class="line">			subList.forEach(i -&gt; System.out.<span class="built_in">print</span>(i + <span class="string">" "</span>));</span><br><span class="line">			System.out.<span class="built_in">println</span>();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; <span class="title">findSubsequences</span><span class="params">(<span class="keyword">int</span>[] nums)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (nums == null) &#123;</span><br><span class="line">			<span class="keyword">return</span> null;</span><br><span class="line">		&#125;</span><br><span class="line">		List&lt;List&lt;Integer&gt;&gt; <span class="built_in">list</span> = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		<span class="keyword">if</span> (nums.length == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="built_in">list</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		List&lt;Integer&gt; subList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">		getSubList(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>, subList, <span class="built_in">list</span>);</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">list</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getSubList</span><span class="params">(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> head, <span class="keyword">int</span> tail, List&lt;Integer&gt; subList, List&lt;List&lt;Integer&gt;&gt; <span class="built_in">list</span>)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (subList.<span class="built_in">size</span>() &gt;= <span class="number">2</span>) &#123;</span><br><span class="line">			<span class="built_in">list</span>.add(<span class="keyword">new</span> ArrayList&lt;&gt;(subList));</span><br><span class="line">		&#125;</span><br><span class="line">		Set&lt;Integer&gt; visited = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = head; i &lt;= tail; ++i) &#123;</span><br><span class="line">			<span class="keyword">if</span> (visited.contains(nums[i])) &#123;</span><br><span class="line">				<span class="keyword">continue</span>;</span><br><span class="line">			&#125;</span><br><span class="line">			visited.add(nums[i]);</span><br><span class="line">			<span class="keyword">if</span> (subList.<span class="built_in">size</span>() == <span class="number">0</span> || nums[i] &gt;= subList.<span class="built_in">get</span>(subList.<span class="built_in">size</span>() - <span class="number">1</span>)) &#123;</span><br><span class="line">				subList.add(nums[i]);</span><br><span class="line">				getSubList(nums, i + <span class="number">1</span>, tail, subList, <span class="built_in">list</span>);</span><br><span class="line">				subList.<span class="built_in">remove</span>(subList.<span class="built_in">size</span>() - <span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p><a href="https://dzone.com/articles/database-caching-with-redis-and-java" target="_blank" rel="noopener">Database Caching With Redis and Java</a></p>
+<p>我们对缓存的要求主要有两点：</p>
+<ul>
+<li>缓存部分数据，等待命中；</li>
+<li>保持缓存跟 DB 的数据一致性。</li>
+</ul>
+<ol>
+<li>主要解释了数据库的几种缓存策略：<ol>
+<li>Read-Through Caching Strategy（直读缓存机制）。优先从缓存中读取，若没取到，则查 DB，同时将查到的数据在缓存中存一份。特点：适合读任务多的场景。比如新闻网站等的数据，会被大量阅读而不是修改。第一次从缓存中取数据时常常会失败，开发者可以考虑提前缓存一部分可能的热点数据。</li>
+<li>Write-Through Caching Strategy（直写缓存机制）。优先写入缓存，然后立即再写入 DB。</li>
+<li>Write-Behind Caching Strategy（写回缓存机制）。优先写入缓存，延后写回 DB 中。适合于写任务多的场景。特点：通常是由数据被替换出缓存时，才会被写到 DB 中；缺点：一旦断点，数据无法找回。</li>
+</ol>
+</li>
+<li>使用 Redisson 作为客户端的缓存操作（其将数据放入 Map 中）。<ol>
+<li>直读缓存机制中，若缓存未命中，则会通过<code>MapLoader</code>对象进行载入；</li>
+<li>直写缓存机制中，只有当缓存跟 DB 的数据都被<code>MapWriter</code>对象更新完成之后，才会退出 update 方法。</li>
+<li>写回缓存机制中，同样使用<code>MapWriter</code>接口来完成异步更新，可以设置<code>writeBehindThreads</code>参数来表示执行写操作的线程数量。</li>
+</ol>
+</li>
+<li>总结：Redisson 中的<code>RMap</code>,<code>RMapCache</code>,<code>RLocalCachedMap</code>,<code>RLocalCachedMapCache</code>四个对象都支持上述策略，后两者的读操作更快一些。</li>
+</ol>
+<h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><p>今天分享一个在 Mac 电脑上使用 workflow （也叫自动操作）功能的实践。</p>
+<p><strong>自动化你的工作很重要！！</strong></p>
+<p>效果：自动改变图片分辨率，主要用来应对图片尺寸过大的问题。<br>步骤：</p>
+<ol>
+<li>设置 workflow，如下图：</li>
+</ol>
+<p><img src="/2019/04/02/ARTS-3/1.png" alt></p>
+<p>说明：将图片拖入 pics 文件夹中，此 workflow 会将图片缩放到1440像素，然后处理后的图片会在桌面上出现。上面的文件夹名称跟像素都可以按个人喜好设置。</p>
+<ol start="2">
+<li>如果需要修改此 workflow，如下图，在你的 pics 文件夹处右键，进入“文件夹操作设置”，就可以继续修改自定义的 workflow 了。</li>
+</ol>
+<p><img src="/2019/04/02/ARTS-3/2.png" alt></p>
+<h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><p>本周分享的是最近写的一份代码实现，主要是关于类加载过程解读的，请点击下方链接查看：</p>
+<p><a href="http://likehui.fun/2019/04/04/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" target="_blank" rel="noopener">自定义一个类加载器代码实现</a></p>
 
       
     </div>
@@ -537,7 +591,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/ARTS/" rel="tag"><i class="fa fa-tag"></i> ARTS</a>
           
         </div>
       
@@ -550,8 +604,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2019/03/28/ARTS-2/" rel="next" title="ARTS(2)">
+                <i class="fa fa-chevron-left"></i> ARTS(2)
               </a>
             
           </div>
@@ -560,8 +614,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/04/04/自定义一个类加载器代码实现/" rel="prev" title="自定义一个类加载器代码实现">
+                自定义一个类加载器代码实现 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +826,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ARTS-第三周分享"><span class="nav-number">1.</span> <span class="nav-text">ARTS 第三周分享</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Review"><span class="nav-number">1.2.</span> <span class="nav-text">Review</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip"><span class="nav-number">1.3.</span> <span class="nav-text">Tip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Share"><span class="nav-number">1.4.</span> <span class="nav-text">Share</span></a></li></ol></li></ol></div>
             
 
           </div>

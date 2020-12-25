@@ -94,25 +94,28 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="创建好了的包是如何进入互联网的副标题：阅读《网络是怎么连接的（户根勤）》读书笔记5 网线中的信号衰减情况 信号从网卡出口到达集线器，会出现衰减、失真、噪声、能量损失等，严重时产生通信错误 局域网的网线使用双绞线，可以抑制噪声，使得网线周围或内部的电磁波在网线中产生的的干扰电流  集线器和交换机 集线器将信号发往所有线路 以太网的基本架构就是将包发到所有的设备，设备根据接收方的MAC地址来判断应该接">
+<meta name="keywords" content="computer network">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="Note for Computer Network 5">
+<meta property="og:url" content="http://yoursite.com/2018/07/14/Note-for-Computer-Network-5/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="创建好了的包是如何进入互联网的副标题：阅读《网络是怎么连接的（户根勤）》读书笔记5 网线中的信号衰减情况 信号从网卡出口到达集线器，会出现衰减、失真、噪声、能量损失等，严重时产生通信错误 局域网的网线使用双绞线，可以抑制噪声，使得网线周围或内部的电磁波在网线中产生的的干扰电流  集线器和交换机 集线器将信号发往所有线路 以太网的基本架构就是将包发到所有的设备，设备根据接收方的MAC地址来判断应该接">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/07/14/Note-for-Computer-Network-5/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/14/Note-for-Computer-Network-5/2.png">
+<meta property="og:updated_time" content="2018-07-15T11:52:44.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="Note for Computer Network 5">
+<meta name="twitter:description" content="创建好了的包是如何进入互联网的副标题：阅读《网络是怎么连接的（户根勤）》读书笔记5 网线中的信号衰减情况 信号从网卡出口到达集线器，会出现衰减、失真、噪声、能量损失等，严重时产生通信错误 局域网的网线使用双绞线，可以抑制噪声，使得网线周围或内部的电磁波在网线中产生的的干扰电流  集线器和交换机 集线器将信号发往所有线路 以太网的基本架构就是将包发到所有的设备，设备根据接收方的MAC地址来判断应该接">
+<meta name="twitter:image" content="http://yoursite.com/2018/07/14/Note-for-Computer-Network-5/1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/07/14/Note-for-Computer-Network-5/">
 
 
 
@@ -122,7 +125,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>Note for Computer Network 5 | To the moon</title>
   
 
 
@@ -360,7 +363,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/14/Note-for-Computer-Network-5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +380,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">Note for Computer Network 5
 
               
             
@@ -403,7 +406,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-07-14 17:43:41" itemprop="dateCreated datePublished" datetime="2018-07-14T17:43:41+08:00">2018-07-14</time>
             
 
             
@@ -420,7 +423,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2018-07-15 19:52:44" itemprop="dateModified" datetime="2018-07-15T19:52:44+08:00">2018-07-15</time>
               
             
           </span>
@@ -479,28 +482,78 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
+        <h1 id="创建好了的包是如何进入互联网的"><a href="#创建好了的包是如何进入互联网的" class="headerlink" title="创建好了的包是如何进入互联网的"></a>创建好了的包是如何进入互联网的</h1><p>副标题：阅读《网络是怎么连接的（户根勤）》读书笔记5</p>
+<h3 id="网线中的信号衰减情况"><a href="#网线中的信号衰减情况" class="headerlink" title="网线中的信号衰减情况"></a>网线中的信号衰减情况</h3><ol>
+<li>信号从网卡出口到达集线器，会出现衰减、失真、噪声、能量损失等，严重时产生通信错误</li>
+<li>局域网的网线使用双绞线，可以抑制噪声，使得网线周围或内部的电磁波在网线中产生的的干扰电流</li>
 </ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+<h2 id="集线器和交换机"><a href="#集线器和交换机" class="headerlink" title="集线器和交换机"></a>集线器和交换机</h2><ul>
+<li>集线器将信号发往所有线路</li>
+<li>以太网的基本架构就是将包发到所有的设备，设备根据接收方的MAC地址来判断应该接收哪些包</li>
+<li>交换机按照地址表进行转发：当接收到包时，会将对应的端口号和发送方MAC地址写入表中，这样就可以根据地址判断出该设备连接在哪个端口上了</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">MAC地址</th>
+<th style="text-align:center">端口</th>
+<th style="text-align:center">控制信息</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">00-60-97-A-43-3C</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">…</td>
+</tr>
+<tr>
+<td style="text-align:center">00-00-C0-18-AE-FD</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">…</td>
+</tr>
+</tbody>
+</table>
+<p>MAC地址表</p>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
-<ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<h3 id="交换机中MAC地址表的维护"><a href="#交换机中MAC地址表的维护" class="headerlink" title="交换机中MAC地址表的维护"></a>交换机中MAC地址表的维护</h3><ol>
+<li>收到包时，将发送方MAC地址以及其输入端口的号码写入MAC地址表中</li>
+<li>删除记录，是为了防止设备移动时产生问题，将笔记本电脑从办公室移到会议室，记录会过时，所以地址表的记录在一段时间不使用后会自动删除，只要笔记本电脑连接到会议室的交换机，交换机就会根据笔记本电脑发出的包来更新它的地址表</li>
+<li>过时记录删除前，交换机仍有可能将包转发到老的端口，通信就会发生错误，情况尽管罕见，但仍可能发生，只要重启交换机，地址表就会被清空，并更新正确的信息，然后网络又可以正常工作了</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<h3 id="（网线-gt-接收端口）信号通过双绞线到达网线接口传入时，进入PHY模块的接收部分"><a href="#（网线-gt-接收端口）信号通过双绞线到达网线接口传入时，进入PHY模块的接收部分" class="headerlink" title="（网线-&gt;接收端口）信号通过双绞线到达网线接口传入时，进入PHY模块的接收部分"></a>（网线-&gt;接收端口）信号通过双绞线到达网线接口传入时，进入PHY模块的接收部分</h3><ol>
+<li>PHY模块将网线中的信号转换为通用格式，然后传递给MAC模块。MAC模块将信号转换为数字信息，然后经过FCS校验错误，无误则存放入缓存区。</li>
+<li>放入缓存区后，要查询一下这个包的接收方MAC地址是否已经在MAC地址表中有记录了，若有，查到端口号，通过交换电路将包发送到该端口</li>
+</ol>
+<h3 id="交换电路工作方式"><a href="#交换电路工作方式" class="headerlink" title="交换电路工作方式"></a>交换电路工作方式</h3><p><img src="/2018/07/14/Note-for-Computer-Network-5/1.png" alt="1"></p>
+<p>如图，每个交叉点都有一个交换开关，交换开关由电子控制</p>
+<h3 id="（发送端口-gt-网线）半双工模式下发送部分"><a href="#（发送端口-gt-网线）半双工模式下发送部分" class="headerlink" title="（发送端口-&gt;网线）半双工模式下发送部分"></a>（发送端口-&gt;网线）半双工模式下发送部分</h3><ol>
+<li>发送前确认，接收线路中没有信号过来</li>
+<li>发送时，对接收信号进行监控，如果检测到，说明出现信号碰撞，这时需要发送阻塞信号停止网络中所有的发送操作，等待一段时间之后尝试重新发送</li>
+</ol>
+<h3 id="特殊操作"><a href="#特殊操作" class="headerlink" title="特殊操作"></a>特殊操作</h3><ol>
+<li><p>交换机查询地址后发现，记录中的目标端口和这个包的源端口是同一个端口：</p>
+<p> <img src="/2018/07/14/Note-for-Computer-Network-5/2.png" alt="2"></p>
+<ul>
+<li>A发出包，集线器广播到B和交换机，交换机接入端口和目标端口是同一个（设为P），从P又会到达集线器，集线器再次发包到B和交换机。此时交换机会重复得到同一个包。因此，当交换机发现一个包要发回到原端口时，就会直接丢弃这个包。</li>
+</ul>
+</li>
+<li>地址表找不到指定的MAC地址。可能是该地址设备尚未向该交换机发过包，又或者地址表中记录删除了。所以此时交换机无法判断应该把包发给哪个端口，只能把包发给除源端口外的所有端口。</li>
+</ol>
+<h2 id="全双工模式"><a href="#全双工模式" class="headerlink" title="全双工模式"></a>全双工模式</h2><ul>
+<li>使用双绞线，发送和接收的信号线是各自独立的</li>
+<li>交换机端口、网卡的PHY和MAC模块，其内部发送和接收电路也是各自独立的，信号也不会发生碰撞，因此只要不适用集线器，就可以避免信号碰撞</li>
+<li>全双工模式下，以太网规范有所修改，不需要进行碰撞处理机制，因此速度快，性能高</li>
+</ul>
+<h2 id="自动协商"><a href="#自动协商" class="headerlink" title="自动协商"></a>自动协商</h2><ul>
+<li>全双工和半双工模式可以进行自动切换</li>
+<li>相互连接的双方探测对方是否支持全双工模式，并自动切换成相应的工作模式，甚至探测对方的传输速率并进行自动切换</li>
+</ul>
+<h2 id="间歇脉冲"><a href="#间歇脉冲" class="headerlink" title="间歇脉冲"></a>间歇脉冲</h2><ul>
+<li>在以太网中，当没有数据在传输时，网络中会填充一种被称为连续脉冲的脉冲信号。因为一直有信号，从而能够检测对方是否在正常工作，或者说网线有没有正常连接</li>
+<li>以太网设备的网络接口周围有一个绿色的LEC指示灯，如果绿灯亮，说明PHY模块以及网线连接正常</li>
+<li>脉冲信号还承载着自动协商的功能</li>
+</ul>
+<p>完成全书 381页</p>
 
       
     </div>
@@ -537,7 +590,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
           
         </div>
       
@@ -550,8 +603,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/07/14/Note-for-Computer-Network-4/" rel="next" title="Note for Computer Network 4">
+                <i class="fa fa-chevron-left"></i> Note for Computer Network 4
               </a>
             
           </div>
@@ -560,8 +613,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/29/Note-for-Computer-Network-6/" rel="prev" title="Note for Computer Network 6">
+                Note for Computer Network 6 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +825,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#创建好了的包是如何进入互联网的"><span class="nav-number">1.</span> <span class="nav-text">创建好了的包是如何进入互联网的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网线中的信号衰减情况"><span class="nav-number">1.0.1.</span> <span class="nav-text">网线中的信号衰减情况</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集线器和交换机"><span class="nav-number">1.1.</span> <span class="nav-text">集线器和交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#交换机中MAC地址表的维护"><span class="nav-number">1.1.1.</span> <span class="nav-text">交换机中MAC地址表的维护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（网线-gt-接收端口）信号通过双绞线到达网线接口传入时，进入PHY模块的接收部分"><span class="nav-number">1.1.2.</span> <span class="nav-text">（网线-&gt;接收端口）信号通过双绞线到达网线接口传入时，进入PHY模块的接收部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#交换电路工作方式"><span class="nav-number">1.1.3.</span> <span class="nav-text">交换电路工作方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#（发送端口-gt-网线）半双工模式下发送部分"><span class="nav-number">1.1.4.</span> <span class="nav-text">（发送端口-&gt;网线）半双工模式下发送部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊操作"><span class="nav-number">1.1.5.</span> <span class="nav-text">特殊操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#全双工模式"><span class="nav-number">1.2.</span> <span class="nav-text">全双工模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动协商"><span class="nav-number">1.3.</span> <span class="nav-text">自动协商</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#间歇脉冲"><span class="nav-number">1.4.</span> <span class="nav-text">间歇脉冲</span></a></li></ol></div>
             
 
           </div>

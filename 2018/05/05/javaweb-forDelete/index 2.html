@@ -94,25 +94,28 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="继续javaweb_forQuery的内容，本文讲解删除操作 对列表中对象进行删除操作增加删除的超链指向地址admin_category_delete，并传递该对象的id过去 12345678/*在listCategory.jsp文件中 */&amp;lt;td&amp;gt;	&amp;lt;a deleteLink=&quot;true&quot; 		href=&quot;admin_category_delete?id=$&amp;#123;c.id">
+<meta name="keywords" content="javaWeb">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="javaweb_forDelete">
+<meta property="og:url" content="http://yoursite.com/2018/05/05/javaweb-forDelete/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="继续javaweb_forQuery的内容，本文讲解删除操作 对列表中对象进行删除操作增加删除的超链指向地址admin_category_delete，并传递该对象的id过去 12345678/*在listCategory.jsp文件中 */&amp;lt;td&amp;gt;	&amp;lt;a deleteLink=&quot;true&quot; 		href=&quot;admin_category_delete?id=$&amp;#123;c.id">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/05/javaweb-forDelete/JSP_Engine_File.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/05/javaweb-forDelete/webServer2jsp.png">
+<meta property="og:updated_time" content="2019-04-04T11:57:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="javaweb_forDelete">
+<meta name="twitter:description" content="继续javaweb_forQuery的内容，本文讲解删除操作 对列表中对象进行删除操作增加删除的超链指向地址admin_category_delete，并传递该对象的id过去 12345678/*在listCategory.jsp文件中 */&amp;lt;td&amp;gt;	&amp;lt;a deleteLink=&quot;true&quot; 		href=&quot;admin_category_delete?id=$&amp;#123;c.id">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/05/javaweb-forDelete/JSP_Engine_File.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/05/05/javaweb-forDelete/">
 
 
 
@@ -122,7 +125,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>javaweb_forDelete | To the moon</title>
   
 
 
@@ -360,7 +363,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/05/javaweb-forDelete/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +380,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">javaweb_forDelete
 
               
             
@@ -403,7 +406,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-05-05 12:38:34" itemprop="dateCreated datePublished" datetime="2018-05-05T12:38:34+08:00">2018-05-05</time>
             
 
             
@@ -420,7 +423,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2019-04-04 19:57:42" itemprop="dateModified" datetime="2019-04-04T19:57:42+08:00">2019-04-04</time>
               
             
           </span>
@@ -437,7 +440,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
 
                 
                 
@@ -479,28 +482,55 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+        <p>继续javaweb_forQuery的内容，本文讲解删除操作</p>
+<h1 id="对列表中对象进行删除操作"><a href="#对列表中对象进行删除操作" class="headerlink" title="对列表中对象进行删除操作"></a>对列表中对象进行删除操作</h1><h3 id="增加删除的超链"><a href="#增加删除的超链" class="headerlink" title="增加删除的超链"></a>增加删除的超链</h3><p>指向地址admin_category_delete，并传递该对象的id过去</p>
+<figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="xml">/*在listCategory.jsp文件中 */</span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">td</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">deleteLink</span>=<span class="string">"true"</span> </span></span></span><br><span class="line"><span class="xml">		href="admin_category_delete?id=$</span><span class="template-variable">&#123;c.id&#125;</span><span class="xml">"&gt;</span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">" 	glyphicon glyphicon-trash"</span>&gt;</span></span></span><br><span class="line"><span class="xml">		<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></span><br><span class="line"><span class="xml">	<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;/<span class="name">td</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="用于删除前的确认"><a href="#用于删除前的确认" class="headerlink" title="用于删除前的确认"></a>用于删除前的确认</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*在adminHeader.jsp文件中 */</span></span><br><span class="line"><span class="comment">/*对所有的删除链接进行监听  */</span></span><br><span class="line">$(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	$(<span class="string">"a"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">var</span> deleteLink = $(<span class="keyword">this</span>).attr(<span class="string">"deleteLink"</span>);</span><br><span class="line">		<span class="built_in">console</span>.log(deleteLink);</span><br><span class="line">		<span class="keyword">if</span>(<span class="string">"true"</span>==deleteLink)&#123;</span><br><span class="line">			<span class="keyword">var</span> confirmDelete = confirm(<span class="string">"确认要删除"</span>);</span><br><span class="line">			<span class="keyword">if</span>(confirmDelete)</span><br><span class="line">				<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>[延伸阅读]有关jsp的知识可以参考<a href="http://www.runoob.com/jsp/jsp-intro.html" target="_blank" rel="noopener">JSP简介|菜鸟教程</a>，简要 ：</p>
+<ul>
+<li>使用jsp将java代码嵌入html网页中。</li>
+<li>网络服务器需要一个 JSP 引擎，也就是一个容器来处理 JSP 页面。容器负责截获对 JSP 页面的请求。</li>
+</ul>
+<p><img src="/2018/05/05/javaweb-forDelete/JSP_Engine_File.png" alt="JSP 容器和 JSP 文件"></p>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
-<ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
+<ul>
+<li><p>Web服务器使用JSP来创建网页的过程</p>
+<ul>
+<li>就像其他普通的网页一样，浏览器发送一个 HTTP 请求给服务器</li>
+<li>Web 服务器识别出这是一个对 JSP 网页的请求，并且将该请求传递给 JSP 引擎。通过使用 URL或者 .jsp 文件来完成</li>
+<li>JSP 引擎从磁盘中载入 JSP 文件，然后将它们转化为 Servlet。这种转化只是简单地将所有模板文本改用 println() 语句，并且将所有的 JSP 元素转化成 Java 代码</li>
+<li>JSP 引擎将 Servlet 编译成可执行类，并且将原始请求传递给 Servlet 引擎</li>
+<li>Web 服务器的某组件将会调用 Servlet 引擎，然后载入并执行 Servlet 类。在执行过程中，Servlet 产生 HTML 格式的输出并将其内嵌于 HTTP response 中上交给 Web 服务器</li>
+<li>Web 服务器以静态 HTML 网页的形式将 HTTP response 返回到您的浏览器中</li>
+<li><p>最终，Web 浏览器处理 HTTP response 中动态产生的HTML网页，就好像在处理静态网页一样</p>
+<p><img src="/2018/05/05/javaweb-forDelete/webServer2jsp.png" alt="webServer2jsp"></p>
 </li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
+</ul>
 </li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+</ul>
+<h3 id="CategoryController中增加delete方法"><a href="#CategoryController中增加delete方法" class="headerlink" title="CategoryController中增加delete方法"></a>CategoryController中增加delete方法</h3><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(<span class="string">"admin_category_delete"</span>)</span><br><span class="line">	<span class="keyword">public</span> String <span class="keyword">delete</span>(<span class="keyword">int</span> id,HttpSession  session) <span class="keyword">throws</span> IOException&#123;</span><br><span class="line">		categoryService.<span class="keyword">delete</span>(id);</span><br><span class="line">		<span class="keyword">File</span> imageFolder=<span class="keyword">new</span>  <span class="keyword">File</span>(session.getServletContext().getRealPath(<span class="string">"img/category"</span>));</span><br><span class="line">		<span class="keyword">File</span> <span class="keyword">file</span> = <span class="keyword">new</span> <span class="keyword">File</span>(imageFolder,id+<span class="string">".jpg"</span>);</span><br><span class="line">		<span class="keyword">file</span>.<span class="keyword">delete</span>();</span><br><span class="line">		<span class="keyword">return</span> <span class="string">"redirect:/admin_category_list"</span>;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>接受id注入 ，categoryService删除数据</li>
+<li>根据 session定位到图片的位置(注：当前图片存入<br>/../eclipse_projects/.metadata/.plugins/org.eclipse.wst.server.core/<br>tmp0/wtpwebapps/tmall_ssm/img/category/)，删除图片</li>
+<li>客户端重定向跳转到admin_category_list页面</li>
+</ul>
+<p>[扩展阅读]<a href="https://www.cnblogs.com/Qian123/p/5345527.html" target="_blank" rel="noopener">Forward与Redirect的区别</a>，简要理解 ：</p>
+<ul>
+<li>forward是服务器直接访问URL，在浏览器不知情时接收内容，浏览器地址栏 仍然是原来的地址 ，效率高 ，并可共享request里的数据</li>
+<li>redirect是服务器发送302状态码，告诉浏览器重新请求那个地址，所以地址栏显示新的URL，效率低，并不存在 request传递概念</li>
+<li>两者的内部机制有很大的区别：   <ol>
+<li>请求转发只能将请求转发给同一个WEB应用中的组件<br>重定向还可以重新定向到同一站点不同应用程序中的资源，甚至可以定向到一绝对的URL   </li>
+<li>重定向可以看见目标页面的URL<br>转发只能看见第一次访问的页面URL，以后的工作都是有服务器来做的</li>
+<li>请求响应调用者和被调用者之间共享相同的request对象和response对象<br>重定向调用者和被调用者属于两个独立访问请求和响应过程。  </li>
+<li>重定向跳转后必须加上return，要不然页面虽然跳转了,    但是还会执行跳转后面的语句<br>转发是执行了跳转页面，下面的代码就不会在执行了</li>
+<li>转发时浏览器只请求一次服务器，重定向时浏览器请求两次服务器</li>
+<li>转发调用的是HttpServletRequest对象中的方法，重定向调用的是HttpServletResponse对象中的方法</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在doGet()方法中if-else判断 ，true则转发，false则重定向</span></span><br><span class="line">	</span><br><span class="line"><span class="selector-tag">if</span>(<span class="string">"admin"</span>.equals(username) &amp;&amp; <span class="string">"123"</span>.equals(password))</span><br><span class="line">	<span class="comment">//转发</span></span><br><span class="line">	<span class="selector-tag">request</span><span class="selector-class">.getRequestDispatcher</span>(<span class="string">"/success.jsp"</span>)<span class="selector-class">.forward</span>(request,,response);</span><br><span class="line"><span class="selector-tag">else</span></span><br><span class="line">	<span class="comment">//重定向</span></span><br><span class="line">	<span class="selector-tag">response</span><span class="selector-class">.sendRedirect</span>(<span class="string">"imooc_test/fail.jsp"</span>);</span><br><span class="line">	</span><br><span class="line">```	</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[注]</span>转发时可以使用<span class="selector-tag">request</span><span class="selector-class">.setAttribute</span>(<span class="string">"username"</span>,<span class="string">"Harry"</span>);将数据传递给转发目的页面，为什么能传递参考以上步骤<span class="selector-tag">3</span>。重定向时只能用<span class="selector-tag">Session</span>或者<span class="selector-tag">Application</span>带数据。</span><br></pre></td></tr></table></figure>
+<p>//Application方式：<br>//转发前的servlet<br>ServletContext sc = request.getServletContext();<br>sc.setAttribute(“goods”,”娃娃”);<br>//Todo：转发代码</p>
+<p>//转发后的servlet<br>String goods  = (String)application.getAttribute(“goods”);<br><code>`</code></p>
 
       
     </div>
@@ -537,7 +567,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
           
         </div>
       
@@ -550,8 +580,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/05/05/Note-for-Computer-Network-1/" rel="next" title="Note for Computer Network 1">
+                <i class="fa fa-chevron-left"></i> Note for Computer Network 1
               </a>
             
           </div>
@@ -560,8 +590,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/05/javaweb-EditAndUpdate/" rel="prev" title="javaweb_EditAndUpdate">
+                javaweb_EditAndUpdate <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +802,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#对列表中对象进行删除操作"><span class="nav-number">1.</span> <span class="nav-text">对列表中对象进行删除操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#增加删除的超链"><span class="nav-number">1.0.1.</span> <span class="nav-text">增加删除的超链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用于删除前的确认"><span class="nav-number">1.0.2.</span> <span class="nav-text">用于删除前的确认</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CategoryController中增加delete方法"><span class="nav-number">1.0.3.</span> <span class="nav-text">CategoryController中增加delete方法</span></a></li></ol></li></ol></div>
             
 
           </div>

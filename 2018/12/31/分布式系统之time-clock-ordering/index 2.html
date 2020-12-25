@@ -94,25 +94,28 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="参考阅读：分布式系统理论基础 - 时间、时钟和事件顺序分布式系统的时间分布式系统一致性的发展历史分布式系统一致性的发展历史（一） 时间、时钟和事件顺序 分布式系统使用逻辑时钟记录事件顺序关系。 采用物理时钟，在分布式系统中仍然会有毫秒级别的偏差。    Lamport timestamps 每个事件对应一个Lamport时间戳，初始值为0如果事件在节点内发生，时间戳加1如果事件属于发送事件，时间戳">
+<meta name="keywords" content="distributed system">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="分布式系统之time clock ordering">
+<meta property="og:url" content="http://yoursite.com/2018/12/31/分布式系统之time-clock-ordering/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="参考阅读：分布式系统理论基础 - 时间、时钟和事件顺序分布式系统的时间分布式系统一致性的发展历史分布式系统一致性的发展历史（一） 时间、时钟和事件顺序 分布式系统使用逻辑时钟记录事件顺序关系。 采用物理时钟，在分布式系统中仍然会有毫秒级别的偏差。    Lamport timestamps 每个事件对应一个Lamport时间戳，初始值为0如果事件在节点内发生，时间戳加1如果事件属于发送事件，时间戳">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/12/31/分布式系统之time-clock-ordering/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/31/分布式系统之time-clock-ordering/2.png">
+<meta property="og:updated_time" content="2019-01-03T05:42:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="分布式系统之time clock ordering">
+<meta name="twitter:description" content="参考阅读：分布式系统理论基础 - 时间、时钟和事件顺序分布式系统的时间分布式系统一致性的发展历史分布式系统一致性的发展历史（一） 时间、时钟和事件顺序 分布式系统使用逻辑时钟记录事件顺序关系。 采用物理时钟，在分布式系统中仍然会有毫秒级别的偏差。    Lamport timestamps 每个事件对应一个Lamport时间戳，初始值为0如果事件在节点内发生，时间戳加1如果事件属于发送事件，时间戳">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/31/分布式系统之time-clock-ordering/1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/31/分布式系统之time-clock-ordering/">
 
 
 
@@ -122,7 +125,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>分布式系统之time clock ordering | To the moon</title>
   
 
 
@@ -360,7 +363,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/31/分布式系统之time-clock-ordering/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +380,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">分布式系统之time clock ordering
 
               
             
@@ -403,7 +406,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-12-31 12:08:57" itemprop="dateCreated datePublished" datetime="2018-12-31T12:08:57+08:00">2018-12-31</time>
             
 
             
@@ -420,7 +423,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2019-01-03 13:42:01" itemprop="dateModified" datetime="2019-01-03T13:42:01+08:00">2019-01-03</time>
               
             
           </span>
@@ -479,28 +482,49 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
-<ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
+        <p>参考阅读：<br><a href="http://www.cnblogs.com/bangerlee/p/5448766.html" target="_blank" rel="noopener">分布式系统理论基础 - 时间、时钟和事件顺序</a><br><a href="https://www.jianshu.com/p/8500882ab38c" target="_blank" rel="noopener">分布式系统的时间</a><br><a href="https://www.jianshu.com/p/d888642ef72c?utm_campaign=maleskine&amp;utm_content=note&amp;utm_medium=seo_notes&amp;utm_source=recommendation" target="_blank" rel="noopener">分布式系统一致性的发展历史</a><br><a href="https://36kr.com/p/5037166.html" target="_blank" rel="noopener">分布式系统一致性的发展历史（一）</a></p>
+<h1 id="时间、时钟和事件顺序"><a href="#时间、时钟和事件顺序" class="headerlink" title="时间、时钟和事件顺序"></a>时间、时钟和事件顺序</h1><ul>
+<li>分布式系统使用<strong>逻辑时钟</strong>记录事件顺序关系。<ul>
+<li>采用物理时钟，在分布式系统中仍然会有毫秒级别的偏差。</li>
+</ul>
 </li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
+</ul>
+<h2 id="Lamport-timestamps"><a href="#Lamport-timestamps" class="headerlink" title="Lamport timestamps"></a>Lamport timestamps</h2><blockquote>
+<p>每个事件对应一个Lamport时间戳，初始值为0<br>如果事件在节点内发生，时间戳加1<br>如果事件属于发送事件，时间戳加1并在消息中带上该时间戳<br>如果事件属于接收事件，时间戳 = Max(本地时间戳，消息中的时间戳) + 1</p>
+</blockquote>
+<p><strong>偏序关系 partial order</strong>，如下图方框内的编号：</p>
+ <a id="more"></a>
+<p> <img src="/2018/12/31/分布式系统之time-clock-ordering/1.png" alt="1"></p>
+<p><strong>全序关系 total order</strong>，除了上面的偏序关系外，加上以下排序，构成全序关系：<br>A1 =&gt; B3 、 A2 =&gt; C2  、 B4 =&gt; C3 、B5 =&gt; A3 。</p>
+<h2 id="Vector-clock"><a href="#Vector-clock" class="headerlink" title="Vector clock"></a>Vector clock</h2><blockquote>
+<p>Vector clock是在Lamport时间戳基础上演进的另一种逻辑时钟方法，它通过vector结构不但记录本节点的Lamport时间戳，同时也记录了其他节点的Lamport时间戳</p>
+</blockquote>
+<p><img src="/2018/12/31/分布式系统之time-clock-ordering/2.png" alt="2"></p>
+<blockquote>
+<p>如果 Tb[Q] &gt; Ta[Q] 并且 Tb[P] &lt; Ta[P]，则认为a、b同时发生，记作 a <-> b。例如图2中节点B上的第4个事件 (A:2，B:4，C:1) 与节点C上的第2个事件 (B:3，C:2) 没有因果关系、属于同时发生事件。</-></p>
+</blockquote>
+<h2 id="True-Time"><a href="#True-Time" class="headerlink" title="True Time"></a>True Time</h2><ul>
+<li>NTP是有误差的，而且NTP还可能出现时间回退的情况，所以我们不能直接依赖NTP来确定一个事件发生的时间。在Google Spanner里面，通过引入True Time来解决了分布式时间问题。<ul>
+<li>NTP，network time protocol，网络时间协议。提供了一个服务，使得跨互联网的用户能精准地与 UTC 同步。</li>
+<li>这个服务是可靠的，通常使用冗余服务器的方式。</li>
+<li>提供对时间服务的保护，采用认证技术来检查数据和地址。</li>
+</ul>
 </li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
+<li>Spanner通过使用GPS + Atomic Clock来对集群的机器进行校时，精度误差范围能控制在ms级别，通过提供一套TrueTime API给外面使用。</li>
+<li>虽然spanner引入了TrueTime可以得到全球范围的时序一致性，但相关事务在提交的时候会有一个wait时间，只是这个时间很短，而且spanner后续都准备将其优化到 ε &lt; 1ms，也就是对于关联事务，仅仅在上一个事务commit之后等待2ms之后就能执行，性能还是很强悍的。</li>
+<li>最关键的是，<strong>TrueTime 是基于硬件的</strong>，对于很多企业来说，是没有办法搞定这套部署的。</li>
+</ul>
+<h2 id="Hybrid-Logic-Clock"><a href="#Hybrid-Logic-Clock" class="headerlink" title="Hybrid Logic Clock"></a>Hybrid Logic Clock</h2><ul>
+<li>从软件层面，基于 NTP ，解决分布式时间问题。</li>
+<li>读取当前系统时间，对于一个 HLC 的时间t 来说，他总是等于或者略大于当前的系统时间。</li>
+<li>HLC 由两部分组成——physical clock 和 logic clock。某一结点 j 维护了 l.j 和 c.j ，前者是节点 j 当前已知的最大的物理时间，后者是当前的逻辑时间。<ul>
+<li>如果有两个事件，那么先判断物理时间 pt，再判断逻辑时间 ct。</li>
+</ul>
 </li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
-</ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</ul>
+<blockquote>
+<p>HLC虽然方便，它毕竟是基于NTP的，所以如果NTP出现了问题，可能导致HLC与当前系统pt的时间误差过大</p>
+</blockquote>
 
       
     </div>
@@ -537,7 +561,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/distributed-system/" rel="tag"><i class="fa fa-tag"></i> distributed system</a>
           
         </div>
       
@@ -550,8 +574,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/12/22/类加载机制笔记/" rel="next" title="类加载机制笔记">
+                <i class="fa fa-chevron-left"></i> 类加载机制笔记
               </a>
             
           </div>
@@ -560,8 +584,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/01/04/设计模式一揽子/" rel="prev" title="设计模式一揽子">
+                设计模式一揽子 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +796,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#时间、时钟和事件顺序"><span class="nav-number">1.</span> <span class="nav-text">时间、时钟和事件顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lamport-timestamps"><span class="nav-number">1.1.</span> <span class="nav-text">Lamport timestamps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vector-clock"><span class="nav-number">1.2.</span> <span class="nav-text">Vector clock</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#True-Time"><span class="nav-number">1.3.</span> <span class="nav-text">True Time</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Hybrid-Logic-Clock"><span class="nav-number">1.4.</span> <span class="nav-text">Hybrid Logic Clock</span></a></li></ol></li></ol></div>
             
 
           </div>

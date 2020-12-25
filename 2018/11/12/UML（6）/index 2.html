@@ -94,25 +94,25 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="面向对象系统分析与设计（6）1. 系统设计 定义：将分析模型的逻辑结构加以实现前的准备过程。  哪些工作内容：  考虑非功能性需求的弊端； 考虑全局设计问题； 考虑实现的环境 —— implement environment； 补充 classes 的所有属性和操作； 将 implementation 的工作分成可执行的小块； 为 subsystems 间建立接口。  当可以从“分析模式”平滑过渡">
+<meta name="keywords" content="UML">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="UML（6）">
+<meta property="og:url" content="http://yoursite.com/2018/11/12/UML（6）/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="面向对象系统分析与设计（6）1. 系统设计 定义：将分析模型的逻辑结构加以实现前的准备过程。  哪些工作内容：  考虑非功能性需求的弊端； 考虑全局设计问题； 考虑实现的环境 —— implement environment； 补充 classes 的所有属性和操作； 将 implementation 的工作分成可执行的小块； 为 subsystems 间建立接口。  当可以从“分析模式”平滑过渡">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:updated_time" content="2018-11-13T00:38:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="UML（6）">
+<meta name="twitter:description" content="面向对象系统分析与设计（6）1. 系统设计 定义：将分析模型的逻辑结构加以实现前的准备过程。  哪些工作内容：  考虑非功能性需求的弊端； 考虑全局设计问题； 考虑实现的环境 —— implement environment； 补充 classes 的所有属性和操作； 将 implementation 的工作分成可执行的小块； 为 subsystems 间建立接口。  当可以从“分析模式”平滑过渡">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/12/UML（6）/">
 
 
 
@@ -122,7 +122,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>UML（6） | To the moon</title>
   
 
 
@@ -360,7 +360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/UML（6）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +377,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">UML（6）
 
               
             
@@ -403,7 +403,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-11-12 16:07:43" itemprop="dateCreated datePublished" datetime="2018-11-12T16:07:43+08:00">2018-11-12</time>
             
 
             
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2018-11-13 08:38:26" itemprop="dateModified" datetime="2018-11-13T08:38:26+08:00">2018-11-13</time>
               
             
           </span>
@@ -437,7 +437,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UML/" itemprop="url" rel="index"><span itemprop="name">UML</span></a></span>
 
                 
                 
@@ -479,28 +479,236 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+        <h1 id="面向对象系统分析与设计（6）"><a href="#面向对象系统分析与设计（6）" class="headerlink" title="面向对象系统分析与设计（6）"></a>面向对象系统分析与设计（6）</h1><h2 id="1-系统设计"><a href="#1-系统设计" class="headerlink" title="1. 系统设计"></a>1. 系统设计</h2><ul>
+<li>定义：将分析模型的逻辑结构加以实现前的准备过程。</li>
+</ul>
+<p>哪些工作内容：</p>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>考虑非功能性需求的弊端；</li>
+<li>考虑全局设计问题；</li>
+<li>考虑实现的环境 —— implement environment；</li>
+<li>补充 classes 的所有属性和操作；</li>
+<li>将 implementation 的工作分成可执行的小块；</li>
+<li>为 subsystems 间建立接口。</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<p>当可以从“分析模式”平滑过渡到“设计模式”时（即无需大改时），就是开始系统设计的最佳时刻。</p>
+<a id="more"></a>
+<h3 id="1-1-设计的意义和标准"><a href="#1-1-设计的意义和标准" class="headerlink" title="1.1 设计的意义和标准"></a>1.1 设计的意义和标准</h3><p>上文列出的 6 项工作必须要在 implementation 前完成，所以不能跳过设计这一步骤。</p>
+<ol>
+<li>研究非功能性需求提高质量；</li>
+<li>看重<strong>设计目标</strong>和<strong>扩展功能</strong>，而不是管理目标。</li>
+<li>遵循的标准：外观标准、依赖标准、维护标准、开销标准等等。</li>
+<li>考虑的范畴：<ul>
+<li>数据的管理；</li>
+<li>访问权限管理；</li>
+<li>流程控制；</li>
+<li>边界条件；</li>
+</ul>
+</li>
+</ol>
+<h3 id="1-2-设计-Tips："><a href="#1-2-设计-Tips：" class="headerlink" title="1.2 设计 Tips："></a>1.2 设计 Tips：</h3><ol>
+<li>指定 admin 的用例，作为 start-up 和 shutdown。</li>
+<li>指定 errors 的异常处理机制。</li>
+</ol>
+<h3 id="1-3-implement-environment"><a href="#1-3-implement-environment" class="headerlink" title="1.3 implement environment"></a>1.3 implement environment</h3><ul>
+<li>要考虑在构建一个 system 时，技术和管理上所受到的限制。<ul>
+<li>比如：系统运行环境问题、硬件/软件问题、编程语言选择问题、参与人员问题等。</li>
+</ul>
+</li>
+<li>策略：定位对 implement environment 的依赖，然后可以创建代理的方式（类似 JVM 的跨平台）来解决。</li>
+</ul>
+<h2 id="2-UP-设计过程"><a href="#2-UP-设计过程" class="headerlink" title="2. UP 设计过程"></a>2. UP 设计过程</h2><ol>
+<li>设计 use-cases（PPT P21）</li>
+<li>设计 classes（PPT P57）</li>
+<li>设计 subsystems（PPT P75）</li>
+</ol>
+<h3 id="2-1-use-case-设计"><a href="#2-1-use-case-设计" class="headerlink" title="2.1 use-case 设计"></a>2.1 use-case 设计</h3><ol>
+<li>确定要设计哪些类<ul>
+<li>保持可追溯性：use-case 设计的实现 -&gt; use-case 分析的实现 -&gt; use-case</li>
+</ul>
+</li>
+<li>增加说明：使用类图、非功能性的需求。</li>
+</ol>
+<p>其中 OO Design 的迭代过程：</p>
+<ol>
+<li>设计初步类图模型；</li>
+<li>为每个用例设计一个 sequence diagram。<ul>
+<li>开发初步的 sequence diagrams；</li>
+<li>开发多层的 sequence diagrams。</li>
+</ul>
+</li>
+<li>修改类图；<ul>
+<li>修改方法名；</li>
+<li>修改属性等；</li>
+</ul>
+</li>
+<li>用 package 打包（或者分 subsystem、分层）等方式，按功能将类图设计分区。</li>
+</ol>
+<h4 id="2-1-1-设计初步类图模型"><a href="#2-1-1-设计初步类图模型" class="headerlink" title="2.1.1 设计初步类图模型"></a>2.1.1 设计初步类图模型</h4><ol>
+<li>扩展 domain model class diagram。<ul>
+<li>注：domain model 是指缩略版的类图，只有类名、属性名两种信息。不含 method、没有<code>+、-、#</code>等符号。</li>
+<li>1）增加属性的 type 和初值。</li>
+<li>2）增加可见性标识。</li>
+</ul>
+</li>
+<li>详细设计。<ul>
+<li>1）交互图实现指向性。</li>
+<li>2）补足箭头，让其连贯起来。</li>
+<li>3）每个类增加 method。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-1-2-设计初步-sequence-diagram"><a href="#2-1-2-设计初步-sequence-diagram" class="headerlink" title="2.1.2 设计初步 sequence diagram"></a>2.1.2 设计初步 sequence diagram</h4><p>初步 sequence diagram 的假设：</p>
+<pre><code>1. perfect technology assumption。比如不考虑登录注销功能。
+2. perfect memory assumption。比如不考虑存储问题。
+3. perfect solution assumption。比如不考虑 Exception 分支。
+</code></pre><h4 id="2-1-3-设计-multilayer-sequence"><a href="#2-1-3-设计-multilayer-sequence" class="headerlink" title="2.1.3 设计 multilayer sequence"></a>2.1.3 设计 multilayer sequence</h4><ol>
+<li>修改 domain layer，其中加入 use-case controller 和 classes；</li>
+<li>增加 data access layer。<ul>
+<li>增加额外的数据访问类，作为外界数据库交互用途；</li>
+<li>取消掉 perfect memory 假设。</li>
+<li>职责分离。（以前是 controller 要实例化一个实体类，这个 instance 要求 DA 类去操作 instance 的属性去读数据库；增加 data access layer后：controller 可以直接要求 DA 类去实例化那个实体类，而且由 DA 类来完成读库，传初始值给 instance 等操作）</li>
+</ul>
+</li>
+<li>增加 view layer。<ul>
+<li>增加额外的 user-interface 类。比如增加 windows 类用来实现 actor 和 controller 之间的交互。</li>
+<li>为每个用例增加 GUI 表格或者 Web 网页。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-1-4-修改类图"><a href="#2-1-4-修改类图" class="headerlink" title="2.1.4 修改类图"></a>2.1.4 修改类图</h4><ol>
+<li>做到每层一个类图：<ul>
+<li>view 层和 data access 层增加新类；</li>
+<li>domain 层的 use-case controller 增加新类。</li>
+</ul>
+</li>
+<li>时序图的 messages 增加 methods：<ul>
+<li>构造方法；</li>
+<li>getter 和 setter 方法；</li>
+<li>用例特有的方法。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-1-5-打包分区"><a href="#2-1-5-打包分区" class="headerlink" title="2.1.5 打包分区"></a>2.1.5 打包分区</h4><ol>
+<li>高级的 UML 图会将相关的类联系起来；</li>
+<li>确认一个 system 的主要组成和依赖。</li>
+<li>为每层确定最终的分区情况。</li>
+<li>划分子系统、在 packages 中体现出层次性。</li>
+</ol>
+<h3 id="2-2-classes-设计"><a href="#2-2-classes-设计" class="headerlink" title="2.2 classes 设计"></a>2.2 classes 设计</h3><ul>
+<li>前提：要设计的类，必须是能够被实现的类才行。</li>
+<li>这些类出自两个地方：<ol>
+<li>the problem domain：改进之前对类的分析；如果必要，可以将类划分为多个设计类。</li>
+<li>the solution domain：一般的公用类库、框架等；实现一个系统的技术工具等。</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-2-1-solution-domain"><a href="#2-2-1-solution-domain" class="headerlink" title="2.2.1 solution domain"></a>2.2.1 solution domain</h4><ol>
+<li>如果是 boundary classes，要考虑指定的 user interface technologies。</li>
+<li>如果是 entity classes，要考虑指定的 data management technologies。</li>
+<li>如果是 control classes，要考虑：<ol>
+<li>distribution issues：看需不需要分布式吧。</li>
+<li>performance issues：考虑跟 boundary class 和 entity class 的兼容问题。</li>
+<li>transaction issues：考虑是否需要事务管理技术。</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-2-2-activities"><a href="#2-2-2-activities" class="headerlink" title="2.2.2 activities"></a>2.2.2 activities</h4><ol>
+<li>完善 activities 的规格：<ol>
+<li>补足属性、联结、操作等；</li>
+<li>补足可见性等；</li>
+<li>对操作增加约束，比如先决条件、后发动作等。</li>
+<li>异常等。</li>
+</ol>
+</li>
+<li>选出可重用的组件：<ol>
+<li>类库；</li>
+<li>对非功能性需求的一般设计机制（generic design mechanisms）：持久性、分布式、安全性、事务管理等。</li>
+</ol>
+</li>
+<li>重建设计模式：<ol>
+<li>realize associations：[理解]大概指可变性、适应性。</li>
+<li>利用继承、代理等实现重用。</li>
+</ol>
+</li>
+<li>优化设计模式：<ol>
+<li>修改访问路径；</li>
+<li>拆分 classes；</li>
+<li>缓存；</li>
+<li>延迟计算。</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-2-3-优秀的类的设计"><a href="#2-2-3-优秀的类的设计" class="headerlink" title="2.2.3 优秀的类的设计"></a>2.2.3 优秀的类的设计</h4><ol>
+<li>完整、充足：无论什么 users 想做的都能满足；</li>
+<li>primitiveness：operations 采用最简单最省力的方式；</li>
+<li>高内聚</li>
+<li>低耦合</li>
+</ol>
+<h4 id="2-2-4-generic-design-mechanisms"><a href="#2-2-4-generic-design-mechanisms" class="headerlink" title="2.2.4 generic design mechanisms"></a>2.2.4 generic design mechanisms</h4><p>针对常见的需求，一些好的实践。</p>
+<ol>
+<li>设计模型，同义词：example。<ul>
+<li>针对 object 和 RDBMS 对应的情况，优秀的做法是：<ol>
+<li>一个 class 对应一张表；</li>
+<li>一个 属性对应表中一个字段；</li>
+<li>主键对应 objectId；</li>
+<li>每个 object 对应表中一行；</li>
+<li>classes 间的 association 与表中关系对应；</li>
+<li>继承关系，也在表中对应。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>框架，不解释。</li>
+</ol>
+<h3 id="2-3-subsystems-设计"><a href="#2-3-subsystems-设计" class="headerlink" title="2.3 subsystems 设计"></a>2.3 subsystems 设计</h3><p>将系统拆分成子系统，便于更好的管理。</p>
+<p>子系统中可以包括：</p>
+<ol>
+<li>设计类；</li>
+<li>用例的实现；</li>
+<li>其他子系统；</li>
+<li>接口。</li>
+</ol>
+<p>Tips：用例可以设计成子系统；子系统可以被当做交互图。</p>
+<h4 id="2-3-1-子系统的分区-分层"><a href="#2-3-1-子系统的分区-分层" class="headerlink" title="2.3.1 子系统的分区/分层"></a>2.3.1 子系统的分区/分层</h4><ol>
+<li>可以递归的划分子系统；</li>
+<li>每层为高层提供服务，以及使用下层的服务；</li>
+<li>层次结构：<ol>
+<li>closed layered architecture: 一般指上下层的调用，不可以跨层。较常见。</li>
+<li>open layered architecture: 可跨层调用。耦合度高，较少见。</li>
+</ol>
+</li>
+<li>子系统分区：<ul>
+<li>一层可分多个子系统；</li>
+<li>层间存在 peer to peer 的服务。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-3-2-子系统接口"><a href="#2-3-2-子系统接口" class="headerlink" title="2.3.2 子系统接口"></a>2.3.2 子系统接口</h4><ul>
+<li>通常叫做 API</li>
+<li>包括：操作名、参数及参数类型、返回值；</li>
+<li>Tips：    <ol>
+<li>如果有一个依赖指向这个子系统，那么这个子系统有必要提供一个接口。</li>
+<li>使用接口的 client，与这个子系统的实现是 independent 的。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-4-deployment-model"><a href="#2-4-deployment-model" class="headerlink" title="2.4 deployment model"></a>2.4 deployment model</h3><ul>
+<li>定义：描述一个 system 是如果在物理上部署/安排的。</li>
+<li>deployment diagram 要展示的有：<ol>
+<li>nodes：一般指计算资源（处理器等）；</li>
+<li>relationships：一般指 nodes 的连接方式。</li>
+</ol>
+</li>
+<li>一般的分布式部署采用三层结构。<ol>
+<li>1）clients：用户接口。</li>
+<li>2）database functionality：数据库的功能。</li>
+<li>3）business/application logic：业务逻辑。</li>
+<li>[理解]其实是一种 server/client 结构，可以当做 view 层、业务层、DAO 层来看待，每层都可独立替代。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-5-检查设计"><a href="#2-5-检查设计" class="headerlink" title="2.5 检查设计"></a>2.5 检查设计</h3><p>一个大型 project 的开发会涉及很多人员甚至团队，所以要在设计的最后统一命名风格、统一 OO 的规矩、消除冗余类等等。检查工作要持续到 project 的始末。</p>
 
       
     </div>
@@ -537,7 +745,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/UML/" rel="tag"><i class="fa fa-tag"></i> UML</a>
           
         </div>
       
@@ -550,8 +758,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/11/11/UML（5）/" rel="next" title="UML（5）">
+                <i class="fa fa-chevron-left"></i> UML（5）
               </a>
             
           </div>
@@ -560,8 +768,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/13/UML（7）/" rel="prev" title="UML（7）">
+                UML（7） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +980,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面向对象系统分析与设计（6）"><span class="nav-number">1.</span> <span class="nav-text">面向对象系统分析与设计（6）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-系统设计"><span class="nav-number">1.1.</span> <span class="nav-text">1. 系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-设计的意义和标准"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 设计的意义和标准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-设计-Tips："><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 设计 Tips：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-implement-environment"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 implement environment</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-UP-设计过程"><span class="nav-number">1.2.</span> <span class="nav-text">2. UP 设计过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-use-case-设计"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 use-case 设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-设计初步类图模型"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">2.1.1 设计初步类图模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-设计初步-sequence-diagram"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2.1.2 设计初步 sequence diagram</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-设计-multilayer-sequence"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">2.1.3 设计 multilayer sequence</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-修改类图"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">2.1.4 修改类图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-5-打包分区"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">2.1.5 打包分区</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-classes-设计"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 classes 设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-solution-domain"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 solution domain</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-activities"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2 activities</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-优秀的类的设计"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.2.3 优秀的类的设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-generic-design-mechanisms"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">2.2.4 generic design mechanisms</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-subsystems-设计"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 subsystems 设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-子系统的分区-分层"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1 子系统的分区/分层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-子系统接口"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3.2 子系统接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-deployment-model"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 deployment model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-检查设计"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 检查设计</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

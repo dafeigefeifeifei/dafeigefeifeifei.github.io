@@ -94,25 +94,28 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="面向对象系统分析与设计（4）引子 为了让具有不同背景的角色（比如 user、customer 等）能够准确地获取需求，引入了类图、用例图、时序图、状态机图等等手段  UP建模UP建模的四大阶段：  初始阶段：主要从此阶段拿到需求。搞定最关键部分的元素。占比10%。 详述阶段：填充细节，占比约80%。 construction 阶段：补充剩下的。（不理会） transition 阶段：需求变更时进入">
+<meta name="keywords" content="UML">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="UML（4）">
+<meta property="og:url" content="http://yoursite.com/2018/11/10/UML（4）/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="面向对象系统分析与设计（4）引子 为了让具有不同背景的角色（比如 user、customer 等）能够准确地获取需求，引入了类图、用例图、时序图、状态机图等等手段  UP建模UP建模的四大阶段：  初始阶段：主要从此阶段拿到需求。搞定最关键部分的元素。占比10%。 详述阶段：填充细节，占比约80%。 construction 阶段：补充剩下的。（不理会） transition 阶段：需求变更时进入">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/11/10/UML（4）/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/10/UML（4）/2.png">
+<meta property="og:updated_time" content="2018-11-13T07:31:48.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="UML（4）">
+<meta name="twitter:description" content="面向对象系统分析与设计（4）引子 为了让具有不同背景的角色（比如 user、customer 等）能够准确地获取需求，引入了类图、用例图、时序图、状态机图等等手段  UP建模UP建模的四大阶段：  初始阶段：主要从此阶段拿到需求。搞定最关键部分的元素。占比10%。 详述阶段：填充细节，占比约80%。 construction 阶段：补充剩下的。（不理会） transition 阶段：需求变更时进入">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/10/UML（4）/1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/10/UML（4）/">
 
 
 
@@ -122,7 +125,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>UML（4） | To the moon</title>
   
 
 
@@ -360,7 +363,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/10/UML（4）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +380,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">UML（4）
 
               
             
@@ -403,7 +406,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-11-10 21:29:01" itemprop="dateCreated datePublished" datetime="2018-11-10T21:29:01+08:00">2018-11-10</time>
             
 
             
@@ -420,7 +423,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2018-11-13 15:31:48" itemprop="dateModified" datetime="2018-11-13T15:31:48+08:00">2018-11-13</time>
               
             
           </span>
@@ -437,7 +440,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UML/" itemprop="url" rel="index"><span itemprop="name">UML</span></a></span>
 
                 
                 
@@ -479,28 +482,158 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+        <h1 id="面向对象系统分析与设计（4）"><a href="#面向对象系统分析与设计（4）" class="headerlink" title="面向对象系统分析与设计（4）"></a>面向对象系统分析与设计（4）</h1><h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><ul>
+<li>为了让具有不同背景的角色（比如 user、customer 等）能够准确地获取需求，引入了类图、用例图、时序图、状态机图等等手段</li>
+</ul>
+<h2 id="UP建模"><a href="#UP建模" class="headerlink" title="UP建模"></a>UP建模</h2><p>UP建模的四大阶段：</p>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>初始阶段：<strong>主要从此阶段拿到需求</strong>。搞定最关键部分的元素。占比10%。</li>
+<li>详述阶段：填充细节，占比约80%。</li>
+<li>construction 阶段：补充剩下的。（不理会）</li>
+<li>transition 阶段：需求变更时进入此阶段。（不理会）</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="专有名词"><a href="#专有名词" class="headerlink" title="专有名词"></a>专有名词</h2><ul>
+<li>domain model：针对一些全局的类和类之间的关系建模。静态的。关键词：<strong>数据</strong>。</li>
+<li>use-case model：针对角色、用例和他们之间的关系建模。动态的。关键词：<strong>功能性</strong>。</li>
+<li>domain specification：对 domain model 的描述。</li>
+<li>use case specification：对 use-case model 的描述。</li>
+<li>user-interface specification &amp; prototyping：对 actors 和 system 之间的接口标准的描述。</li>
+<li>actors：指的是 users，代表外部的主体。</li>
+<li>glossary 术语表：分析员、开发者用的专业术语。</li>
+<li>architecture description：对 use-cases 中的主干（核心，仅占 5~10%）的描述</li>
+</ul>
+<h2 id="身份"><a href="#身份" class="headerlink" title="身份"></a>身份</h2><ol>
+<li>system analyst：负责整个需求、精简系统、确定类、类间的联系、确定 actors 和用例。（任务最重，几乎什么都做）</li>
+<li>domain analyst：分析全局的特性。</li>
+<li>architect：以<strong>整体视角</strong>对用例模型进行描述。</li>
+<li>use-case 举例者：对用例进行详细阐述。</li>
+<li>user-interface 设计者：设计接口。</li>
+</ol>
+<p><img src="/2018/11/10/UML（4）/1.png" alt></p>
+<p><img src="/2018/11/10/UML（4）/2.png" alt></p>
+<h2 id="获取需求的正确步骤"><a href="#获取需求的正确步骤" class="headerlink" title="获取需求的正确步骤"></a>获取需求的正确步骤</h2><ol>
+<li>拿到 user 的 needs：目标 + 约束（哪些能做、哪些不能做）</li>
+<li>确定可行性：从经济、技术、可操作性、合法性等方面考虑</li>
+<li>记录需求。</li>
+<li>实现需求。</li>
+</ol>
+<h3 id="什么是有效的需求？"><a href="#什么是有效的需求？" class="headerlink" title="什么是有效的需求？"></a>什么是有效的需求？</h3><p>正确、完整、一致、无二义、真实。</p>
+<h2 id="Domain-建模"><a href="#Domain-建模" class="headerlink" title="Domain 建模"></a>Domain 建模</h2><p>【important】拿到系统中最核心的 classes 和它们的 associations<br>要求：这种建模要尽可能的准确，保证后期不再修改、系统可以重用。</p>
+<ul>
+<li>classes 有哪些？<ul>
+<li>业务对象（比如订单、账户这种）；</li>
+<li>真实世界的对象（比如消费者、供应商）；</li>
+<li>事件（买卖）</li>
+</ul>
+</li>
+<li>classes 用名词表示，associations 用动词表示。</li>
+<li>阿辉注：如果题目列出一大段文字，那么我们要做的是：<ol>
+<li>首先将名词圈出来，这些名词都可能是 classes；</li>
+<li>然后剔除多余、不相关的名词。</li>
+<li>同时存在一些名词，很明显是附属于其他名词的（比如 name、age 等名词，明显归属于 Person 的名下），可以当做属性看待，不能作为独立的 classes。</li>
+<li>剔除这些名词后，幸存下来的差不多就是合格的 classes 了。</li>
+<li>之后将动词圈出来，这些动词很可能就是 associations；</li>
+<li>按照前两步骤幸存下来的名词连线，将不合格的动词剔除。</li>
+<li>剩下的动词大概就是合格的 associations 了。</li>
+<li>以上步骤主要靠练习，没有特别有效的技巧。</li>
+</ol>
+</li>
+<li>对于属性的命名，注重简短、有内涵等等。</li>
+<li>generalization（泛化、父类/子类的关系）的层次选择 2~3 层最合适。</li>
+</ul>
+<h2 id="use-case-建模"><a href="#use-case-建模" class="headerlink" title="use-case 建模"></a>use-case 建模</h2><p>【important】看重功能性 functionality。</p>
+<ul>
+<li>开始使用 use-case：<ol>
+<li>使用事件表；</li>
+<li>确定 actors；</li>
+<li>确定 functions；</li>
+</ol>
+</li>
+<li>为不同的场景创建 Activities flow。</li>
+<li>一些内部用例可以重用。</li>
+</ul>
+<h3 id="actors"><a href="#actors" class="headerlink" title="actors"></a>actors</h3><ul>
+<li>定义：system 外界的一些直接接触者（实体），对系统输入，获得输出。<ul>
+<li>举例：学生、教师、注册员、以及非人的事物（如第三方系统：账单系统）</li>
+</ul>
+</li>
+<li>理解：actor 是一个 object，user 则是这个 object 的 instance。</li>
+</ul>
+<h3 id="use-case"><a href="#use-case" class="headerlink" title="use case"></a>use case</h3><ul>
+<li>定义：运用 system 的一种方式。代表一系列 events。</li>
+<li>理解：use case 是一个类的容器，scenario 是一个 instance。</li>
+<li>use case 的命名应当是动宾短语，语态是现在时。</li>
+<li>举例：一个注册员 registrar，对应的用例有：维护学生信息、维护教师信息、维护课程信息、提供课程清单。</li>
+</ul>
+<h3 id="Scenario"><a href="#Scenario" class="headerlink" title="Scenario"></a>Scenario</h3><ul>
+<li>理解：以 actor 的视角，对 system 的描述。这种描述仅建立在部分功能的基础上，所以一定是不全面、带有偏见的。</li>
+<li>用处：多用在 error 和非主要流程的描述上。</li>
+<li>scenario 的分类：<ul>
+<li>既有场景：描述当下。</li>
+<li>预想的场景：描述将来。</li>
+<li>evaluation：比如：acceptance tests（对功能进行检测）。</li>
+<li>training：给新人培训。</li>
+</ul>
+</li>
+<li>use-case 建模的两种观点：<ol>
+<li>top-down：从 use-case 开始，到 scenario 结束。</li>
+<li>bottom-up：从 scenario 开始，到 use-case 结束。</li>
+</ol>
+</li>
+</ul>
+<h2 id="怎么算是一个好的用例"><a href="#怎么算是一个好的用例" class="headerlink" title="怎么算是一个好的用例"></a>怎么算是一个好的用例</h2><ul>
+<li>主要体现功能性；</li>
+<li>传递一些有价值的东西交给 actor；</li>
+<li>范围要大，够清晰，最好列出细节。</li>
+<li>不仅显示正常的流程，还要考虑异常的流程。</li>
+<li>规格：<ol>
+<li>name；</li>
+<li>actors；</li>
+<li>一些先决条件：preconditions；</li>
+<li>事件流：flow of events；</li>
+<li>一些后决条件：postconditions；</li>
+<li>其他需求（按需，可选）</li>
+<li>分支、异常流程（按需，可选）</li>
+</ol>
+</li>
+</ul>
+<h3 id="flow-of-events"><a href="#flow-of-events" class="headerlink" title="flow of events"></a>flow of events</h3><ul>
+<li>定义：一系列的事件序列。要求有序、有条理、事件明确。</li>
+<li>要求：尽可能简单、避免循环。</li>
+</ul>
+<h3 id="include"><a href="#include" class="headerlink" title="include"></a>include</h3><ul>
+<li>将若干个 use-cases 中的相同功能剥离开，作为独立的 use-case，然后让这些 use-cases 都包含（include）它。</li>
+<li>在 use case 图中，通常是虚线箭头指向独立 use-case，而且附上<code>&lt;&lt;include&gt;&gt;</code>的记号。</li>
+</ul>
+<h3 id="extend"><a href="#extend" class="headerlink" title="extend"></a>extend</h3><ul>
+<li>新的 use-case 继承旧的 use-case。</li>
+<li>在 use case 图中，通常是子类用虚线箭头指向父类，而且附上<code>&lt;&lt;extend&gt;&gt;</code>的记号。</li>
+</ul>
+<h2 id="十种-use-case-建模的-errors"><a href="#十种-use-case-建模的-errors" class="headerlink" title="十种 use-case 建模的 errors"></a>十种 use-case 建模的 errors</h2><ol>
+<li>不写 usage scenario text。</li>
+<li>只描述属性和方法不解释用法（usage）。（阿辉注：理解不能吧，我也看不懂，记住好了）</li>
+<li>use case 太简短。</li>
+<li>遗漏 user interface。</li>
+<li>给 use-case 取名太晦涩。</li>
+<li>没有从 user 视角看待用例。</li>
+<li>忽略 system 的响应。</li>
+<li>忽略分支流程。</li>
+<li>忽略前置、后置条件。</li>
+<li>对采用 include 或 extends 难以抉择。</li>
+</ol>
+<h2 id="user-interface"><a href="#user-interface" class="headerlink" title="user-interface"></a>user-interface</h2><p>逻辑上：需要确定哪些数据是 user 可以操作的，以及这些数据是用什么方式呈现给 user 的。<br>实际上：sketch -&gt; prototype -&gt; verify。</p>
+<pre><code>- [理解]先写个草稿、然后写个模板，最后套用并适当修改。
+</code></pre><h2 id="acceptance-tests"><a href="#acceptance-tests" class="headerlink" title="acceptance tests"></a>acceptance tests</h2><ul>
+<li>定义：通过测试的方式，告知消费者，system 的功能、限制等等有效可用。</li>
+<li>目标：确保功能性、接口可用、消息正确、以及界面正常。</li>
+<li>步骤：<ol>
+<li>检查之前的需求，剔除冗余；</li>
+<li>收集 users 新增的需求；</li>
+<li>为每个需求，构建一个独立的评价场景。</li>
+</ol>
+</li>
+</ul>
 
       
     </div>
@@ -537,7 +670,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/UML/" rel="tag"><i class="fa fa-tag"></i> UML</a>
           
         </div>
       
@@ -550,8 +683,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/11/10/UML（3）/" rel="next" title="UML（3）">
+                <i class="fa fa-chevron-left"></i> UML（3）
               </a>
             
           </div>
@@ -560,8 +693,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/11/UML（5）/" rel="prev" title="UML（5）">
+                UML（5） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +905,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面向对象系统分析与设计（4）"><span class="nav-number">1.</span> <span class="nav-text">面向对象系统分析与设计（4）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引子"><span class="nav-number">1.1.</span> <span class="nav-text">引子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UP建模"><span class="nav-number">1.2.</span> <span class="nav-text">UP建模</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#专有名词"><span class="nav-number">1.3.</span> <span class="nav-text">专有名词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#身份"><span class="nav-number">1.4.</span> <span class="nav-text">身份</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取需求的正确步骤"><span class="nav-number">1.5.</span> <span class="nav-text">获取需求的正确步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是有效的需求？"><span class="nav-number">1.5.1.</span> <span class="nav-text">什么是有效的需求？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Domain-建模"><span class="nav-number">1.6.</span> <span class="nav-text">Domain 建模</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#use-case-建模"><span class="nav-number">1.7.</span> <span class="nav-text">use-case 建模</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#actors"><span class="nav-number">1.7.1.</span> <span class="nav-text">actors</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#use-case"><span class="nav-number">1.7.2.</span> <span class="nav-text">use case</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scenario"><span class="nav-number">1.7.3.</span> <span class="nav-text">Scenario</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#怎么算是一个好的用例"><span class="nav-number">1.8.</span> <span class="nav-text">怎么算是一个好的用例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#flow-of-events"><span class="nav-number">1.8.1.</span> <span class="nav-text">flow of events</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#include"><span class="nav-number">1.8.2.</span> <span class="nav-text">include</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extend"><span class="nav-number">1.8.3.</span> <span class="nav-text">extend</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十种-use-case-建模的-errors"><span class="nav-number">1.9.</span> <span class="nav-text">十种 use-case 建模的 errors</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#user-interface"><span class="nav-number">1.10.</span> <span class="nav-text">user-interface</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#acceptance-tests"><span class="nav-number">1.11.</span> <span class="nav-text">acceptance tests</span></a></li></ol></li></ol></div>
             
 
           </div>

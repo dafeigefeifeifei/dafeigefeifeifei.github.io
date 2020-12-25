@@ -94,25 +94,29 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="包收发操作副标题：阅读《网络是怎么连接的（户根勤）》读书笔记4 IP模块如何将包发给对方通用流程 发送方的网络设备负责创建包，即生成含控制信息的头部，然后附上要发送的数据 接着，包被发往最近的网络转发设备 然后转发设备会根据头部信息判断接下来应该发往哪里，这个过程会用到一张表，按照头部记录的目的地址在表里查询，根据查到的信息判断接下来应该发往哪个方向 转发设备层层接力，最后到达接收方 发送方和接收">
+<meta name="keywords" content="computer network">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="Note for Computer Network 4">
+<meta property="og:url" content="http://yoursite.com/2018/07/14/Note-for-Computer-Network-4/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="包收发操作副标题：阅读《网络是怎么连接的（户根勤）》读书笔记4 IP模块如何将包发给对方通用流程 发送方的网络设备负责创建包，即生成含控制信息的头部，然后附上要发送的数据 接着，包被发往最近的网络转发设备 然后转发设备会根据头部信息判断接下来应该发往哪里，这个过程会用到一张表，按照头部记录的目的地址在表里查询，根据查到的信息判断接下来应该发往哪个方向 转发设备层层接力，最后到达接收方 发送方和接收">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/07/14/Note-for-Computer-Network-4/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/14/Note-for-Computer-Network-4/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/14/Note-for-Computer-Network-4/3.png">
+<meta property="og:updated_time" content="2018-07-14T07:42:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="Note for Computer Network 4">
+<meta name="twitter:description" content="包收发操作副标题：阅读《网络是怎么连接的（户根勤）》读书笔记4 IP模块如何将包发给对方通用流程 发送方的网络设备负责创建包，即生成含控制信息的头部，然后附上要发送的数据 接着，包被发往最近的网络转发设备 然后转发设备会根据头部信息判断接下来应该发往哪里，这个过程会用到一张表，按照头部记录的目的地址在表里查询，根据查到的信息判断接下来应该发往哪个方向 转发设备层层接力，最后到达接收方 发送方和接收">
+<meta name="twitter:image" content="http://yoursite.com/2018/07/14/Note-for-Computer-Network-4/1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/07/14/Note-for-Computer-Network-4/">
 
 
 
@@ -122,7 +126,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>Note for Computer Network 4 | To the moon</title>
   
 
 
@@ -360,7 +364,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/14/Note-for-Computer-Network-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +381,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">Note for Computer Network 4
 
               
             
@@ -403,24 +407,12 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-07-14 10:05:27 / Modified: 15:42:42" itemprop="dateCreated datePublished" datetime="2018-07-14T10:05:27+08:00">2018-07-14</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
               
             
           </span>
@@ -479,28 +471,72 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
+        <h1 id="包收发操作"><a href="#包收发操作" class="headerlink" title="包收发操作"></a>包收发操作</h1><p>副标题：阅读《网络是怎么连接的（户根勤）》读书笔记4</p>
+<h2 id="IP模块如何将包发给对方"><a href="#IP模块如何将包发给对方" class="headerlink" title="IP模块如何将包发给对方"></a>IP模块如何将包发给对方</h2><h3 id="通用流程"><a href="#通用流程" class="headerlink" title="通用流程"></a>通用流程</h3><ol>
+<li>发送方的网络设备负责创建包，即生成含控制信息的头部，然后附上要发送的数据</li>
+<li>接着，包被发往最近的网络转发设备</li>
+<li>然后转发设备会根据头部信息判断接下来应该发往哪里，这个过程会用到一张表，按照头部记录的目的地址在表里查询，根据查到的信息判断接下来应该发往哪个方向</li>
+<li>转发设备层层接力，最后到达接收方</li>
+<li>发送方和接收方统称为终端节点，转发设备称为转发节点或中间节点</li>
 </ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+<h3 id="扩展流程——TCP-IP网络，用以太网规则传输包"><a href="#扩展流程——TCP-IP网络，用以太网规则传输包" class="headerlink" title="扩展流程——TCP/IP网络，用以太网规则传输包"></a>扩展流程——TCP/IP网络，用以太网规则传输包</h3><ul>
+<li>转发设备包括路由器和集线器两种</li>
+<li>路由器根据目标地址判断下一个路由器的位置，是按照IP规则传输包的设备</li>
+<li>集线器在子网中将网络包传递给下一个路由，是按照以太网规则传输包的设备</li>
+<li>TCP/IP包包含<code>MAC头部</code>和<code>IP头部</code>、<code>TCP头部和数据块</code>，IP头部存入下一级路由器的IP地址，MAC头部存入下一级路由器的MAC地址(即以太网地址，是IP协议写入的，使用ARP广播的形式获取)，<strong>MAC地址也叫物理地址(Physical Address)</strong></li>
+<li>例：<ol>
+<li>客户端向服务器发包，先经集线器配合自己的一张表读取<code>MAC头部</code>获取下一个路由器甲的MAC地址，根据MAC地址，让以太网进行包的传输</li>
+<li>包会到达下一个路由器甲，路由器有一张IP协议的表，再读取<code>IP头部</code>获取再下一个路由器乙的IP地址，为了将包发给再下一个路由器，就必须要下一个路由器乙的MAC地址，并记录到MAC头部</li>
+</ol>
+</li>
+</ul>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
-<ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<p><img src="/2018/07/14/Note-for-Computer-Network-4/1.png" alt="1"></p>
+<h3 id="委托操作"><a href="#委托操作" class="headerlink" title="委托操作"></a>委托操作</h3><ol>
+<li>包收发操作的起点：TCP模块委托IP模块发包，过程为TCP模块在数据块的前面加上TCP头部，然后整个传递给IP模块；</li>
+<li>收到委托的IP模块，将包的内容当作一整块二进制数据，并不关心内容，在前面加上IP头部和MAC头部</li>
+<li>封装好的包被交给网络硬件即网卡，网卡会将该数字信息转换成光信号或电信号，以此到达集线器、路由器等转发设备</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<h3 id="以太网的3个性质"><a href="#以太网的3个性质" class="headerlink" title="以太网的3个性质"></a>以太网的3个性质</h3><ol>
+<li>接收方的MAC地址代表目的地，并放在包的MAC头部 </li>
+<li>发送方的MAC地址用来识别发送方</li>
+<li>使用以太类型识别包的内容</li>
+</ol>
+<h3 id="网卡做了啥"><a href="#网卡做了啥" class="headerlink" title="网卡做了啥"></a>网卡做了啥</h3><ul>
+<li>网卡驱动从IP模块获取包，将其复制到网卡内的缓存区中，然后向MAC模块发出发送包的命令</li>
+<li><p>接着MAC模块会将包从缓冲区中取出，并在开头加上报头和起始帧分界符，在末尾加上用于检测错误的帧校验序列FCS，如下图：</p>
+<p> <img src="/2018/07/14/Note-for-Computer-Network-4/2.png" alt="2"></p>
+</li>
+<li><p>报头是一串101010…交替出现的规则序列，长度56比特，形成波形用来判断读取时机，加上8比特的起始帧，网卡可以将它作为包的起始位置</p>
+</li>
+<li>另，报头可以用来测量时钟信号，向接收方发送时钟信号的变化周期</li>
+<li><p>数据信号如果连续为1或连续为0时，比特之间的界限就会消失，所以增加时钟信号有助于判断比特之间的界限，所以一般实际传输的信号都是：数据信号和时钟信号异或之后的结果，如下图：</p>
+<p>  <img src="/2018/07/14/Note-for-Computer-Network-4/3.png" alt="3"></p>
+</li>
+<li>FCS用来检查包传输过程中因噪声导致的波形紊乱、数据错误，是通过一个公式对包中从头到尾的所有内容进行计算而得出来的</li>
+</ul>
+<h3 id="完整的包发出去"><a href="#完整的包发出去" class="headerlink" title="完整的包发出去"></a>完整的包发出去</h3><ol>
+<li>一种是使用集线器的半双工模式，另一种使用交换机的全双工模式（即可以并行收发）</li>
+<li>半双工中，需要等待信号传输完毕再发送下一组信号：<ol>
+<li>MAC模块从报头开始将数字信息转换成电信号，然后由PHY（或者MAU，速率100Mbit/s以下叫MAU）的信号收发模块发送出去，每秒将10Mbit的数字信息转换成 电信号发送出去，速率就是10Mbit/s</li>
+<li>PHY（MAU）模块将信号转换成可在 网线上传输的格式，并通过 网线发送出去，PHY另一职责是监控接收线路有没有信号进来，没有信号进入时才允许发送，但以太网不会确认对方有没有收到信号</li>
+<li>但出现碰撞的可能性仍较高，因此 必须要让等待的时间相互错开，等待的时间是根据MAC地址生成一个随机数计算出来的</li>
+<li>如果冲突，等待时间延长一倍，然后重试，以此类推，最多重试10次，如果还是不行就报告通信错误</li>
+</ol>
+</li>
+<li>收包的过程是发包的逆序，但有一些注意点：<ol>
+<li>MAC模块完成收包工作后，需要使用中断通知计算机收到了一个包：网卡向扩展总线中的中断信号线发送信号，CPU挂起正在处理的任务，然后切换到操作系统的中中断处理程序，中断处理程序会调用网卡驱动，控制网卡执行相应的接收操作</li>
+<li>接收操作一般是判断协议类型，再交给对应协议栈处理，比如TCP/IP协议栈，接着轮到IP模块开始工作，判断是否是发给自己的包，如果发生这样的错误，IP模块会通过ICMP消息将错误告知发送方</li>
+<li>如果接收方IP地址正确，IP协议需要完成分片重组的功能，将多个小包还原成原始包</li>
+<li>然后交给TCP模块，TCP模块查找套接字，找到对应的套接字后根据通信状态执行相应的操作，比如通知应用程序干嘛干嘛</li>
+</ol>
+</li>
+</ol>
+<h2 id="UDP协议的收发操作"><a href="#UDP协议的收发操作" class="headerlink" title="UDP协议的收发操作"></a>UDP协议的收发操作</h2><h3 id="UDP协议使用场景"><a href="#UDP协议使用场景" class="headerlink" title="UDP协议使用场景"></a>UDP协议使用场景</h3><ol>
+<li>数据很短的场景，一般一个包就能装下，回复的数据就可以当作接收确认了，不再需要专门的接收确认包，也就没有窗口机制，比如DNS的查询操作</li>
+<li>对实时性要求很高的场景，比如发送音频和视频数据，可以忍受少许丢帧，但不能忍受卡顿</li>
+</ol>
+<p>完成全书第2章，334页</p>
 
       
     </div>
@@ -537,7 +573,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
           
         </div>
       
@@ -550,8 +586,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/07/13/Note-for-Computer-Network-3/" rel="next" title="Note for Computer Network 3">
+                <i class="fa fa-chevron-left"></i> Note for Computer Network 3
               </a>
             
           </div>
@@ -560,8 +596,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/14/Note-for-Computer-Network-5/" rel="prev" title="Note for Computer Network 5">
+                Note for Computer Network 5 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +808,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#包收发操作"><span class="nav-number">1.</span> <span class="nav-text">包收发操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IP模块如何将包发给对方"><span class="nav-number">1.1.</span> <span class="nav-text">IP模块如何将包发给对方</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通用流程"><span class="nav-number">1.1.1.</span> <span class="nav-text">通用流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展流程——TCP-IP网络，用以太网规则传输包"><span class="nav-number">1.1.2.</span> <span class="nav-text">扩展流程——TCP/IP网络，用以太网规则传输包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#委托操作"><span class="nav-number">1.1.3.</span> <span class="nav-text">委托操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以太网的3个性质"><span class="nav-number">1.1.4.</span> <span class="nav-text">以太网的3个性质</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网卡做了啥"><span class="nav-number">1.1.5.</span> <span class="nav-text">网卡做了啥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#完整的包发出去"><span class="nav-number">1.1.6.</span> <span class="nav-text">完整的包发出去</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP协议的收发操作"><span class="nav-number">1.2.</span> <span class="nav-text">UDP协议的收发操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#UDP协议使用场景"><span class="nav-number">1.2.1.</span> <span class="nav-text">UDP协议使用场景</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

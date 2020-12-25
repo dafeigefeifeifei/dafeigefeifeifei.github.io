@@ -94,25 +94,28 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="面向对象系统分析与设计（2）引子统一建模语言 UML：- 特点：可视化、实践性强、面向对象的工业标准、多视角多结论、 - 前提：软件系统能被视为相互关联对象的集合 - 误解：     1. 被认为等同于过程或者理论     2. 被认为等同于面向对象的分析与设计     3. 被认为等同于设计指南 - 结构：     1. 基础模块（Building blocks）：物、表、关系等     2.">
+<meta name="keywords" content="UML">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="UML(2)">
+<meta property="og:url" content="http://yoursite.com/2018/11/01/UML-2/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="面向对象系统分析与设计（2）引子统一建模语言 UML：- 特点：可视化、实践性强、面向对象的工业标准、多视角多结论、 - 前提：软件系统能被视为相互关联对象的集合 - 误解：     1. 被认为等同于过程或者理论     2. 被认为等同于面向对象的分析与设计     3. 被认为等同于设计指南 - 结构：     1. 基础模块（Building blocks）：物、表、关系等     2.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/11/01/UML-2/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/01/UML-2/2.png">
+<meta property="og:updated_time" content="2018-11-13T06:59:02.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="UML(2)">
+<meta name="twitter:description" content="面向对象系统分析与设计（2）引子统一建模语言 UML：- 特点：可视化、实践性强、面向对象的工业标准、多视角多结论、 - 前提：软件系统能被视为相互关联对象的集合 - 误解：     1. 被认为等同于过程或者理论     2. 被认为等同于面向对象的分析与设计     3. 被认为等同于设计指南 - 结构：     1. 基础模块（Building blocks）：物、表、关系等     2.">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/01/UML-2/1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/11/01/UML-2/">
 
 
 
@@ -122,7 +125,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>UML(2) | To the moon</title>
   
 
 
@@ -360,7 +363,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/01/UML-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +380,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">UML(2)
 
               
             
@@ -403,7 +406,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-11-01 18:39:56" itemprop="dateCreated datePublished" datetime="2018-11-01T18:39:56+08:00">2018-11-01</time>
             
 
             
@@ -420,7 +423,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2018-11-13 14:59:02" itemprop="dateModified" datetime="2018-11-13T14:59:02+08:00">2018-11-13</time>
               
             
           </span>
@@ -437,7 +440,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UML/" itemprop="url" rel="index"><span itemprop="name">UML</span></a></span>
 
                 
                 
@@ -479,28 +482,202 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+        <h1 id="面向对象系统分析与设计（2）"><a href="#面向对象系统分析与设计（2）" class="headerlink" title="面向对象系统分析与设计（2）"></a>面向对象系统分析与设计（2）</h1><h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><h4 id="统一建模语言-UML："><a href="#统一建模语言-UML：" class="headerlink" title="统一建模语言 UML："></a>统一建模语言 UML：</h4><pre><code>- 特点：可视化、实践性强、面向对象的工业标准、多视角多结论、
+- 前提：软件系统能被视为相互关联对象的集合
+- 误解：
+    1. 被认为等同于过程或者理论
+    2. 被认为等同于面向对象的分析与设计
+    3. 被认为等同于设计指南
+- 结构：
+    1. 基础模块（Building blocks）：物、表、关系等
+    2. 相同的机理（Common mechanisms）：要求、修饰、划分、可扩展性
+    3. 体系（Architecture）：用例、过程、实现、部署等
+- 使用 UML 的优势：提高质量、更高效。
+</code></pre><h4 id="为什么建模？"><a href="#为什么建模？" class="headerlink" title="为什么建模？"></a>为什么建模？</h4><pre><code>- 从现实中抽象：获得必要的细节，过滤掉非必要的细节
+- 有助于设计人员处理复杂问题：人类在处理复杂问题时存在局限性
+- 集中在关键问题上
+- 有助于理解需求、简捷设计、稳定系统的提升
+</code></pre><h4 id="为什么面向对象？"><a href="#为什么面向对象？" class="headerlink" title="为什么面向对象？"></a>为什么面向对象？</h4><pre><code>- 更精准地反映现实
+- 缩小现实与模型之间的语言鸿沟
+- 定位现实的改变
+</code></pre><ul>
+<li><strong>可以将现实建模成一系列相互关联的对象。</strong></li>
+</ul>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
-<ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
+<h2 id="关键词区分"><a href="#关键词区分" class="headerlink" title="关键词区分"></a>关键词区分</h2><h3 id="建模"><a href="#建模" class="headerlink" title="建模"></a>建模</h3><p>建模就是从<strong>概念</strong>到<strong>实现</strong>的过程</p>
+<h4 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h4><ul>
+<li>conceptual</li>
+<li>关注与问题相关的对象的定义</li>
+<li>不关心对象的任何实现</li>
+</ul>
+<h4 id="规范-特定化-专业化"><a href="#规范-特定化-专业化" class="headerlink" title="规范/特定化/专业化"></a>规范/特定化/专业化</h4><ul>
+<li>specification</li>
+<li>关注对象是如何促进问题的解决的</li>
+<li>关注对象的相互关系</li>
+<li>不关注对象内部的关系</li>
+</ul>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><ul>
+<li>implementation</li>
+<li>关注怎么为一个对象写 code </li>
+<li>关注对象内部、对象之间的方方面面</li>
+</ul>
+<h2 id="抽象"><a href="#抽象" class="headerlink" title="抽象"></a>抽象</h2><ul>
+<li>是一个物理过程，选择一些属性或特点，排除掉一些不相关的属性。</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>抽象总是基于某种目的</li>
+<li>一件事物可以有不同种的抽象</li>
+<li>任何抽象，都无法完全描述现实</li>
+</ul>
+<p>不追求完美描述，建模够用就行</p>
+<p>抽象也有几种类型，分类、聚合、概括等</p>
+<h4 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h4><ul>
+<li>classification</li>
+<li>按照相同属性的对象实例，分成组</li>
+<li>具有 <strong>member</strong> 的关系</li>
+</ul>
+<h4 id="聚合"><a href="#聚合" class="headerlink" title="聚合"></a>聚合</h4><ul>
+<li>aggregation</li>
+<li>忽略 parts 之间的差异，组成一个整体，类图中父类一侧采用<strong>空心菱形</strong></li>
+<li>具有 <strong>part</strong> 的关系</li>
+<li>如果两者存在<strong>同生共死</strong>的关系，称为 <strong>composition</strong>，用<strong>实心菱形</strong>表示</li>
+<li>当在 aggregation 和 association 之间难以抉择时，选 association</li>
+</ul>
+<h4 id="概括-泛化"><a href="#概括-泛化" class="headerlink" title="概括/泛化"></a>概括/泛化</h4><ul>
+<li>generalization</li>
+<li>反义词：specialization 专业化</li>
+<li>按照对象的某种相同属性（discriminator 有侧重的、片面的、非全面的），分组</li>
+<li>Van、Car、Truck 可以根据 vehicle-type 泛化成 Vehicle。<ul>
+<li>前者是 subclass，后者是 superclass，根据 discriminator</li>
+</ul>
 </li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
+<li>具有 <strong>sub/super</strong> 的关系</li>
+</ul>
+<h5 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h5><ul>
+<li>通常对一些相似的属性或操作进行<strong>继承</strong>，可以减少不必要的描述，提升描述的使用率，但要注意：<ul>
+<li>只在一个地方对属性和行为下定义（理解：子类多次定义，不如父类一次解决）</li>
+<li>允许子类对象替代父类对象</li>
+</ul>
 </li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+</ul>
+<h5 id="继承以外"><a href="#继承以外" class="headerlink" title="继承以外"></a>继承以外</h5><ul>
+<li>子类可以增加新的属性、覆盖父类方法</li>
+<li>继承时（比如多重继承）如果出现冲突（比如两栖车同时继承了陆车的size和水车的size，但含义分别是载重量和排水量，此时就是 name conflict），可以采用多种办法解决：<ol>
+<li>用户自定义命令；</li>
+<li>预定义命令；</li>
+<li>重定义名称（only 属性）</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h4><ul>
+<li>abstract class</li>
+<li>没有自身的实例</li>
+<li>在 UML 中用斜体表示</li>
+</ul>
+<h4 id="覆盖"><a href="#覆盖" class="headerlink" title="覆盖"></a>覆盖</h4><ul>
+<li>coverage</li>
+<li>有以下几种情况：<ul>
+<li>部分重叠 overlapping：比如父类：运动员，子类：网球运动员、足球运动员。父类实例可以属于多个子类。</li>
+<li>互斥 disjoint：比如父类：人，子类：男人、女人。父类实例最多只能属于一个子类。</li>
+<li>完全 complete：任一父类都能在子类中找到归属。</li>
+<li>不完全 incomplete：存在某些父类，在子类中无法找到归属。</li>
+</ul>
+</li>
+<li>重叠且不完全，比如上面运动员的例子。</li>
+<li>重叠且完全，比如父类：课程，子类：毕业生课程、在校生课程。</li>
+<li>互斥且完全，比如父类：大学生，子类：毕业生和在校生。</li>
+<li>互斥且不完全，比如父类：树，子类：橡树、椰子树等。</li>
+</ul>
+<p><img src="/2018/11/01/UML-2/1.png" alt="1"></p>
+<p>上文是抽象，下文是实现</p>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><ul>
+<li>object</li>
+<li>是一种概念/抽象/事物，具有鲜明的边界和行为（来自别处的 request，要做出的某些操作）。</li>
+<li>例如：张三的银行账户</li>
+</ul>
+<h3 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h3><ul>
+<li>interface</li>
+<li>描述对象能表现出的操作</li>
+</ul>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>properties</li>
+<li>对象具有 identity、state、behavior 三种特性</li>
+</ul>
+<h3 id="对象的抽象"><a href="#对象的抽象" class="headerlink" title="对象的抽象"></a>对象的抽象</h3><ul>
+<li>encapsulation</li>
+<li>在外部接口和内部实现之间，划分了一个明显的界线<ul>
+<li>隐藏不必要的实现、确保模块化；</li>
+<li>具有可见的 public 接口和隐藏的 private 实现</li>
+<li>public 接口对外提供服务 </li>
+</ul>
+</li>
+</ul>
+<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><ul>
+<li>class</li>
+<li>定义：一系列具有共同点的对象的描述<ul>
+<li>共同点：state、behavior、relationships、semantics（语义）</li>
+</ul>
+</li>
+<li>提供了一个创建对象的 template。</li>
+<li>class 是一个工厂，object 是一个实例。</li>
+<li>class 可以理解为一种松耦合、高内聚的模块</li>
+</ul>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ul>
+<li>attribute</li>
+<li>数据的一种描述</li>
+<li>基础属性和衍生属性：出生日期和年龄（后者可以通过前者计算得到）</li>
+</ul>
+<!--+ UML 的方式：
+    - <\<sterotype>> visibility name[multiplicity]:typeExpression = initialValue{propertyString}
+    - 举例：+size:Area = (100,000){frozen}
+    - 只有 name 是必须的-->
+<h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><ul>
+<li>operation</li>
+<li>对象在 class 中可能会用到的操作</li>
+<li>副作用：方法的执行可能会改变某个类的状态（read 操作不会产生副作用）</li>
+</ul>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><ul>
+<li>method</li>
+<li>是 operation 的实现</li>
+<li>一个 operation 可以有多种 method</li>
+</ul>
+<h3 id="作用范围"><a href="#作用范围" class="headerlink" title="作用范围"></a>作用范围</h3><ul>
+<li>scope</li>
+<li>一般的属性或操作是单对象实例作用范围的</li>
+<li>有一些属性或操作可以被类的所有对象所共享，称为类属性，在 UML 中带下划线</li>
+</ul>
+<h2 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h2><ul>
+<li>link</li>
+<li>对象实例们之间的物理或理论上的联系</li>
+<li>link 允许彼此间的通信</li>
+<li>例如：Person worksFor one Organization，Person teaches one Course</li>
+</ul>
+<h3 id="联结"><a href="#联结" class="headerlink" title="联结"></a>联结</h3><ul>
+<li>association</li>
+<li>具有相同语义的一系列 links 集合的描述</li>
+<li>类图中用直线或带箭头的直线表示<ul>
+<li>能显示<strong>连通性</strong></li>
+<li>能显示<strong>清晰、可读性</strong></li>
+</ul>
+</li>
+<li>class 之间或者 class 与自身，都有多种不同的联结方式</li>
+<li>度：存在一元（一元联结时建议赋予不同角色）、二元（应用最多）、多元联结</li>
+<li>具有多重性</li>
+</ul>
+<h4 id="qualifier"><a href="#qualifier" class="headerlink" title="qualifier"></a>qualifier</h4><ul>
+<li>qualifier</li>
+<li>将 N-M 关系浓缩成 1-N 的关系</li>
+</ul>
+<p><img src="/2018/11/01/UML-2/2.png" alt="2"></p>
+<h4 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h4><ul>
+<li>constraints</li>
+<li>有：ordering、subset、general 三类<ul>
+<li>ordering：顺序的，如has</li>
+<li>subset：自己的，比如：Chair-of 是 1-N 关系，但 Member-of 是 M-N 关系，Chair-of 是 Member-of 的子集。</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -537,7 +714,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/UML/" rel="tag"><i class="fa fa-tag"></i> UML</a>
           
         </div>
       
@@ -550,8 +727,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/10/31/UML-1/" rel="next" title="UML(1)">
+                <i class="fa fa-chevron-left"></i> UML(1)
               </a>
             
           </div>
@@ -560,8 +737,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/11/02/tiny-spring分析笔记（1）/" rel="prev" title="tiny-spring分析笔记（1）">
+                tiny-spring分析笔记（1） <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +949,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#面向对象系统分析与设计（2）"><span class="nav-number">1.</span> <span class="nav-text">面向对象系统分析与设计（2）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引子"><span class="nav-number">1.1.</span> <span class="nav-text">引子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#统一建模语言-UML："><span class="nav-number">1.1.0.1.</span> <span class="nav-text">统一建模语言 UML：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么建模？"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">为什么建模？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#为什么面向对象？"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">为什么面向对象？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键词区分"><span class="nav-number">1.2.</span> <span class="nav-text">关键词区分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建模"><span class="nav-number">1.2.1.</span> <span class="nav-text">建模</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#概念"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#规范-特定化-专业化"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">规范/特定化/专业化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">实现</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象"><span class="nav-number">1.3.</span> <span class="nav-text">抽象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分类"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#聚合"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">聚合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#概括-泛化"><span class="nav-number">1.3.0.3.</span> <span class="nav-text">概括/泛化</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#继承"><span class="nav-number">1.3.0.3.1.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#继承以外"><span class="nav-number">1.3.0.3.2.</span> <span class="nav-text">继承以外</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#抽象类"><span class="nav-number">1.3.0.4.</span> <span class="nav-text">抽象类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#覆盖"><span class="nav-number">1.3.0.5.</span> <span class="nav-text">覆盖</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#对象"><span class="nav-number">1.4.</span> <span class="nav-text">对象</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口"><span class="nav-number">1.4.1.</span> <span class="nav-text">接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特性"><span class="nav-number">1.4.2.</span> <span class="nav-text">特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象的抽象"><span class="nav-number">1.4.3.</span> <span class="nav-text">对象的抽象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类"><span class="nav-number">1.4.4.</span> <span class="nav-text">类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">1.4.5.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作"><span class="nav-number">1.4.6.</span> <span class="nav-text">操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">1.4.7.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作用范围"><span class="nav-number">1.4.8.</span> <span class="nav-text">作用范围</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#连接"><span class="nav-number">1.5.</span> <span class="nav-text">连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#联结"><span class="nav-number">1.5.1.</span> <span class="nav-text">联结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#qualifier"><span class="nav-number">1.5.1.1.</span> <span class="nav-text">qualifier</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#约束"><span class="nav-number">1.5.1.2.</span> <span class="nav-text">约束</span></a></li></ol></li></ol></li></div>
             
 
           </div>

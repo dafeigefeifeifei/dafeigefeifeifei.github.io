@@ -94,25 +94,27 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="JVM 学习资源JVM 系列文章 以下图片参考上方链接">
+<meta name="keywords" content="JVM">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="JVM（3）">
+<meta property="og:url" content="http://yoursite.com/2018/09/30/JVM（3）/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="JVM 学习资源JVM 系列文章 以下图片参考上方链接">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:image" content="http://yoursite.com/2018/09/30/JVM（3）/1.png">
+<meta property="og:updated_time" content="2019-04-03T02:06:33.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="JVM（3）">
+<meta name="twitter:description" content="JVM 学习资源JVM 系列文章 以下图片参考上方链接">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/30/JVM（3）/1.png">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/09/30/JVM（3）/">
 
 
 
@@ -122,7 +124,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>JVM（3） | To the moon</title>
   
 
 
@@ -360,7 +362,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/30/JVM（3）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +379,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">JVM（3）
 
               
             
@@ -403,7 +405,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-09-30 09:11:07" itemprop="dateCreated datePublished" datetime="2018-09-30T09:11:07+08:00">2018-09-30</time>
             
 
             
@@ -420,7 +422,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2019-04-03 10:06:33" itemprop="dateModified" datetime="2019-04-03T10:06:33+08:00">2019-04-03</time>
               
             
           </span>
@@ -479,29 +481,248 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
+        <h2 id="JVM-学习资源"><a href="#JVM-学习资源" class="headerlink" title="JVM 学习资源"></a>JVM 学习资源</h2><p><a href="https://blog.csdn.net/lirenzuo/article/details/81182686" target="_blank" rel="noopener">JVM 系列文章</a></p>
+<p>以下图片参考上方链接</p>
 <a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
-<ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
+<p><img src="/2018/09/30/JVM（3）/1.png" alt></p>
+<h1 id="JVM-性能监测工具剖析"><a href="#JVM-性能监测工具剖析" class="headerlink" title="JVM 性能监测工具剖析"></a>JVM 性能监测工具剖析</h1><p>注：代码中以<code>//</code>开头的为笔者备注\</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">主要作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">jps</td>
+<td style="text-align:center">显示指定系统内所有的 HotSpot 虚拟机进程</td>
+</tr>
+<tr>
+<td style="text-align:center">jstat</td>
+<td style="text-align:center">用于收集 HotSpot 虚拟机各方面的运行数据</td>
+</tr>
+<tr>
+<td style="text-align:center">jinfo</td>
+<td style="text-align:center">显示虚拟机配置信息</td>
+</tr>
+<tr>
+<td style="text-align:center">jmap</td>
+<td style="text-align:center">生成虚拟机的内存转储快照（即 heapdump 文件）</td>
+</tr>
+<tr>
+<td style="text-align:center">jhat</td>
+<td style="text-align:center">用于分析 heapdump 文件，会建立一个 HTTP 服务器，用户可使用浏览器查看</td>
+</tr>
+<tr>
+<td style="text-align:center">jstack</td>
+<td style="text-align:center">显示虚拟机的线程快照</td>
+</tr>
+</tbody>
+</table>
+<p>推荐阅读：<a href="https://blog.csdn.net/fenglibing/article/details/6411999" target="_blank" rel="noopener">JDK 内置工具使用</a></p>
+<h2 id="jps"><a href="#jps" class="headerlink" title="jps"></a>jps</h2><ul>
+<li>查看虚拟机进程，JVM Process Status</li>
+<li>格式：jps[option][hostid]</li>
+<li>option：<ul>
+<li>-q：只输出 LVMID</li>
+<li>-m：输出虚拟机进程启动时传递给主类 main()函数的参数</li>
+<li>-l：输出主类的全名，如果进程执行的是 jar 包，输出 jar 路径</li>
+<li>-v：输出虚拟机进程启动时 JVM 参数</li>
+</ul>
 </li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
+<li>hostid：指定特定主机，若不填默认本机</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">[root@VM_0_2_centos</span> <span class="string">~]#</span> <span class="string">jps</span> <span class="string">-l</span></span><br><span class="line"><span class="number">18340</span> <span class="string">sun.tools.jps.Jps</span>   <span class="string">//当前查询进程，即</span> <span class="string">jps</span> <span class="string">进程</span></span><br><span class="line"><span class="number">27848</span> <span class="string">/opt/gitblit/gitblit.jar</span></span><br><span class="line"><span class="number">14479</span> <span class="string">gitblit.jar</span></span><br><span class="line"></span><br><span class="line"><span class="string">//说明当前有</span> <span class="number">14479</span> <span class="string">和</span> <span class="number">27848</span> <span class="string">两个虚拟机进程</span></span><br></pre></td></tr></table></figure>
+<h2 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h2><ul>
+<li>收集 HotSpot 虚拟机各方面的运行数据，JVM Statistics Monitoring</li>
+<li>格式：jstat[option vmid [interval[s|ms][count] ] ]</li>
+<li>vmid:<ul>
+<li>如果是本地，即Lvmid；</li>
+<li>如果是远程，则vmid要用[protocol:][//]lvmid[@hostname[:port]/servername]，官方文档：<a href="https://docs.oracle.com/javase/1.5.0/docs/tooldocs/share/jstat.html" target="_blank" rel="noopener">jstat - Java Virtual Machine Statistics Monitoring Tool</a></li>
+</ul>
 </li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
+<li>option：<ul>
+<li>-class，监视<strong>类</strong>装载、卸载数量、总空间、装载耗时</li>
+<li>-gc，监视 Java 堆状况，包括 Eden 区、两个 Survivor 区、老年代、永久代的容量，已用空间、GC 时间合计等信息</li>
+<li>-gcutil，监视内容类似gc，但主要关注已使用空间占总空间的百分比</li>
+<li>。。。不详述</li>
+</ul>
 </li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
-</ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</ul>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_2_centos ~]# jstat -class <span class="number">14479</span> <span class="comment">// 查看类</span></span><br><span class="line">Loaded  Bytes  Unloaded  Bytes     Time <span class="comment">// 装数量 空间 卸数量 空间 装耗时</span></span><br><span class="line"> <span class="number">12042</span> <span class="number">21286.9</span>     <span class="number">4260</span>  <span class="number">6564.5</span>       <span class="number">8.09</span></span><br><span class="line"></span><br><span class="line">[root@VM_0_2_centos ~]# jstat -gcnew <span class="number">14479</span> <span class="comment">// 监视新生代的 GC</span></span><br><span class="line"> S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT</span><br><span class="line"><span class="number">2688.0</span> <span class="number">2688.0</span>    <span class="number">0.0</span>  <span class="number">143.0</span> <span class="number">15</span>  <span class="number">15</span> <span class="number">1344.0</span>  <span class="number">22016.0</span>  <span class="number">17339.3</span>   <span class="number">1595</span>    <span class="number">5.526</span></span><br><span class="line"><span class="comment">//S0C、S0U 分别是第一个 Survivor 区的总容量和使用量；</span></span><br><span class="line">TT、MTT 是持有次数限制与最大持有次数限制；</span><br><span class="line">DSS 是当前需要 Survivor 的容量</span><br><span class="line">EC、EU 分别是新生代中总容量和已使用量；</span><br><span class="line">YGC 是app启动到当前新生代 GC 的次数；</span><br><span class="line">YGCT 是app启动到当前新生代 GC 的总耗时（s）；</span><br><span class="line"></span><br><span class="line">[root@VM_0_2_centos ~]# jstat -gcutil <span class="number">14479</span> <span class="comment">// 关注已使用空间的百分比</span></span><br><span class="line">  S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line">  <span class="number">0.00</span>   <span class="number">5.32</span>  <span class="number">78.76</span>  <span class="number">84.37</span>  <span class="number">95.41</span>  <span class="number">91.95</span>   <span class="number">1595</span>    <span class="number">5.526</span>    <span class="number">26</span>    <span class="number">2.402</span>    <span class="number">7.928</span></span><br><span class="line"><span class="comment">//S0、S1、E、O、M分别是两个 Survivor、新生代、老年代、永久代的使用百分比；</span></span><br><span class="line">CCS 是压缩使用比例</span><br><span class="line">YGC、FGC 是app启动到当前新生代、老年代 GC 的次数；</span><br><span class="line">YGCT、FGCT 是app启动到当前新生代、老年代 GC 的总耗时（s）；</span><br><span class="line">GCT 是app启动到当前 GC 的总耗时（s）；</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>S0C：年轻代中第一个survivor（幸存区）的容量 (字节)<br>S1C：年轻代中第二个survivor（幸存区）的容量 (字节)<br>S0U：年轻代中第一个survivor（幸存区）目前已使用空间 (字节)<br>S1U：年轻代中第二个survivor（幸存区）目前已使用空间 (字节)<br>EC：年轻代中Eden（伊甸园）的容量 (字节)<br>EU：年轻代中Eden（伊甸园）目前已使用空间 (字节)<br>OC：Old代的容量 (字节)<br>OU：Old代目前已使用空间 (字节)<br>PC：Perm(持久代)的容量 (字节)<br>PU：Perm(持久代)目前已使用空间 (字节)<br>YGC：从应用程序启动到采样时年轻代中gc次数<br>YGCT：从应用程序启动到采样时年轻代中gc所用时间(s)<br>FGC：从应用程序启动到采样时old代(全gc)gc次数<br>FGCT：从应用程序启动到采样时old代(全gc)gc所用时间(s)<br>GCT：从应用程序启动到采样时gc用的总时间(s)<br>NGCMN：年轻代(young)中初始化(最小)的大小 (字节)<br>NGCMX：年轻代(young)的最大容量 (字节)<br>NGC：年轻代(young)中当前的容量 (字节)<br>OGCMN：old代中初始化(最小)的大小 (字节)<br>OGCMX：old代的最大容量 (字节)<br>OGC：old代当前新生成的容量 (字节)<br>PGCMN：perm代中初始化(最小)的大小 (字节)<br>PGCMX：perm代的最大容量 (字节)<br>PGC：perm代当前新生成的容量 (字节)<br>S0：年轻代中第一个survivor（幸存区）已使用的占当前容量百分比<br>S1：年轻代中第二个survivor（幸存区）已使用的占当前容量百分比<br>E：年轻代中Eden（伊甸园）已使用的占当前容量百分比<br>O：old代已使用的占当前容量百分比<br>P：perm代已使用的占当前容量百分比<br>S0CMX：年轻代中第一个survivor（幸存区）的最大容量 (字节)<br>S1CMX ：年轻代中第二个survivor（幸存区）的最大容量 (字节)<br>ECMX：年轻代中Eden（伊甸园）的最大容量 (字节)<br>DSS：当前需要survivor（幸存区）的容量 (字节)（Eden区已满）<br>TT： 持有次数限制<br>MTT ： 最大持有次数限制</p>
+</blockquote>
+<h2 id="jinfo"><a href="#jinfo" class="headerlink" title="jinfo"></a>jinfo</h2><ul>
+<li>实时查看 JVM 各项参数，功能不全，一般只用flag</li>
+<li>格式：jinfo[option] pid</li>
+<li>option：<ul>
+<li>-flag：</li>
+</ul>
+</li>
+</ul>
+<h2 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h2><ul>
+<li>生成堆转储快照</li>
+<li>格式：jmap[option]vmid</li>
+<li>option：<ul>
+<li>-dump：生成快照</li>
+<li>-heap：显示 Java 堆详细信息</li>
+<li>-histo：显示堆中对象统计信息，包括类、实例数量、合计容量</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<h2 id="jhat"><a href="#jhat" class="headerlink" title="jhat"></a>jhat</h2><ul>
+<li>虚拟机堆转储快照分析工具，JVM Heap Analysis Tool</li>
+<li>功能较少，推荐使用更专业的工具，如 VisualVM 等</li>
+</ul>
+<h2 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h2><ul>
+<li>Java 堆栈跟踪工具，用来用来监控 JVM 中每一条线程正在执行的方法堆栈的集合，想知道某个线程正在做什么，或者因为什么不响应了</li>
+<li>格式：jstack[option]vmid</li>
+<li>option：<ul>
+<li>-l：除堆栈外，显示关于锁的附加信息</li>
+<li>-F：当正常输出的请求不被响应时，强制输出线程堆栈</li>
+<li>-m：如果调用到本地方法的话，可以显示 C/C++ 的堆栈</li>
+</ul>
+</li>
+</ul>
+<pre><code>[root@VM_0_2_centos ~]# jstack -l 14479  //查的gitblit.jar
+2018-10-01 10:31:58
+Full thread dump OpenJDK 64-Bit Server VM (25.171-b10 mixed mode):
 
+//jstack 连接
+&quot;Attach Listener&quot; #168 daemon prio=9 os_prio=0 tid=0x00007f9c18075d70 nid=0x1d6a waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE //说明正常运行
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;qtp1279149968-166&quot; #166 prio=5 os_prio=0 tid=0x00007f9c1088fd10 nid=0x22af waiting on condition [0x00007f9c07dfe000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+    at sun.misc.Unsafe.park(Native Method)
+    - parking to wait for  &lt;0x00000000ece65c08&gt; (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+    at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+    at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+    at org.eclipse.jetty.util.BlockingArrayQueue.poll(BlockingArrayQueue.java:389)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool.idleJobPoll(QueuedThreadPool.java:531)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool.access$700(QueuedThreadPool.java:47)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:590)
+    at java.lang.Thread.run(Thread.java:748)
+
+   Locked ownable synchronizers:
+    - None
+
+...
+//删减
+...
+
+&quot;qtp1279149968-11-selector-ServerConnectorManager@2f0559e0/0&quot; #11 prio=5 os_prio=0 tid=0x00007f9c40638230 nid=0x389c runnable [0x00007f9c0f735000]
+   java.lang.Thread.State: RUNNABLE
+    at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)
+    at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)
+    at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:93)
+    at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)
+    - locked &lt;0x00000000ed2fdb60&gt; (a sun.nio.ch.Util$3)
+    - locked &lt;0x00000000ed2fdb70&gt; (a java.util.Collections$UnmodifiableSet)
+    - locked &lt;0x00000000ed2fdb18&gt; (a sun.nio.ch.EPollSelectorImpl)
+    at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)
+    at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:101)
+    at org.eclipse.jetty.io.SelectorManager$ManagedSelector.select(SelectorManager.java:600)
+    at org.eclipse.jetty.io.SelectorManager$ManagedSelector.run(SelectorManager.java:549)
+    at org.eclipse.jetty.util.thread.NonBlockingThread.run(NonBlockingThread.java:52)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:635)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:555)
+    at java.lang.Thread.run(Thread.java:748)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Gitblit Shutdown Monitor&quot; #8 daemon prio=5 os_prio=0 tid=0x00007f9c4062f4a0 nid=0x389a runnable [0x00007f9c0f937000]
+   java.lang.Thread.State: RUNNABLE
+    at java.net.PlainSocketImpl.socketAccept(Native Method)
+    at java.net.AbstractPlainSocketImpl.accept(AbstractPlainSocketImpl.java:409)
+    at java.net.ServerSocket.implAccept(ServerSocket.java:545)
+    at java.net.ServerSocket.accept(ServerSocket.java:513)
+    at com.gitblit.GitBlitServer$ShutdownMonitorThread.run(GitBlitServer.java:517)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Service Thread&quot; #7 daemon prio=9 os_prio=0 tid=0x00007f9c400eaf20 nid=0x3897 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;C1 CompilerThread1&quot; #6 daemon prio=9 os_prio=0 tid=0x00007f9c400dc2f0 nid=0x3896 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;C2 CompilerThread0&quot; #5 daemon prio=9 os_prio=0 tid=0x00007f9c400da750 nid=0x3895 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Signal Dispatcher&quot; #4 daemon prio=9 os_prio=0 tid=0x00007f9c400d8c20 nid=0x3894 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Finalizer&quot; #3 daemon prio=8 os_prio=0 tid=0x00007f9c400af720 nid=0x3893 in Object.wait() [0x00007f9c44197000]
+   java.lang.Thread.State: WAITING (on object monitor) //等待资源来唤醒
+    at java.lang.Object.wait(Native Method)
+    at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:143)
+    - locked &lt;0x00000000ecdb7dd8&gt; (a java.lang.ref.ReferenceQueue$Lock)
+    at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:164)
+    at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:212)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Reference Handler&quot; #2 daemon prio=10 os_prio=0 tid=0x00007f9c400ab4b0 nid=0x3892 in Object.wait() [0x00007f9c44298000]
+   java.lang.Thread.State: WAITING (on object monitor)
+    at java.lang.Object.wait(Native Method)
+    at java.lang.Object.wait(Object.java:502)
+    at java.lang.ref.Reference.tryHandlePending(Reference.java:191)
+    - locked &lt;0x00000000ecdb7f90&gt; (a java.lang.ref.Reference$Lock)
+    at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:153)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;main&quot; #1 prio=5 os_prio=0 tid=0x00007f9c400093c0 nid=0x3890 in Object.wait() [0x00007f9c47b48000]
+   java.lang.Thread.State: WAITING (on object monitor)
+    at java.lang.Object.wait(Native Method)
+    - waiting on &lt;0x00000000ece31020&gt; (a java.lang.Object)
+    at java.lang.Object.wait(Object.java:502)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool.join(QueuedThreadPool.java:381)
+    - locked &lt;0x00000000ece31020&gt; (a java.lang.Object)
+    at org.eclipse.jetty.server.Server.join(Server.java:556)
+    at com.gitblit.GitBlitServer.start(GitBlitServer.java:461)
+    at com.gitblit.GitBlitServer.main(GitBlitServer.java:124)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke(Method.java:498)
+    at org.moxie.MxLauncher.main(MxLauncher.java:129)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;VM Thread&quot; os_prio=0 tid=0x00007f9c400a2000 nid=0x3891 runnable
+
+&quot;VM Periodic Task Thread&quot; os_prio=0 tid=0x00007f9c4001b250 nid=0x3898 waiting on condition
+
+JNI global references: 281
+
+// 着重关注 Deadlock 死锁、Waiting on condition 等待资源或条件来唤醒、Blocked 阻塞、Waiting on monitor entry 等待获取锁。
+// 如果 CPU 高，线程可能有死循环，需要关注 Runable 状态 
+</code></pre>
       
     </div>
 
@@ -537,7 +758,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
           
         </div>
       
@@ -550,8 +771,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/09/26/JVM（2）/" rel="next" title="JVM（2）">
+                <i class="fa fa-chevron-left"></i> JVM（2）
               </a>
             
           </div>
@@ -560,8 +781,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/10/31/UML-1/" rel="prev" title="UML(1)">
+                UML(1) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +993,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-学习资源"><span class="nav-number">1.</span> <span class="nav-text">JVM 学习资源</span></a></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM-性能监测工具剖析"><span class="nav-number"></span> <span class="nav-text">JVM 性能监测工具剖析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jps"><span class="nav-number">1.</span> <span class="nav-text">jps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jstat"><span class="nav-number">2.</span> <span class="nav-text">jstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jinfo"><span class="nav-number">3.</span> <span class="nav-text">jinfo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jmap"><span class="nav-number">4.</span> <span class="nav-text">jmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jhat"><span class="nav-number">5.</span> <span class="nav-text">jhat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jstack"><span class="nav-number">6.</span> <span class="nav-text">jstack</span></a></li></ol></li></div>
             
 
           </div>

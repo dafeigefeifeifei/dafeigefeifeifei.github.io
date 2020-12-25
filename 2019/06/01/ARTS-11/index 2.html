@@ -94,25 +94,25 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="ARTS 第十一周 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
+<meta name="keywords" content="ARTS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="ARTS(11)">
+<meta property="og:url" content="http://yoursite.com/2019/06/01/ARTS-11/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="ARTS 第十一周 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:updated_time" content="2019-06-22T06:35:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="ARTS(11)">
+<meta name="twitter:description" content="ARTS 第十一周 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章。">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2019/06/01/ARTS-11/">
 
 
 
@@ -122,7 +122,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>ARTS(11) | To the moon</title>
   
 
 
@@ -360,7 +360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/01/ARTS-11/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +377,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">ARTS(11)
 
               
             
@@ -403,7 +403,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2019-06-01 13:18:40" itemprop="dateCreated datePublished" datetime="2019-06-01T13:18:40+08:00">2019-06-01</time>
             
 
             
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2019-06-22 14:35:30" itemprop="dateModified" datetime="2019-06-22T14:35:30+08:00">2019-06-22</time>
               
             
           </span>
@@ -437,7 +437,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ARTS/" itemprop="url" rel="index"><span itemprop="name">ARTS</span></a></span>
 
                 
                 
@@ -479,28 +479,46 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
-</ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+        <h1 id="ARTS-第十一周"><a href="#ARTS-第十一周" class="headerlink" title="ARTS 第十一周"></a>ARTS 第十一周</h1><blockquote>
+<p>每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）： </p>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>每周至少做一个 leetcode 的算法题</li>
+<li>阅读并点评至少一篇英文技术文章</li>
+<li>学习至少一个技术技巧</li>
+<li>分享一篇有观点和思考的技术文章。</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+</blockquote>
+<a id="more"></a>
+<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p> <a href="https://leetcode-cn.com/problems/numbers-with-same-consecutive-differences/" target="_blank" rel="noopener">力扣 967. 连续差相同的数字</a></p>
+<p>返回所有长度为 <code>N</code> 且满足其每两个连续位上的数字之间的差的绝对值为 <code>K</code> 的<strong>非负整数</strong>。</p>
+<p>请注意，<strong>除了</strong>数字 <code>0</code> 本身之外，答案中的每个数字都<strong>不能</strong>有前导零。例如，<code>01</code> 因为有一个前导零，所以是无效的；但 <code>0</code> 是有效的。</p>
+<p>你可以按任何顺序返回答案。 </p>
+<p><strong>示例 1：</strong></p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入：N = <span class="number">3</span>, K = <span class="number">7</span></span><br><span class="line">输出：[<span class="number">181</span>,<span class="number">292</span>,<span class="number">707</span>,<span class="number">818</span>,<span class="number">929</span>]</span><br><span class="line">解释：注意，<span class="number">070</span> 不是一个有效的数字，因为它有前导零。</span><br></pre></td></tr></table></figure>
+<p><strong>示例 2：</strong></p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：N = <span class="number">2</span>, K = <span class="number">1</span></span><br><span class="line">输出：[<span class="number">10</span>,<span class="number">12</span>,<span class="number">21</span>,<span class="number">23</span>,<span class="number">32</span>,<span class="number">34</span>,<span class="number">43</span>,<span class="number">45</span>,<span class="number">54</span>,<span class="number">56</span>,<span class="number">65</span>,<span class="number">67</span>,<span class="number">76</span>,<span class="number">78</span>,<span class="number">87</span>,<span class="number">89</span>,<span class="number">98</span>]</span><br></pre></td></tr></table></figure>
+<p>思路：DFS 搜索的方式，然后使用 set 去重</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.HashSet;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> 连续差相同的数字 </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[] results = numsSameConsecDiff(<span class="number">3</span>, <span class="number">7</span>);</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; results.length; i++) &#123;</span><br><span class="line">			System.out.println(results[i]);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span>[] numsSameConsecDiff(<span class="keyword">int</span> N, <span class="keyword">int</span> K) &#123;</span><br><span class="line">		<span class="keyword">int</span>[] num0 = &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>&#125;;</span><br><span class="line">		<span class="keyword">if</span> (N == <span class="number">1</span>) &#123;</span><br><span class="line">			<span class="keyword">return</span> num0;</span><br><span class="line">		&#125;</span><br><span class="line">		Set&lt;Integer&gt; list = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; <span class="number">10</span>; ++i) &#123;</span><br><span class="line">			DFS(K, list, i, <span class="number">0</span>, N);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> list.stream().mapToInt(Integer::intValue).toArray();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">DFS</span><span class="params">(<span class="keyword">int</span> K, Set&lt;Integer&gt; list, <span class="keyword">int</span> i, <span class="keyword">int</span> num, <span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (N == <span class="number">0</span>) &#123;</span><br><span class="line">			list.add(num);</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		num += i * (Math.pow(<span class="number">10</span>, N - <span class="number">1</span>));</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; ++j) &#123;</span><br><span class="line">			<span class="keyword">if</span> (Math.abs(i - j) == K) &#123;</span><br><span class="line">				DFS(K, list, j, num, N - <span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>本周分享一篇介绍”蓝绿部署”和”金丝雀发行”(直男配直译)的文章：<a href="https://dev.to/koenighotze/serverless-blue-green-deployments-and-canary-releases-with-traffic-shifting-b55" target="_blank" rel="noopener">Serverless blue green deployments and canary releases with traffic shifting</a></p>
+<p>知识背景：AWS Lambda 是亚马逊提供的云计算平台，用户将代码上传到平台上，然后可以供用户从 aws、web 或者 app等多种渠道触发计算得出结果。</p>
+<p>AWS 的 S3 是亚马逊提供的存储服务。</p>
+<p>文章解读如下：</p>
+<ol>
+<li>Blue Green Deployments，我翻译成蓝绿部署，其实就是一种代码版本更替的方式。在现有 blue 版本的基础上，发布了 green 版本，用户是通过一个 load balancer 才能访问到这些代码。所以 load balancer 在用户不可知的前提下，将访问代码的 access 切换到 green 版本，而一旦 green 版本的代码 bug 甚至失效时，又能及时切换回 blue 版本，这就是所谓的蓝绿部署。</li>
+<li>Canary Releases，我翻译成金丝雀发行，其实就是一种灰度发布的方式。将最近的版本仅发布到少量的用户那里，经过使用验证有效后，再逐步扩大到更多的用户那里。</li>
+<li>AWS 的 Lambda 又是如何做的呢？<ol>
+<li>新建一个 method，zip 打包，上传到AWS 的 S3，此方法属于为<code>lambda funciton</code>，此时版本号是 1；</li>
+<li>再次发布时版本号是 2，以后是 3、4… 依此类推，即使 2 被删除，其版本号也不会被重用；</li>
+<li>调用 method 时，可以指定方法名和版本号调用不同版本的方法。</li>
+<li>也可以为方法设置别名，那么版本信息就对用户透明了，这时 AWS 通常会触发<code>Prod</code>权限的方法。</li>
+<li>在 prod 里的多种版本，就会涉及上文提到的”蓝绿部署”和”金丝雀发行”用法了。</li>
+</ol>
+</li>
+<li>完。</li>
+</ol>
+<h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><p>分析一个 linux 命令行查看文件夹大小的命令：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 查看根目录下各个文件夹的大小，max-depth=n 表示只深入到第 n 层目录</span></span></span><br><span class="line">du -h -max-depth=1 /</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 查看~目录下文件 size 并从大到小排序</span></span></span><br><span class="line">du -s ~/ | sort -nr</span><br></pre></td></tr></table></figure>
+<h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 分享一个 scala 的快排代码，十分精简也很有意思：</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">qSort</span></span>(a:<span class="type">List</span>[<span class="type">Int</span>]):<span class="type">List</span>[<span class="type">Int</span>]=</span><br><span class="line"><span class="keyword">if</span>(a.length&lt;<span class="number">2</span>) a</span><br><span class="line"><span class="keyword">else</span> </span><br><span class="line">qSort(a.filter(_&lt;a.head)) ++ </span><br><span class="line">a.filter(_==a.head) ++ </span><br><span class="line">qSort(a.filter(_&gt;a.head))</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -537,7 +555,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/ARTS/" rel="tag"><i class="fa fa-tag"></i> ARTS</a>
           
         </div>
       
@@ -550,8 +568,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2019/05/26/ARTS-10/" rel="next" title="ARTS(10)">
+                <i class="fa fa-chevron-left"></i> ARTS(10)
               </a>
             
           </div>
@@ -560,8 +578,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/07/ARTS-12/" rel="prev" title="ARTS(12)">
+                ARTS(12) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +790,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ARTS-第十一周"><span class="nav-number">1.</span> <span class="nav-text">ARTS 第十一周</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Review"><span class="nav-number">1.2.</span> <span class="nav-text">Review</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip"><span class="nav-number">1.3.</span> <span class="nav-text">Tip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Share"><span class="nav-number">1.4.</span> <span class="nav-text">Share</span></a></li></ol></li></ol></div>
             
 
           </div>

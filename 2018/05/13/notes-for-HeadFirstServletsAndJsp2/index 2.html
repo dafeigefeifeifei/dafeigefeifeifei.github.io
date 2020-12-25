@@ -94,25 +94,25 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
-<meta name="keywords" content="mySQL">
+  <meta name="description" content="Head First Servlets&amp;amp;JSP 读书笔记_2名词解释 消息体/负载 ：Payload，是数据传输的根本目的，也称实际数据/数据体； 元数据：也称数据头/开销数据，是帮助负载传输的辅助； MIME类型：规范的一种，用以描述报文类型的内容和组织形式，包含HTTP响应首部中content-type，Content-Transfer-Encoding等； 端口列表 ：TCP/UDP">
+<meta name="keywords" content="javaWeb">
 <meta property="og:type" content="article">
-<meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
+<meta property="og:title" content="notes_for_HeadFirstServletsAndJsp2">
+<meta property="og:url" content="http://yoursite.com/2018/05/13/notes-for-HeadFirstServletsAndJsp2/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="Head First Servlets&amp;amp;JSP 读书笔记_2名词解释 消息体/负载 ：Payload，是数据传输的根本目的，也称实际数据/数据体； 元数据：也称数据头/开销数据，是帮助负载传输的辅助； MIME类型：规范的一种，用以描述报文类型的内容和组织形式，包含HTTP响应首部中content-type，Content-Transfer-Encoding等； 端口列表 ：TCP/UDP">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:updated_time" content="2019-04-04T11:58:30.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:title" content="notes_for_HeadFirstServletsAndJsp2">
+<meta name="twitter:description" content="Head First Servlets&amp;amp;JSP 读书笔记_2名词解释 消息体/负载 ：Payload，是数据传输的根本目的，也称实际数据/数据体； 元数据：也称数据头/开销数据，是帮助负载传输的辅助； MIME类型：规范的一种，用以描述报文类型的内容和组织形式，包含HTTP响应首部中content-type，Content-Transfer-Encoding等； 端口列表 ：TCP/UDP">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+  <link rel="canonical" href="http://yoursite.com/2018/05/13/notes-for-HeadFirstServletsAndJsp2/">
 
 
 
@@ -122,7 +122,7 @@
   };
 </script>
 
-  <title>极客时间《MySQL实战45讲》学习笔记 | To the moon</title>
+  <title>notes_for_HeadFirstServletsAndJsp2 | To the moon</title>
   
 
 
@@ -360,7 +360,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/notes-for-HeadFirstServletsAndJsp2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)">
@@ -377,7 +377,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">极客时间《MySQL实战45讲》学习笔记
+          <h1 class="post-title" itemprop="name headline">notes_for_HeadFirstServletsAndJsp2
 
               
             
@@ -403,7 +403,7 @@
                 
               
 
-              <time title="Created: 2020-04-19 10:07:19" itemprop="dateCreated datePublished" datetime="2020-04-19T10:07:19+08:00">2020-04-19</time>
+              <time title="Created: 2018-05-13 17:27:27" itemprop="dateCreated datePublished" datetime="2018-05-13T17:27:27+08:00">2018-05-13</time>
             
 
             
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2019-04-04 19:58:30" itemprop="dateModified" datetime="2019-04-04T19:58:30+08:00">2019-04-04</time>
               
             
           </span>
@@ -479,28 +479,44 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
-<li>显示启动事务：begin/start transaction - commit/rollback</li>
-<li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
+        <h1 id="Head-First-Servlets-amp-JSP-读书笔记-2"><a href="#Head-First-Servlets-amp-JSP-读书笔记-2" class="headerlink" title="Head First Servlets&amp;JSP 读书笔记_2"></a>Head First Servlets&amp;JSP 读书笔记_2</h1><h4 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h4><ul>
+<li>消息体/负载 ：Payload，是数据传输的根本目的，也称实际数据/数据体；</li>
+<li>元数据：也称数据头/开销数据，是帮助负载传输的辅助；</li>
+<li>MIME类型：规范的一种，用以描述报文类型的内容和组织形式，包含HTTP响应首部中content-type，Content-Transfer-Encoding等；</li>
+<li>端口列表 ：<a href="https://zh.wikipedia.org/wiki/TCP/UDP端口列表" target="_blank" rel="noopener">TCP/UDP端口列表</a></li>
+<li>部署描述文件(deployment descriptor,DD)，即web.xml。每个Web应用需要一个DD，但一个DD可以声明多个servlet</li>
+</ul>
+<h2 id="干货正文"><a href="#干货正文" class="headerlink" title="干货正文"></a>干货正文</h2><h3 id="为什么有时不建议用HTTP-GET？"><a href="#为什么有时不建议用HTTP-GET？" class="headerlink" title="为什么有时不建议用HTTP GET？"></a>为什么有时不建议用HTTP GET？</h3><ol>
+<li>Get的总字符数有限，（取决于服务器），如果在搜索框中写入太多，可能使get方法无法正常工作；</li>
+<li>get数据会加到URL后面，在浏览器地址栏中显示出来；</li>
+<li>然而，用了post，用户将不能对一个表单提交建立书签，get请求的url能保存为浏览器书签；</li>
+<li>然而，用了post，请求不能被缓存下来，不会保存在浏览记录中。</li>
 </ol>
-<p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
+<h3 id="Web服务器自己不做的两件事"><a href="#Web服务器自己不做的两件事" class="headerlink" title="Web服务器自己不做的两件事"></a>Web服务器自己不做的两件事</h3><blockquote>
+<p>1、动态内容；2、在服务器上保存数据</p>
+</blockquote>
 <ol>
-<li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
-</li>
-<li><p>有序数组：使用二分法，O(logN)时间复杂度，适合区间查询，但更新数据时过于麻烦，适合读多写少的场景。</p>
-</li>
-<li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
-</li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>Web服务器只提供静态页面。web服务器与辅助应用通信，由辅助应用具体写出HTML（即时页面）;</li>
+<li>用户提交表单数据时，web服务器看到表单数据，将其移交给辅助应用，由这个应用为客户生成一个响应。</li>
 </ol>
-<p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
-<p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
-<p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
-<p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
-<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<h3 id="辅助应用"><a href="#辅助应用" class="headerlink" title="辅助应用"></a>辅助应用</h3><p>通常包含Servlet和CGI(Common Gateway Interface)，两者各有优缺点。</p>
+<h3 id="放在Servlet中的HTML的糟糕表现"><a href="#放在Servlet中的HTML的糟糕表现" class="headerlink" title="放在Servlet中的HTML的糟糕表现"></a>放在Servlet中的HTML的糟糕表现</h3><p>在servlet中创建一个动态Web页面就需要把整个HTML打印到一个输出流,以下是未ps版代码，ps版代码是将java代码放入HTML中（即jsp）</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">out</span>.println(<span class="string">"&lt;html&gt;"</span>+</span><br><span class="line">				<span class="string">"&lt;body&gt;"</span>+today+<span class="string">"&lt;/body&gt;"</span>+</span><br><span class="line">				<span class="string">"&lt;/html&gt;"</span>);</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="Web容器的作用（tomcat等）"><a href="#Web容器的作用（tomcat等）" class="headerlink" title="Web容器的作用（tomcat等）"></a>Web容器的作用（tomcat等）</h3><h5 id="通信支持"><a href="#通信支持" class="headerlink" title="通信支持"></a>通信支持</h5><p>利用容器提供的方法，你可以简单的实现servlet与web服务器的对话。否则你就要自己建立serverSocket，监听端口，创建新的流等等一系列复杂的操作。而容器的存在就帮我们封装这一系列复杂的操作。使我们能够专注于servlet中的业务逻辑的实现。</p>
+<h5 id="生命周期管理"><a href="#生命周期管理" class="headerlink" title="生命周期管理"></a>生命周期管理</h5><p>容器负责servlet的整个生命周期（一般都会extends HttpServlet）。如何加载类，实例化和初始化servlet，调用servlet方法，并使servlet实例能够被垃圾回收。有了容器，我们就不用花精力去考虑这些资源管理垃圾回收之类的事情。<br><br>[理解]一般doGet/doPost方法传参有HttpServletRequest request和HttpServletResponse response，这俩是由容器创建的。</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PrintWriter out = response.getWriter()<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>以上代码中，out可以将HTML文本/图片等输出到相应对象中。</p>
+<h5 id="多线程支持"><a href="#多线程支持" class="headerlink" title="多线程支持"></a>多线程支持</h5><p>容器会自动为接收的每个servlet请求创建一个新的java线程，servlet运行完之后，容器会自动结束这个线程。</p>
+<h5 id="声明式实现安全"><a href="#声明式实现安全" class="headerlink" title="声明式实现安全"></a>声明式实现安全</h5><p>利用容器，可以使用xml部署描述文件来配置安全性，而不必将其硬编码到servlet中。</p>
+<h5 id="jsp支持"><a href="#jsp支持" class="headerlink" title="jsp支持"></a>jsp支持</h5><p>容器将jsp翻译成java</p>
+<h3 id="使用DD-web-xml-将URL映射到Servlet"><a href="#使用DD-web-xml-将URL映射到Servlet" class="headerlink" title="使用DD(web.xml)将URL映射到Servlet"></a>使用DD(web.xml)将URL映射到Servlet</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">&lt;!-- 内部名映射到完全限定类名--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Ch1Servlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>ch1Servlet.Ch1Servlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"> <span class="comment">&lt;!-- 内部名映射到公共URL名--&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Ch1Servlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/Ch1Servlet<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>servlet有三个名字：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">客户知道的URL名 <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/Ch1Servlet<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">部署人员知道的秘密的内部名 <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Ch1Servlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">实际文件名 <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>ch1Servlet.Ch1Servlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>注：将servlet添加一个对外访问的虚拟路径，除了以上在DD中配置之外，还可以采用注解的方式,在继承了<code>HttpServlet</code>的Servlet类上方添加：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@WebServlet(<span class="meta-string">"/WordAnalyzeServlet"</span>)</span></span><br></pre></td></tr></table></figure>
+<h3 id="DD的其他用途"><a href="#DD的其他用途" class="headerlink" title="DD的其他用途"></a>DD的其他用途</h3><p>包括了大量重要用途，但此时仅关注可以采用声明的方式修改应用。</p>
+<p>已完成本书第2章49页，未完待续。。。</p>
 
       
     </div>
@@ -537,7 +553,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
           
         </div>
       
@@ -550,8 +566,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/" rel="next" title="（转载）项目心得_ 一周爆肝上线百万高并发系统">
-                <i class="fa fa-chevron-left"></i> （转载）项目心得_ 一周爆肝上线百万高并发系统
+              <a href="/2018/05/10/How-to-send-files-to-cloud-server/" rel="next" title="How to send files to cloud server">
+                <i class="fa fa-chevron-left"></i> How to send files to cloud server
               </a>
             
           </div>
@@ -560,8 +576,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/21/登录-手机扫描pc二维码的原理梳理/" rel="prev" title="登录_手机扫描pc二维码的原理梳理">
-                登录_手机扫描pc二维码的原理梳理 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/05/14/notes-for-HeadFirstServletsAndJsp3/" rel="prev" title="notes_for_HeadFirstServletsAndJsp3">
+                notes_for_HeadFirstServletsAndJsp3 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -772,7 +788,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Head-First-Servlets-amp-JSP-读书笔记-2"><span class="nav-number">1.</span> <span class="nav-text">Head First Servlets&amp;JSP 读书笔记_2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#名词解释"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">名词解释</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#干货正文"><span class="nav-number">1.1.</span> <span class="nav-text">干货正文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么有时不建议用HTTP-GET？"><span class="nav-number">1.1.1.</span> <span class="nav-text">为什么有时不建议用HTTP GET？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web服务器自己不做的两件事"><span class="nav-number">1.1.2.</span> <span class="nav-text">Web服务器自己不做的两件事</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#辅助应用"><span class="nav-number">1.1.3.</span> <span class="nav-text">辅助应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#放在Servlet中的HTML的糟糕表现"><span class="nav-number">1.1.4.</span> <span class="nav-text">放在Servlet中的HTML的糟糕表现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web容器的作用（tomcat等）"><span class="nav-number">1.1.5.</span> <span class="nav-text">Web容器的作用（tomcat等）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#通信支持"><span class="nav-number">1.1.5.0.1.</span> <span class="nav-text">通信支持</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生命周期管理"><span class="nav-number">1.1.5.0.2.</span> <span class="nav-text">生命周期管理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#多线程支持"><span class="nav-number">1.1.5.0.3.</span> <span class="nav-text">多线程支持</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#声明式实现安全"><span class="nav-number">1.1.5.0.4.</span> <span class="nav-text">声明式实现安全</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jsp支持"><span class="nav-number">1.1.5.0.5.</span> <span class="nav-text">jsp支持</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用DD-web-xml-将URL映射到Servlet"><span class="nav-number">1.1.6.</span> <span class="nav-text">使用DD(web.xml)将URL映射到Servlet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DD的其他用途"><span class="nav-number">1.1.7.</span> <span class="nav-text">DD的其他用途</span></a></li></div>
             
 
           </div>
