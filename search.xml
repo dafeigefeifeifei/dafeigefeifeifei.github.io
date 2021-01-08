@@ -1106,6 +1106,66 @@
       </tags>
   </entry>
   <entry>
+    <title>InnoDB 读书笔记 2</title>
+    <url>/2018/07/31/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2/</url>
+    <content><![CDATA[<h1 id="缓冲池"><a href="#缓冲池" class="headerlink" title="缓冲池"></a>缓冲池</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记 2</p>
+<h2 id="缓冲池的简介"><a href="#缓冲池的简介" class="headerlink" title="缓冲池的简介"></a>缓冲池的简介</h2><ul>
+<li>InnoDB引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理</li>
+<li>缓冲池是一块内存区域，在数据库进行读取页的操作，首先将磁盘读到的页放在缓冲池中，称为将页“FIX”在缓冲池。下一次读到相同页时，首先判断该页是否在缓冲池中，若是则直接在缓冲池中读取该页，否则，读取磁盘上的页</li>
+<li>对于数据库中页的修改操作，首先修改在缓冲池中的页，然后以一定的频率刷新到磁盘上。但并不是每一次修改都会触发刷回数据的操作，而是按照一种称为checkpoint的机制进行</li>
+<li><p>缓冲池的大小直接影响数据库的整体性能，32位操作系统下，该值最多可以设置为3G，此外用户可以打开操作系统的PAE选项来获得32位OS下最大64G内存的支持</p>
+  <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">//查看缓冲池的大小，以下134217728B表示128MB</span><br><span class="line">mysql&gt; show variables like 'innodb<span class="emphasis">_buffer_</span>pool_size'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>size</span><br><span class="line"><span class="code">        Value: 134217728</span></span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>缓冲池中缓存的数据页类型：索引页、数据页、undo页、插入缓冲、自适应哈希索引、InnoDB存储的锁信息、数据字典信息等，如下图</li>
+</ul>
+<pre><code>![1](1.png)
+</code></pre><ul>
+<li><p>InnoDB允许有多个缓冲池实例，如下图查看，可以在配置文件中修改。同时也可以使用命令<code>SHOW ENGINE INNODB STATUS</code>查看每个缓冲池实例对象运行的状态</p>
+  <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">mysql&gt; show variables  like 'innodb<span class="emphasis">_buffer_</span>pool_instances'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>instances</span><br><span class="line"><span class="code">        Value: 1</span></span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">//部分代码：</span><br><span class="line">mysql&gt; show engine innodb  status\G;</span><br><span class="line">Total large memory allocated 137428992</span><br><span class="line">Dictionary memory allocated 216425</span><br><span class="line">Buffer pool size   8191</span><br><span class="line">Free buffers       6983</span><br><span class="line">Database pages     1190</span><br><span class="line">Old database pages 419</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="InnoDB如何管理缓存池（即一大块内存）"><a href="#InnoDB如何管理缓存池（即一大块内存）" class="headerlink" title="InnoDB如何管理缓存池（即一大块内存）"></a>InnoDB如何管理缓存池（即一大块内存）</h2><ul>
+<li>通常的缓冲池是通过LRU（Latest Recent Used）算法来进行管理的，最常使用页放在LRU列表的前端，最少使用的页放在尾端。当缓冲池不能存放新读取的页时，将首先释放LRU列表中尾段的页。</li>
+<li>InnoDB对LRU算法进行了一些优化，在LRU列表中新增了midpoiont位置，新读取的页并不放在首部，而是放在midpoint处，约5/8的位置，可由参数innodb_old_blocks_pct控制。至于为什么不放在首部，是因为新读取的页通常仅是这次查询操作中需要，并不是活跃的热点数据。所以InnoDB引入另一个参数来进一步管理LRU列表，即innodb_old_blocks_time，用于表示页读取到mid位置后需要等待多久才会被加入到LRU列表的热端。</li>
+<li>当页从LRU列表的old部分加入到new部分时，此时发生的操作为page made young，而因为innodb_old_blocks_time的设置导致页没有从old部分移动到new部分的操作称为page not made young，page made young显示了LRU列表中页移动到热端的次数。</li>
+<li>还有一个重要的观察变量——Buffer pool hit rate ，表示缓冲池的命中率，通常不应该小于95%。</li>
+<li>在LRU列表中的页被修改后，称该页为脏页，这时DB会通过CheckPoint机制将脏页刷回磁盘，而Flush列表中的页即为脏页列表。</li>
+</ul>
+<h4 id="日志缓存和额外的内存池"><a href="#日志缓存和额外的内存池" class="headerlink" title="日志缓存和额外的内存池"></a>日志缓存和额外的内存池</h4><ul>
+<li>InnoDB将重做日志信息先放入重做日志缓存区，一般每一秒钟将重做日志缓冲刷新到日志文件，由参数innodb_log_buffer_size 控制，默认为8MB；</li>
+<li>InnoDB对内存的管理使用heap的方式，详略</li>
+</ul>
+<h4 id="CheckPoint技术"><a href="#CheckPoint技术" class="headerlink" title="CheckPoint技术"></a>CheckPoint技术</h4><ul>
+<li>背景：如果每次update或delete都要将新页的版本刷新到磁盘，这个开销是非常大的。同时如果在刷新时发生了宕机，那么数据就不能恢复了。</li>
+<li>所以为了避免数据丢失的情况，事务数据库系统普遍采取了Write Ahead Log策略，即当事务提交时，先写重做日志，再修改页。</li>
+<li><p>CheckPoint技术目的是为了解决以下几个问题：</p>
+<ol>
+<li>缩短DB的恢复时间；</li>
+<li>缓冲池不够用时，将脏页刷新到磁盘；</li>
+<li>重做日志不可用时（重做日志被需要，不能被覆盖的情形下），刷新脏页</li>
+</ol>
+</li>
+<li><p>InnoDB采用LSN（Log Sequence Number）来标记版本，每个页有LSN，重做日志也有LSN，CheckPoint也有LSN。</p>
+</li>
+<li><p>CheckPoint有两种：Sharp CheckPoint和Fuzzy CheckPoint</p>
+<ol>
+<li>Sharp CheckPoint发生在DB关闭时将所有脏页刷回磁盘；</li>
+<li>Fuzzy Checkpoint只刷新部分脏页，有四种方式，此处咱不讨论</li>
+</ol>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>notes</category>
+      </categories>
+      <tags>
+        <tag>mySQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>InnoDB 读书笔记 1</title>
     <url>/2018/07/30/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-1/</url>
     <content><![CDATA[<h1 id="数据库内容纵览"><a href="#数据库内容纵览" class="headerlink" title="数据库内容纵览"></a>数据库内容纵览</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记  1</p>
@@ -1178,66 +1238,6 @@
 </li>
 </ol>
 <p>完成全书36页 </p>
-]]></content>
-      <categories>
-        <category>notes</category>
-      </categories>
-      <tags>
-        <tag>mySQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>InnoDB 读书笔记 2</title>
-    <url>/2018/07/31/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2/</url>
-    <content><![CDATA[<h1 id="缓冲池"><a href="#缓冲池" class="headerlink" title="缓冲池"></a>缓冲池</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记 2</p>
-<h2 id="缓冲池的简介"><a href="#缓冲池的简介" class="headerlink" title="缓冲池的简介"></a>缓冲池的简介</h2><ul>
-<li>InnoDB引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理</li>
-<li>缓冲池是一块内存区域，在数据库进行读取页的操作，首先将磁盘读到的页放在缓冲池中，称为将页“FIX”在缓冲池。下一次读到相同页时，首先判断该页是否在缓冲池中，若是则直接在缓冲池中读取该页，否则，读取磁盘上的页</li>
-<li>对于数据库中页的修改操作，首先修改在缓冲池中的页，然后以一定的频率刷新到磁盘上。但并不是每一次修改都会触发刷回数据的操作，而是按照一种称为checkpoint的机制进行</li>
-<li><p>缓冲池的大小直接影响数据库的整体性能，32位操作系统下，该值最多可以设置为3G，此外用户可以打开操作系统的PAE选项来获得32位OS下最大64G内存的支持</p>
-  <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">//查看缓冲池的大小，以下134217728B表示128MB</span><br><span class="line">mysql&gt; show variables like 'innodb<span class="emphasis">_buffer_</span>pool_size'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>size</span><br><span class="line"><span class="code">        Value: 134217728</span></span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li>缓冲池中缓存的数据页类型：索引页、数据页、undo页、插入缓冲、自适应哈希索引、InnoDB存储的锁信息、数据字典信息等，如下图</li>
-</ul>
-<pre><code>![1](1.png)
-</code></pre><ul>
-<li><p>InnoDB允许有多个缓冲池实例，如下图查看，可以在配置文件中修改。同时也可以使用命令<code>SHOW ENGINE INNODB STATUS</code>查看每个缓冲池实例对象运行的状态</p>
-  <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">mysql&gt; show variables  like 'innodb<span class="emphasis">_buffer_</span>pool_instances'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>instances</span><br><span class="line"><span class="code">        Value: 1</span></span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">//部分代码：</span><br><span class="line">mysql&gt; show engine innodb  status\G;</span><br><span class="line">Total large memory allocated 137428992</span><br><span class="line">Dictionary memory allocated 216425</span><br><span class="line">Buffer pool size   8191</span><br><span class="line">Free buffers       6983</span><br><span class="line">Database pages     1190</span><br><span class="line">Old database pages 419</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="InnoDB如何管理缓存池（即一大块内存）"><a href="#InnoDB如何管理缓存池（即一大块内存）" class="headerlink" title="InnoDB如何管理缓存池（即一大块内存）"></a>InnoDB如何管理缓存池（即一大块内存）</h2><ul>
-<li>通常的缓冲池是通过LRU（Latest Recent Used）算法来进行管理的，最常使用页放在LRU列表的前端，最少使用的页放在尾端。当缓冲池不能存放新读取的页时，将首先释放LRU列表中尾段的页。</li>
-<li>InnoDB对LRU算法进行了一些优化，在LRU列表中新增了midpoiont位置，新读取的页并不放在首部，而是放在midpoint处，约5/8的位置，可由参数innodb_old_blocks_pct控制。至于为什么不放在首部，是因为新读取的页通常仅是这次查询操作中需要，并不是活跃的热点数据。所以InnoDB引入另一个参数来进一步管理LRU列表，即innodb_old_blocks_time，用于表示页读取到mid位置后需要等待多久才会被加入到LRU列表的热端。</li>
-<li>当页从LRU列表的old部分加入到new部分时，此时发生的操作为page made young，而因为innodb_old_blocks_time的设置导致页没有从old部分移动到new部分的操作称为page not made young，page made young显示了LRU列表中页移动到热端的次数。</li>
-<li>还有一个重要的观察变量——Buffer pool hit rate ，表示缓冲池的命中率，通常不应该小于95%。</li>
-<li>在LRU列表中的页被修改后，称该页为脏页，这时DB会通过CheckPoint机制将脏页刷回磁盘，而Flush列表中的页即为脏页列表。</li>
-</ul>
-<h4 id="日志缓存和额外的内存池"><a href="#日志缓存和额外的内存池" class="headerlink" title="日志缓存和额外的内存池"></a>日志缓存和额外的内存池</h4><ul>
-<li>InnoDB将重做日志信息先放入重做日志缓存区，一般每一秒钟将重做日志缓冲刷新到日志文件，由参数innodb_log_buffer_size 控制，默认为8MB；</li>
-<li>InnoDB对内存的管理使用heap的方式，详略</li>
-</ul>
-<h4 id="CheckPoint技术"><a href="#CheckPoint技术" class="headerlink" title="CheckPoint技术"></a>CheckPoint技术</h4><ul>
-<li>背景：如果每次update或delete都要将新页的版本刷新到磁盘，这个开销是非常大的。同时如果在刷新时发生了宕机，那么数据就不能恢复了。</li>
-<li>所以为了避免数据丢失的情况，事务数据库系统普遍采取了Write Ahead Log策略，即当事务提交时，先写重做日志，再修改页。</li>
-<li><p>CheckPoint技术目的是为了解决以下几个问题：</p>
-<ol>
-<li>缩短DB的恢复时间；</li>
-<li>缓冲池不够用时，将脏页刷新到磁盘；</li>
-<li>重做日志不可用时（重做日志被需要，不能被覆盖的情形下），刷新脏页</li>
-</ol>
-</li>
-<li><p>InnoDB采用LSN（Log Sequence Number）来标记版本，每个页有LSN，重做日志也有LSN，CheckPoint也有LSN。</p>
-</li>
-<li><p>CheckPoint有两种：Sharp CheckPoint和Fuzzy CheckPoint</p>
-<ol>
-<li>Sharp CheckPoint发生在DB关闭时将所有脏页刷回磁盘；</li>
-<li>Fuzzy Checkpoint只刷新部分脏页，有四种方式，此处咱不讨论</li>
-</ol>
-</li>
-</ul>
 ]]></content>
       <categories>
         <category>notes</category>
@@ -8689,6 +8689,143 @@ JNI global references: 281
       </tags>
   </entry>
   <entry>
+    <title>操作系统第二章（2）</title>
+    <url>/2018/09/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%882%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="操作系统——进程管理（2）"><a href="#操作系统——进程管理（2）" class="headerlink" title="操作系统——进程管理（2）"></a>操作系统——进程管理（2）</h1><h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><ul>
+<li>概念：“轻量级进程”，是一个基本的CPU执行单元，也是程序执行流的最小单元，由线程ID、程序计数器、寄存器集合和堆栈组成。</li>
+<li>线程也有就绪、阻塞和运行三种基本状态。</li>
+</ul>
+<h3 id="线程与进程的比较"><a href="#线程与进程的比较" class="headerlink" title="线程与进程的比较"></a>线程与进程的比较</h3><p>推荐阅读：<a href="https://blog.csdn.net/shenwanjiang111/article/details/79898774" target="_blank" rel="noopener">多线程</a></p>
+<ul>
+<li>调度。线程是独立调度的基本单位。</li>
+<li>拥有资源。线程不拥有系统资源（或少量必不可少的资源，如自己的内核栈）。</li>
+<li>并发性。多个线程之间可以并发执行。</li>
+<li>系统开销。线程切换时，只需保存少量寄存器内容，开销很小。同一进程中的多个线程共享进程的地址空间，因此线程之间的同步和通信非常容易实现。</li>
+<li>地址空间和其他资源。同一进程的多个线程共享进程资源（地址空间、页表等），进程的线程对其他进程透明。</li>
+<li>通信方面。线程间可以直接读写进程数据段（如全局变量）来进行通信，不一定需要系统调用函数。</li>
+</ul>
+<a id="more"></a>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ul>
+<li>每个线程有唯一的标识符和线程控制块；</li>
+<li>不同的线程可以执行相同的程序（比如浏览器可以打开相同的网站，相同于开启多个线程）；</li>
+<li>同一个进程中的各个线程共享该进程所拥有的资源；</li>
+<li>线程是CPU的独立调度单位，在单CPU的计算机系统中，各线程可交替的占用CPU；在多CPU的计算机系统中，允许不同线程占用不同的CPU，若各个CPU同时为一个进程内的各线程服务则可以缩短进程的处理时间；</li>
+<li>一个线程被创建后便开始了它的生命周期，直至终止，线程在生命周期内会经历阻塞态、就绪态和运行态等各种状态变化。</li>
+</ul>
+<h3 id="线程的实现方式"><a href="#线程的实现方式" class="headerlink" title="线程的实现方式"></a>线程的实现方式</h3><p>分为两类，用户级线程和内核态线程：</p>
+<ul>
+<li>用户级线程：线程管理工作由<strong>应用程序</strong>完成，内核完全意识不到线程的存在（线程切换由application完成，少了管/目态切换的消耗，但不能很好地利用多核CPU）。应用程序可以通过使用线程库设计成多线程程序。</li>
+<li>内核态线程：线程管理（如线程切换，切换线程前从目态切到管态，线程切换后从管态切到目态）由<strong>内核</strong>完成，内核为进程及其内部的每个线程维护上下文信息，调度也是在内核基于线程架构的基础上完成。</li>
+<li>组合形式：应用程序负责线程的创建，线程的调度和同步也在应用程序中进行。这些用户级线程被映射到一些内核级线程上（数量少于用户级线程数）。</li>
+</ul>
+<h2 id="CPU调度"><a href="#CPU调度" class="headerlink" title="CPU调度"></a>CPU调度</h2><ul>
+<li>调度：存在进程争用CPU的情况，CPU调度就是对CPU进行分配，从就绪队列中，按照一定的算法（公平、高效）选择一个进程并将CPU分配给它运行，以实现进程并发的执行。</li>
+</ul>
+<h3 id="调度的层次"><a href="#调度的层次" class="headerlink" title="调度的层次"></a>调度的层次</h3><p>一个作业从提交直到完成，往往要经历三级调度，高级调度（作业调度）、中级调度（内存调度）、低级调度（进程调度）</p>
+<ul>
+<li>高级调度。按一定的原则，从外存上处于后备状态的作业中挑选一个或多个作业，给它们分配内存、I/O设备等必要的资源，并建立相应的进程，以使它们<strong>获得竞争CPU</strong>的权利。对于每个作业只调入一次、调出一次。高级调度在三种调度中频率最低。</li>
+<li>中级调度。为了提高<strong>内存利用率和系统吞吐量</strong>。使哪些暂时不能运行的进程，调至外存等待（即挂起）。当它们具备运行条件而且内存又稍有空闲时，由中级调度决定，将挂起的进程重新调入内存，挂在就绪队列等待运行。</li>
+<li>低级调度。按照某种方法和策略从就绪队列中选取一个进程，并将CPU分配给它。进程调度的频率很高，一般几十毫秒一次。此调度室最基本的，不可或缺。</li>
+<li>三级调度的关系：作业调度为进程活动做准备，进程调度使进程正常活动起来，中级调度将暂时不能运行的进程挂起，中级调度处于作业调度和进程调度之间。</li>
+</ul>
+<h3 id="调度的时机、切换和过程"><a href="#调度的时机、切换和过程" class="headerlink" title="调度的时机、切换和过程"></a>调度的时机、切换和过程</h3><h4 id="OS中，不能进行进程调度的情况"><a href="#OS中，不能进行进程调度的情况" class="headerlink" title="OS中，不能进行进程调度的情况"></a>OS中，不能进行进程调度的情况</h4><ol>
+<li><strong>处理中断</strong>的过程不能进行进程的调度。中断处理过程复杂，实现上很难做到进程切换；而且中断处理是系统工作的一部分，逻辑上不属于某一进程，不应被剥夺CPU资源；</li>
+<li>当进程在os内核程序临界区中，理论上必须加锁，在解锁前不应切换到其他进程运行；</li>
+<li>其他一些完全屏蔽中断的原子操作过程。比如加锁、解锁、中断现场保护、恢复等。</li>
+</ol>
+<p>出现以上情况时，不能马上进行调度和切换，应置系统的请求调度标志，直到上述过程结束之后才进行相应的调度与切换。</p>
+<h4 id="剥夺调度和非剥夺调度"><a href="#剥夺调度和非剥夺调度" class="headerlink" title="剥夺调度和非剥夺调度"></a>剥夺调度和非剥夺调度</h4><ul>
+<li>剥夺调度：当一个进程正在运行时，系统可以基于某种原则，剥夺已分配给它的处理机，将之分配给其它进程。原则主要有：优先权、短进程优先和时间片原则等。</li>
+<li>非剥夺调度：分派程序一旦把处理机分配给某进程后便让它一直运行下去，直到进程完成或发生 进程调度某事件而阻塞时，才把处理机分配给另一个进程。实现简单、系统开销小，适用于大多数的批处理系统，但不能用于分时系统和大多数的实时系统。</li>
+</ul>
+<h4 id="进程调度时的上下文处理"><a href="#进程调度时的上下文处理" class="headerlink" title="进程调度时的上下文处理"></a>进程调度时的上下文处理</h4><ul>
+<li>进程切换往往在调度完成后立刻发生，它要求保存原进程当前切换点的现场信息，恢复被调度进程的现场信息。</li>
+<li>现场切换时，操作系统内核将原进程的现场信息推入到当前进程的内核堆栈来保存它们，并更新堆栈指针。</li>
+<li>内核完成从新进程的内核栈中装入新进程的现场信息、更新当前运行进程空间指针、重设PC寄存器等相关工作后，开始运行新的进程。</li>
+</ul>
+<h3 id="调度基本原则（也是评价一个调度算法的指标）"><a href="#调度基本原则（也是评价一个调度算法的指标）" class="headerlink" title="调度基本原则（也是评价一个调度算法的指标）"></a>调度基本原则（也是评价一个调度算法的指标）</h3><p>基本原则主要有：CPU利用率（尽可能使CPU处于繁忙状态）、系统吞吐量（单位时间内CPU完成作业的数量，如果作业都是短作业，吞吐量就比较高）、周转时间（从作业提交到作业完成所经历的时间）、<strong>等待时间</strong>（进程处于等待CPU状态时间之和）、响应时间（用户提交请求到系统首次产生响应所用的时间）</p>
+<p>重点关注：</p>
+<ul>
+<li>周转时间。<ul>
+<li>周转时间=作业完成时间-作业提交时间。</li>
+<li>平均周转时间是指多个作业周转时间的平均值。</li>
+<li>带权周转时间是指作业周转时间与作业实际运行时间的比值。</li>
+<li>平均带权周转时间=（sigma作业i的带权周转时间）/n。</li>
+</ul>
+</li>
+<li>等待时间。<ul>
+<li>CPU调度算法实际上不影响作业执行或输入/输出操作的时间，只影响作业在就绪队列中等待所花的时间；</li>
+<li>衡量一个算法的优劣，常常只需要简单的考察等待时间即可。</li>
+</ul>
+</li>
+</ul>
+<h3 id="典型调度算法"><a href="#典型调度算法" class="headerlink" title="典型调度算法"></a>典型调度算法</h3><ul>
+<li>有的调度算法适合于作业调度，有的适合于进程调度，有的算法两者都适用。</li>
+<li>常用的调度算法有：先来先服务FCFS，短作业优先SJF、优先级调度算法、高响应比优先调度算法、时间片轮转调度算法、多级反馈队列调度算法</li>
+</ul>
+<h4 id="先来先服务FCFS"><a href="#先来先服务FCFS" class="headerlink" title="先来先服务FCFS"></a>先来先服务FCFS</h4><ul>
+<li>既可用于作业调度，又可用于进程调度；</li>
+<li>应用在作业调度时，每次从后备作业队列中选择最先进入队列的作业，将它们调入内存，分配必要的资源，创建进程并放入就绪队列；</li>
+<li>应用在进程调度时，每次从就绪队列中选择最先进入队列的进程，将CPU分配给它，直到完成或因某些原因而阻塞时才释放CPU；</li>
+<li>FCFS属于不可剥夺算法。</li>
+<li><p>特点：算法简单、效率低；对长作业比较有利，但对短作业不利（相对SJF和高响应比）；有利于CPU繁忙型作业，不利于I/O繁忙型作业。</p>
+<h4 id="短作业优先SJF"><a href="#短作业优先SJF" class="headerlink" title="短作业优先SJF"></a>短作业优先SJF</h4></li>
+<li><p>既可用于作业调度，又可用于进程调度；</p>
+</li>
+<li>应用在作业调度时，从后备队列中选择一个或多个<strong>估计运行时间</strong>最短的作业，调入内存中；</li>
+<li>应用在进程调度时，从就绪队列中选择一个<strong>估计运行时间</strong>最短的进程；</li>
+<li>缺点：对长作业不利，可能导致长作业长期不被调度出现饥饿现象；未考虑作业的紧迫程度，不能保证紧迫性作业会被及时处理；作业的长短由用户提供的估计执行时间而定，用户可能刻意缩短该估计时间；</li>
+<li>特点：SJF调度算法的平均等待时间、平均周转时间最少。</li>
+</ul>
+<h4 id="优先级调度算法"><a href="#优先级调度算法" class="headerlink" title="优先级调度算法"></a>优先级调度算法</h4><ul>
+<li>既可用于作业调度，又可用于进程调度；</li>
+<li>应用在作业调度时，从后备队列中挑选优先级最高的一个或多个作业调入内存；</li>
+<li>应用在进程调度时，从就绪队列中选择优先级最高的进程；</li>
+<li>新的最高优先级进程能够抢占当前执行的进程，要分两种情况：<ul>
+<li>非剥夺式。当前执行的进程让它出于自身原因主动让出CPU（任务完成或等待事件）给更高优先级的进程；</li>
+<li>剥夺式。立即暂停当前执行的进程，将CPU移交给更高优先级的进程。</li>
+</ul>
+</li>
+<li>进程创建后其优先级能够改变，要分两种情况：<ul>
+<li>静态优先级。优先级在进程创建之初确认，之后保持不变。确定静态优先级的依据主要有：进程类型、进程对资源的要求、用户要求。</li>
+<li>动态优先级。进程运行过程中，根据进程情况的变化动态调整优先级。确定动态优先级的依据主要有：进程占有CPU时间的长短、就绪进程等待CPU时间的长短。</li>
+</ul>
+</li>
+</ul>
+<h4 id="高响应比优先调度算法"><a href="#高响应比优先调度算法" class="headerlink" title="高响应比优先调度算法"></a>高响应比优先调度算法</h4><ul>
+<li>主要用于作业调度</li>
+<li>同时考虑每个作业的等待时间和估计的运行时间。每次作业调度时，先计算后备作业队列中每个作业的响应比，从中选出响应比最高的作业投入运行。</li>
+<li>响应比Rp=等待时间/ 要求服务时间 + 1 。要求服务时间即估计运行时间。有利于短作业，同时也有利于先来先服务。</li>
+<li><p>优点：克服了饥饿状态，兼顾了长作业。</p>
+<h4 id="时间片轮转调度算法"><a href="#时间片轮转调度算法" class="headerlink" title="时间片轮转调度算法"></a>时间片轮转调度算法</h4></li>
+<li><p>用在进程调度，不用在作业调度（理解：作业的调入调出不可能随时间片频繁变动）</p>
+</li>
+<li>主要用在分时系统，总是选择就绪队列中第一个进程执行，等待一个时间片后，即使进程未完成运行，也必须释放出（或被剥夺）CPU给下一个进程，被剥夺的进程进入就绪队列的末尾重新排队。</li>
+<li>时间片的大小需要选择合适，太大会使本算法退化成先来先服务算法；太小会使进程切换过于频繁，造成CPU开销太大。选取的标准视以下因素：系统的响应时间、就绪队列中的进程数量和系统的处理能力而定。</li>
+<li><p>此算法利于多用户干预，人机交互得到提升。</p>
+<h4 id="多级反馈队列调度算法"><a href="#多级反馈队列调度算法" class="headerlink" title="多级反馈队列调度算法"></a>多级反馈队列调度算法</h4></li>
+<li><p>用在进程调度，不用在作业调度（理由与时间片算法相同）</p>
+</li>
+<li>通过动态调整进程优先级和时间片大小，综合了时间片轮转调度算法和优先级调度算法</li>
+<li>对短进程和I/O型进程照顾，不必事先估计进程的执行时间；</li>
+<li>实现思想：<ul>
+<li>设置多个不同优先级的队列，比如第1队列优先级最高；</li>
+<li>赋予各个队列的时间片大小也不相同，优先级越高的队列的时间片越小；</li>
+<li>当新进程进入内存后，先放入第1队列的末尾，按照FCFS原则排队。等轮到该进程执行时，如果任务能够完成，便可撤离系统；如果任务完不成，调度程序会将该进程转入第2队列的末尾，再同样按照FCFS原则等待执行，以此类推；</li>
+<li>仅当第1队列为空时，调度程序才会调度第2队列中的进程运行，以此类推。例如，如果CPU正在运行第3队列时，有新的进程加入第1进程末尾，此时新进程将抢占CPU；</li>
+</ul>
+</li>
+<li>优点：终端型作业用户：短作业优先；短批处理作业用户：周转时间较短；长批处理作业用户：经过前几个队列得到部分执行，不会长期得不到处理。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>examination</category>
+      </categories>
+      <tags>
+        <tag>operationSystem</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>操作系统第二章练习（1）</title>
     <url>/2018/08/25/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BB%83%E4%B9%A0%EF%BC%881%EF%BC%89/</url>
     <content><![CDATA[<h1 id="操作系统之进程管理——进程概览"><a href="#操作系统之进程管理——进程概览" class="headerlink" title="操作系统之进程管理——进程概览"></a>操作系统之进程管理——进程概览</h1><h4 id="1-进程的概念、特征和状态转换"><a href="#1-进程的概念、特征和状态转换" class="headerlink" title="1. 进程的概念、特征和状态转换"></a>1. 进程的概念、特征和状态转换</h4><ul>
@@ -8861,143 +8998,6 @@ JNI global references: 281
 <li>管道只能采用半双工通信，某一时刻只能单向传输。若要实现父子通信，必须定义两个管道。</li>
 </ul>
 </li>
-</ul>
-]]></content>
-      <categories>
-        <category>examination</category>
-      </categories>
-      <tags>
-        <tag>operationSystem</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>操作系统第二章（2）</title>
-    <url>/2018/09/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%882%EF%BC%89/</url>
-    <content><![CDATA[<h1 id="操作系统——进程管理（2）"><a href="#操作系统——进程管理（2）" class="headerlink" title="操作系统——进程管理（2）"></a>操作系统——进程管理（2）</h1><h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><ul>
-<li>概念：“轻量级进程”，是一个基本的CPU执行单元，也是程序执行流的最小单元，由线程ID、程序计数器、寄存器集合和堆栈组成。</li>
-<li>线程也有就绪、阻塞和运行三种基本状态。</li>
-</ul>
-<h3 id="线程与进程的比较"><a href="#线程与进程的比较" class="headerlink" title="线程与进程的比较"></a>线程与进程的比较</h3><p>推荐阅读：<a href="https://blog.csdn.net/shenwanjiang111/article/details/79898774" target="_blank" rel="noopener">多线程</a></p>
-<ul>
-<li>调度。线程是独立调度的基本单位。</li>
-<li>拥有资源。线程不拥有系统资源（或少量必不可少的资源，如自己的内核栈）。</li>
-<li>并发性。多个线程之间可以并发执行。</li>
-<li>系统开销。线程切换时，只需保存少量寄存器内容，开销很小。同一进程中的多个线程共享进程的地址空间，因此线程之间的同步和通信非常容易实现。</li>
-<li>地址空间和其他资源。同一进程的多个线程共享进程资源（地址空间、页表等），进程的线程对其他进程透明。</li>
-<li>通信方面。线程间可以直接读写进程数据段（如全局变量）来进行通信，不一定需要系统调用函数。</li>
-</ul>
-<a id="more"></a>
-<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ul>
-<li>每个线程有唯一的标识符和线程控制块；</li>
-<li>不同的线程可以执行相同的程序（比如浏览器可以打开相同的网站，相同于开启多个线程）；</li>
-<li>同一个进程中的各个线程共享该进程所拥有的资源；</li>
-<li>线程是CPU的独立调度单位，在单CPU的计算机系统中，各线程可交替的占用CPU；在多CPU的计算机系统中，允许不同线程占用不同的CPU，若各个CPU同时为一个进程内的各线程服务则可以缩短进程的处理时间；</li>
-<li>一个线程被创建后便开始了它的生命周期，直至终止，线程在生命周期内会经历阻塞态、就绪态和运行态等各种状态变化。</li>
-</ul>
-<h3 id="线程的实现方式"><a href="#线程的实现方式" class="headerlink" title="线程的实现方式"></a>线程的实现方式</h3><p>分为两类，用户级线程和内核态线程：</p>
-<ul>
-<li>用户级线程：线程管理工作由<strong>应用程序</strong>完成，内核完全意识不到线程的存在（线程切换由application完成，少了管/目态切换的消耗，但不能很好地利用多核CPU）。应用程序可以通过使用线程库设计成多线程程序。</li>
-<li>内核态线程：线程管理（如线程切换，切换线程前从目态切到管态，线程切换后从管态切到目态）由<strong>内核</strong>完成，内核为进程及其内部的每个线程维护上下文信息，调度也是在内核基于线程架构的基础上完成。</li>
-<li>组合形式：应用程序负责线程的创建，线程的调度和同步也在应用程序中进行。这些用户级线程被映射到一些内核级线程上（数量少于用户级线程数）。</li>
-</ul>
-<h2 id="CPU调度"><a href="#CPU调度" class="headerlink" title="CPU调度"></a>CPU调度</h2><ul>
-<li>调度：存在进程争用CPU的情况，CPU调度就是对CPU进行分配，从就绪队列中，按照一定的算法（公平、高效）选择一个进程并将CPU分配给它运行，以实现进程并发的执行。</li>
-</ul>
-<h3 id="调度的层次"><a href="#调度的层次" class="headerlink" title="调度的层次"></a>调度的层次</h3><p>一个作业从提交直到完成，往往要经历三级调度，高级调度（作业调度）、中级调度（内存调度）、低级调度（进程调度）</p>
-<ul>
-<li>高级调度。按一定的原则，从外存上处于后备状态的作业中挑选一个或多个作业，给它们分配内存、I/O设备等必要的资源，并建立相应的进程，以使它们<strong>获得竞争CPU</strong>的权利。对于每个作业只调入一次、调出一次。高级调度在三种调度中频率最低。</li>
-<li>中级调度。为了提高<strong>内存利用率和系统吞吐量</strong>。使哪些暂时不能运行的进程，调至外存等待（即挂起）。当它们具备运行条件而且内存又稍有空闲时，由中级调度决定，将挂起的进程重新调入内存，挂在就绪队列等待运行。</li>
-<li>低级调度。按照某种方法和策略从就绪队列中选取一个进程，并将CPU分配给它。进程调度的频率很高，一般几十毫秒一次。此调度室最基本的，不可或缺。</li>
-<li>三级调度的关系：作业调度为进程活动做准备，进程调度使进程正常活动起来，中级调度将暂时不能运行的进程挂起，中级调度处于作业调度和进程调度之间。</li>
-</ul>
-<h3 id="调度的时机、切换和过程"><a href="#调度的时机、切换和过程" class="headerlink" title="调度的时机、切换和过程"></a>调度的时机、切换和过程</h3><h4 id="OS中，不能进行进程调度的情况"><a href="#OS中，不能进行进程调度的情况" class="headerlink" title="OS中，不能进行进程调度的情况"></a>OS中，不能进行进程调度的情况</h4><ol>
-<li><strong>处理中断</strong>的过程不能进行进程的调度。中断处理过程复杂，实现上很难做到进程切换；而且中断处理是系统工作的一部分，逻辑上不属于某一进程，不应被剥夺CPU资源；</li>
-<li>当进程在os内核程序临界区中，理论上必须加锁，在解锁前不应切换到其他进程运行；</li>
-<li>其他一些完全屏蔽中断的原子操作过程。比如加锁、解锁、中断现场保护、恢复等。</li>
-</ol>
-<p>出现以上情况时，不能马上进行调度和切换，应置系统的请求调度标志，直到上述过程结束之后才进行相应的调度与切换。</p>
-<h4 id="剥夺调度和非剥夺调度"><a href="#剥夺调度和非剥夺调度" class="headerlink" title="剥夺调度和非剥夺调度"></a>剥夺调度和非剥夺调度</h4><ul>
-<li>剥夺调度：当一个进程正在运行时，系统可以基于某种原则，剥夺已分配给它的处理机，将之分配给其它进程。原则主要有：优先权、短进程优先和时间片原则等。</li>
-<li>非剥夺调度：分派程序一旦把处理机分配给某进程后便让它一直运行下去，直到进程完成或发生 进程调度某事件而阻塞时，才把处理机分配给另一个进程。实现简单、系统开销小，适用于大多数的批处理系统，但不能用于分时系统和大多数的实时系统。</li>
-</ul>
-<h4 id="进程调度时的上下文处理"><a href="#进程调度时的上下文处理" class="headerlink" title="进程调度时的上下文处理"></a>进程调度时的上下文处理</h4><ul>
-<li>进程切换往往在调度完成后立刻发生，它要求保存原进程当前切换点的现场信息，恢复被调度进程的现场信息。</li>
-<li>现场切换时，操作系统内核将原进程的现场信息推入到当前进程的内核堆栈来保存它们，并更新堆栈指针。</li>
-<li>内核完成从新进程的内核栈中装入新进程的现场信息、更新当前运行进程空间指针、重设PC寄存器等相关工作后，开始运行新的进程。</li>
-</ul>
-<h3 id="调度基本原则（也是评价一个调度算法的指标）"><a href="#调度基本原则（也是评价一个调度算法的指标）" class="headerlink" title="调度基本原则（也是评价一个调度算法的指标）"></a>调度基本原则（也是评价一个调度算法的指标）</h3><p>基本原则主要有：CPU利用率（尽可能使CPU处于繁忙状态）、系统吞吐量（单位时间内CPU完成作业的数量，如果作业都是短作业，吞吐量就比较高）、周转时间（从作业提交到作业完成所经历的时间）、<strong>等待时间</strong>（进程处于等待CPU状态时间之和）、响应时间（用户提交请求到系统首次产生响应所用的时间）</p>
-<p>重点关注：</p>
-<ul>
-<li>周转时间。<ul>
-<li>周转时间=作业完成时间-作业提交时间。</li>
-<li>平均周转时间是指多个作业周转时间的平均值。</li>
-<li>带权周转时间是指作业周转时间与作业实际运行时间的比值。</li>
-<li>平均带权周转时间=（sigma作业i的带权周转时间）/n。</li>
-</ul>
-</li>
-<li>等待时间。<ul>
-<li>CPU调度算法实际上不影响作业执行或输入/输出操作的时间，只影响作业在就绪队列中等待所花的时间；</li>
-<li>衡量一个算法的优劣，常常只需要简单的考察等待时间即可。</li>
-</ul>
-</li>
-</ul>
-<h3 id="典型调度算法"><a href="#典型调度算法" class="headerlink" title="典型调度算法"></a>典型调度算法</h3><ul>
-<li>有的调度算法适合于作业调度，有的适合于进程调度，有的算法两者都适用。</li>
-<li>常用的调度算法有：先来先服务FCFS，短作业优先SJF、优先级调度算法、高响应比优先调度算法、时间片轮转调度算法、多级反馈队列调度算法</li>
-</ul>
-<h4 id="先来先服务FCFS"><a href="#先来先服务FCFS" class="headerlink" title="先来先服务FCFS"></a>先来先服务FCFS</h4><ul>
-<li>既可用于作业调度，又可用于进程调度；</li>
-<li>应用在作业调度时，每次从后备作业队列中选择最先进入队列的作业，将它们调入内存，分配必要的资源，创建进程并放入就绪队列；</li>
-<li>应用在进程调度时，每次从就绪队列中选择最先进入队列的进程，将CPU分配给它，直到完成或因某些原因而阻塞时才释放CPU；</li>
-<li>FCFS属于不可剥夺算法。</li>
-<li><p>特点：算法简单、效率低；对长作业比较有利，但对短作业不利（相对SJF和高响应比）；有利于CPU繁忙型作业，不利于I/O繁忙型作业。</p>
-<h4 id="短作业优先SJF"><a href="#短作业优先SJF" class="headerlink" title="短作业优先SJF"></a>短作业优先SJF</h4></li>
-<li><p>既可用于作业调度，又可用于进程调度；</p>
-</li>
-<li>应用在作业调度时，从后备队列中选择一个或多个<strong>估计运行时间</strong>最短的作业，调入内存中；</li>
-<li>应用在进程调度时，从就绪队列中选择一个<strong>估计运行时间</strong>最短的进程；</li>
-<li>缺点：对长作业不利，可能导致长作业长期不被调度出现饥饿现象；未考虑作业的紧迫程度，不能保证紧迫性作业会被及时处理；作业的长短由用户提供的估计执行时间而定，用户可能刻意缩短该估计时间；</li>
-<li>特点：SJF调度算法的平均等待时间、平均周转时间最少。</li>
-</ul>
-<h4 id="优先级调度算法"><a href="#优先级调度算法" class="headerlink" title="优先级调度算法"></a>优先级调度算法</h4><ul>
-<li>既可用于作业调度，又可用于进程调度；</li>
-<li>应用在作业调度时，从后备队列中挑选优先级最高的一个或多个作业调入内存；</li>
-<li>应用在进程调度时，从就绪队列中选择优先级最高的进程；</li>
-<li>新的最高优先级进程能够抢占当前执行的进程，要分两种情况：<ul>
-<li>非剥夺式。当前执行的进程让它出于自身原因主动让出CPU（任务完成或等待事件）给更高优先级的进程；</li>
-<li>剥夺式。立即暂停当前执行的进程，将CPU移交给更高优先级的进程。</li>
-</ul>
-</li>
-<li>进程创建后其优先级能够改变，要分两种情况：<ul>
-<li>静态优先级。优先级在进程创建之初确认，之后保持不变。确定静态优先级的依据主要有：进程类型、进程对资源的要求、用户要求。</li>
-<li>动态优先级。进程运行过程中，根据进程情况的变化动态调整优先级。确定动态优先级的依据主要有：进程占有CPU时间的长短、就绪进程等待CPU时间的长短。</li>
-</ul>
-</li>
-</ul>
-<h4 id="高响应比优先调度算法"><a href="#高响应比优先调度算法" class="headerlink" title="高响应比优先调度算法"></a>高响应比优先调度算法</h4><ul>
-<li>主要用于作业调度</li>
-<li>同时考虑每个作业的等待时间和估计的运行时间。每次作业调度时，先计算后备作业队列中每个作业的响应比，从中选出响应比最高的作业投入运行。</li>
-<li>响应比Rp=等待时间/ 要求服务时间 + 1 。要求服务时间即估计运行时间。有利于短作业，同时也有利于先来先服务。</li>
-<li><p>优点：克服了饥饿状态，兼顾了长作业。</p>
-<h4 id="时间片轮转调度算法"><a href="#时间片轮转调度算法" class="headerlink" title="时间片轮转调度算法"></a>时间片轮转调度算法</h4></li>
-<li><p>用在进程调度，不用在作业调度（理解：作业的调入调出不可能随时间片频繁变动）</p>
-</li>
-<li>主要用在分时系统，总是选择就绪队列中第一个进程执行，等待一个时间片后，即使进程未完成运行，也必须释放出（或被剥夺）CPU给下一个进程，被剥夺的进程进入就绪队列的末尾重新排队。</li>
-<li>时间片的大小需要选择合适，太大会使本算法退化成先来先服务算法；太小会使进程切换过于频繁，造成CPU开销太大。选取的标准视以下因素：系统的响应时间、就绪队列中的进程数量和系统的处理能力而定。</li>
-<li><p>此算法利于多用户干预，人机交互得到提升。</p>
-<h4 id="多级反馈队列调度算法"><a href="#多级反馈队列调度算法" class="headerlink" title="多级反馈队列调度算法"></a>多级反馈队列调度算法</h4></li>
-<li><p>用在进程调度，不用在作业调度（理由与时间片算法相同）</p>
-</li>
-<li>通过动态调整进程优先级和时间片大小，综合了时间片轮转调度算法和优先级调度算法</li>
-<li>对短进程和I/O型进程照顾，不必事先估计进程的执行时间；</li>
-<li>实现思想：<ul>
-<li>设置多个不同优先级的队列，比如第1队列优先级最高；</li>
-<li>赋予各个队列的时间片大小也不相同，优先级越高的队列的时间片越小；</li>
-<li>当新进程进入内存后，先放入第1队列的末尾，按照FCFS原则排队。等轮到该进程执行时，如果任务能够完成，便可撤离系统；如果任务完不成，调度程序会将该进程转入第2队列的末尾，再同样按照FCFS原则等待执行，以此类推；</li>
-<li>仅当第1队列为空时，调度程序才会调度第2队列中的进程运行，以此类推。例如，如果CPU正在运行第3队列时，有新的进程加入第1进程末尾，此时新进程将抢占CPU；</li>
-</ul>
-</li>
-<li>优点：终端型作业用户：短作业优先；短批处理作业用户：周转时间较短；长批处理作业用户：经过前几个队列得到部分执行，不会长期得不到处理。</li>
 </ul>
 ]]></content>
       <categories>
@@ -9806,6 +9806,130 @@ JNI global references: 281
       </tags>
   </entry>
   <entry>
+    <title>计算机网络第六章</title>
+    <url>/2018/09/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%85%AD%E7%AB%A0/</url>
+    <content><![CDATA[<h1 id="计算机网络——应用层"><a href="#计算机网络——应用层" class="headerlink" title="计算机网络——应用层"></a>计算机网络——应用层</h1><h2 id="应用模型"><a href="#应用模型" class="headerlink" title="应用模型"></a>应用模型</h2><p>分为客户服务模型（Client/Server,C/S）和P2P模型两种</p>
+<ul>
+<li>C/S模型是由主机提供服务，客户机请求服务。详细不解释。</li>
+<li>P2P模型没有固定的客户和服务器的划分，每个结点既作为客户请求资源，又作为服务器提供资源。优点有：<ul>
+<li>减轻了服务器的计算压力；</li>
+<li>多个客户机可以直接共享文档（C/S模式下各客户机无法直接通信）；</li>
+<li>可扩展性好，传统服务器有响应和带宽的限制，因此只能接受一定数量的请求；</li>
+<li>网络健壮性好，单个结点的失效不会影响其他部分的结点。</li>
+</ul>
+</li>
+<li>P2P模式的缺点：<ul>
+<li>会占用较多的内存，影响整机的速度；</li>
+<li>经常进行P2P下载，会对硬盘造成较大的损伤；</li>
+<li>P2P程序会使网络变得非常拥塞，因此遭到各大互联网服务提供商ISP的嫌弃。</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>来自C/S模型，运行在UDP之上，使用53端口。三个部分：层次域名空间、域名服务器和解析器</p>
+<h3 id="层次域名空间"><a href="#层次域名空间" class="headerlink" title="层次域名空间"></a>层次域名空间</h3><p>域名规则：</p>
+<ul>
+<li>标号，比如以<code>www.baidu.com</code>就有三个标号；</li>
+<li>com是顶级域名，baidu是二级域名，www是三级域名；<ul>
+<li>顶级域名分为三类：国家顶级域名（.cn、.us等）；通用顶级域名（.com、.net等）；基础结构域名（只有arpa，用于反向域名解析）</li>
+</ul>
+</li>
+<li>标号中的英文不区分大小写；</li>
+<li>标号中出连字符<code>-</code>外，不能使用其他标点符号；</li>
+<li>每一个标号不能超过63个字符，完整域名不能超过255个字符；</li>
+</ul>
+<h3 id="域名服务器"><a href="#域名服务器" class="headerlink" title="域名服务器"></a>域名服务器</h3><ul>
+<li>域名系统被设计成一个联机分布式的数据库系统，采用C/S模型。</li>
+<li>每一个域名服务器不但能保存<strong>一些</strong>域名到IP地址的解析，还必须具有连向其他域名服务器的信息。没有一台服务器具有因特网上所有主机的映射。域名服务器主要有四种类型：<ul>
+<li>根域名服务器：全球共13个，取名从’A’到’M’，1个主根在美国，另外12个辅根中9个在美国，1个在英国，1个在瑞典，1个在日本。作用：用来管理顶级域名。并不提供直接转换成IP地址的功能。</li>
+<li>顶级域名服务器：负责管理在该服务器注册的所有二级域名，可以给出应答，或下一步应当查找的域名服务器的IP地址。</li>
+<li>授权域名服务器（权限域名服务器）：每一个主机都必须在授权域名服务器处登记。我也不晓得这个是啥，网上搜不到？</li>
+<li>本地域名服务器：比如一个大学、一个系都能拥有一个本地域名服务器。</li>
+</ul>
+</li>
+</ul>
+<h3 id="域名解析过程"><a href="#域名解析过程" class="headerlink" title="域名解析过程"></a>域名解析过程</h3><ul>
+<li>域名 -&gt; IP地址为正向解析；IP地址 -&gt; 域名为反向解析。</li>
+<li>两种解析方式，递归查询和递归与迭代结合查询，字面理解。前者给根域名服务器造成负载太大，几乎不采用。</li>
+<li>本地域名服务器会将查询到的结果保存到本地缓存，方便下次查询。高速缓存在域名服务器中广泛被采用。</li>
+</ul>
+<h2 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h2><p>FTP提供的功能：</p>
+<ul>
+<li>不同种类的主机系统之间的文件传输；</li>
+<li>以用户权限管理的方式提供用户对远程FTP上的文件的管理；</li>
+<li>以匿名FTP的方式提供公用文件共享的管理。</li>
+</ul>
+<p>采用C/S模型，使用TCP可靠传输。一个FTP服务器可以为多个客户进程提供服务。FTP的服务器进程分为<strong>两个部分</strong>：负责<strong>接收新请求</strong>的主进程（端口21），负责<strong>处理单个请求/数据连接</strong>的若干个从属进程（端口20）。</p>
+<ul>
+<li>控制连接：只用来传输控制信息（如连接请求、传送请求等），以7位ASCII格式，在整个会话期间一直保持打开状态。</li>
+<li>数据连接：服务器在收到文件传输请求后，创建数据传送进程和数据连接。在传送完毕后关闭数据连接并结束运行。</li>
+<li>因为控制与数据传送分离，所以也称为带外传送。</li>
+</ul>
+<h2 id="电子邮件"><a href="#电子邮件" class="headerlink" title="电子邮件"></a>电子邮件</h2><ul>
+<li><p>流程：</p>
+<ol>
+<li>发件人通过用户代理（UA，比如Foxmail），向发送方邮件服务器发送邮件（使用SMTP协议，push）；</li>
+<li>发送方邮件服务器将邮件放入邮件缓存队列中，等待发送；</li>
+<li>运行在发送方邮件服务器的SMTP客户进程，发现缓存中的待发送邮件后，向接收方邮件服务器的SMTP服务器进程发起建立TCP连接；</li>
+<li>注：发送方邮件服务器的角色变动：收到UA发来的邮件时作为服务器方；向远程接收方发送邮件时作为客户方；</li>
+<li>TCP连接建立后，SMTP客户进程开始向远程的SMTP服务器进程发送邮件（使用SMTP协议，push）。当所有的待发送邮件完成发送后，SMTP就关闭了该TCP连接；</li>
+<li>运行在接收方邮件服务器中的SMTP服务器进程收到邮件后，将邮件放入收信人的用户邮箱中，等待收信人在方便时进行读取；</li>
+<li>收信人在打算收信时，调用自己的UA，取出邮件（使用POP3协议，pull）。</li>
+</ol>
+</li>
+<li><p>邮件格式：邮件=信封+内容（=首部+主体）；</p>
+<ul>
+<li>必填字段：“To:”指明若干个收件人的电邮地址；“From:”指明发件人，该部分通常由UA填写。</li>
+<li>可选字段：“Subject:”指明邮件主体；等等。</li>
+</ul>
+</li>
+<li>MIME。推荐阅读：<a href="http://likehui.fun/2018/06/02/notes-for-HeadFirstServletsAndJsp4/" target="_blank" rel="noopener">setContenttype()常用的内容类型</a><ul>
+<li>传统的，不采用MIME的邮件，一般只能传送一定长度的ASCII码，对某些编码、格式支持的不好；</li>
+<li>MIME拓展了SMTP协议的功能，特点：定位了许多邮件内容的格式；标准化了多媒体表示方式；定义了传送编码；定义了5个新首部（MIME版本、内容描述、内容标识、内容传送编码、内容类型）</li>
+</ul>
+</li>
+</ul>
+<h3 id="SMTP协议"><a href="#SMTP协议" class="headerlink" title="SMTP协议"></a>SMTP协议</h3><p>使用TCP连接，端口25<br>流程：</p>
+<ol>
+<li>背景：邮件已经抵达发送方邮件服务器的邮件缓存中了。</li>
+<li>SMTP客户每隔一定时间对邮件缓存扫描一次，发现邮件，就利用端口25对接收方邮件服务器的SMTP服务器建立TCP连接。</li>
+<li>连接建立后，接收方SMTP发出“220 Service ready”（服务就绪）。然后SMTP客户向SMTP服务器发送HELO命令（附上发送方的主机号，告知用户身份）。</li>
+<li>SMTP不使用中间的邮件服务器，是通过TCP直接连接两端。</li>
+<li>连接建立后发送邮件，发送过程如下：</li>
+</ol>
+<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//连接建立后发送邮件的交互</span></span><br><span class="line"><span class="symbol">client:</span>MAIL FROM：<span class="params">&lt;**@zju.edu.cn&gt;</span>; <span class="comment">//MAIL命令开始，并告知发件人地址</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">250</span> OK; <span class="comment">//准备好了</span></span><br><span class="line"></span><br><span class="line">if(client: RCPT TO:<span class="params">&lt;收件人地址&gt;</span> )</span><br><span class="line"><span class="symbol">	server:</span> <span class="string">"250 OK"</span> or <span class="string">"550 No such user here"</span> <span class="comment">//每一个RCPT，都有一次交互</span></span><br><span class="line"><span class="comment">//弄清楚接收方是否已做好接受邮件的准备</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">client:</span>DATA+邮件正式内容; <span class="comment">//DATA内容</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">354</span> Start mail input:end with<span class="params">&lt;CRLF&gt;</span>.<span class="params">&lt;CRLF&gt;</span> <span class="comment">//告知结束方式</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">client:</span>QUIT; <span class="comment">//发送完毕</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">221</span>; <span class="comment">//服务关闭</span></span><br></pre></td></tr></table></figure>
+<h3 id="POP3协议"><a href="#POP3协议" class="headerlink" title="POP3协议"></a>POP3协议</h3><ul>
+<li>使用C/S模式，TCP协议，端口110。</li>
+<li>两种工作方式：“下载并保留”和“下载并删除模式”，留和删的指邮件服务器上的邮件。</li>
+<li>另一种使用趋势：使用Hotmail、Gmail等时，收发邮件使用HTTP协议，只有在不同邮件服务器之间传送邮件才使用SMTP协议。</li>
+</ul>
+<h2 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h2><ul>
+<li>HTTP是面向事务的应用层协议，有两类：请求报文和响应报文。</li>
+<li>HTTP的无状态特性：同一个客户第二次访问同一个服务器上的页面时，服务器的响应与第一次被访问时的相同。服务器从不会记忆来的是否是老客户，服务过多少次。在实际应用中，状态的记忆由Cookie来完成。</li>
+<li>非持久连接，持久连接（HTTP/1.1支持）<ul>
+<li>非持久连接：每一个网页元素对象的传输都需要建立一个TCP连接。请求一个文档所需时间为：该文档的传输时间+double*RTT；</li>
+<li>持久连接：建立连接后，可以继续使用该连接传送后续内容。又分为非流水线和流水线两种方式：<ul>
+<li>非流水线：客户在收到前一个响应后才能发起下一个请求（类似回合制游戏？你砍一刀，我回一剑？）</li>
+<li>流水线：允许持续发送请求。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>报文结构，每个字段都是一些ASCII码串，每个字段长度不确定。<ul>
+<li>请求报文：方法+URL+版本+首部行+请求主体（大致结构，不详述）</li>
+<li>相应报文：版本+状态码+短语+首部行+响应主体</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>examination</category>
+      </categories>
+      <tags>
+        <tag>computer network</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>计算机网络第五章</title>
     <url>/2018/09/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%94%E7%AB%A0/</url>
     <content><![CDATA[<h1 id="计算机网络——传输层"><a href="#计算机网络——传输层" class="headerlink" title="计算机网络——传输层"></a>计算机网络——传输层</h1><ul>
@@ -9969,130 +10093,6 @@ JNI global references: 281
 <h4 id="TCP拥塞控制之快重传-amp-快恢复"><a href="#TCP拥塞控制之快重传-amp-快恢复" class="headerlink" title="TCP拥塞控制之快重传&amp;快恢复"></a>TCP拥塞控制之快重传&amp;快恢复</h4><ul>
 <li>使用冗余ACK来进行网络拥塞的检测。在超时机制的基础上引入冗余ACK，能够更早响应报文丢失的情况。</li>
 <li>当发送端连续收到三个冗余ACK时，就执行ssthresh腰斩的过程，此时cwnd也会相应的变成与新的ssthresh一致的值（在慢开始中，ssthresh要找后，cwnd会从1开始），因此叫做快恢复。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>examination</category>
-      </categories>
-      <tags>
-        <tag>computer network</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>计算机网络第六章</title>
-    <url>/2018/09/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%85%AD%E7%AB%A0/</url>
-    <content><![CDATA[<h1 id="计算机网络——应用层"><a href="#计算机网络——应用层" class="headerlink" title="计算机网络——应用层"></a>计算机网络——应用层</h1><h2 id="应用模型"><a href="#应用模型" class="headerlink" title="应用模型"></a>应用模型</h2><p>分为客户服务模型（Client/Server,C/S）和P2P模型两种</p>
-<ul>
-<li>C/S模型是由主机提供服务，客户机请求服务。详细不解释。</li>
-<li>P2P模型没有固定的客户和服务器的划分，每个结点既作为客户请求资源，又作为服务器提供资源。优点有：<ul>
-<li>减轻了服务器的计算压力；</li>
-<li>多个客户机可以直接共享文档（C/S模式下各客户机无法直接通信）；</li>
-<li>可扩展性好，传统服务器有响应和带宽的限制，因此只能接受一定数量的请求；</li>
-<li>网络健壮性好，单个结点的失效不会影响其他部分的结点。</li>
-</ul>
-</li>
-<li>P2P模式的缺点：<ul>
-<li>会占用较多的内存，影响整机的速度；</li>
-<li>经常进行P2P下载，会对硬盘造成较大的损伤；</li>
-<li>P2P程序会使网络变得非常拥塞，因此遭到各大互联网服务提供商ISP的嫌弃。</li>
-</ul>
-</li>
-</ul>
-<a id="more"></a>
-<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>来自C/S模型，运行在UDP之上，使用53端口。三个部分：层次域名空间、域名服务器和解析器</p>
-<h3 id="层次域名空间"><a href="#层次域名空间" class="headerlink" title="层次域名空间"></a>层次域名空间</h3><p>域名规则：</p>
-<ul>
-<li>标号，比如以<code>www.baidu.com</code>就有三个标号；</li>
-<li>com是顶级域名，baidu是二级域名，www是三级域名；<ul>
-<li>顶级域名分为三类：国家顶级域名（.cn、.us等）；通用顶级域名（.com、.net等）；基础结构域名（只有arpa，用于反向域名解析）</li>
-</ul>
-</li>
-<li>标号中的英文不区分大小写；</li>
-<li>标号中出连字符<code>-</code>外，不能使用其他标点符号；</li>
-<li>每一个标号不能超过63个字符，完整域名不能超过255个字符；</li>
-</ul>
-<h3 id="域名服务器"><a href="#域名服务器" class="headerlink" title="域名服务器"></a>域名服务器</h3><ul>
-<li>域名系统被设计成一个联机分布式的数据库系统，采用C/S模型。</li>
-<li>每一个域名服务器不但能保存<strong>一些</strong>域名到IP地址的解析，还必须具有连向其他域名服务器的信息。没有一台服务器具有因特网上所有主机的映射。域名服务器主要有四种类型：<ul>
-<li>根域名服务器：全球共13个，取名从’A’到’M’，1个主根在美国，另外12个辅根中9个在美国，1个在英国，1个在瑞典，1个在日本。作用：用来管理顶级域名。并不提供直接转换成IP地址的功能。</li>
-<li>顶级域名服务器：负责管理在该服务器注册的所有二级域名，可以给出应答，或下一步应当查找的域名服务器的IP地址。</li>
-<li>授权域名服务器（权限域名服务器）：每一个主机都必须在授权域名服务器处登记。我也不晓得这个是啥，网上搜不到？</li>
-<li>本地域名服务器：比如一个大学、一个系都能拥有一个本地域名服务器。</li>
-</ul>
-</li>
-</ul>
-<h3 id="域名解析过程"><a href="#域名解析过程" class="headerlink" title="域名解析过程"></a>域名解析过程</h3><ul>
-<li>域名 -&gt; IP地址为正向解析；IP地址 -&gt; 域名为反向解析。</li>
-<li>两种解析方式，递归查询和递归与迭代结合查询，字面理解。前者给根域名服务器造成负载太大，几乎不采用。</li>
-<li>本地域名服务器会将查询到的结果保存到本地缓存，方便下次查询。高速缓存在域名服务器中广泛被采用。</li>
-</ul>
-<h2 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h2><p>FTP提供的功能：</p>
-<ul>
-<li>不同种类的主机系统之间的文件传输；</li>
-<li>以用户权限管理的方式提供用户对远程FTP上的文件的管理；</li>
-<li>以匿名FTP的方式提供公用文件共享的管理。</li>
-</ul>
-<p>采用C/S模型，使用TCP可靠传输。一个FTP服务器可以为多个客户进程提供服务。FTP的服务器进程分为<strong>两个部分</strong>：负责<strong>接收新请求</strong>的主进程（端口21），负责<strong>处理单个请求/数据连接</strong>的若干个从属进程（端口20）。</p>
-<ul>
-<li>控制连接：只用来传输控制信息（如连接请求、传送请求等），以7位ASCII格式，在整个会话期间一直保持打开状态。</li>
-<li>数据连接：服务器在收到文件传输请求后，创建数据传送进程和数据连接。在传送完毕后关闭数据连接并结束运行。</li>
-<li>因为控制与数据传送分离，所以也称为带外传送。</li>
-</ul>
-<h2 id="电子邮件"><a href="#电子邮件" class="headerlink" title="电子邮件"></a>电子邮件</h2><ul>
-<li><p>流程：</p>
-<ol>
-<li>发件人通过用户代理（UA，比如Foxmail），向发送方邮件服务器发送邮件（使用SMTP协议，push）；</li>
-<li>发送方邮件服务器将邮件放入邮件缓存队列中，等待发送；</li>
-<li>运行在发送方邮件服务器的SMTP客户进程，发现缓存中的待发送邮件后，向接收方邮件服务器的SMTP服务器进程发起建立TCP连接；</li>
-<li>注：发送方邮件服务器的角色变动：收到UA发来的邮件时作为服务器方；向远程接收方发送邮件时作为客户方；</li>
-<li>TCP连接建立后，SMTP客户进程开始向远程的SMTP服务器进程发送邮件（使用SMTP协议，push）。当所有的待发送邮件完成发送后，SMTP就关闭了该TCP连接；</li>
-<li>运行在接收方邮件服务器中的SMTP服务器进程收到邮件后，将邮件放入收信人的用户邮箱中，等待收信人在方便时进行读取；</li>
-<li>收信人在打算收信时，调用自己的UA，取出邮件（使用POP3协议，pull）。</li>
-</ol>
-</li>
-<li><p>邮件格式：邮件=信封+内容（=首部+主体）；</p>
-<ul>
-<li>必填字段：“To:”指明若干个收件人的电邮地址；“From:”指明发件人，该部分通常由UA填写。</li>
-<li>可选字段：“Subject:”指明邮件主体；等等。</li>
-</ul>
-</li>
-<li>MIME。推荐阅读：<a href="http://likehui.fun/2018/06/02/notes-for-HeadFirstServletsAndJsp4/" target="_blank" rel="noopener">setContenttype()常用的内容类型</a><ul>
-<li>传统的，不采用MIME的邮件，一般只能传送一定长度的ASCII码，对某些编码、格式支持的不好；</li>
-<li>MIME拓展了SMTP协议的功能，特点：定位了许多邮件内容的格式；标准化了多媒体表示方式；定义了传送编码；定义了5个新首部（MIME版本、内容描述、内容标识、内容传送编码、内容类型）</li>
-</ul>
-</li>
-</ul>
-<h3 id="SMTP协议"><a href="#SMTP协议" class="headerlink" title="SMTP协议"></a>SMTP协议</h3><p>使用TCP连接，端口25<br>流程：</p>
-<ol>
-<li>背景：邮件已经抵达发送方邮件服务器的邮件缓存中了。</li>
-<li>SMTP客户每隔一定时间对邮件缓存扫描一次，发现邮件，就利用端口25对接收方邮件服务器的SMTP服务器建立TCP连接。</li>
-<li>连接建立后，接收方SMTP发出“220 Service ready”（服务就绪）。然后SMTP客户向SMTP服务器发送HELO命令（附上发送方的主机号，告知用户身份）。</li>
-<li>SMTP不使用中间的邮件服务器，是通过TCP直接连接两端。</li>
-<li>连接建立后发送邮件，发送过程如下：</li>
-</ol>
-<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//连接建立后发送邮件的交互</span></span><br><span class="line"><span class="symbol">client:</span>MAIL FROM：<span class="params">&lt;**@zju.edu.cn&gt;</span>; <span class="comment">//MAIL命令开始，并告知发件人地址</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">250</span> OK; <span class="comment">//准备好了</span></span><br><span class="line"></span><br><span class="line">if(client: RCPT TO:<span class="params">&lt;收件人地址&gt;</span> )</span><br><span class="line"><span class="symbol">	server:</span> <span class="string">"250 OK"</span> or <span class="string">"550 No such user here"</span> <span class="comment">//每一个RCPT，都有一次交互</span></span><br><span class="line"><span class="comment">//弄清楚接收方是否已做好接受邮件的准备</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">client:</span>DATA+邮件正式内容; <span class="comment">//DATA内容</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">354</span> Start mail input:end with<span class="params">&lt;CRLF&gt;</span>.<span class="params">&lt;CRLF&gt;</span> <span class="comment">//告知结束方式</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">client:</span>QUIT; <span class="comment">//发送完毕</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">221</span>; <span class="comment">//服务关闭</span></span><br></pre></td></tr></table></figure>
-<h3 id="POP3协议"><a href="#POP3协议" class="headerlink" title="POP3协议"></a>POP3协议</h3><ul>
-<li>使用C/S模式，TCP协议，端口110。</li>
-<li>两种工作方式：“下载并保留”和“下载并删除模式”，留和删的指邮件服务器上的邮件。</li>
-<li>另一种使用趋势：使用Hotmail、Gmail等时，收发邮件使用HTTP协议，只有在不同邮件服务器之间传送邮件才使用SMTP协议。</li>
-</ul>
-<h2 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h2><ul>
-<li>HTTP是面向事务的应用层协议，有两类：请求报文和响应报文。</li>
-<li>HTTP的无状态特性：同一个客户第二次访问同一个服务器上的页面时，服务器的响应与第一次被访问时的相同。服务器从不会记忆来的是否是老客户，服务过多少次。在实际应用中，状态的记忆由Cookie来完成。</li>
-<li>非持久连接，持久连接（HTTP/1.1支持）<ul>
-<li>非持久连接：每一个网页元素对象的传输都需要建立一个TCP连接。请求一个文档所需时间为：该文档的传输时间+double*RTT；</li>
-<li>持久连接：建立连接后，可以继续使用该连接传送后续内容。又分为非流水线和流水线两种方式：<ul>
-<li>非流水线：客户在收到前一个响应后才能发起下一个请求（类似回合制游戏？你砍一刀，我回一剑？）</li>
-<li>流水线：允许持续发送请求。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>报文结构，每个字段都是一些ASCII码串，每个字段长度不确定。<ul>
-<li>请求报文：方法+URL+版本+首部行+请求主体（大致结构，不详述）</li>
-<li>相应报文：版本+状态码+短语+首部行+响应主体</li>
-</ul>
-</li>
 </ul>
 ]]></content>
       <categories>
@@ -14159,6 +14159,248 @@ JNI global references: 281
       </tags>
   </entry>
   <entry>
+    <title>面经整理（好友投稿）</title>
+    <url>/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86%EF%BC%88%E5%A5%BD%E5%8F%8B%E6%8A%95%E7%A8%BF%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="天猫Java一面"><a href="#天猫Java一面" class="headerlink" title="天猫Java一面"></a>天猫Java一面</h1><h3 id="1-常见集合类的区别和适用场景"><a href="#1-常见集合类的区别和适用场景" class="headerlink" title="1. 常见集合类的区别和适用场景"></a>1. 常见集合类的区别和适用场景</h3><h4 id="List集合"><a href="#List集合" class="headerlink" title="List集合"></a>List集合</h4><p>ArrayList：</p>
+<ul>
+<li>基于数组来实现集合的功能，内部维护了一个可变长的对象数组，集合扩容时会创建更大的数组空间，把原有数据复制到新的数组中。随机访问快，插入和删除的效率低。</li>
+</ul>
+<p>LinkedList：</p>
+<ul>
+<li>基于链表实现，数据的删除和插入快，随机访问的速度很慢。</li>
+</ul>
+<p>####Map集合</p>
+<p>HashMap：</p>
+<ul>
+<li>线程不安全，存储键值对，允许 key 和 value 为 null</li>
+</ul>
+<p>ConcurrentHashMap：</p>
+<ul>
+<li>线程安全，不允许 key 和 value 为 null，使用的锁机制实现线程安全</li>
+</ul>
+<p>TreeMap：</p>
+<ul>
+<li>线程不安全，依靠comparator或comparable实现key的去重，TreaMap是有序的</li>
+</ul>
+<a id="more"></a>
+<h3 id="2-并发容器、同步容器"><a href="#2-并发容器、同步容器" class="headerlink" title="2. 并发容器、同步容器"></a>2. 并发容器、同步容器</h3><p><strong>同步容器</strong>：同步容器将所有对容器状态的访问都串行化，以实现线程安全性。同步容器包括 Vector、HashTable。同步容器实现线程安全的方式是对每个公有方法都进行同步，使得每次只有一个线程能访问容器的状态。由于两个同步方法的操作顺序不一致，会引起数组越界，不安全。</p>
+<p><strong>并发容器</strong>：ConcurrentHashMap、CopyOnWriteArrayList、Queue、BlockingQueue、ConcurrentSkipListMap、ConcurrentSkipListSet。</p>
+<h3 id="3-ConcurrentHashMap、CopyOnWriteArrayList"><a href="#3-ConcurrentHashMap、CopyOnWriteArrayList" class="headerlink" title="3. ConcurrentHashMap、CopyOnWriteArrayList"></a>3. ConcurrentHashMap、CopyOnWriteArrayList</h3><p><strong>ConcurrentHashMap</strong>：锁分段技术：容器中有多把锁，每把锁锁住容器的一部分数据，那么当多线程访问容器中的不同数据时就不存在锁竞争。</p>
+<ul>
+<li>concurrentHashMap 的结构是由 segment、hashEntry 组成。</li>
+</ul>
+<p><strong>CopyOnWriteArrayList</strong>：CopyOnWrite 容器即写时复制的容器。</p>
+<ul>
+<li>通俗的理解是当我们往一个容器添加元素的时候，不直接往当前容器添加，而是先将当前容器进行 Copy，复制出一个新的容器，然后新的容器里添加元素，添加完元素之后，再将原容器的引用指向新的容器。这样做的好处是我们可以对 CopyOnWrite 容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素。所以 CopyOnWrite 容器也是一种读写分离的思想，读和写不同的容器。写的时候需要加锁，不然多个线程同时写会有多个副本。CopyOnWrite 并发容器用于读多写少的并发场景。</li>
+</ul>
+<h3 id="4-判断一个列表是否有环"><a href="#4-判断一个列表是否有环" class="headerlink" title="4. 判断一个列表是否有环"></a>4. 判断一个列表是否有环</h3><p>两个指针，一个走的快，一个走的慢，最终经过若干步，走的快的指针总会超过慢的指针一圈而相遇。</p>
+<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">bool hasCycle(ListNode* head) &#123;</span><br><span class="line">    ListNode* fast = head;</span><br><span class="line">    ListNode* slow = head;</span><br><span class="line">    <span class="keyword">while</span>(fast &amp;&amp; fast-&gt;<span class="keyword">next</span>) &#123;</span><br><span class="line">        fast = fast-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;</span><br><span class="line">        slow = slow-&gt;<span class="keyword">next</span>;</span><br><span class="line">        if (slow == fast)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-多台服务器之间session共享方案"><a href="#5-多台服务器之间session共享方案" class="headerlink" title="5. 多台服务器之间session共享方案"></a>5. 多台服务器之间session共享方案</h3><p>方案：</p>
+<ol>
+<li>session集中处理，建立一个数据库存放session，不同的应用从这个数据库中取session；</li>
+<li>应用间session同步（缺点：网络间复制信息效率低）；</li>
+<li>将请求固定到对应的服务器，保证下次请求还是到达上次访问的服务器（即 session sticky 技术）；</li>
+<li>通过cookie中夹带的session，将session放在客户端。</li>
+</ol>
+<h3 id="6-BIO、NIO、AIO"><a href="#6-BIO、NIO、AIO" class="headerlink" title="6. BIO、NIO、AIO"></a>6. BIO、NIO、AIO</h3><p><strong>BIO</strong>：阻塞IO，一个Socket套接字需要一个线程处理。<br><strong>NIO</strong>：基于事件驱动思想，采用Reactor模式，统一通过Reactor对所有客户端的Socket套接字的事件做处理，然后派发到不同的线程。（线程与Socket是多对多的关系）。<br><strong>AIO</strong>：异步IO，NIO在有通知是可以进行相关操作，AIO在有通知时表示相关操作已经完成</p>
+<p>其实还有 IO 复用，信号驱动IO两种方式，具体参考：<a href="http://likehui.fun/2018/12/07/interview%EF%BC%881%EF%BC%89/" target="_blank" rel="noopener">面经整理1</a></p>
+<h3 id="7-JVM内存模型"><a href="#7-JVM内存模型" class="headerlink" title="7. JVM内存模型"></a>7. JVM内存模型</h3><p>堆：主要存放对象实例，分为新生代、老年代，线程共享。<br>栈：主要存放局部变量，线程私有，方法调用的过程就是入栈到出栈的过程<br>方法区：线程共享，用于存放已被虚拟机加载的类信息、常量、静态变量、即使编译器编译后的代码等数据。<br>GC：引用计数法、可达性分析法。GC Roots：栈中引用的对象；方法区中类静态属性引用的对象，常量引用的对象；</p>
+<h3 id="8-Java的垃圾回收——标记算法和复制算法"><a href="#8-Java的垃圾回收——标记算法和复制算法" class="headerlink" title="8. Java的垃圾回收——标记算法和复制算法"></a>8. Java的垃圾回收——标记算法和复制算法</h3><p>标记算法：分为两个阶段：标记和清除。首先标记出所有需要回收的对象，在标记完成后统一回收。问题：效率不高；会产生内存碎片</p>
+<p>复制算法：将内存按容量分成大小相等的两块，每次只用其中的一块，当一块内存用完了，就将还存活的对象复制到另一块上，清空已使用过的内存空间。内存的利用率变高，只有百分之十的空间被浪费。</p>
+<h3 id="9-http和https的区别，http1-x和http2-0的区别，SSL和TSL之间的区别"><a href="#9-http和https的区别，http1-x和http2-0的区别，SSL和TSL之间的区别" class="headerlink" title="9. http和https的区别，http1.x和http2.0的区别，SSL和TSL之间的区别"></a>9. http和https的区别，http1.x和http2.0的区别，SSL和TSL之间的区别</h3><p>https在http的基础上加了ssl协议，ssl协议工作于传输层和应用层之间，为应用层提供数据的加密能力。</p>
+<p>TSL：传输层安全协议，TLS可以理解成SSL协议3.0版本的升级，对于大的协议栈而言，SSL和TSL区别不大。</p>
+<p>Http2.0实现多路复用、请求优先级、首部压缩、服务端推送</p>
+<h3 id="10-GC、G1、ZGC的区别"><a href="#10-GC、G1、ZGC的区别" class="headerlink" title="10. GC、G1、ZGC的区别"></a>10. GC、G1、ZGC的区别</h3><p>G1收集器：G1是一款面向服务端应用的垃圾收集器，特点：并行与并发（Stop The World）、分代收集、空间整合、可预测的停顿。G1收集器运作：初始标记、并发标记、最终回收、筛选回收。</p>
+<p>ZGC：java11发布的新的GC收集器，缩短GC停顿，新技术：着色指针和读屏障<br>GC时方法论，G1、ZGC等收集器是具体实现。</p>
+<h3 id="11-B树、B-树、红黑树"><a href="#11-B树、B-树、红黑树" class="headerlink" title="11. B树、B+树、红黑树"></a>11. B树、B+树、红黑树</h3><p><a href="https://www.cnblogs.com/vincently/p/4526560.html" target="_blank" rel="noopener">【经典数据结构】B树与B+树</a></p>
+<p><a href="http://www.cnblogs.com/yangecnu/p/Introduce-Red-Black-Tree.html" target="_blank" rel="noopener">浅谈算法和数据结构: 九 平衡查找树之红黑树</a></p>
+<h3 id="12-内存泄漏和内存溢出的区别"><a href="#12-内存泄漏和内存溢出的区别" class="headerlink" title="12. 内存泄漏和内存溢出的区别"></a>12. 内存泄漏和内存溢出的区别</h3><p>内存泄漏：是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄漏似乎不会有大的影响，但内存泄漏堆积的后果就是内存溢出</p>
+<p>内存溢出（OOM）：是指程序申请内存空间时，没有足够的内存空间供申请者使用</p>
+<p>栈溢出：如果线程请求的栈深度大于JVM 允许的最大深度，抛出异常</p>
+<p>内存溢出解决方案：修改JVM启动参数，直接增加内存；找出可能发生内存溢出的位置。</p>
+<h3 id="13-session的生命周期"><a href="#13-session的生命周期" class="headerlink" title="13. session的生命周期"></a>13. session的生命周期</h3><ul>
+<li>session存放在服务器端，一般放在服务器的内存，session放在sessions容器中由Manager类管理，长时间不用的session将被回收，Tomcat中的默认失效时间是20分。</li>
+<li>调用session的invalidate方法也会让session失效。</li>
+</ul>
+<h1 id="天猫Java二面"><a href="#天猫Java二面" class="headerlink" title="天猫Java二面"></a>天猫Java二面</h1><h3 id="1-java-cas原理"><a href="#1-java-cas原理" class="headerlink" title="1. java cas原理"></a>1. java cas原理</h3><p>CAS包含三个操作数——需要读写的内存位置V，进行比较的值A和拟写入的新值B。</p>
+<ul>
+<li>当且仅当V的值等于A时，CAS才会通过原子方式用新值B来更新V的值，否则不会执行任何操作。属于乐观锁。</li>
+</ul>
+<h3 id="2-Java线程池参数"><a href="#2-Java线程池参数" class="headerlink" title="2. Java线程池参数"></a>2. Java线程池参数</h3><p>7个参数</p>
+<ol>
+<li>corePoolSize表示常驻核心线程数；</li>
+<li>maximumPoolSize表示线程池能够容纳同时执行的最大线程数；</li>
+<li>keepAliveTime表示线程池中线程空闲时间，当空闲时间达到keepAliveTime时，线程会被销毁，直到剩下corePoolSize个线程为止；</li>
+<li>TimeUnit表示时间单位；</li>
+<li>workQueue表示缓存队列，当请求的线程数大于maximumPoolSize时，线程进入BlockingQueue阻塞队列；</li>
+<li>threadFactory表示线程工厂，用来生产一组相同任务的线程；</li>
+<li>handler表示执行拒绝策略的对象，当超过workQueue的任务缓存区上限的时候，就可以通过该策略处理器供求。</li>
+</ol>
+<h3 id="3-Java的lock的底层实现"><a href="#3-Java的lock的底层实现" class="headerlink" title="3. Java的lock的底层实现"></a>3. Java的lock的底层实现</h3><ul>
+<li>继承AQS，AbstractQueuedSynchronizer会把所有的请求线程构成一个CLH队列，线程请求获取锁，如果获取失败会将线程信息封装成node加入Sync queue队列，循环请求获取锁。锁释放之后会唤醒队列中的第一个线程<ul>
+<li>当一个线程执行完毕（unlock）后，会激活队列中的后续结点。</li>
+<li>原生 CLH 队列是自旋锁，但Doug Lea把其改造为阻塞锁。</li>
+</ul>
+</li>
+</ul>
+<p>lee补充：</p>
+<p>####（0）调用顺序</p>
+<p><img src="/2018/12/14/面经整理（好友投稿）/lock.gif" alt="lock"></p>
+<ul>
+<li>各种  Lock 的实现，都继承于<code>java.util.concurrent.*</code>包下的<code>AbstractQueuedSynchronizer</code>类。</li>
+<li><p>以 <code>ReentrantLock</code>为例：</p>
+  <figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ReentrantLock 的所有 Lock 接口的操作都委派到 Sync 上</span></span><br><span class="line">static <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Sync</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">//</span> <span class="title">两个子类，公平和非公平锁</span></span></span><br><span class="line"><span class="class"><span class="title">final</span> <span class="title">static</span> <span class="title">class</span> <span class="title">NonfairSync</span> <span class="keyword">extends</span> <span class="title">Snyc</span></span></span><br><span class="line"><span class="class"><span class="title">final</span> <span class="title">static</span> <span class="title">class</span> <span class="title">FairSync</span> <span class="keyword">extends</span> <span class="title">Snyc</span></span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>AQS 抽象了绝大部分 Lock 的功能，只把<code>tryAcquire()</code>方法延迟到子类中实现。</p>
+<ul>
+<li><code>tryAcquire()</code>方法在于用子类来判断，请求线程是否可以获得锁。</li>
+<li>参考博文：<a href="http://likehui.fun/2018/12/07/interview%EF%BC%881%EF%BC%89/" target="_blank" rel="noopener">interview（1）</a>的第八题</li>
+</ul>
+</li>
+</ul>
+<h4 id="（1）加锁："><a href="#（1）加锁：" class="headerlink" title="（1）加锁："></a>（1）加锁：</h4><ul>
+<li><p>每次请求锁都会调用<code>nonfairTryAcquire()</code>方法：</p>
+  <figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span></span>&#123;  <span class="comment">// acquires 初始为1</span></span><br><span class="line">	<span class="keyword">final</span> Thread current = Thread.currentThread();</span><br><span class="line">	<span class="keyword">int</span> c = getState();</span><br><span class="line">	<span class="keyword">if</span>(c == <span class="number">0</span>)&#123;  <span class="comment">// 说明当前没有锁竞争此资源 </span></span><br><span class="line">		<span class="keyword">if</span>(compareAndSetState(<span class="number">0</span>,acquires))&#123;  <span class="comment">// CAS 的方式设置</span></span><br><span class="line">			setExclusiveOwnerThread(current);</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(current == getExclusiveOwnerThread())&#123; </span><br><span class="line">		<span class="comment">// 说明当前线程已经拥有此锁</span></span><br><span class="line">		<span class="keyword">int</span> nextc = c + acquires; <span class="comment">// 线程重入锁+1</span></span><br><span class="line">		<span class="keyword">if</span>(nextc &lt; <span class="number">0</span>)</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</span><br><span class="line">		setState(nextc); <span class="comment">// 实现了偏向锁的功能</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果请求锁失败，那么新的竞争线程会被追加到队尾，具体采用 CAS 的 Lock-free 算法，因为线程并发对 tail 调用 CAS 可能会导致其他线程 CAS 失败，解决办法是循环 CAS 直至成功。</p>
+</li>
+<li><p>入队出队都是用CAS方式设置的，addWaiter 方法负责把当前拿锁失败的线程包装成一个 Node 添加到队尾，如下：</p>
+  <figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">private <span class="keyword">Node</span> <span class="title">addWaiter</span>(<span class="keyword">Node</span> <span class="title">mode</span>)&#123;</span><br><span class="line">	<span class="keyword">Node</span> <span class="title">node</span> = new <span class="keyword">Node</span><span class="title">(Thread</span>.currentThread(),mode);</span><br><span class="line">	<span class="keyword">Node</span> <span class="title">pred</span> = tail;</span><br><span class="line">	if(pred)&#123; // 如果 tail 非空，将新的 <span class="keyword">node</span> <span class="title">置于 tail</span> 处</span><br><span class="line">		<span class="keyword">node</span>.<span class="title">prev</span> = pred;</span><br><span class="line">		if(compareAndSetTail(pred,<span class="keyword">node</span><span class="title">)&#123; // 追加队尾操作</span></span><br><span class="line"><span class="title">			pred</span>.next = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">			return</span> <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">		&#125;</span></span><br><span class="line"><span class="title">	&#125;</span></span><br><span class="line"><span class="title">	enq</span>(<span class="keyword">node</span><span class="title">); // 如果 tail</span> 是空的，或者上一步的 CAS 失败，则执行 enq 方法</span><br><span class="line">	return <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">&#125;</span></span><br><span class="line"><span class="title"></span></span><br><span class="line"><span class="title">private</span> <span class="keyword">Node</span> <span class="title">enq</span>(final <span class="keyword">Node</span> <span class="title">node</span>)&#123;</span><br><span class="line">	for(;;)&#123;  // 无限循环进行 CAS，知道把当前线程追加到队尾（或队头）</span><br><span class="line">		<span class="keyword">Node</span> <span class="title">t</span> = tail;</span><br><span class="line">		if(t == null)&#123;</span><br><span class="line">			<span class="keyword">Node</span> <span class="title">h</span> = new <span class="keyword">Node</span><span class="title">();</span></span><br><span class="line"><span class="title">			h</span>.next = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">			node</span>.prev = h;</span><br><span class="line">			if(compareAndSetHead(h))&#123;</span><br><span class="line">				tail = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">				return</span> h;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			<span class="keyword">node</span>.<span class="title">prev</span> = t;</span><br><span class="line">			if(compareAndSetTail(t,<span class="keyword">node</span><span class="title">))&#123;</span></span><br><span class="line"><span class="title">				t</span>.next = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">				return</span> t;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行<code>acquireQueued()</code>方法，将刚追加到队列中的线程节点进行阻塞，但阻塞前再一次通过<code>tryAccquire()</code>重试是否能获得锁，如果重试成功则无需阻塞，直接返回，如下：</p>
+  <figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">// 返回 <span class="literal">false</span> 表示可获得锁，无需入队</span><br><span class="line">final boolean acquireQueued(final <span class="keyword">Node</span> <span class="title">node</span>,int arg)&#123;</span><br><span class="line">	try&#123;</span><br><span class="line">		boolean interrupted = <span class="literal">false</span>;</span><br><span class="line">		for(;;)&#123;</span><br><span class="line">			final <span class="keyword">Node</span> <span class="title">p</span> = <span class="keyword">node</span>.<span class="title">predecessor</span>();</span><br><span class="line">			if(p == head &amp;&amp; tryAcquire(arg))&#123;</span><br><span class="line">				setHead(<span class="keyword">node</span><span class="title">);</span></span><br><span class="line"><span class="title">				p</span>.next = null;</span><br><span class="line">				return interrupted;</span><br><span class="line">			&#125;</span><br><span class="line">			if(shouldParkAfterFailedAcquire(p,<span class="keyword">node</span><span class="title">) &amp;&amp;</span></span><br><span class="line"><span class="title">				parkAndCheckInterrupt</span>()) </span><br><span class="line">				/* parkAndCheckInterrupt会调用 LockSupport.park() 显式阻塞，</span><br><span class="line">				*  此时进入系统内核中，检查线程状态（should...方法检查）</span><br><span class="line">				*/  然后阻塞（park...方法阻塞）</span><br><span class="line">				</span><br><span class="line">				 // 被阻塞的线程经解锁后来到此步，将 interrupted 置为 <span class="literal">true</span></span><br><span class="line">				 // 解除阻塞状态的线程不一定能获得锁，仍需要参与竞争tryAccquire</span><br><span class="line">				 interrupted = <span class="literal">true</span>; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;catch (RuntimeException ex)&#123;</span><br><span class="line">		cancelAcquire(<span class="keyword">node</span><span class="title">);</span></span><br><span class="line"><span class="title">		throw</span> ex;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="（2）解锁："><a href="#（2）解锁：" class="headerlink" title="（2）解锁："></a>（2）解锁：</h4><ul>
+<li><p><code>AbstractQueuedSynchronizer.release</code>和<code>Sync.tryRelease</code>方法:</p>
+  <figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function"><span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(tryRealse(arg))&#123;  <span class="comment">// 如果可以释放锁，进入此判断</span></span><br><span class="line">		Node h = head;</span><br><span class="line">		<span class="keyword">if</span>(h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</span><br><span class="line">			unparkSuccessor(h);  <span class="comment">// 唤醒 head 线程（即队列第一个）</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="function"><span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> c = getState() - releases;</span><br><span class="line">	<span class="keyword">if</span>(Thread.currentThread() != getExclusiveOwnerThread())</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</span><br><span class="line">	<span class="keyword">boolean</span> free = <span class="keyword">false</span>;</span><br><span class="line">	<span class="keyword">if</span>(c == <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="comment">// 如果多次锁定，就多次释放，直到 c 为0才真正释放锁</span></span><br><span class="line">		free = <span class="keyword">true</span>;</span><br><span class="line">		setExclusiveOwnerThread(<span class="keyword">null</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	setState(c); <span class="comment">// 因为没竞争，所以用不着 CAS</span></span><br><span class="line">	<span class="keyword">return</span> free;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">unparkSuccessor</span><span class="params">(Node node)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ws = node.waitStatus;</span><br><span class="line">	<span class="keyword">if</span>(ws &lt; <span class="number">0</span>)&#123;</span><br><span class="line">		compareAndSetWaitStatus(node,ws,<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	Node s = node.next; <span class="comment">// 一般 s 就是 head</span></span><br><span class="line">	<span class="comment">// 如果head 是空（几率小），队列从后往前回溯，找到第一个可用线程</span></span><br><span class="line">	<span class="keyword">if</span>(s == <span class="keyword">null</span> || s.waitStatus &gt; <span class="number">0</span>)&#123;</span><br><span class="line">		s = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">for</span>(Node t = tail; t!= <span class="keyword">null</span> &amp;&amp; t != node; t= t.prev)</span><br><span class="line">			<span class="keyword">if</span>(t.waitStatus &lt;= <span class="number">0</span>)</span><br><span class="line">				s = t;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(s != <span class="keyword">null</span>)</span><br><span class="line">		LockSupport.unpark(s.thread); <span class="comment">// 通知系统内核唤醒该线程</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="（3）Lock-跟-Synchronized-底层比较"><a href="#（3）Lock-跟-Synchronized-底层比较" class="headerlink" title="（3）Lock 跟 Synchronized 底层比较"></a>（3）Lock 跟 Synchronized 底层比较</h4><ul>
+<li>两者底层都是基于 CAS 操作的，从数据结构来说两者设计上没有本质区别。</li>
+<li>synchronized 实现了自旋锁，并针对不同的系统和硬件体系进行了优化；</li>
+<li>Lock 完全依靠系统阻塞挂起等待线程。</li>
+<li>Lock 比 synchronized 更适合在应用层扩展，可以既传承 AQS 定义各种实现，比如实现读写锁、公平、非公平锁等；Lock 比 wait/notify要方便的多、灵活地多。</li>
+</ul>
+<p>Ps：Lock 的使用方法（四种锁法）可以参考这篇博文：<a href="https://segmentfault.com/q/1010000005602326" target="_blank" rel="noopener">Lock 的使用</a></p>
+<p>【墙裂推荐阅读！】Lock 底层：<a href="https://blog.csdn.net/endlu/article/details/51249156" target="_blank" rel="noopener">Java锁—-Lock实现原理</a></p>
+<h3 id="4-mysql的数据库默认存储引擎"><a href="#4-mysql的数据库默认存储引擎" class="headerlink" title="4. mysql的数据库默认存储引擎"></a>4. mysql的数据库默认存储引擎</h3><p><strong>InnoDB</strong>：在使用MYSQL的时候，你所面对的每一个挑战几乎都源于ISAM和MyISAM数据库引擎<strong>不支持事务处理</strong>（transaction process）也不支持<strong>外键</strong>。尽管要比ISAM和 MyISAM引擎慢很多，但是InnoDB包括了对事务处理和外来键的支持，这两点都是前两个引擎所没有的。</p>
+<p><strong>MyISAM</strong>：除了提供ISAM里所没有的索引和字段管理的大量功能，MyISAM还使用一种表格锁定的机制，来优化多个并发的读写操作，其代价是你需要经常运行OPTIMIZE TABLE命令，来恢复被更新机制所浪费的空间，MYISAM强调了快速读取操作，MyISAM格式的一个重要缺陷就是不能在表损坏后恢复数据。</p>
+<p><strong>ISAM</strong>：因此，ISAM执行读取操作的速度很快，而且不占用大量的内存和存储资源。ISAM的两个主要不足之处在于，它不支持事务处理，也不能够容错。</p>
+<p>MyISAM引擎的索引结构为B+Tree，其中B+Tree的数据域存储的内容为实际数据的<strong>地址</strong>，也就是说它的索引和实际的数据是分开的，只不过是用索引指向了实际的数据，这种索引就是所谓的<strong>非聚集索引</strong>。</p>
+<p>InnoDB引擎的索引结构同样也是B+Tree，但是Innodb的<strong>索引文件本身就是数据文件</strong>，即B+Tree的数据域存储的就是实际的数据，这种索引就是<strong>聚集索引</strong>。这个索引的key就是数据表的主键，因此InnoDB表数据文件本身就是主索引。</p>
+<h3 id="5-Mysql的事务隔离级别"><a href="#5-Mysql的事务隔离级别" class="headerlink" title="5. Mysql的事务隔离级别"></a>5. Mysql的事务隔离级别</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">事务隔离级别</th>
+<th style="text-align:center">脏读</th>
+<th style="text-align:center">不可重复读</th>
+<th style="text-align:center">幻读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">读未提交</td>
+<td style="text-align:center">是</td>
+<td style="text-align:center">是</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">读提交</td>
+<td style="text-align:center">否</td>
+<td style="text-align:center">是</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">重复读</td>
+<td style="text-align:center">否</td>
+<td style="text-align:center">否</td>
+<td style="text-align:center">是</td>
+</tr>
+<tr>
+<td style="text-align:center">串行化</td>
+<td style="text-align:center">否</td>
+<td style="text-align:center">否</td>
+<td style="text-align:center">否</td>
+</tr>
+</tbody>
+</table>
+<p>脏读：</p>
+<ul>
+<li>事务A读取了事务B更新的数据，然后B回滚操作，那么A读到的数据就是脏数据。</li>
+</ul>
+<p>不可重复读：</p>
+<ul>
+<li>事务A多次读取同一数据，事务B在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果不一致。</li>
+</ul>
+<p>幻读：</p>
+<ul>
+<li>系统管理员A将学生成绩分数改为ABCDE等级，这是系统管理员B插入一条学生成绩分数的记录，当系统管理员改结束后发现有一条记录没有更改，好像产生幻觉。</li>
+</ul>
+<p><strong>小结</strong>：不可重复读和幻读很容易混淆，<strong>不可重复读侧重于修改，幻读侧重于新增或删除</strong>。解决不可重复读的问题只需锁住满足条件的行，解决幻读需要锁表</p>
+<h3 id="6-四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学"><a href="#6-四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学" class="headerlink" title="6.  四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学"></a>6.  四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学</h3><p>创建索引，多线程查询，优化sql语句，提高查询效率</p>
+<h3 id="7-常用的负载均衡算法"><a href="#7-常用的负载均衡算法" class="headerlink" title="7. 常用的负载均衡算法"></a>7. 常用的负载均衡算法</h3><p>轮询、随机、源地址哈希、加权轮询、加权随机、最小连接数法</p>
+<h3 id="8-Redis持久化、keys命令"><a href="#8-Redis持久化、keys命令" class="headerlink" title="8. Redis持久化、keys命令"></a>8. Redis持久化、keys命令</h3><p>如果Redis有一亿个key，使用keys命令会影响性能，改为使用set（smemebers key）<br>redis持久化：<a href="http://redisdoc.zixuebook.cn/topic/persistence.html#redis" target="_blank" rel="noopener">http://redisdoc.zixuebook.cn/topic/persistence.html#redis</a></p>
+<h1 id="天猫Java三面"><a href="#天猫Java三面" class="headerlink" title="天猫Java三面"></a>天猫Java三面</h1><h3 id="1-大型网站的分布式服务器集群部署"><a href="#1-大型网站的分布式服务器集群部署" class="headerlink" title="1. 大型网站的分布式服务器集群部署"></a>1. 大型网站的分布式服务器集群部署</h3><p><img src="/2018/12/14/面经整理（好友投稿）/1.jpg" alt="1"></p>
+<h3 id="2-多个RPC请求进来，服务器怎么处理并发"><a href="#2-多个RPC请求进来，服务器怎么处理并发" class="headerlink" title="2. 多个RPC请求进来，服务器怎么处理并发"></a>2. 多个RPC请求进来，服务器怎么处理并发</h3><p>通过负载均衡策略，将请求分流；采用异步IO、非阻塞IO</p>
+<h3 id="3-Redis的哨兵机制（是一个分布式系统）"><a href="#3-Redis的哨兵机制（是一个分布式系统）" class="headerlink" title="3. Redis的哨兵机制（是一个分布式系统）"></a>3. Redis的哨兵机制（是一个分布式系统）</h3><p>Redis的哨兵系统用于管理多个Redis服务器，该系统执行一下三个任务：<br>监控：Sentinel会不断地检查你的主服务器和从服务器是否正常运行<br>提醒：当被监控地某个Redis服务器出现问题时，Sentinel可以通过API向管理员或者其他应用程序发哦是那个通知<br>自动故障迁移：当一个主服务器不能正常工作时，Sentinel会开始一次自动故障迁移操作，他会将失效主服务器地其中一个从服务器升级为新的主服务器，并让失效主服务器的其他从服务器改为复制新的主的服务器；当客户端试图连接失效的主服务器时，集群也会向客户端返回新主服务器的地址，使得集群可以使用新主服务器代替失效服务器。<br>其他：<br>主观下线：指的是单个Sentinel实例对服务器做出的下线判断<br>客观下线：指的是多个Sentinel实例对服务器做出主观下线判断，并且通过SENTINEL is-master-down-by-addr 命令互相交流之后， 得出的服务器下线判断。</p>
+<p>（lee 总结：对主从服务器进行①运行监控 ②故障定位 ③故障转移 ④下线判断）</p>
+<p>故障转移：</p>
+<ol>
+<li>发现主服务器已经进入客观下线状态</li>
+<li>对我们当前纪元进行自增，并尝试再这个纪元中当选</li>
+<li>如果当选失败，那么在设定的故障迁移超时时间的两倍之后，重新尝试当选 ，如果当选成功执行以下步骤</li>
+<li>选出一个从服务器，并将它升级为主服务器</li>
+<li>向被选中的从服务器发送SALVE NO ONE命令，让他转变为主服务器</li>
+<li>通过发布与订阅功能，将更新后的配置传播给所有其他Sentinel，其他Sentinel对它们自己的配置进行更新</li>
+<li>向已下线主服务器的从服务器发送SLAVEOF命令，让它们去复制新的主服务器</li>
+<li>当所有从服务器都已经开始复制新的主服务器时，领头Sentinel终止这次故障迁移操作</li>
+</ol>
+<h3 id="3-数据库分库分表一般多大数据量才需要"><a href="#3-数据库分库分表一般多大数据量才需要" class="headerlink" title="3. 数据库分库分表一般多大数据量才需要"></a>3. 数据库分库分表一般多大数据量才需要</h3><p>一般来说，Mysql单库超过5000万条记录，Oracle单库超过1亿条记录，DB压力就很大，当数据量达到数据库所能承载的数据量后就需要分库、分表。单个库数据量（1T-2T）。</p>
+<p>切库思路：读写分离，第一种自定义注解完成数据库切库，第二种项目中配置多个库的数据源（这几个数据库是完全不同的）。</p>
+<p>数据库分表：横向分表、纵向分表（根据数据活跃度分离）mybatis分表插件shardbatis2.0</p>
+<h3 id="4-如何保证数据库与redis缓存数据一致"><a href="#4-如何保证数据库与redis缓存数据一致" class="headerlink" title="4. 如何保证数据库与redis缓存数据一致"></a>4. 如何保证数据库与redis缓存数据一致</h3><p>首先尝试从缓存中读数据，命中则直接返回，如果读不到则到数据库读数据，并将数据写入缓存；更新数据时，先更新数据库，然后把缓存里对应的数据失效掉。</p>
+<p>解决方案：定期全量更新，定期把缓存全部清掉，然后再全量加载；给所有的缓存一个失效期。</p>
+<h3 id="5-消息队列的使用、应用场景"><a href="#5-消息队列的使用、应用场景" class="headerlink" title="5. 消息队列的使用、应用场景"></a>5. 消息队列的使用、应用场景</h3><p>消息队列：解耦、异步、削峰。应用场景：解决应用解耦、异步消息、流量削峰<br>缺点：系统可用性降低、系统复杂度增加</p>
+<h3 id="6-JVM相关分析工具、具体的性能调优步骤"><a href="#6-JVM相关分析工具、具体的性能调优步骤" class="headerlink" title="6. JVM相关分析工具、具体的性能调优步骤"></a>6. JVM相关分析工具、具体的性能调优步骤</h3><p>jstat、jinfo、jps、jstack、jmap</p>
+<h3 id="7-MySQL的慢sql优化"><a href="#7-MySQL的慢sql优化" class="headerlink" title="7. MySQL的慢sql优化"></a>7. MySQL的慢sql优化</h3><p>慢sql的原因：sql编写问题；锁；业务实例相互干扰；服务器硬件；MYSQL BUG</p>
+<ul>
+<li>优化sql语句：通过慢查询日志，抓取慢sql，通过explain对慢sql分析。</li>
+<li>字段类型转换导致不用索引，如字符串类型的不用引号，数字类型的用引号等，这有可能会用不到索引导致全表扫描；</li>
+<li>mysql 不支持函数转换，所以字段前面不能加函数，否则这将用不到索引；</li>
+<li>不要在字段前面加减运算；</li>
+<li>字符串比较长的可以考虑索引一部份减少索引文件大小，提高写入效率；</li>
+<li>like % 在前面用不到索引；</li>
+<li>根据联合索引的第二个及以后的字段单独查询用不到索引；</li>
+<li>不要使用 <code>select *</code>；</li>
+<li>排序请尽量使用升序 ;</li>
+<li>or 的查询尽量用 union 代替 （Innodb）；</li>
+<li>复合索引高选择性的字段排在前面；</li>
+<li>order by / group by 字段包括在索引当中减少排序，效率会更高。</li>
+<li>除了上述索引使用规则外，SQL 编写时还需要特别注意以下几点：<ul>
+<li>尽量规避大事务的 SQL，大事务的 SQL 会影响数据库的并发性能及主从同步；</li>
+<li>分页语句 limit 的问题；</li>
+<li>删除表所有记录请用 truncate，不要用 delete；</li>
+<li>不让 mysql 干多余的事情，如计算；</li>
+<li>输写 SQL 带字段，以防止后面表变更带来的问题，性能也是比较优的 ( 涉及到数据字典解析，请自行查询资料)；</li>
+<li>在 Innodb上用 select count(*)，因为 Innodb 会存储统计信息；</li>
+<li>慎用 Oder by rand()。</li>
+</ul>
+</li>
+<li>最后，服务器的参数优化。</li>
+</ul>
+<h3 id="8-秒杀场景的设计"><a href="#8-秒杀场景的设计" class="headerlink" title="8. 秒杀场景的设计"></a>8. 秒杀场景的设计</h3><p><strong>特点</strong>：秒杀时网站的访问量大增；秒杀时购买的请求数量远小于库存，只有部分用户能够成功；业务流程简单，根据先后顺序，下订单减库存</p>
+<p><strong>前端</strong>：加验证码可以在单位时间内有效的控制住合法用户；将活动页面上的元素全部静态化，通过CDN抗峰值；禁止重复提交</p>
+<p><strong>后端</strong>：加缓存、限制uid、采用消息队列缓存请求、利用缓存应对读写请求</p>
+]]></content>
+      <categories>
+        <category>interview</category>
+      </categories>
+      <tags>
+        <tag>javaWeb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>（转载）项目心得_ 一周爆肝上线百万高并发系统</title>
     <url>/2020/02/21/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E9%A1%B9%E7%9B%AE%E5%BF%83%E5%BE%97-%E4%B8%80%E5%91%A8%E7%88%86%E8%82%9D%E4%B8%8A%E7%BA%BF%E7%99%BE%E4%B8%87%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<p>原文链接：<a href="项目心得-一周爆肝上线百万高并发系统.md"><a href="https://www.nowcoder.com/discuss/368998?type=0&amp;order=0&amp;pos=7&amp;page=1" target="_blank" rel="noopener">https://www.nowcoder.com/discuss/368998?type=0&amp;order=0&amp;pos=7&amp;page=1</a></a></p>
@@ -14457,248 +14699,6 @@ JNI global references: 281
 ]]></content>
       <categories>
         <category>Operation</category>
-      </categories>
-      <tags>
-        <tag>javaWeb</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>面经整理（好友投稿）</title>
-    <url>/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86%EF%BC%88%E5%A5%BD%E5%8F%8B%E6%8A%95%E7%A8%BF%EF%BC%89/</url>
-    <content><![CDATA[<h1 id="天猫Java一面"><a href="#天猫Java一面" class="headerlink" title="天猫Java一面"></a>天猫Java一面</h1><h3 id="1-常见集合类的区别和适用场景"><a href="#1-常见集合类的区别和适用场景" class="headerlink" title="1. 常见集合类的区别和适用场景"></a>1. 常见集合类的区别和适用场景</h3><h4 id="List集合"><a href="#List集合" class="headerlink" title="List集合"></a>List集合</h4><p>ArrayList：</p>
-<ul>
-<li>基于数组来实现集合的功能，内部维护了一个可变长的对象数组，集合扩容时会创建更大的数组空间，把原有数据复制到新的数组中。随机访问快，插入和删除的效率低。</li>
-</ul>
-<p>LinkedList：</p>
-<ul>
-<li>基于链表实现，数据的删除和插入快，随机访问的速度很慢。</li>
-</ul>
-<p>####Map集合</p>
-<p>HashMap：</p>
-<ul>
-<li>线程不安全，存储键值对，允许 key 和 value 为 null</li>
-</ul>
-<p>ConcurrentHashMap：</p>
-<ul>
-<li>线程安全，不允许 key 和 value 为 null，使用的锁机制实现线程安全</li>
-</ul>
-<p>TreeMap：</p>
-<ul>
-<li>线程不安全，依靠comparator或comparable实现key的去重，TreaMap是有序的</li>
-</ul>
-<a id="more"></a>
-<h3 id="2-并发容器、同步容器"><a href="#2-并发容器、同步容器" class="headerlink" title="2. 并发容器、同步容器"></a>2. 并发容器、同步容器</h3><p><strong>同步容器</strong>：同步容器将所有对容器状态的访问都串行化，以实现线程安全性。同步容器包括 Vector、HashTable。同步容器实现线程安全的方式是对每个公有方法都进行同步，使得每次只有一个线程能访问容器的状态。由于两个同步方法的操作顺序不一致，会引起数组越界，不安全。</p>
-<p><strong>并发容器</strong>：ConcurrentHashMap、CopyOnWriteArrayList、Queue、BlockingQueue、ConcurrentSkipListMap、ConcurrentSkipListSet。</p>
-<h3 id="3-ConcurrentHashMap、CopyOnWriteArrayList"><a href="#3-ConcurrentHashMap、CopyOnWriteArrayList" class="headerlink" title="3. ConcurrentHashMap、CopyOnWriteArrayList"></a>3. ConcurrentHashMap、CopyOnWriteArrayList</h3><p><strong>ConcurrentHashMap</strong>：锁分段技术：容器中有多把锁，每把锁锁住容器的一部分数据，那么当多线程访问容器中的不同数据时就不存在锁竞争。</p>
-<ul>
-<li>concurrentHashMap 的结构是由 segment、hashEntry 组成。</li>
-</ul>
-<p><strong>CopyOnWriteArrayList</strong>：CopyOnWrite 容器即写时复制的容器。</p>
-<ul>
-<li>通俗的理解是当我们往一个容器添加元素的时候，不直接往当前容器添加，而是先将当前容器进行 Copy，复制出一个新的容器，然后新的容器里添加元素，添加完元素之后，再将原容器的引用指向新的容器。这样做的好处是我们可以对 CopyOnWrite 容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素。所以 CopyOnWrite 容器也是一种读写分离的思想，读和写不同的容器。写的时候需要加锁，不然多个线程同时写会有多个副本。CopyOnWrite 并发容器用于读多写少的并发场景。</li>
-</ul>
-<h3 id="4-判断一个列表是否有环"><a href="#4-判断一个列表是否有环" class="headerlink" title="4. 判断一个列表是否有环"></a>4. 判断一个列表是否有环</h3><p>两个指针，一个走的快，一个走的慢，最终经过若干步，走的快的指针总会超过慢的指针一圈而相遇。</p>
-<figure class="highlight elixir"><table><tr><td class="code"><pre><span class="line">bool hasCycle(ListNode* head) &#123;</span><br><span class="line">    ListNode* fast = head;</span><br><span class="line">    ListNode* slow = head;</span><br><span class="line">    <span class="keyword">while</span>(fast &amp;&amp; fast-&gt;<span class="keyword">next</span>) &#123;</span><br><span class="line">        fast = fast-&gt;<span class="keyword">next</span>-&gt;<span class="keyword">next</span>;</span><br><span class="line">        slow = slow-&gt;<span class="keyword">next</span>;</span><br><span class="line">        if (slow == fast)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="5-多台服务器之间session共享方案"><a href="#5-多台服务器之间session共享方案" class="headerlink" title="5. 多台服务器之间session共享方案"></a>5. 多台服务器之间session共享方案</h3><p>方案：</p>
-<ol>
-<li>session集中处理，建立一个数据库存放session，不同的应用从这个数据库中取session；</li>
-<li>应用间session同步（缺点：网络间复制信息效率低）；</li>
-<li>将请求固定到对应的服务器，保证下次请求还是到达上次访问的服务器（即 session sticky 技术）；</li>
-<li>通过cookie中夹带的session，将session放在客户端。</li>
-</ol>
-<h3 id="6-BIO、NIO、AIO"><a href="#6-BIO、NIO、AIO" class="headerlink" title="6. BIO、NIO、AIO"></a>6. BIO、NIO、AIO</h3><p><strong>BIO</strong>：阻塞IO，一个Socket套接字需要一个线程处理。<br><strong>NIO</strong>：基于事件驱动思想，采用Reactor模式，统一通过Reactor对所有客户端的Socket套接字的事件做处理，然后派发到不同的线程。（线程与Socket是多对多的关系）。<br><strong>AIO</strong>：异步IO，NIO在有通知是可以进行相关操作，AIO在有通知时表示相关操作已经完成</p>
-<p>其实还有 IO 复用，信号驱动IO两种方式，具体参考：<a href="http://likehui.fun/2018/12/07/interview%EF%BC%881%EF%BC%89/" target="_blank" rel="noopener">面经整理1</a></p>
-<h3 id="7-JVM内存模型"><a href="#7-JVM内存模型" class="headerlink" title="7. JVM内存模型"></a>7. JVM内存模型</h3><p>堆：主要存放对象实例，分为新生代、老年代，线程共享。<br>栈：主要存放局部变量，线程私有，方法调用的过程就是入栈到出栈的过程<br>方法区：线程共享，用于存放已被虚拟机加载的类信息、常量、静态变量、即使编译器编译后的代码等数据。<br>GC：引用计数法、可达性分析法。GC Roots：栈中引用的对象；方法区中类静态属性引用的对象，常量引用的对象；</p>
-<h3 id="8-Java的垃圾回收——标记算法和复制算法"><a href="#8-Java的垃圾回收——标记算法和复制算法" class="headerlink" title="8. Java的垃圾回收——标记算法和复制算法"></a>8. Java的垃圾回收——标记算法和复制算法</h3><p>标记算法：分为两个阶段：标记和清除。首先标记出所有需要回收的对象，在标记完成后统一回收。问题：效率不高；会产生内存碎片</p>
-<p>复制算法：将内存按容量分成大小相等的两块，每次只用其中的一块，当一块内存用完了，就将还存活的对象复制到另一块上，清空已使用过的内存空间。内存的利用率变高，只有百分之十的空间被浪费。</p>
-<h3 id="9-http和https的区别，http1-x和http2-0的区别，SSL和TSL之间的区别"><a href="#9-http和https的区别，http1-x和http2-0的区别，SSL和TSL之间的区别" class="headerlink" title="9. http和https的区别，http1.x和http2.0的区别，SSL和TSL之间的区别"></a>9. http和https的区别，http1.x和http2.0的区别，SSL和TSL之间的区别</h3><p>https在http的基础上加了ssl协议，ssl协议工作于传输层和应用层之间，为应用层提供数据的加密能力。</p>
-<p>TSL：传输层安全协议，TLS可以理解成SSL协议3.0版本的升级，对于大的协议栈而言，SSL和TSL区别不大。</p>
-<p>Http2.0实现多路复用、请求优先级、首部压缩、服务端推送</p>
-<h3 id="10-GC、G1、ZGC的区别"><a href="#10-GC、G1、ZGC的区别" class="headerlink" title="10. GC、G1、ZGC的区别"></a>10. GC、G1、ZGC的区别</h3><p>G1收集器：G1是一款面向服务端应用的垃圾收集器，特点：并行与并发（Stop The World）、分代收集、空间整合、可预测的停顿。G1收集器运作：初始标记、并发标记、最终回收、筛选回收。</p>
-<p>ZGC：java11发布的新的GC收集器，缩短GC停顿，新技术：着色指针和读屏障<br>GC时方法论，G1、ZGC等收集器是具体实现。</p>
-<h3 id="11-B树、B-树、红黑树"><a href="#11-B树、B-树、红黑树" class="headerlink" title="11. B树、B+树、红黑树"></a>11. B树、B+树、红黑树</h3><p><a href="https://www.cnblogs.com/vincently/p/4526560.html" target="_blank" rel="noopener">【经典数据结构】B树与B+树</a></p>
-<p><a href="http://www.cnblogs.com/yangecnu/p/Introduce-Red-Black-Tree.html" target="_blank" rel="noopener">浅谈算法和数据结构: 九 平衡查找树之红黑树</a></p>
-<h3 id="12-内存泄漏和内存溢出的区别"><a href="#12-内存泄漏和内存溢出的区别" class="headerlink" title="12. 内存泄漏和内存溢出的区别"></a>12. 内存泄漏和内存溢出的区别</h3><p>内存泄漏：是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄漏似乎不会有大的影响，但内存泄漏堆积的后果就是内存溢出</p>
-<p>内存溢出（OOM）：是指程序申请内存空间时，没有足够的内存空间供申请者使用</p>
-<p>栈溢出：如果线程请求的栈深度大于JVM 允许的最大深度，抛出异常</p>
-<p>内存溢出解决方案：修改JVM启动参数，直接增加内存；找出可能发生内存溢出的位置。</p>
-<h3 id="13-session的生命周期"><a href="#13-session的生命周期" class="headerlink" title="13. session的生命周期"></a>13. session的生命周期</h3><ul>
-<li>session存放在服务器端，一般放在服务器的内存，session放在sessions容器中由Manager类管理，长时间不用的session将被回收，Tomcat中的默认失效时间是20分。</li>
-<li>调用session的invalidate方法也会让session失效。</li>
-</ul>
-<h1 id="天猫Java二面"><a href="#天猫Java二面" class="headerlink" title="天猫Java二面"></a>天猫Java二面</h1><h3 id="1-java-cas原理"><a href="#1-java-cas原理" class="headerlink" title="1. java cas原理"></a>1. java cas原理</h3><p>CAS包含三个操作数——需要读写的内存位置V，进行比较的值A和拟写入的新值B。</p>
-<ul>
-<li>当且仅当V的值等于A时，CAS才会通过原子方式用新值B来更新V的值，否则不会执行任何操作。属于乐观锁。</li>
-</ul>
-<h3 id="2-Java线程池参数"><a href="#2-Java线程池参数" class="headerlink" title="2. Java线程池参数"></a>2. Java线程池参数</h3><p>7个参数</p>
-<ol>
-<li>corePoolSize表示常驻核心线程数；</li>
-<li>maximumPoolSize表示线程池能够容纳同时执行的最大线程数；</li>
-<li>keepAliveTime表示线程池中线程空闲时间，当空闲时间达到keepAliveTime时，线程会被销毁，直到剩下corePoolSize个线程为止；</li>
-<li>TimeUnit表示时间单位；</li>
-<li>workQueue表示缓存队列，当请求的线程数大于maximumPoolSize时，线程进入BlockingQueue阻塞队列；</li>
-<li>threadFactory表示线程工厂，用来生产一组相同任务的线程；</li>
-<li>handler表示执行拒绝策略的对象，当超过workQueue的任务缓存区上限的时候，就可以通过该策略处理器供求。</li>
-</ol>
-<h3 id="3-Java的lock的底层实现"><a href="#3-Java的lock的底层实现" class="headerlink" title="3. Java的lock的底层实现"></a>3. Java的lock的底层实现</h3><ul>
-<li>继承AQS，AbstractQueuedSynchronizer会把所有的请求线程构成一个CLH队列，线程请求获取锁，如果获取失败会将线程信息封装成node加入Sync queue队列，循环请求获取锁。锁释放之后会唤醒队列中的第一个线程<ul>
-<li>当一个线程执行完毕（unlock）后，会激活队列中的后续结点。</li>
-<li>原生 CLH 队列是自旋锁，但Doug Lea把其改造为阻塞锁。</li>
-</ul>
-</li>
-</ul>
-<p>lee补充：</p>
-<p>####（0）调用顺序</p>
-<p><img src="/2018/12/14/面经整理（好友投稿）/lock.gif" alt="lock"></p>
-<ul>
-<li>各种  Lock 的实现，都继承于<code>java.util.concurrent.*</code>包下的<code>AbstractQueuedSynchronizer</code>类。</li>
-<li><p>以 <code>ReentrantLock</code>为例：</p>
-  <figure class="highlight scala"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ReentrantLock 的所有 Lock 接口的操作都委派到 Sync 上</span></span><br><span class="line">static <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Sync</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span></span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">//</span> <span class="title">两个子类，公平和非公平锁</span></span></span><br><span class="line"><span class="class"><span class="title">final</span> <span class="title">static</span> <span class="title">class</span> <span class="title">NonfairSync</span> <span class="keyword">extends</span> <span class="title">Snyc</span></span></span><br><span class="line"><span class="class"><span class="title">final</span> <span class="title">static</span> <span class="title">class</span> <span class="title">FairSync</span> <span class="keyword">extends</span> <span class="title">Snyc</span></span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>AQS 抽象了绝大部分 Lock 的功能，只把<code>tryAcquire()</code>方法延迟到子类中实现。</p>
-<ul>
-<li><code>tryAcquire()</code>方法在于用子类来判断，请求线程是否可以获得锁。</li>
-<li>参考博文：<a href="http://likehui.fun/2018/12/07/interview%EF%BC%881%EF%BC%89/" target="_blank" rel="noopener">interview（1）</a>的第八题</li>
-</ul>
-</li>
-</ul>
-<h4 id="（1）加锁："><a href="#（1）加锁：" class="headerlink" title="（1）加锁："></a>（1）加锁：</h4><ul>
-<li><p>每次请求锁都会调用<code>nonfairTryAcquire()</code>方法：</p>
-  <figure class="highlight arduino"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">boolean</span> <span class="title">nonfairTryAcquire</span><span class="params">(<span class="keyword">int</span> acquires)</span></span>&#123;  <span class="comment">// acquires 初始为1</span></span><br><span class="line">	<span class="keyword">final</span> Thread current = Thread.currentThread();</span><br><span class="line">	<span class="keyword">int</span> c = getState();</span><br><span class="line">	<span class="keyword">if</span>(c == <span class="number">0</span>)&#123;  <span class="comment">// 说明当前没有锁竞争此资源 </span></span><br><span class="line">		<span class="keyword">if</span>(compareAndSetState(<span class="number">0</span>,acquires))&#123;  <span class="comment">// CAS 的方式设置</span></span><br><span class="line">			setExclusiveOwnerThread(current);</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(current == getExclusiveOwnerThread())&#123; </span><br><span class="line">		<span class="comment">// 说明当前线程已经拥有此锁</span></span><br><span class="line">		<span class="keyword">int</span> nextc = c + acquires; <span class="comment">// 线程重入锁+1</span></span><br><span class="line">		<span class="keyword">if</span>(nextc &lt; <span class="number">0</span>)</span><br><span class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> Error(<span class="string">"Maximum lock count exceeded"</span>);</span><br><span class="line">		setState(nextc); <span class="comment">// 实现了偏向锁的功能</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>如果请求锁失败，那么新的竞争线程会被追加到队尾，具体采用 CAS 的 Lock-free 算法，因为线程并发对 tail 调用 CAS 可能会导致其他线程 CAS 失败，解决办法是循环 CAS 直至成功。</p>
-</li>
-<li><p>入队出队都是用CAS方式设置的，addWaiter 方法负责把当前拿锁失败的线程包装成一个 Node 添加到队尾，如下：</p>
-  <figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">private <span class="keyword">Node</span> <span class="title">addWaiter</span>(<span class="keyword">Node</span> <span class="title">mode</span>)&#123;</span><br><span class="line">	<span class="keyword">Node</span> <span class="title">node</span> = new <span class="keyword">Node</span><span class="title">(Thread</span>.currentThread(),mode);</span><br><span class="line">	<span class="keyword">Node</span> <span class="title">pred</span> = tail;</span><br><span class="line">	if(pred)&#123; // 如果 tail 非空，将新的 <span class="keyword">node</span> <span class="title">置于 tail</span> 处</span><br><span class="line">		<span class="keyword">node</span>.<span class="title">prev</span> = pred;</span><br><span class="line">		if(compareAndSetTail(pred,<span class="keyword">node</span><span class="title">)&#123; // 追加队尾操作</span></span><br><span class="line"><span class="title">			pred</span>.next = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">			return</span> <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">		&#125;</span></span><br><span class="line"><span class="title">	&#125;</span></span><br><span class="line"><span class="title">	enq</span>(<span class="keyword">node</span><span class="title">); // 如果 tail</span> 是空的，或者上一步的 CAS 失败，则执行 enq 方法</span><br><span class="line">	return <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">&#125;</span></span><br><span class="line"><span class="title"></span></span><br><span class="line"><span class="title">private</span> <span class="keyword">Node</span> <span class="title">enq</span>(final <span class="keyword">Node</span> <span class="title">node</span>)&#123;</span><br><span class="line">	for(;;)&#123;  // 无限循环进行 CAS，知道把当前线程追加到队尾（或队头）</span><br><span class="line">		<span class="keyword">Node</span> <span class="title">t</span> = tail;</span><br><span class="line">		if(t == null)&#123;</span><br><span class="line">			<span class="keyword">Node</span> <span class="title">h</span> = new <span class="keyword">Node</span><span class="title">();</span></span><br><span class="line"><span class="title">			h</span>.next = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">			node</span>.prev = h;</span><br><span class="line">			if(compareAndSetHead(h))&#123;</span><br><span class="line">				tail = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">				return</span> h;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			<span class="keyword">node</span>.<span class="title">prev</span> = t;</span><br><span class="line">			if(compareAndSetTail(t,<span class="keyword">node</span><span class="title">))&#123;</span></span><br><span class="line"><span class="title">				t</span>.next = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">				return</span> t;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>执行<code>acquireQueued()</code>方法，将刚追加到队列中的线程节点进行阻塞，但阻塞前再一次通过<code>tryAccquire()</code>重试是否能获得锁，如果重试成功则无需阻塞，直接返回，如下：</p>
-  <figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">// 返回 <span class="literal">false</span> 表示可获得锁，无需入队</span><br><span class="line">final boolean acquireQueued(final <span class="keyword">Node</span> <span class="title">node</span>,int arg)&#123;</span><br><span class="line">	try&#123;</span><br><span class="line">		boolean interrupted = <span class="literal">false</span>;</span><br><span class="line">		for(;;)&#123;</span><br><span class="line">			final <span class="keyword">Node</span> <span class="title">p</span> = <span class="keyword">node</span>.<span class="title">predecessor</span>();</span><br><span class="line">			if(p == head &amp;&amp; tryAcquire(arg))&#123;</span><br><span class="line">				setHead(<span class="keyword">node</span><span class="title">);</span></span><br><span class="line"><span class="title">				p</span>.next = null;</span><br><span class="line">				return interrupted;</span><br><span class="line">			&#125;</span><br><span class="line">			if(shouldParkAfterFailedAcquire(p,<span class="keyword">node</span><span class="title">) &amp;&amp;</span></span><br><span class="line"><span class="title">				parkAndCheckInterrupt</span>()) </span><br><span class="line">				/* parkAndCheckInterrupt会调用 LockSupport.park() 显式阻塞，</span><br><span class="line">				*  此时进入系统内核中，检查线程状态（should...方法检查）</span><br><span class="line">				*/  然后阻塞（park...方法阻塞）</span><br><span class="line">				</span><br><span class="line">				 // 被阻塞的线程经解锁后来到此步，将 interrupted 置为 <span class="literal">true</span></span><br><span class="line">				 // 解除阻塞状态的线程不一定能获得锁，仍需要参与竞争tryAccquire</span><br><span class="line">				 interrupted = <span class="literal">true</span>; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;catch (RuntimeException ex)&#123;</span><br><span class="line">		cancelAcquire(<span class="keyword">node</span><span class="title">);</span></span><br><span class="line"><span class="title">		throw</span> ex;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="（2）解锁："><a href="#（2）解锁：" class="headerlink" title="（2）解锁："></a>（2）解锁：</h4><ul>
-<li><p><code>AbstractQueuedSynchronizer.release</code>和<code>Sync.tryRelease</code>方法:</p>
-  <figure class="highlight aspectj"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="function"><span class="keyword">boolean</span> <span class="title">release</span><span class="params">(<span class="keyword">int</span> arg)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(tryRealse(arg))&#123;  <span class="comment">// 如果可以释放锁，进入此判断</span></span><br><span class="line">		Node h = head;</span><br><span class="line">		<span class="keyword">if</span>(h != <span class="keyword">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</span><br><span class="line">			unparkSuccessor(h);  <span class="comment">// 唤醒 head 线程（即队列第一个）</span></span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="function"><span class="keyword">boolean</span> <span class="title">tryRelease</span><span class="params">(<span class="keyword">int</span> releases)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> c = getState() - releases;</span><br><span class="line">	<span class="keyword">if</span>(Thread.currentThread() != getExclusiveOwnerThread())</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> IllegalMonitorStateException();</span><br><span class="line">	<span class="keyword">boolean</span> free = <span class="keyword">false</span>;</span><br><span class="line">	<span class="keyword">if</span>(c == <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="comment">// 如果多次锁定，就多次释放，直到 c 为0才真正释放锁</span></span><br><span class="line">		free = <span class="keyword">true</span>;</span><br><span class="line">		setExclusiveOwnerThread(<span class="keyword">null</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	setState(c); <span class="comment">// 因为没竞争，所以用不着 CAS</span></span><br><span class="line">	<span class="keyword">return</span> free;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">void</span> <span class="title">unparkSuccessor</span><span class="params">(Node node)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ws = node.waitStatus;</span><br><span class="line">	<span class="keyword">if</span>(ws &lt; <span class="number">0</span>)&#123;</span><br><span class="line">		compareAndSetWaitStatus(node,ws,<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	Node s = node.next; <span class="comment">// 一般 s 就是 head</span></span><br><span class="line">	<span class="comment">// 如果head 是空（几率小），队列从后往前回溯，找到第一个可用线程</span></span><br><span class="line">	<span class="keyword">if</span>(s == <span class="keyword">null</span> || s.waitStatus &gt; <span class="number">0</span>)&#123;</span><br><span class="line">		s = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">for</span>(Node t = tail; t!= <span class="keyword">null</span> &amp;&amp; t != node; t= t.prev)</span><br><span class="line">			<span class="keyword">if</span>(t.waitStatus &lt;= <span class="number">0</span>)</span><br><span class="line">				s = t;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(s != <span class="keyword">null</span>)</span><br><span class="line">		LockSupport.unpark(s.thread); <span class="comment">// 通知系统内核唤醒该线程</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h4 id="（3）Lock-跟-Synchronized-底层比较"><a href="#（3）Lock-跟-Synchronized-底层比较" class="headerlink" title="（3）Lock 跟 Synchronized 底层比较"></a>（3）Lock 跟 Synchronized 底层比较</h4><ul>
-<li>两者底层都是基于 CAS 操作的，从数据结构来说两者设计上没有本质区别。</li>
-<li>synchronized 实现了自旋锁，并针对不同的系统和硬件体系进行了优化；</li>
-<li>Lock 完全依靠系统阻塞挂起等待线程。</li>
-<li>Lock 比 synchronized 更适合在应用层扩展，可以既传承 AQS 定义各种实现，比如实现读写锁、公平、非公平锁等；Lock 比 wait/notify要方便的多、灵活地多。</li>
-</ul>
-<p>Ps：Lock 的使用方法（四种锁法）可以参考这篇博文：<a href="https://segmentfault.com/q/1010000005602326" target="_blank" rel="noopener">Lock 的使用</a></p>
-<p>【墙裂推荐阅读！】Lock 底层：<a href="https://blog.csdn.net/endlu/article/details/51249156" target="_blank" rel="noopener">Java锁—-Lock实现原理</a></p>
-<h3 id="4-mysql的数据库默认存储引擎"><a href="#4-mysql的数据库默认存储引擎" class="headerlink" title="4. mysql的数据库默认存储引擎"></a>4. mysql的数据库默认存储引擎</h3><p><strong>InnoDB</strong>：在使用MYSQL的时候，你所面对的每一个挑战几乎都源于ISAM和MyISAM数据库引擎<strong>不支持事务处理</strong>（transaction process）也不支持<strong>外键</strong>。尽管要比ISAM和 MyISAM引擎慢很多，但是InnoDB包括了对事务处理和外来键的支持，这两点都是前两个引擎所没有的。</p>
-<p><strong>MyISAM</strong>：除了提供ISAM里所没有的索引和字段管理的大量功能，MyISAM还使用一种表格锁定的机制，来优化多个并发的读写操作，其代价是你需要经常运行OPTIMIZE TABLE命令，来恢复被更新机制所浪费的空间，MYISAM强调了快速读取操作，MyISAM格式的一个重要缺陷就是不能在表损坏后恢复数据。</p>
-<p><strong>ISAM</strong>：因此，ISAM执行读取操作的速度很快，而且不占用大量的内存和存储资源。ISAM的两个主要不足之处在于，它不支持事务处理，也不能够容错。</p>
-<p>MyISAM引擎的索引结构为B+Tree，其中B+Tree的数据域存储的内容为实际数据的<strong>地址</strong>，也就是说它的索引和实际的数据是分开的，只不过是用索引指向了实际的数据，这种索引就是所谓的<strong>非聚集索引</strong>。</p>
-<p>InnoDB引擎的索引结构同样也是B+Tree，但是Innodb的<strong>索引文件本身就是数据文件</strong>，即B+Tree的数据域存储的就是实际的数据，这种索引就是<strong>聚集索引</strong>。这个索引的key就是数据表的主键，因此InnoDB表数据文件本身就是主索引。</p>
-<h3 id="5-Mysql的事务隔离级别"><a href="#5-Mysql的事务隔离级别" class="headerlink" title="5. Mysql的事务隔离级别"></a>5. Mysql的事务隔离级别</h3><table>
-<thead>
-<tr>
-<th style="text-align:center">事务隔离级别</th>
-<th style="text-align:center">脏读</th>
-<th style="text-align:center">不可重复读</th>
-<th style="text-align:center">幻读</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">读未提交</td>
-<td style="text-align:center">是</td>
-<td style="text-align:center">是</td>
-<td style="text-align:center">是</td>
-</tr>
-<tr>
-<td style="text-align:center">读提交</td>
-<td style="text-align:center">否</td>
-<td style="text-align:center">是</td>
-<td style="text-align:center">是</td>
-</tr>
-<tr>
-<td style="text-align:center">重复读</td>
-<td style="text-align:center">否</td>
-<td style="text-align:center">否</td>
-<td style="text-align:center">是</td>
-</tr>
-<tr>
-<td style="text-align:center">串行化</td>
-<td style="text-align:center">否</td>
-<td style="text-align:center">否</td>
-<td style="text-align:center">否</td>
-</tr>
-</tbody>
-</table>
-<p>脏读：</p>
-<ul>
-<li>事务A读取了事务B更新的数据，然后B回滚操作，那么A读到的数据就是脏数据。</li>
-</ul>
-<p>不可重复读：</p>
-<ul>
-<li>事务A多次读取同一数据，事务B在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果不一致。</li>
-</ul>
-<p>幻读：</p>
-<ul>
-<li>系统管理员A将学生成绩分数改为ABCDE等级，这是系统管理员B插入一条学生成绩分数的记录，当系统管理员改结束后发现有一条记录没有更改，好像产生幻觉。</li>
-</ul>
-<p><strong>小结</strong>：不可重复读和幻读很容易混淆，<strong>不可重复读侧重于修改，幻读侧重于新增或删除</strong>。解决不可重复读的问题只需锁住满足条件的行，解决幻读需要锁表</p>
-<h3 id="6-四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学"><a href="#6-四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学" class="headerlink" title="6.  四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学"></a>6.  四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学</h3><p>创建索引，多线程查询，优化sql语句，提高查询效率</p>
-<h3 id="7-常用的负载均衡算法"><a href="#7-常用的负载均衡算法" class="headerlink" title="7. 常用的负载均衡算法"></a>7. 常用的负载均衡算法</h3><p>轮询、随机、源地址哈希、加权轮询、加权随机、最小连接数法</p>
-<h3 id="8-Redis持久化、keys命令"><a href="#8-Redis持久化、keys命令" class="headerlink" title="8. Redis持久化、keys命令"></a>8. Redis持久化、keys命令</h3><p>如果Redis有一亿个key，使用keys命令会影响性能，改为使用set（smemebers key）<br>redis持久化：<a href="http://redisdoc.zixuebook.cn/topic/persistence.html#redis" target="_blank" rel="noopener">http://redisdoc.zixuebook.cn/topic/persistence.html#redis</a></p>
-<h1 id="天猫Java三面"><a href="#天猫Java三面" class="headerlink" title="天猫Java三面"></a>天猫Java三面</h1><h3 id="1-大型网站的分布式服务器集群部署"><a href="#1-大型网站的分布式服务器集群部署" class="headerlink" title="1. 大型网站的分布式服务器集群部署"></a>1. 大型网站的分布式服务器集群部署</h3><p><img src="/2018/12/14/面经整理（好友投稿）/1.jpg" alt="1"></p>
-<h3 id="2-多个RPC请求进来，服务器怎么处理并发"><a href="#2-多个RPC请求进来，服务器怎么处理并发" class="headerlink" title="2. 多个RPC请求进来，服务器怎么处理并发"></a>2. 多个RPC请求进来，服务器怎么处理并发</h3><p>通过负载均衡策略，将请求分流；采用异步IO、非阻塞IO</p>
-<h3 id="3-Redis的哨兵机制（是一个分布式系统）"><a href="#3-Redis的哨兵机制（是一个分布式系统）" class="headerlink" title="3. Redis的哨兵机制（是一个分布式系统）"></a>3. Redis的哨兵机制（是一个分布式系统）</h3><p>Redis的哨兵系统用于管理多个Redis服务器，该系统执行一下三个任务：<br>监控：Sentinel会不断地检查你的主服务器和从服务器是否正常运行<br>提醒：当被监控地某个Redis服务器出现问题时，Sentinel可以通过API向管理员或者其他应用程序发哦是那个通知<br>自动故障迁移：当一个主服务器不能正常工作时，Sentinel会开始一次自动故障迁移操作，他会将失效主服务器地其中一个从服务器升级为新的主服务器，并让失效主服务器的其他从服务器改为复制新的主的服务器；当客户端试图连接失效的主服务器时，集群也会向客户端返回新主服务器的地址，使得集群可以使用新主服务器代替失效服务器。<br>其他：<br>主观下线：指的是单个Sentinel实例对服务器做出的下线判断<br>客观下线：指的是多个Sentinel实例对服务器做出主观下线判断，并且通过SENTINEL is-master-down-by-addr 命令互相交流之后， 得出的服务器下线判断。</p>
-<p>（lee 总结：对主从服务器进行①运行监控 ②故障定位 ③故障转移 ④下线判断）</p>
-<p>故障转移：</p>
-<ol>
-<li>发现主服务器已经进入客观下线状态</li>
-<li>对我们当前纪元进行自增，并尝试再这个纪元中当选</li>
-<li>如果当选失败，那么在设定的故障迁移超时时间的两倍之后，重新尝试当选 ，如果当选成功执行以下步骤</li>
-<li>选出一个从服务器，并将它升级为主服务器</li>
-<li>向被选中的从服务器发送SALVE NO ONE命令，让他转变为主服务器</li>
-<li>通过发布与订阅功能，将更新后的配置传播给所有其他Sentinel，其他Sentinel对它们自己的配置进行更新</li>
-<li>向已下线主服务器的从服务器发送SLAVEOF命令，让它们去复制新的主服务器</li>
-<li>当所有从服务器都已经开始复制新的主服务器时，领头Sentinel终止这次故障迁移操作</li>
-</ol>
-<h3 id="3-数据库分库分表一般多大数据量才需要"><a href="#3-数据库分库分表一般多大数据量才需要" class="headerlink" title="3. 数据库分库分表一般多大数据量才需要"></a>3. 数据库分库分表一般多大数据量才需要</h3><p>一般来说，Mysql单库超过5000万条记录，Oracle单库超过1亿条记录，DB压力就很大，当数据量达到数据库所能承载的数据量后就需要分库、分表。单个库数据量（1T-2T）。</p>
-<p>切库思路：读写分离，第一种自定义注解完成数据库切库，第二种项目中配置多个库的数据源（这几个数据库是完全不同的）。</p>
-<p>数据库分表：横向分表、纵向分表（根据数据活跃度分离）mybatis分表插件shardbatis2.0</p>
-<h3 id="4-如何保证数据库与redis缓存数据一致"><a href="#4-如何保证数据库与redis缓存数据一致" class="headerlink" title="4. 如何保证数据库与redis缓存数据一致"></a>4. 如何保证数据库与redis缓存数据一致</h3><p>首先尝试从缓存中读数据，命中则直接返回，如果读不到则到数据库读数据，并将数据写入缓存；更新数据时，先更新数据库，然后把缓存里对应的数据失效掉。</p>
-<p>解决方案：定期全量更新，定期把缓存全部清掉，然后再全量加载；给所有的缓存一个失效期。</p>
-<h3 id="5-消息队列的使用、应用场景"><a href="#5-消息队列的使用、应用场景" class="headerlink" title="5. 消息队列的使用、应用场景"></a>5. 消息队列的使用、应用场景</h3><p>消息队列：解耦、异步、削峰。应用场景：解决应用解耦、异步消息、流量削峰<br>缺点：系统可用性降低、系统复杂度增加</p>
-<h3 id="6-JVM相关分析工具、具体的性能调优步骤"><a href="#6-JVM相关分析工具、具体的性能调优步骤" class="headerlink" title="6. JVM相关分析工具、具体的性能调优步骤"></a>6. JVM相关分析工具、具体的性能调优步骤</h3><p>jstat、jinfo、jps、jstack、jmap</p>
-<h3 id="7-MySQL的慢sql优化"><a href="#7-MySQL的慢sql优化" class="headerlink" title="7. MySQL的慢sql优化"></a>7. MySQL的慢sql优化</h3><p>慢sql的原因：sql编写问题；锁；业务实例相互干扰；服务器硬件；MYSQL BUG</p>
-<ul>
-<li>优化sql语句：通过慢查询日志，抓取慢sql，通过explain对慢sql分析。</li>
-<li>字段类型转换导致不用索引，如字符串类型的不用引号，数字类型的用引号等，这有可能会用不到索引导致全表扫描；</li>
-<li>mysql 不支持函数转换，所以字段前面不能加函数，否则这将用不到索引；</li>
-<li>不要在字段前面加减运算；</li>
-<li>字符串比较长的可以考虑索引一部份减少索引文件大小，提高写入效率；</li>
-<li>like % 在前面用不到索引；</li>
-<li>根据联合索引的第二个及以后的字段单独查询用不到索引；</li>
-<li>不要使用 <code>select *</code>；</li>
-<li>排序请尽量使用升序 ;</li>
-<li>or 的查询尽量用 union 代替 （Innodb）；</li>
-<li>复合索引高选择性的字段排在前面；</li>
-<li>order by / group by 字段包括在索引当中减少排序，效率会更高。</li>
-<li>除了上述索引使用规则外，SQL 编写时还需要特别注意以下几点：<ul>
-<li>尽量规避大事务的 SQL，大事务的 SQL 会影响数据库的并发性能及主从同步；</li>
-<li>分页语句 limit 的问题；</li>
-<li>删除表所有记录请用 truncate，不要用 delete；</li>
-<li>不让 mysql 干多余的事情，如计算；</li>
-<li>输写 SQL 带字段，以防止后面表变更带来的问题，性能也是比较优的 ( 涉及到数据字典解析，请自行查询资料)；</li>
-<li>在 Innodb上用 select count(*)，因为 Innodb 会存储统计信息；</li>
-<li>慎用 Oder by rand()。</li>
-</ul>
-</li>
-<li>最后，服务器的参数优化。</li>
-</ul>
-<h3 id="8-秒杀场景的设计"><a href="#8-秒杀场景的设计" class="headerlink" title="8. 秒杀场景的设计"></a>8. 秒杀场景的设计</h3><p><strong>特点</strong>：秒杀时网站的访问量大增；秒杀时购买的请求数量远小于库存，只有部分用户能够成功；业务流程简单，根据先后顺序，下订单减库存</p>
-<p><strong>前端</strong>：加验证码可以在单位时间内有效的控制住合法用户；将活动页面上的元素全部静态化，通过CDN抗峰值；禁止重复提交</p>
-<p><strong>后端</strong>：加缓存、限制uid、采用消息队列缓存请求、利用缓存应对读写请求</p>
-]]></content>
-      <categories>
-        <category>interview</category>
       </categories>
       <tags>
         <tag>javaWeb</tag>
@@ -15527,6 +15527,7 @@ JNI global references: 281
 <li>指定各文件的存放位置。</li>
 <li>生成代码。</li>
 </ol>
+<h3 id="补充：将Entity类实例Null-的属性字段过滤掉的最佳实践。通常用在-JPA-中"><a href="#补充：将Entity类实例Null-的属性字段过滤掉的最佳实践。通常用在-JPA-中" class="headerlink" title="补充：将Entity类实例Null 的属性字段过滤掉的最佳实践。通常用在 JPA 中"></a>补充：将Entity类实例Null 的属性字段过滤掉的最佳实践。通常用在 JPA 中</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">// lee 理解：通过 Wrapper修饰 src，然后取出所有的属性，过滤掉实例中属性为 null 的属性</span></span><br><span class="line"><span class="comment">// lee 认为，这种设计模式也很值得学习</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JpaUtil</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">copyNotNullProperties</span><span class="params">(Object src, Object target)</span></span>&#123;</span><br><span class="line">    BeanUtils.copyProperties(src, target, getNullPropertyNames(src));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> String[] getNullPropertyNames(Object object)&#123;</span><br><span class="line">    <span class="keyword">final</span> BeanWrapper wrapper = <span class="keyword">new</span> BeanWrapperImpl(object);</span><br><span class="line">    <span class="keyword">return</span> Stream.of(wrapper.getPropertyDescriptors())</span><br><span class="line">      .map(PropertyDescriptor::getName)</span><br><span class="line">      .filter(propertyName -&gt; wrapper.getPropertyValue(propertyName) == <span class="keyword">null</span>)</span><br><span class="line">      .toArray(String[]::<span class="keyword">new</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="补充：配置Spring的方式："><a href="#补充：配置Spring的方式：" class="headerlink" title="补充：配置Spring的方式："></a>补充：配置Spring的方式：</h3><ol>
 <li>XML 文件；</li>
 <li>注解；</li>
