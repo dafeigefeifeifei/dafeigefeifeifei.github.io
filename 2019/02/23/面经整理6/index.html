@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/git.jpeg">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/7.jpg">
-<meta property="og:updated_time" content="2020-09-04T09:14:57.706Z">
+<meta property="og:updated_time" content="2021-01-08T14:22:28.104Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面经整理6">
 <meta name="twitter:description" content="SSM系列问题推荐阅读：SSM常见面试问题 汇总：趣链、蘑菇街、随手记、网易、招银、IBM、阿里 趣链Java一面之lh篇自我介绍。讲一下项目。 1. 类加载的过程。三个阶段：加载、连接、初始化。  加载：①class文件加载到内存中；②方法区生成运行时类文件；③堆区生成class对象，作为访问方法区中类文件的访问入口。 连接：①验证文件正确性；②为类的静态变量分配内存，并初始化默认值；③符号引用">
@@ -431,7 +431,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-09-04 17:14:57" itemprop="dateModified" datetime="2020-09-04T17:14:57+08:00">2020-09-04</time>
+                <time title="Modified: 2021-01-08 22:22:28" itemprop="dateModified" datetime="2021-01-08T22:22:28+08:00">2021-01-08</time>
               
             
           </span>
@@ -691,7 +691,7 @@
 <h3 id="23-用过微服务吗？"><a href="#23-用过微服务吗？" class="headerlink" title="23. 用过微服务吗？"></a>23. 用过微服务吗？</h3><h3 id="24-linux操作熟悉吗？"><a href="#24-linux操作熟悉吗？" class="headerlink" title="24. linux操作熟悉吗？"></a>24. linux操作熟悉吗？</h3><h1 id="蘑菇街-Java-一面"><a href="#蘑菇街-Java-一面" class="headerlink" title="蘑菇街 Java 一面"></a>蘑菇街 Java 一面</h1><h3 id="1-项目中做词法、语法解析了吗？"><a href="#1-项目中做词法、语法解析了吗？" class="headerlink" title="1. 项目中做词法、语法解析了吗？"></a>1. 项目中做词法、语法解析了吗？</h3><h3 id="2-项目中旧的字节码有没有做卸载？"><a href="#2-项目中旧的字节码有没有做卸载？" class="headerlink" title="2. 项目中旧的字节码有没有做卸载？"></a>2. 项目中旧的字节码有没有做卸载？</h3><p><a href="https://www.cnblogs.com/pony1223/p/8654720.html" target="_blank" rel="noopener"><a href="https://www.cnblogs.com/pony1223/p/8654720.html" target="_blank" rel="noopener">JVM学习七：JVM之类加载器之类的卸载</a></a></p>
 <p>精华：</p>
 <pre><code>1. 加载时，方法区形成某类的二进制数据（运行时数据结构），对应堆中该类的 class 对象（类的实例对象，唯一存在，除非类被卸载了，也就是比如`**ServiceImpl.class`指代的东西），之后不管是 new 还是反射或者 newInstance 拿到的都是另一种实例对象，跟上面的 class 对象不一样。
- 2. 卸载就是对 class 对象、classLoader 对象的引用都删除的过程。怎么删除？让栈中对 classLoader 的引用、对 class 对象的引用，对实例对象的引用，以及实例对象都置 null 即可。
+2. 卸载就是对 class 对象、classLoader 对象的引用都删除的过程。怎么删除？让栈中对 classLoader 的引用、对 class 对象的引用，对实例对象的引用，以及实例对象都置 null 即可。
 </code></pre><h3 id="3-写多线程一般用到哪些类？"><a href="#3-写多线程一般用到哪些类？" class="headerlink" title="3. 写多线程一般用到哪些类？"></a>3. 写多线程一般用到哪些类？</h3><h3 id="4-多线程的可见性问题，为什么会有这个问题？"><a href="#4-多线程的可见性问题，为什么会有这个问题？" class="headerlink" title="4. 多线程的可见性问题，为什么会有这个问题？"></a>4. 多线程的可见性问题，为什么会有这个问题？</h3><h3 id="5-G1-原理？"><a href="#5-G1-原理？" class="headerlink" title="5. G1 原理？"></a>5. G1 原理？</h3><h3 id="6-maven-使用的中央仓库，还是自己做了-maven-镜像？"><a href="#6-maven-使用的中央仓库，还是自己做了-maven-镜像？" class="headerlink" title="6. maven 使用的中央仓库，还是自己做了 maven 镜像？"></a>6. maven 使用的中央仓库，还是自己做了 maven 镜像？</h3><h3 id="7-MySQL-数据库的主从复制。"><a href="#7-MySQL-数据库的主从复制。" class="headerlink" title="7. MySQL 数据库的主从复制。"></a>7. MySQL 数据库的主从复制。</h3><h3 id="8-TCP-的拆包、粘包问题。"><a href="#8-TCP-的拆包、粘包问题。" class="headerlink" title="8. TCP 的拆包、粘包问题。"></a>8. TCP 的拆包、粘包问题。</h3><p>前置知识：</p>
 <ul>
 <li>UDP 是基于报文的，不会发生拆包、粘包现象。UDP 首部有一个参数会指出数据报文长度，因此在应用层可以很好地将不同的数据报文区分开。</li>
@@ -849,8 +849,11 @@
 <p>定义就是：不再被使用的对象的内存不会被回收。</p>
 <ol>
 <li>单例对象持有其他短生命周期对象的引用。</li>
-<li>静态集合类中引用的对象，如果对象需要移除时，要把集合对象置null。</li>
+<li>静态集合类中引用的对象，如果对象需要移除时，要把集合对象置null，整个集合 clear 掉。</li>
 </ol>
+<p>举例如下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String num = <span class="function">New <span class="title">String</span><span class="params">(<span class="string">"abc"</span>)</span></span>;</span><br><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">list.add(num);</span><br><span class="line">num=<span class="keyword">null</span>;</span><br><span class="line">list.clear();<span class="comment">//用完后需要及时 clear 掉</span></span><br></pre></td></tr></table></figure>
+<p>“abc”字符串有两个强引用指向它，num 和 list 集合，使用完后，都需要进行处理。</p>
 <h3 id="补充：静态内部类"><a href="#补充：静态内部类" class="headerlink" title="补充：静态内部类"></a>补充：静态内部类</h3><p>静态内部类不需要依赖外部类的实例，也无法访问外部类的非静态的变量和方法。</p>
 <h3 id="补充：初始化顺序"><a href="#补充：初始化顺序" class="headerlink" title="补充：初始化顺序"></a>补充：初始化顺序</h3><p>存在继承的情况下，初始化顺序为：</p>
 <ul>

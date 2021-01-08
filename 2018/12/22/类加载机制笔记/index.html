@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/12/22/类加载机制笔记/1.png">
 <meta property="og:image" content="http://yoursite.com/2018/12/22/类加载机制笔记/2.png">
-<meta property="og:updated_time" content="2019-02-24T02:54:53.000Z">
+<meta property="og:updated_time" content="2021-01-08T14:07:20.268Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="类加载机制笔记">
 <meta name="twitter:description" content="1. 六种主动使用类的场景按照 JVM 规范，每个类或者接口被 Java 程序首次主动使用时，才会对其进行初始化。 以下六种操作会导致类的初始化，除了这六种，其他情况都属于被动使用，不会导致类的加载和初始化。  通过 new 关键词。 访问类的静态变量（但 final 修饰的静态变量实质上是静态常量，不属于此范畴，不会初始化类）。 访问类的静态方法。 对类进行反射操作。 初始化子类会导致父类的初始">
@@ -423,7 +423,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-02-24 10:54:53" itemprop="dateModified" datetime="2019-02-24T10:54:53+08:00">2019-02-24</time>
+                <time title="Modified: 2021-01-08 22:07:20" itemprop="dateModified" datetime="2021-01-08T22:07:20+08:00">2021-01-08</time>
               
             
           </span>
@@ -544,6 +544,11 @@
 </ol>
 <h1 id="3-JVM-的类加载器"><a href="#3-JVM-的类加载器" class="headerlink" title="3. JVM 的类加载器"></a>3. JVM 的类加载器</h1><p> 有三种：BootStrap ClassLoader、Ext ClassLoader、Application ClassLoader。</p>
 <p><img src="/2018/12/22/类加载机制笔记/1.png" alt="1"></p>
+<ol>
+<li>BootStrap ClassLoader.通过<code>-Xbootclasspath</code>指定被 JVM 认可的类库路径</li>
+<li>Ext ClassLoader.通过<code>java.ext.dirs</code>加载指定路径重的类库</li>
+<li>Application ClassLoader.加载<code>classpath</code>上的类库</li>
+</ol>
 <h2 id="3-1-自定义类加载器"><a href="#3-1-自定义类加载器" class="headerlink" title="3.1 自定义类加载器"></a>3.1 自定义类加载器</h2><p>需要继承 ClassLoader 或其子类。要覆写<code>findClass()</code>方法。</p>
 <figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> Class&lt;?&gt; findClass(<span class="keyword">String</span> name) <span class="keyword">throws</span> ClassNotFoundException&#123;</span><br><span class="line">	<span class="comment">// 读取 class 的二进制数据</span></span><br><span class="line">	<span class="built_in">byte</span>[] classBytes = <span class="keyword">this</span>.readClassBytes(name);</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">null</span> == classBytes || classBytes.length == <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException(<span class="string">"Can not load the class"</span>+name);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// classLoader.defineClass()方法，将字节数组转化成 class 的 instance</span></span><br><span class="line">	<span class="comment">// 参数：要定义的类的名称，二进制字节数组，数组偏移量，偏移量开始多长的 byte </span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.defineClass(name,classBytes,<span class="number">0</span>,classBytes.length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 class 文件读入内存</span></span><br><span class="line"><span class="keyword">private</span> <span class="built_in">byte</span>[] readClassBytes(<span class="keyword">String</span> name) <span class="keyword">throws</span> ClassNotFoundException&#123;</span><br><span class="line">	<span class="keyword">String</span> classPath = name.replace(<span class="string">"."</span>,<span class="string">"/"</span>);</span><br><span class="line">	Path classFullPath = classDir.resolve(Paths.<span class="built_in">get</span>(classPath + <span class="string">".class"</span>));</span><br><span class="line">	<span class="keyword">if</span>(!classFullPath.toFile().exists())</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException(<span class="string">"The class "</span> + name + <span class="string">" not found."</span>);</span><br><span class="line">	<span class="comment">// 字节数组输出流</span></span><br><span class="line">	<span class="keyword">try</span>(ByteArrayOutPutStream baos = <span class="keyword">new</span> ByteArrayOutputStream())&#123;</span><br><span class="line">		Files.<span class="built_in">copy</span>(classFullPath,baos);</span><br><span class="line">		<span class="keyword">return</span> baos.toByteArray();</span><br><span class="line">	&#125;<span class="keyword">catch</span>(IOException e)&#123;</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException(<span class="string">"load the class "</span> + name + <span class="string">" occur error."</span>,e);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="3-1-1-跳过双亲委托机制的两种方法"><a href="#3-1-1-跳过双亲委托机制的两种方法" class="headerlink" title="3.1.1 跳过双亲委托机制的两种方法"></a>3.1.1 跳过双亲委托机制的两种方法</h3><p>应用在自定义类加载器上：</p>
