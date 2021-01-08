@@ -94,18 +94,18 @@
 
 
 
-  <meta name="description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+  <meta name="description" content="MySQL实战45讲 林晓斌 MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用comm">
 <meta name="keywords" content="mySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="极客时间《MySQL实战45讲》学习笔记">
 <meta property="og:url" content="http://yoursite.com/2020/04/19/极客时间《MySQL实战45讲》学习笔记/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta property="og:description" content="MySQL实战45讲 林晓斌 MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用comm">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-25T09:11:43.266Z">
+<meta property="og:updated_time" content="2020-12-31T07:37:45.577Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="极客时间《MySQL实战45讲》学习笔记">
-<meta name="twitter:description" content="MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用commit work and cha">
+<meta name="twitter:description" content="MySQL实战45讲 林晓斌 MySQL的事务启动方式 显示启动事务：begin/start transaction - commit/rollback 隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。  建议采用第一种，考虑多一次交互的问题，使用comm">
 
 
 
@@ -420,7 +420,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2020-12-25 17:11:43" itemprop="dateModified" datetime="2020-12-25T17:11:43+08:00">2020-12-25</time>
+                <time title="Modified: 2020-12-31 15:37:45" itemprop="dateModified" datetime="2020-12-31T15:37:45+08:00">2020-12-31</time>
               
             
           </span>
@@ -479,13 +479,15 @@
       
 
       
-        <h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
+        <p><a href="https://time.geekbang.org/column/intro/139" target="_blank" rel="noopener">MySQL实战45讲 林晓斌</a></p>
+<h3 id="MySQL的事务启动方式"><a href="#MySQL的事务启动方式" class="headerlink" title="MySQL的事务启动方式"></a>MySQL的事务启动方式</h3><ol>
 <li>显示启动事务：begin/start transaction - commit/rollback</li>
 <li>隐式启动事务：配置 set autocommit=0，随便执行一个 select就可以启动事务，不会自动提交，直到主动 commit/rollback 或断开连接。注：这种方式容易导致长连接。</li>
 </ol>
 <p>建议采用第一种，考虑多一次交互的问题，使用commit work and chain 语法代替 commit，表示提交当前的同时开启下一段事务。使用以下命令监控超过 60s 的事务。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> information_schema.innodb_trx <span class="keyword">where</span> TIME_TO_SEC(<span class="keyword">timediff</span>(<span class="keyword">now</span>(),trx_started))&gt;<span class="number">60</span></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
+<h3 id="springboot-开启事务以及手动提交事务"><a href="#springboot-开启事务以及手动提交事务" class="headerlink" title="springboot 开启事务以及手动提交事务"></a>springboot 开启事务以及手动提交事务</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 需要在服务类上加上两个注解</span></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">DataSourceTransactionManager dataSourceTransactionManager;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Autowired</span></span><br><span class="line">TransactionDefinition transactionDefinition;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 手动开启事务</span></span><br><span class="line">TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 手动提交事务</span></span><br><span class="line">dataSourceTransactionManager.commit(transactionStatus);<span class="comment">//提交</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 手动回滚事务</span></span><br><span class="line">dataSourceTransactionManager.rollback(transactionStatus); <span class="comment">//最好是放在catch 里面,防止程序异常而事务一直卡在哪里未提交</span></span><br></pre></td></tr></table></figure>
 <h3 id="索引模型"><a href="#索引模型" class="headerlink" title="索引模型"></a>索引模型</h3><p>MySQL 索引模型，常见的三种：哈希、有序数组、搜索树。</p>
 <ol>
 <li><p>哈希：O(1)时间复杂度，但 key 较分散，不适合区间查询。</p>
@@ -494,13 +496,75 @@
 </li>
 <li><p>搜索树，考虑到写盘问题，MySQL 使用多叉搜索树，对于一个 InnoDB 的整数索引，N 叉可以是 1200，如果树高度是 4，那么可以存储 1200^3的数字，高达 17 亿。</p>
 </li>
-<li>其他：跳表、LSM树等，不做赘述。</li>
+<li>其他：跳表、<a href="https://blog.csdn.net/las723/article/details/93767240" target="_blank" rel="noopener">LSM树</a>等，不做赘述。</li>
 </ol>
 <p>InnoDB 使用 B+树做引擎，在 create Table 时，字段 k 设为索引：<code>index(k)</code>。主键索引的叶子节点存的是整行的值，称为聚簇索引；非主键索引的叶节点存的是主键值，称为二级索引（命中非主键索引时需要先查二级索引 B+树，再查主键索引 B+树，称为<strong>回表</strong>操作）。</p>
 <p>一般都采用自增主键（非业务含义的键作为主键），但 K-V 形式的索引例外，即如果仅有一个唯一索引的场景，可以不需要自增主键，只需要业务键创建索引，这样能避免不必要的回表动作。</p>
 <p>覆盖索引：使用覆盖索引可以避免一些不必要的回表。在非主键索引查询时，就已经获取到了所需要的字段信息，没必要再去查一遍主键 B+树。使用较冗余的方式实现一些高频请求的效率提升。</p>
 <p>联合索引的<strong>最左前缀</strong>，不仅可以按字段粒度进行最左匹配，甚至可以按字符模糊查询的粒度进行最左匹配。</p>
 <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">索引:        （<span class="built_in">name</span>，age）</span><br><span class="line">查询 <span class="keyword">where</span>:   <span class="keyword">where</span> <span class="built_in">name</span> like <span class="string">"张%"</span></span><br><span class="line">说明:         也能用上该索引</span><br></pre></td></tr></table></figure>
+<hr>
+<p>全局锁，命令是 Flush tables with read lock (FTWRL)，对整个数据库实例加锁。场景：全局逻辑备份，可以保证在备份时做到一致性视图。</p>
+<blockquote>
+<p>官方自带的逻辑备份工具是 mysqldump。当 mysqldump 使用参数–single-transaction 的时候，导数据之前就会启动一个事务，来确保拿到一致性视图。而由于 MVCC 的支持，这个过程中数据是可以正常更新的。</p>
+<p>但是，并不是所有数据库引擎都是支持事务的，比如MyISAM场景下，就需要使用 FTWRL 来做全局备份了。</p>
+</blockquote>
+<hr>
+<p>表级锁有两种，第一种表锁 lock，第二种元数据锁（meta data lock，MDL)。</p>
+<ul>
+<li><p>表锁，lock tables … read/write。</p>
+</li>
+<li><p>MDL，分为读写锁（针对 meta data 的），当对一个表做增删改查操作的时候，加 MDL 读锁；当要对表做结构变更操作的时候，加 MDL 写锁。读读不互斥，但读写、写写互斥。而且申请MDL锁的操作会形成一个队列，队列中写锁获取优先级高于读锁。一旦出现写锁等待，不但当前操作会被阻塞，同时还会阻塞后续该表的所有操作。</p>
+<ul>
+<li><strong>MDL 通常用作避免 DML 和 DDL 冲突的工具。</strong></li>
+<li>如果 MDL 写锁执行时长过长，那么后续的所有读写请求都会被阻塞。</li>
+</ul>
+</li>
+<li><p>解决办法：MDL 写操作如果在队列等待过久，就放弃该申请，后期再尝试。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 设置 MDL 写操作的等待时间</span><br><span class="line">ALTER TABLE tbl_name NOWAIT add column ...</span><br><span class="line">ALTER TABLE tbl_name WAIT N add column ...</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<blockquote>
+<p>如果你的事务中需要锁多个行，要把最可能造成锁冲突、最可能影响并发度的锁尽量往后放。</p>
+<p>在 InnoDB 事务中，行锁是在需要的时候才加上的，但并不是不需要了就立刻释放，而是要等到事务结束时才释放。这个就是两阶段锁协议。</p>
+</blockquote>
+<p>并发场景下，行级锁容易出现多个线程循环资源等待的问题，即死锁。解法一般有常规两种，加强一种：</p>
+<ol>
+<li><p>超时释放，innodb_lock_wait_timeout参数，默认 50s，但并发场景不能忍受，所以选解法二。</p>
+</li>
+<li><p>主动死锁检测，innodb_deadlock_detect参数，默认 on，每当一个事务被锁的时候，就要看看它所依赖的线程有没有被别人锁住，如此循环，最后判断是否出现了循环等待，也就是死锁。但存在较严重 CPU 资源的消耗。</p>
+</li>
+<li><p>主动死锁检测前提下，控制并发度。对于同一行的更新操作，在进入引擎之前排队，避免在 InnoDB 中过多的死锁检测。</p>
+<ol>
+<li><blockquote>
+<p>你可以考虑通过将一行改成逻辑上的多行来减少锁冲突。还是以影院账户为例，可以考虑放在多条记录上，比如 10 个记录，影院的账户总额等于这 10 个记录的值的总和。这样每次要给影院账户加金额的时候，随机选其中一条记录来加。这样每次冲突概率变成原来的 1/10，可以减少锁等待个数，也就减少了死锁检测的 CPU 消耗。</p>
+<p>相当于子账户的概念，原理上就是分段汇总，Java原子类LongAdder也使用了这个原理。</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ol>
+<p>好例子(直接抄)：</p>
+<blockquote>
+<p>当备库用–single-transaction 做逻辑备份的时候，如果从主库的 binlog 传来一个 DDL 语句会怎么样？假设这个 DDL 是针对表 t1 的</p>
+<p> 这里把备份过程中几个关键的语句列出来：</p>
+<p>Q1:SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;<br>Q2:START TRANSACTION  WITH CONSISTENT SNAPSHOT；<br>/<em> other tables </em>/<br>Q3:SAVEPOINT sp;<br>/<em> 时刻 1 </em>/<br>Q4:show create table <code>t1</code>;<br>/<em> 时刻 2 </em>/<br>Q5:SELECT <em> FROM <code>t1</code>;<br>/</em> 时刻 3 <em>/<br>Q6:ROLLBACK TO SAVEPOINT sp;<br>/</em> 时刻 4 <em>/<br>/</em> other tables */</p>
+</blockquote>
+<blockquote>
+<p>在备份开始的时候，为了确保 RR（可重复读）隔离级别，再设置一次 RR 隔离级别 (Q1);</p>
+<p>启动事务，这里用 WITH CONSISTENT SNAPSHOT 确保这个语句执行完就可以得到一个一致性视图（Q2)；</p>
+<p>设置一个保存点，这个很重要（Q3）；</p>
+<p>show create 是为了拿到表结构 (Q4)，然后正式导数据 （Q5），</p>
+<p>回滚到 SAVEPOINT sp，在这里的作用是释放 t1 的 MDL 锁 （Q6）。</p>
+<ol>
+<li>如果在 Q4 语句执行之前到达，现象：没有影响，备份拿到的是 DDL 后的表结构。</li>
+<li>如果在“时刻 2”到达，则表结构被改过，Q5 执行的时候，报 Table definition has changed, please retry transaction，现象：mysqldump 终止；</li>
+<li>如果在“时刻 2”和“时刻 3”之间到达，mysqldump 占着 t1 的 MDL 读锁，binlog 被阻塞，现象：主从延迟，直到 Q6 执行完成。</li>
+<li>从“时刻 4”开始，mysqldump 释放了 MDL 读锁，现象：没有影响，备份拿到的是 DDL 前的表结构。</li>
+</ol>
+</blockquote>
+<p>begin/start transaction 命令并不是一个事务的起点，在执行到它们之后的第一个操作 InnoDB 表的语句，事务才真正启动。</p>
 
       
     </div>
@@ -772,7 +836,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">2.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL的事务启动方式"><span class="nav-number">1.</span> <span class="nav-text">MySQL的事务启动方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#springboot-开启事务以及手动提交事务"><span class="nav-number">2.</span> <span class="nav-text">springboot 开启事务以及手动提交事务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引模型"><span class="nav-number">3.</span> <span class="nav-text">索引模型</span></a></li></ol></div>
             
 
           </div>
@@ -792,7 +856,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
