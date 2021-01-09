@@ -184,6 +184,54 @@
       </tags>
   </entry>
   <entry>
+    <title>ARTS(14)</title>
+    <url>/2019/06/30/ARTS-14/</url>
+    <content><![CDATA[<h1 id="ARTS-第十四周-终篇"><a href="#ARTS-第十四周-终篇" class="headerlink" title="ARTS 第十四周(终篇)"></a>ARTS 第十四周(终篇)</h1><p>ARTS 活动持续了 100 天，到本周正式宣告结束！撒花！！！</p>
+<p>虽然ARTS 结束了，但是还要生生不息地折腾啊~~</p>
+<blockquote>
+<p>每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）： </p>
+<ol>
+<li>每周至少做一个 leetcode 的算法题</li>
+<li>阅读并点评至少一篇英文技术文章</li>
+<li>学习至少一个技术技巧</li>
+<li>分享一篇有观点和思考的技术文章。</li>
+</ol>
+</blockquote>
+<a id="more"></a>
+<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p> <a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/" target="_blank" rel="noopener">力扣 142. 环形链表 II</a></p>
+<p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。</p>
+<p>为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</p>
+<p>说明：不允许修改给定的链表。空间复杂度 O(1)</p>
+<p>示例 1：</p>
+<p>输入：head = [3,2,0,-4], pos = 1<br>输出：tail connects to node index 1<br>解释：链表中有一个环，其尾部连接到第二个节点。</p>
+<p>思路：直接看<a href="https://www.cnblogs.com/ganganloveu/p/3715981.html" target="_blank" rel="noopener">Linked List Cycle II</a>，浅显易懂。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123;</span></span><br><span class="line"><span class="comment"> *         val = x;</span></span><br><span class="line"><span class="comment"> *         next = null;</span></span><br><span class="line"><span class="comment"> *     &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">detectCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">		ListNode fast, slow;</span><br><span class="line">		fast = slow = head;</span><br><span class="line">		<span class="keyword">do</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> (fast != <span class="keyword">null</span>) fast = fast.next;</span><br><span class="line">			<span class="keyword">if</span> (fast != <span class="keyword">null</span>) fast = fast.next;</span><br><span class="line">			<span class="keyword">if</span> (slow != <span class="keyword">null</span>) slow = slow.next;</span><br><span class="line">		&#125; <span class="keyword">while</span> (fast != slow);</span><br><span class="line">		fast = head;</span><br><span class="line">		<span class="keyword">while</span>(fast!=slow &amp;&amp; fast!=<span class="keyword">null</span> &amp;&amp; slow != <span class="keyword">null</span>)&#123;</span><br><span class="line">			fast = fast.next;</span><br><span class="line">			slow = slow.next;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>7 月 3 号的事件，BBC 新闻：<a href="https://www.bbc.com/news/technology-48854213" target="_blank" rel="noopener">Baidu chief doused with water at AI event</a></p>
+<p>解读：</p>
+<ol>
+<li>宏颜获水，AI 的发展也会被”泼冷水”。</li>
+<li>百度 AI 可以支持中英文，而且无需唤醒语。竞品亚马逊的 Alexa 或者 Google 的家用设备目前都还需要唤醒语。</li>
+<li>百度语音助手至今已经安装在了 4 亿多台设备上，月处理请求高达 36 亿条。</li>
+<li>百度与国内银行合作，将推出针对个人的理财智能助手。</li>
+<li>不久之后，百度会在长沙亮相一个 100 辆车组成的无人驾驶车队。</li>
+<li>大会全场，一个名为”茶博士”的长臂机器人做了倒茶的表演。</li>
+</ol>
+<h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><p>记录个网站吧：<a href="http://zh.d2l.ai/" target="_blank" rel="noopener">《动手学深度学习》</a></p>
+<p>朋友强推的，虽然我短时间内不会学这个，但想想还是 mark 一下。</p>
+<p>还有：<a href="https://github.com/Vonng/ddia" target="_blank" rel="noopener">《Designing Data-Intensive Application》DDIA中文翻译</a></p>
+<h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><p>分享一个 lambda 表达式的骚操作：链接：<a href="https://segmentfault.com/q/1010000015013616/a-1020000015018865" target="_blank" rel="noopener">如何使用java8 stream 将两个List<integer> 集合中的相同下标的值相加生成一个新的List</integer></a></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; list1 =Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">List&lt;Integer&gt; list2 =Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">List&lt;Integer&gt; result = IntStream.range(<span class="number">0</span>, list1.size())</span><br><span class="line">                                .map(i -&gt; list1.get(i) + list2.get(i))</span><br><span class="line">                                .boxed()</span><br><span class="line">                                .collect(Collectors.toList());</span><br><span class="line">                                </span><br><span class="line"><span class="comment">//生成 result ：&#123;2,4,6,8,10&#125;</span></span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/xujanus/p/6133865.html" target="_blank" rel="noopener">使用java8的lambda将list转为map（转）</a></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;Long, String&gt; <span class="title">getIdNameMap</span><span class="params">(List&lt;Account&gt; accounts)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> accounts.stream().collect(Collectors.toMap(Account::getId, Account::getUsername));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 其实有缺陷（Duplicate key 问题），参考上面的链接原文</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ARTS</category>
+      </categories>
+      <tags>
+        <tag>ARTS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ARTS(13)</title>
     <url>/2019/06/23/ARTS-13/</url>
     <content><![CDATA[<h1 id="ARTS-第十三周"><a href="#ARTS-第十三周" class="headerlink" title="ARTS 第十三周"></a>ARTS 第十三周</h1><blockquote>
@@ -244,54 +292,6 @@
 </ol>
 <h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><p>本周对本站之前的一篇 k8s 的文章进行了补充，加了不少干货，参考以下链接：</p>
 <p><a href="http://likehui.fun/2019/05/26/K8s%20-%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/" target="_blank" rel="noopener">K8s 入门笔记</a></p>
-]]></content>
-      <categories>
-        <category>ARTS</category>
-      </categories>
-      <tags>
-        <tag>ARTS</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>ARTS(14)</title>
-    <url>/2019/06/30/ARTS-14/</url>
-    <content><![CDATA[<h1 id="ARTS-第十四周-终篇"><a href="#ARTS-第十四周-终篇" class="headerlink" title="ARTS 第十四周(终篇)"></a>ARTS 第十四周(终篇)</h1><p>ARTS 活动持续了 100 天，到本周正式宣告结束！撒花！！！</p>
-<p>虽然ARTS 结束了，但是还要生生不息地折腾啊~~</p>
-<blockquote>
-<p>每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）： </p>
-<ol>
-<li>每周至少做一个 leetcode 的算法题</li>
-<li>阅读并点评至少一篇英文技术文章</li>
-<li>学习至少一个技术技巧</li>
-<li>分享一篇有观点和思考的技术文章。</li>
-</ol>
-</blockquote>
-<a id="more"></a>
-<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p> <a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/" target="_blank" rel="noopener">力扣 142. 环形链表 II</a></p>
-<p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。</p>
-<p>为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。</p>
-<p>说明：不允许修改给定的链表。空间复杂度 O(1)</p>
-<p>示例 1：</p>
-<p>输入：head = [3,2,0,-4], pos = 1<br>输出：tail connects to node index 1<br>解释：链表中有一个环，其尾部连接到第二个节点。</p>
-<p>思路：直接看<a href="https://www.cnblogs.com/ganganloveu/p/3715981.html" target="_blank" rel="noopener">Linked List Cycle II</a>，浅显易懂。</p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Definition for singly-linked list.</span></span><br><span class="line"><span class="comment"> * class ListNode &#123;</span></span><br><span class="line"><span class="comment"> *     int val;</span></span><br><span class="line"><span class="comment"> *     ListNode next;</span></span><br><span class="line"><span class="comment"> *     ListNode(int x) &#123;</span></span><br><span class="line"><span class="comment"> *         val = x;</span></span><br><span class="line"><span class="comment"> *         next = null;</span></span><br><span class="line"><span class="comment"> *     &#125;</span></span><br><span class="line"><span class="comment"> * &#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ListNode <span class="title">detectCycle</span><span class="params">(ListNode head)</span> </span>&#123;</span><br><span class="line">		ListNode fast, slow;</span><br><span class="line">		fast = slow = head;</span><br><span class="line">		<span class="keyword">do</span> &#123;</span><br><span class="line">			<span class="keyword">if</span> (fast != <span class="keyword">null</span>) fast = fast.next;</span><br><span class="line">			<span class="keyword">if</span> (fast != <span class="keyword">null</span>) fast = fast.next;</span><br><span class="line">			<span class="keyword">if</span> (slow != <span class="keyword">null</span>) slow = slow.next;</span><br><span class="line">		&#125; <span class="keyword">while</span> (fast != slow);</span><br><span class="line">		fast = head;</span><br><span class="line">		<span class="keyword">while</span>(fast!=slow &amp;&amp; fast!=<span class="keyword">null</span> &amp;&amp; slow != <span class="keyword">null</span>)&#123;</span><br><span class="line">			fast = fast.next;</span><br><span class="line">			slow = slow.next;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> slow;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>7 月 3 号的事件，BBC 新闻：<a href="https://www.bbc.com/news/technology-48854213" target="_blank" rel="noopener">Baidu chief doused with water at AI event</a></p>
-<p>解读：</p>
-<ol>
-<li>宏颜获水，AI 的发展也会被”泼冷水”。</li>
-<li>百度 AI 可以支持中英文，而且无需唤醒语。竞品亚马逊的 Alexa 或者 Google 的家用设备目前都还需要唤醒语。</li>
-<li>百度语音助手至今已经安装在了 4 亿多台设备上，月处理请求高达 36 亿条。</li>
-<li>百度与国内银行合作，将推出针对个人的理财智能助手。</li>
-<li>不久之后，百度会在长沙亮相一个 100 辆车组成的无人驾驶车队。</li>
-<li>大会全场，一个名为”茶博士”的长臂机器人做了倒茶的表演。</li>
-</ol>
-<h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><p>记录个网站吧：<a href="http://zh.d2l.ai/" target="_blank" rel="noopener">《动手学深度学习》</a></p>
-<p>朋友强推的，虽然我短时间内不会学这个，但想想还是 mark 一下。</p>
-<p>还有：<a href="https://github.com/Vonng/ddia" target="_blank" rel="noopener">《Designing Data-Intensive Application》DDIA中文翻译</a></p>
-<h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><p>分享一个 lambda 表达式的骚操作：链接：<a href="https://segmentfault.com/q/1010000015013616/a-1020000015018865" target="_blank" rel="noopener">如何使用java8 stream 将两个List<integer> 集合中的相同下标的值相加生成一个新的List</integer></a></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line">List&lt;Integer&gt; list1 =Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line">List&lt;Integer&gt; list2 =Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">List&lt;Integer&gt; result = IntStream.range(<span class="number">0</span>, list1.size())</span><br><span class="line">                                .map(i -&gt; list1.get(i) + list2.get(i))</span><br><span class="line">                                .boxed()</span><br><span class="line">                                .collect(Collectors.toList());</span><br><span class="line">                                </span><br><span class="line"><span class="comment">//生成 result ：&#123;2,4,6,8,10&#125;</span></span><br></pre></td></tr></table></figure>
-<p><a href="https://www.cnblogs.com/xujanus/p/6133865.html" target="_blank" rel="noopener">使用java8的lambda将list转为map（转）</a></p>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;Long, String&gt; <span class="title">getIdNameMap</span><span class="params">(List&lt;Account&gt; accounts)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> accounts.stream().collect(Collectors.toMap(Account::getId, Account::getUsername));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 其实有缺陷（Duplicate key 问题），参考上面的链接原文</span></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>ARTS</category>
@@ -1106,66 +1106,6 @@
       </tags>
   </entry>
   <entry>
-    <title>InnoDB 读书笔记 2</title>
-    <url>/2018/07/31/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2/</url>
-    <content><![CDATA[<h1 id="缓冲池"><a href="#缓冲池" class="headerlink" title="缓冲池"></a>缓冲池</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记 2</p>
-<h2 id="缓冲池的简介"><a href="#缓冲池的简介" class="headerlink" title="缓冲池的简介"></a>缓冲池的简介</h2><ul>
-<li>InnoDB引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理</li>
-<li>缓冲池是一块内存区域，在数据库进行读取页的操作，首先将磁盘读到的页放在缓冲池中，称为将页“FIX”在缓冲池。下一次读到相同页时，首先判断该页是否在缓冲池中，若是则直接在缓冲池中读取该页，否则，读取磁盘上的页</li>
-<li>对于数据库中页的修改操作，首先修改在缓冲池中的页，然后以一定的频率刷新到磁盘上。但并不是每一次修改都会触发刷回数据的操作，而是按照一种称为checkpoint的机制进行</li>
-<li><p>缓冲池的大小直接影响数据库的整体性能，32位操作系统下，该值最多可以设置为3G，此外用户可以打开操作系统的PAE选项来获得32位OS下最大64G内存的支持</p>
-  <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">//查看缓冲池的大小，以下134217728B表示128MB</span><br><span class="line">mysql&gt; show variables like 'innodb<span class="emphasis">_buffer_</span>pool_size'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>size</span><br><span class="line"><span class="code">        Value: 134217728</span></span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<a id="more"></a>
-<ul>
-<li>缓冲池中缓存的数据页类型：索引页、数据页、undo页、插入缓冲、自适应哈希索引、InnoDB存储的锁信息、数据字典信息等，如下图</li>
-</ul>
-<pre><code>![1](1.png)
-</code></pre><ul>
-<li><p>InnoDB允许有多个缓冲池实例，如下图查看，可以在配置文件中修改。同时也可以使用命令<code>SHOW ENGINE INNODB STATUS</code>查看每个缓冲池实例对象运行的状态</p>
-  <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">mysql&gt; show variables  like 'innodb<span class="emphasis">_buffer_</span>pool_instances'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>instances</span><br><span class="line"><span class="code">        Value: 1</span></span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">//部分代码：</span><br><span class="line">mysql&gt; show engine innodb  status\G;</span><br><span class="line">Total large memory allocated 137428992</span><br><span class="line">Dictionary memory allocated 216425</span><br><span class="line">Buffer pool size   8191</span><br><span class="line">Free buffers       6983</span><br><span class="line">Database pages     1190</span><br><span class="line">Old database pages 419</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="InnoDB如何管理缓存池（即一大块内存）"><a href="#InnoDB如何管理缓存池（即一大块内存）" class="headerlink" title="InnoDB如何管理缓存池（即一大块内存）"></a>InnoDB如何管理缓存池（即一大块内存）</h2><ul>
-<li>通常的缓冲池是通过LRU（Latest Recent Used）算法来进行管理的，最常使用页放在LRU列表的前端，最少使用的页放在尾端。当缓冲池不能存放新读取的页时，将首先释放LRU列表中尾段的页。</li>
-<li>InnoDB对LRU算法进行了一些优化，在LRU列表中新增了midpoiont位置，新读取的页并不放在首部，而是放在midpoint处，约5/8的位置，可由参数innodb_old_blocks_pct控制。至于为什么不放在首部，是因为新读取的页通常仅是这次查询操作中需要，并不是活跃的热点数据。所以InnoDB引入另一个参数来进一步管理LRU列表，即innodb_old_blocks_time，用于表示页读取到mid位置后需要等待多久才会被加入到LRU列表的热端。</li>
-<li>当页从LRU列表的old部分加入到new部分时，此时发生的操作为page made young，而因为innodb_old_blocks_time的设置导致页没有从old部分移动到new部分的操作称为page not made young，page made young显示了LRU列表中页移动到热端的次数。</li>
-<li>还有一个重要的观察变量——Buffer pool hit rate ，表示缓冲池的命中率，通常不应该小于95%。</li>
-<li>在LRU列表中的页被修改后，称该页为脏页，这时DB会通过CheckPoint机制将脏页刷回磁盘，而Flush列表中的页即为脏页列表。</li>
-</ul>
-<h4 id="日志缓存和额外的内存池"><a href="#日志缓存和额外的内存池" class="headerlink" title="日志缓存和额外的内存池"></a>日志缓存和额外的内存池</h4><ul>
-<li>InnoDB将重做日志信息先放入重做日志缓存区，一般每一秒钟将重做日志缓冲刷新到日志文件，由参数innodb_log_buffer_size 控制，默认为8MB；</li>
-<li>InnoDB对内存的管理使用heap的方式，详略</li>
-</ul>
-<h4 id="CheckPoint技术"><a href="#CheckPoint技术" class="headerlink" title="CheckPoint技术"></a>CheckPoint技术</h4><ul>
-<li>背景：如果每次update或delete都要将新页的版本刷新到磁盘，这个开销是非常大的。同时如果在刷新时发生了宕机，那么数据就不能恢复了。</li>
-<li>所以为了避免数据丢失的情况，事务数据库系统普遍采取了Write Ahead Log策略，即当事务提交时，先写重做日志，再修改页。</li>
-<li><p>CheckPoint技术目的是为了解决以下几个问题：</p>
-<ol>
-<li>缩短DB的恢复时间；</li>
-<li>缓冲池不够用时，将脏页刷新到磁盘；</li>
-<li>重做日志不可用时（重做日志被需要，不能被覆盖的情形下），刷新脏页</li>
-</ol>
-</li>
-<li><p>InnoDB采用LSN（Log Sequence Number）来标记版本，每个页有LSN，重做日志也有LSN，CheckPoint也有LSN。</p>
-</li>
-<li><p>CheckPoint有两种：Sharp CheckPoint和Fuzzy CheckPoint</p>
-<ol>
-<li>Sharp CheckPoint发生在DB关闭时将所有脏页刷回磁盘；</li>
-<li>Fuzzy Checkpoint只刷新部分脏页，有四种方式，此处咱不讨论</li>
-</ol>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>notes</category>
-      </categories>
-      <tags>
-        <tag>mySQL</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>InnoDB 读书笔记 1</title>
     <url>/2018/07/30/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-1/</url>
     <content><![CDATA[<h1 id="数据库内容纵览"><a href="#数据库内容纵览" class="headerlink" title="数据库内容纵览"></a>数据库内容纵览</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记  1</p>
@@ -1238,6 +1178,66 @@
 </li>
 </ol>
 <p>完成全书36页 </p>
+]]></content>
+      <categories>
+        <category>notes</category>
+      </categories>
+      <tags>
+        <tag>mySQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>InnoDB 读书笔记 2</title>
+    <url>/2018/07/31/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2/</url>
+    <content><![CDATA[<h1 id="缓冲池"><a href="#缓冲池" class="headerlink" title="缓冲池"></a>缓冲池</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记 2</p>
+<h2 id="缓冲池的简介"><a href="#缓冲池的简介" class="headerlink" title="缓冲池的简介"></a>缓冲池的简介</h2><ul>
+<li>InnoDB引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理</li>
+<li>缓冲池是一块内存区域，在数据库进行读取页的操作，首先将磁盘读到的页放在缓冲池中，称为将页“FIX”在缓冲池。下一次读到相同页时，首先判断该页是否在缓冲池中，若是则直接在缓冲池中读取该页，否则，读取磁盘上的页</li>
+<li>对于数据库中页的修改操作，首先修改在缓冲池中的页，然后以一定的频率刷新到磁盘上。但并不是每一次修改都会触发刷回数据的操作，而是按照一种称为checkpoint的机制进行</li>
+<li><p>缓冲池的大小直接影响数据库的整体性能，32位操作系统下，该值最多可以设置为3G，此外用户可以打开操作系统的PAE选项来获得32位OS下最大64G内存的支持</p>
+  <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">//查看缓冲池的大小，以下134217728B表示128MB</span><br><span class="line">mysql&gt; show variables like 'innodb<span class="emphasis">_buffer_</span>pool_size'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>size</span><br><span class="line"><span class="code">        Value: 134217728</span></span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>缓冲池中缓存的数据页类型：索引页、数据页、undo页、插入缓冲、自适应哈希索引、InnoDB存储的锁信息、数据字典信息等，如下图</li>
+</ul>
+<pre><code>![1](1.png)
+</code></pre><ul>
+<li><p>InnoDB允许有多个缓冲池实例，如下图查看，可以在配置文件中修改。同时也可以使用命令<code>SHOW ENGINE INNODB STATUS</code>查看每个缓冲池实例对象运行的状态</p>
+  <figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">mysql&gt; show variables  like 'innodb<span class="emphasis">_buffer_</span>pool_instances'\G;</span><br><span class="line"><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">** 1. row **</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span><span class="strong">*****</span></span><br><span class="line">Variable<span class="emphasis">_name: innodb_</span>buffer<span class="emphasis">_pool_</span>instances</span><br><span class="line"><span class="code">        Value: 1</span></span><br><span class="line">1 row in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">//部分代码：</span><br><span class="line">mysql&gt; show engine innodb  status\G;</span><br><span class="line">Total large memory allocated 137428992</span><br><span class="line">Dictionary memory allocated 216425</span><br><span class="line">Buffer pool size   8191</span><br><span class="line">Free buffers       6983</span><br><span class="line">Database pages     1190</span><br><span class="line">Old database pages 419</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="InnoDB如何管理缓存池（即一大块内存）"><a href="#InnoDB如何管理缓存池（即一大块内存）" class="headerlink" title="InnoDB如何管理缓存池（即一大块内存）"></a>InnoDB如何管理缓存池（即一大块内存）</h2><ul>
+<li>通常的缓冲池是通过LRU（Latest Recent Used）算法来进行管理的，最常使用页放在LRU列表的前端，最少使用的页放在尾端。当缓冲池不能存放新读取的页时，将首先释放LRU列表中尾段的页。</li>
+<li>InnoDB对LRU算法进行了一些优化，在LRU列表中新增了midpoiont位置，新读取的页并不放在首部，而是放在midpoint处，约5/8的位置，可由参数innodb_old_blocks_pct控制。至于为什么不放在首部，是因为新读取的页通常仅是这次查询操作中需要，并不是活跃的热点数据。所以InnoDB引入另一个参数来进一步管理LRU列表，即innodb_old_blocks_time，用于表示页读取到mid位置后需要等待多久才会被加入到LRU列表的热端。</li>
+<li>当页从LRU列表的old部分加入到new部分时，此时发生的操作为page made young，而因为innodb_old_blocks_time的设置导致页没有从old部分移动到new部分的操作称为page not made young，page made young显示了LRU列表中页移动到热端的次数。</li>
+<li>还有一个重要的观察变量——Buffer pool hit rate ，表示缓冲池的命中率，通常不应该小于95%。</li>
+<li>在LRU列表中的页被修改后，称该页为脏页，这时DB会通过CheckPoint机制将脏页刷回磁盘，而Flush列表中的页即为脏页列表。</li>
+</ul>
+<h4 id="日志缓存和额外的内存池"><a href="#日志缓存和额外的内存池" class="headerlink" title="日志缓存和额外的内存池"></a>日志缓存和额外的内存池</h4><ul>
+<li>InnoDB将重做日志信息先放入重做日志缓存区，一般每一秒钟将重做日志缓冲刷新到日志文件，由参数innodb_log_buffer_size 控制，默认为8MB；</li>
+<li>InnoDB对内存的管理使用heap的方式，详略</li>
+</ul>
+<h4 id="CheckPoint技术"><a href="#CheckPoint技术" class="headerlink" title="CheckPoint技术"></a>CheckPoint技术</h4><ul>
+<li>背景：如果每次update或delete都要将新页的版本刷新到磁盘，这个开销是非常大的。同时如果在刷新时发生了宕机，那么数据就不能恢复了。</li>
+<li>所以为了避免数据丢失的情况，事务数据库系统普遍采取了Write Ahead Log策略，即当事务提交时，先写重做日志，再修改页。</li>
+<li><p>CheckPoint技术目的是为了解决以下几个问题：</p>
+<ol>
+<li>缩短DB的恢复时间；</li>
+<li>缓冲池不够用时，将脏页刷新到磁盘；</li>
+<li>重做日志不可用时（重做日志被需要，不能被覆盖的情形下），刷新脏页</li>
+</ol>
+</li>
+<li><p>InnoDB采用LSN（Log Sequence Number）来标记版本，每个页有LSN，重做日志也有LSN，CheckPoint也有LSN。</p>
+</li>
+<li><p>CheckPoint有两种：Sharp CheckPoint和Fuzzy CheckPoint</p>
+<ol>
+<li>Sharp CheckPoint发生在DB关闭时将所有脏页刷回磁盘；</li>
+<li>Fuzzy Checkpoint只刷新部分脏页，有四种方式，此处咱不讨论</li>
+</ol>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>notes</category>
@@ -5469,6 +5469,57 @@ CGI程序是调用其他程序的web服务器程序。
       </tags>
   </entry>
   <entry>
+    <title>日志结构化存储</title>
+    <url>/2021/01/09/%E6%97%A5%E5%BF%97%E7%BB%93%E6%9E%84%E5%8C%96%E5%AD%98%E5%82%A8/</url>
+    <content><![CDATA[<p>日志结构化存储系统的基础组织是一个日志，即一个只可添加数据输入的序列。每当你有新的数据要写入的时候，你只需要简单的添加它到日志的末尾，而不需要在磁盘中为它寻找一个位置。</p>
+<a id="more"></a>
+<h3 id="日志分段压缩-amp-合并"><a href="#日志分段压缩-amp-合并" class="headerlink" title="日志分段压缩&amp;合并"></a>日志分段压缩&amp;合并</h3><ol>
+<li>提前说明：这些日志就是真实的日志，放在 disk 上的，其中 key-value 可以简单理解成文件中的每个字符串和偏移量。只是即使同样的“abc”字符串，出现在日志的不同位置，也不能理解为相同的 key，明白？！！有一种“哈希映射”的做法，将所有 key 都缓存到内存中，即使大内存的机器也不一定能做到，只适合部分场景，比如 Bitcash存储引擎，适合 value 经常更新的场景。</li>
+<li>始终追加写入同一个日志文件并不可取，会耗尽磁盘空间。</li>
+<li>解决办法：日志分成特定大小的段，到达该长度时关闭该文件，开始写入新的文件，对旧文件压缩。<ol>
+<li>压缩意味着key-value 的历史值被抛弃，只保留每个 key 的最新值。</li>
+<li>压缩过的段如果 size 小，可以多段合并。此时 compact 和 merge 操作同时进行，技术点上，很类似于 copy on write /不可变类的修改过程 ——使用旧文件满足压缩时刻的读写请求，压缩合并在后台进行，完成后，再将读写请求定位到新文件，并删除旧文件。</li>
+</ol>
+</li>
+</ol>
+<p>下面的 SSTables 和 LSM 树都是日志分段压缩&amp;合并技术基础上演进的。</p>
+<h3 id="SSTables"><a href="#SSTables" class="headerlink" title="SSTables"></a>SSTables</h3><ol>
+<li>Sorted String Tables。排序字符串表。放在 disk 上的！！！</li>
+<li>在日志分段压缩合并时，使用归并排序的技术，保证key有序。同时需要被合并的各段（即 SSTables）也是有序的才行。</li>
+<li>如果合并时，多段存在相同的 key，那么仅保留时间最新的 key 对应的 value 值。</li>
+<li>不需要将索引中的所有 key 取到内存中，利用排序特性，可以索引到临近的 key 值，然后再进行扫描。每千字节的段文件只需要一个键就足够了，因为几千字节很快可以被扫描。</li>
+<li>因为索引的稀疏性，读操作始终要扫描多个 key-value，所以将这些记录分组压缩到块中，索引的每个条目都指向压缩块的开始处。（有点类似于磁盘上使用的 B 树，但 B 树一般固定大小，约 4KB，此 SSTable 的大小并不固定）</li>
+</ol>
+<p>SSTables 的构建和更新</p>
+<ol>
+<li>保证 key 有序的办法：磁盘上使用 B 树，内存中使用平衡树（ AVL 或者红黑树等）。使用后可以使用任意顺序插入，然后按序读取。</li>
+<li>步骤：<ol>
+<li>写入时，写到内存中的平衡树中，这种树也称为内存表。</li>
+<li>内存表当 size到一定阈值时，作为 SSTable 写入disk。此时发生的写操作，会作用到下一个新的内存表实例中。</li>
+<li>读操作时，先查找内存表，否则去最新的磁盘段，否则去旧一些的磁盘段，依此类推。</li>
+</ol>
+</li>
+</ol>
+<h3 id="LSM-树与-B-树对比"><a href="#LSM-树与-B-树对比" class="headerlink" title="LSM 树与 B 树对比"></a>LSM 树与 B 树对比</h3><p>LSM 树基本思想：保存一系列在后台合并的 SSTables，可以支持非常高的写入吞吐量。</p>
+<p>写放大：一种现象，比如一次写库操作，需要写多次磁盘。写放大会导致性能代价，存储引擎写入 disk 的次数越多，可用磁盘带宽内每秒写入次数越少。</p>
+<ol>
+<li>许多 B 树尝试布局树，是的叶子页面按顺序出现在 disk 上，但随着树的增长，维持这个顺序是很困难的。LSM 树在合并过程中一次又一次地重写存储的大部分，所以它们更容易使顺序键在 disk 上彼此靠近。</li>
+<li>LSM 树写入更快，读取较慢，因为可能需要查多个 SSTables。B 树读取更快。</li>
+<li>B 树的写操作需要①写 redo；②写入树页面，如果发生分裂，要写更多。LSM 树对 SSTable 压缩合并时也会发生写放大，但写放大比 B 树小，支持更高的写入吞吐量，这是因为顺序写入紧凑的 SSTable文件，而不是树中的几个整页面，主要是“顺序写”的优势。</li>
+<li>LSM 的查询时间不可预测，B 树可预测。</li>
+<li>LSM 的压缩过程对磁盘吞吐量也有影响，如果数据库较大，压缩可能占用过多的磁盘写入带宽。压缩如果赶不上写入速率时，即写入吞吐量较高时，也会拖慢磁盘读取速度。</li>
+<li>B 树的一个优点是每个键只存在于索引的一个位置，在需要提供事务支持的业务中，通过键做事务隔离就很合适了。</li>
+</ol>
+<p>在 B 树中，基于列的存储时，如果在中间新加一列，这可能不得不重写所有的列文件。通过 LSM 树可以很好地处理这个问题，因为写操作会首先进入内存的存储中，然后添加到一个已排序的数据结构中，在内存中基于行或者列已经不影响速度了。等积累足够的写入数据后，它们会跟磁盘上的列文件合并。</p>
+]]></content>
+      <categories>
+        <category>BigData</category>
+      </categories>
+      <tags>
+        <tag>BigData</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>极客时间《MySQL实战45讲》学习笔记</title>
     <url>/2020/04/19/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4%E3%80%8AMySQL%E5%AE%9E%E6%88%9845%E8%AE%B2%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</url>
     <content><![CDATA[<p><a href="https://time.geekbang.org/column/intro/139" target="_blank" rel="noopener">MySQL实战45讲 林晓斌</a></p>
@@ -6538,6 +6589,20 @@ CGI程序是调用其他程序的web服务器程序。
       </tags>
   </entry>
   <entry>
+    <title>Java基础刷题指南</title>
+    <url>/2020/09/09/Java%E5%9F%BA%E7%A1%80%E5%88%B7%E9%A2%98%E6%8C%87%E5%8D%97/</url>
+    <content><![CDATA[<p>刷题来自牛客网。lee 的错题记录。</p>
+<a id="more"></a>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">1</span>. 说法正误</span><br><span class="line">在java中，无论在何处调用，使用静态属性必须以类名做前缀。<span class="comment">//false。</span></span><br><span class="line"><span class="comment">//1如果是本类使用，可以直接就用静态变量名。2如果是其他类使用，可以使用类名来调用，也可以创建一个实例对象来调用。3如果静态变量所在的类是静态类，那么不管在本类里或者在其他外部类，都可以直接使用静态变量名。</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>. 说法正误</span><br><span class="line">在方法中定义的局部变量在该方法被执行时创建。<span class="comment">//false。</span></span><br><span class="line"><span class="comment">//不是局部变量在该方法被执行/调用时创建，而是应该为在该变量被声明并赋值时创建，可以理解为“当代码执行到该变量被赋值的代码时才被创建”。</span></span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. 语法正误</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>; <span class="comment">// false。final修饰的类为终态类，而抽象类是必须被继承的才有其意义的。所以 final 不能用来修饰抽象类的。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">abstract</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>; <span class="comment">//false。final修饰的方法为终态方法，不能被重写，而继承抽象类，必须重写其方法。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123; <span class="comment">// false。抽象方法是仅声明，并不做实现的方法。</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">													 <span class="comment">// true</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>. 结果正误</span><br><span class="line">String str1=<span class="string">"hello"</span>;</span><br><span class="line">String str2=<span class="string">"he"</span>+ <span class="keyword">new</span> String(<span class="string">"llo"</span>);</span><br><span class="line">System.out.println(str1==str2); <span class="comment">// false。str1 指向字面量“hello”，这里的str2必须在运行时才知道str2是什么，所以它是指向的是堆里定义的字符串“hello”</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// new String("llo")在编译期时创建一个“llo”的字面量（在 String pool 中），在运行期执行new命令创建另一个“llo”（在堆中）</span></span><br><span class="line"><span class="comment">//String s = "a"+"b"+"c"; 语句中，“a”,"b", "c"都是常量，编译时就直接存储他们的字面值，而不是他们的引用，在编译时就直接将它们连接的结果提取出来变成"abc"了。</span></span><br><span class="line"></span><br><span class="line"><span class="number">5</span>. 语法正误</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">float</span> f = <span class="number">1.0f</span>;</span><br><span class="line">	<span class="keyword">int</span> m = <span class="number">12</span>;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n = <span class="number">1</span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String args[])</span></span>&#123;</span><br><span class="line">			Test t = <span class="keyword">new</span> Test();</span><br><span class="line">			t.f;<span class="comment">//true。因为main函数在该类中，所以即使private也仍可使用</span></span><br><span class="line">			<span class="keyword">this</span>.n;<span class="comment">//false。this不能在static的方法中使用</span></span><br><span class="line">			Test.m;<span class="comment">//false。m 和 f 都是普通成员属性</span></span><br><span class="line">			Test.f;<span class="comment">//false。m 和 f 都是普通成员属性</span></span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">6</span>. 输出结果：</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CharToString</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> myChar = <span class="string">'g'</span>;</span><br><span class="line">  String myStr = Character.toString(myChar);</span><br><span class="line">  System.out.println(<span class="string">"String is: "</span>+myStr);</span><br><span class="line">  myStr = String.valueOf(myChar);</span><br><span class="line">  System.out.println(<span class="string">"String is: "</span>+myStr);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">output：</span><br><span class="line">String is: g <span class="comment">// toString 和 valueOf 方法返回值都是 String</span></span><br><span class="line">String is: g <span class="comment">// 只有char变成 int 的时候才会变为对应的assic码</span></span><br><span class="line"></span><br><span class="line"><span class="number">7</span>. 输出结果</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span><span class="keyword">throws</span> InterruptedException</span>&#123;</span><br><span class="line">		Thread t=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(<span class="string">"2"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		t.start();</span><br><span class="line">		t.join();</span><br><span class="line">		System.out.print(<span class="string">"1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">output：<span class="number">21</span> <span class="comment">// thread.Join把指定的线程加入到当前线程，可以将两个交替执行的线程合并为顺序执行的线程。</span></span><br><span class="line"><span class="comment">//t.join();      //使调用线程 t 在此之前执行完毕。</span></span><br><span class="line"><span class="comment">//t.join(1000);  //等待 t 线程，等待时间是1000毫秒</span></span><br><span class="line"></span><br><span class="line"><span class="number">8</span>. 说法正误</span><br><span class="line">Hashtable 和 HashMap 的区别是：</span><br><span class="line">  Hashtable 是一个哈希表，该类继承了 AbstractMap，实现了Map接口 <span class="comment">// false。Hashtable 继承了Dictionary 类。</span></span><br><span class="line">  HashMap 是内部基于哈希表实现，该类继承AbstractMap，实现Map接口 <span class="comment">// true。</span></span><br><span class="line">  Hashtable 线程安全的，而 HashMap 是线程不安全的 <span class="comment">// true。</span></span><br><span class="line">  Properties 类 继承了 Hashtable 类，而 Hashtable 类则继承Dictionary 类 <span class="comment">// true。</span></span><br><span class="line">  HashMap允许将 <span class="keyword">null</span> 作为一个 entry 的 key 或者 value，而 Hashtable 不允许。<span class="comment">// true。Hashtable 的key、value都不可以为null。</span></span><br><span class="line"><span class="comment">// 另外，Hashtable 使用对象的hashCode，而 HashMap 重新计算 hash</span></span><br><span class="line">  </span><br><span class="line"><span class="number">9</span>. 输出结果</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="keyword">new</span> B().getValue());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> <span class="keyword">int</span> value;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">A</span> <span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">            setValue(v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.value= value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                value ++;</span><br><span class="line">                <span class="keyword">return</span> value;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>.setValue(value);</span><br><span class="line">                System.out.println(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">B</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(<span class="number">5</span>);</span><br><span class="line">            setValue(getValue()- <span class="number">3</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.setValue(<span class="number">2</span> * value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">output：<span class="number">22</span> <span class="number">34</span> <span class="number">17</span></span><br><span class="line">Step <span class="number">1</span>:  <span class="keyword">new</span> B()构造一个B类的实例</span><br><span class="line">  此时<span class="keyword">super</span>(<span class="number">5</span>)语句调用显示调用父类A带参的构造函数，该构造函数调用setValue(v)，这里有两个注意点一是虽然构造函数是A类的构造函数，但此刻正在初始化的对象是B的一个实例，因此这里调用的实际是B类的setValue方法，于是调用B类中的setValue方法 ==&gt; 而B类中setValue方法显示调用父类的setValue方法，将B实例的value值设置为<span class="number">2</span> x <span class="number">5</span> = <span class="number">10</span>。</span><br><span class="line">  紧接着，B类的构造函数还没执行完成，继续执行setValue(getValue()- <span class="number">3</span>) <span class="comment">// 备注1语句。</span></span><br><span class="line">  先执行getValue方法，B类中没有重写getValue方法，因此调用父类A的getValue方法。这个方法比较复杂，需要分步说清楚：</span><br><span class="line">  调用getValue方法之前，B的成员变量value值为<span class="number">10</span>。</span><br><span class="line">  value++ 执行后， B的成员变量value值为<span class="number">11</span>，此时开始执行到<span class="keyword">return</span>语句，将<span class="number">11</span>这个值作为getValue方法的返回值返回出去</span><br><span class="line">  但是由于getValue块被<span class="keyword">try</span> <span class="keyword">finally</span>块包围，因此<span class="keyword">finally</span>中的语句无论如何都将被执行，所以步骤<span class="number">2</span>中<span class="number">11</span>这个返回值会先暂存起来，到<span class="keyword">finally</span>语句块执行完毕后再真正返回出去。</span><br><span class="line">  这里有很重要的一点：<span class="keyword">finally</span>语句块中 <span class="keyword">this</span>.setValue(value)方法调用的是B类的setValue方法。为什么？因为此刻正在初始化的是B类的一个对象（运行时多态），就像最开始第一步提到的一样(而且这里用了使用了<span class="keyword">this</span>关键词显式指明了调用当前对象的方法)。因此，此处会再次调用B类的setValue方法，同上，<span class="keyword">super</span>.关键词显式调用A的setValue方法，将B的value值设置成为了<span class="number">2</span> * <span class="number">11</span> = <span class="number">22</span>。</span><br><span class="line">  因此第一个打印项为<span class="number">22</span>。  </span><br><span class="line">  <span class="keyword">finally</span>语句执行完毕 会把刚刚暂存起来的<span class="number">11</span> 返回出去，也就是说这么经历了这么一长串的处理，getValue方法最终的返回值是<span class="number">11</span>。</span><br><span class="line">  回到前面标注了 <span class="comment">//备注1 的代码语句，其最终结果为setValue(11-3)=&gt;setValue(8)</span></span><br><span class="line">  而大家肯定也知道，这里执行的setValue方法，将会是B的setValue方法。 之后B的value值再次变成了<span class="number">2</span>*<span class="number">8</span> = <span class="number">16</span>;</span><br><span class="line">Step2:  <span class="keyword">new</span> B().getValue()</span><br><span class="line">  B类中没有独有的getValue方法，此处调用A的getValue方法。同Step <span class="number">1</span>，</span><br><span class="line">  调用getValue方法之前，B的成员变量value值为<span class="number">16</span>。</span><br><span class="line">  value++ 执行后， B的成员变量value值为<span class="number">17</span>，此时执行到<span class="keyword">return</span>语句，会将<span class="number">17</span>这个值作为getValue方法的返回值返回出去</span><br><span class="line">  但是由于getValue块被<span class="keyword">try</span> <span class="keyword">finally</span>块包围而<span class="keyword">finally</span>中的语句无论如何都一定会被执行，所以步骤<span class="number">2</span>中<span class="number">17</span>这个返回值会先暂存起来，到<span class="keyword">finally</span>语句块执行完毕后再真正返回出去。</span><br><span class="line">  <span class="keyword">finally</span>语句块中继续和上面说的一样: <span class="keyword">this</span>.setValue(value)方法调用的是B类的setValue()方法将B的value值设置成为了<span class="number">2</span> * <span class="number">17</span> = <span class="number">34</span>。</span><br><span class="line">  因此第二个打印项为<span class="number">34</span>。</span><br><span class="line">  <span class="keyword">finally</span>语句执行完毕 会把刚刚暂存起来的<span class="number">17</span>返回出去。</span><br><span class="line">  因此<span class="keyword">new</span> B().getValue()最终的返回值是<span class="number">17</span>.</span><br><span class="line">Step3:  main函数中的System.out.println</span><br><span class="line">	将刚刚返回的值打印出来，也就是第三个打印项：<span class="number">17</span></span><br><span class="line">  </span><br><span class="line"><span class="number">10</span>. 输出结果</span><br><span class="line"><span class="keyword">package</span> Test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (arr[i] % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    System.out.print(i);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                System.out.print(<span class="string">"e"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[]args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            test(<span class="keyword">new</span> <span class="keyword">int</span>[] &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.print(<span class="string">"E"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;  <span class="comment">// 由于arr[0] =0,所以在进入 test()方法里面会在第一个if 上抛出一个 NullPointerException,接着会执行 finally 的语句, (finally语句先于 return 和 throw语句执行)，输出一个'e，然后回到 main方法中，由于捕捉到异常，所以进入到catch语句中，然后打印一个'E',所以最终结果为"eE"</span></span><br><span class="line"></span><br><span class="line"><span class="number">11</span>. 输出结果</span><br><span class="line">String str =</span><br><span class="line"><span class="string">""</span>;</span><br><span class="line">System.out.print(str.split(<span class="string">","</span>).length);</span><br><span class="line">output：<span class="number">1</span> <span class="comment">// String split 这个方法默认返回一个数组，如果没有找到分隔符，会把整个字符串当成一个长度为1的字符串数组</span></span><br><span class="line">  </span><br><span class="line"><span class="number">12</span>. 判断正误：关于Java中的ClassLoader 的描述：</span><br><span class="line">默认情况下，Java应用启动过程涉及三个ClassLoader: Boostrap, Extension, System <span class="comment">// true, System加载器也称应用加载器</span></span><br><span class="line">一般的情况不同ClassLoader装载的类是不相同的，但接口类例外，对于同一接口所有类装载器装载所获得的类是相同的 <span class="comment">// false</span></span><br><span class="line">类装载器需要保证类装载过程的线程安全 <span class="comment">// true</span></span><br><span class="line">ClassLoader的loadClass在装载一个类时，如果该类不存在它将返回<span class="keyword">null</span> <span class="comment">//false，会直接报错</span></span><br><span class="line">ClassLoader的父子结构中，默认装载采用了父优先 <span class="comment">// true</span></span><br><span class="line">所有ClassLoader装载的类都来自CLASSPATH环境指定的路径 <span class="comment">// false，自定义类加载器实现继承ClassLoader后重写了findClass方法，所以会加载指定路径（程序员自定义的）上的class</span></span><br><span class="line">  </span><br><span class="line"><span class="number">13</span>. 输出结果</span><br><span class="line"><span class="number">2009</span>的<span class="number">2009</span>次方，将结果各位数相加，得出结果如果不是一位数就继续各位相加，直到一位数，最后的结果是？</span><br><span class="line">output：<span class="number">5</span> <span class="comment">// 数字各位相加相当于原数字对 9 取模，2009 % 9可以表示成(9x+2) % 9 = 2，而2009*2009可以表示成(9x+2)(9x+2) % 9 = (9y + 4) % 9 = 4，同理接下去可以表示成(9z+4)(9x+2) % 9 = 8,可以得到规律是2，4，8，7，5，1，那第2009次就是5了</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>javaWeb</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JVM（3）</title>
     <url>/2018/09/30/JVM%EF%BC%883%EF%BC%89/</url>
     <content><![CDATA[<h2 id="JVM-学习资源"><a href="#JVM-学习资源" class="headerlink" title="JVM 学习资源"></a>JVM 学习资源</h2><p><a href="https://blog.csdn.net/lirenzuo/article/details/81182686" target="_blank" rel="noopener">JVM 系列文章</a></p>
@@ -6787,20 +6852,6 @@ JNI global references: 281
       </categories>
       <tags>
         <tag>JVM</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Java基础刷题指南</title>
-    <url>/2020/09/09/Java%E5%9F%BA%E7%A1%80%E5%88%B7%E9%A2%98%E6%8C%87%E5%8D%97/</url>
-    <content><![CDATA[<p>刷题来自牛客网。lee 的错题记录。</p>
-<a id="more"></a>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">1</span>. 说法正误</span><br><span class="line">在java中，无论在何处调用，使用静态属性必须以类名做前缀。<span class="comment">//false。</span></span><br><span class="line"><span class="comment">//1如果是本类使用，可以直接就用静态变量名。2如果是其他类使用，可以使用类名来调用，也可以创建一个实例对象来调用。3如果静态变量所在的类是静态类，那么不管在本类里或者在其他外部类，都可以直接使用静态变量名。</span></span><br><span class="line"></span><br><span class="line"><span class="number">2</span>. 说法正误</span><br><span class="line">在方法中定义的局部变量在该方法被执行时创建。<span class="comment">//false。</span></span><br><span class="line"><span class="comment">//不是局部变量在该方法被执行/调用时创建，而是应该为在该变量被声明并赋值时创建，可以理解为“当代码执行到该变量被赋值的代码时才被创建”。</span></span><br><span class="line"></span><br><span class="line"><span class="number">3</span>. 语法正误</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>; <span class="comment">// false。final修饰的类为终态类，而抽象类是必须被继承的才有其意义的。所以 final 不能用来修饰抽象类的。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">abstract</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span></span>; <span class="comment">//false。final修饰的方法为终态方法，不能被重写，而继承抽象类，必须重写其方法。</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123; <span class="comment">// false。抽象方法是仅声明，并不做实现的方法。</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">method</span><span class="params">()</span> </span>&#123;</span><br><span class="line">													 <span class="comment">// true</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">4</span>. 结果正误</span><br><span class="line">String str1=<span class="string">"hello"</span>;</span><br><span class="line">String str2=<span class="string">"he"</span>+ <span class="keyword">new</span> String(<span class="string">"llo"</span>);</span><br><span class="line">System.out.println(str1==str2); <span class="comment">// false。str1 指向字面量“hello”，这里的str2必须在运行时才知道str2是什么，所以它是指向的是堆里定义的字符串“hello”</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// new String("llo")在编译期时创建一个“llo”的字面量（在 String pool 中），在运行期执行new命令创建另一个“llo”（在堆中）</span></span><br><span class="line"><span class="comment">//String s = "a"+"b"+"c"; 语句中，“a”,"b", "c"都是常量，编译时就直接存储他们的字面值，而不是他们的引用，在编译时就直接将它们连接的结果提取出来变成"abc"了。</span></span><br><span class="line"></span><br><span class="line"><span class="number">5</span>. 语法正误</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span></span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">float</span> f = <span class="number">1.0f</span>;</span><br><span class="line">	<span class="keyword">int</span> m = <span class="number">12</span>;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span> n = <span class="number">1</span>;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span> <span class="params">(String args[])</span></span>&#123;</span><br><span class="line">			Test t = <span class="keyword">new</span> Test();</span><br><span class="line">			t.f;<span class="comment">//true。因为main函数在该类中，所以即使private也仍可使用</span></span><br><span class="line">			<span class="keyword">this</span>.n;<span class="comment">//false。this不能在static的方法中使用</span></span><br><span class="line">			Test.m;<span class="comment">//false。m 和 f 都是普通成员属性</span></span><br><span class="line">			Test.f;<span class="comment">//false。m 和 f 都是普通成员属性</span></span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="number">6</span>. 输出结果：</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CharToString</span> </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span></span><br><span class="line"><span class="function"> </span>&#123;</span><br><span class="line">  <span class="keyword">char</span> myChar = <span class="string">'g'</span>;</span><br><span class="line">  String myStr = Character.toString(myChar);</span><br><span class="line">  System.out.println(<span class="string">"String is: "</span>+myStr);</span><br><span class="line">  myStr = String.valueOf(myChar);</span><br><span class="line">  System.out.println(<span class="string">"String is: "</span>+myStr);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br><span class="line">output：</span><br><span class="line">String is: g <span class="comment">// toString 和 valueOf 方法返回值都是 String</span></span><br><span class="line">String is: g <span class="comment">// 只有char变成 int 的时候才会变为对应的assic码</span></span><br><span class="line"></span><br><span class="line"><span class="number">7</span>. 输出结果</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span><span class="keyword">throws</span> InterruptedException</span>&#123;</span><br><span class="line">		Thread t=<span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.print(<span class="string">"2"</span>);</span><br><span class="line">      &#125;</span><br><span class="line">		&#125;);</span><br><span class="line">		t.start();</span><br><span class="line">		t.join();</span><br><span class="line">		System.out.print(<span class="string">"1"</span>);</span><br><span class="line">&#125;</span><br><span class="line">output：<span class="number">21</span> <span class="comment">// thread.Join把指定的线程加入到当前线程，可以将两个交替执行的线程合并为顺序执行的线程。</span></span><br><span class="line"><span class="comment">//t.join();      //使调用线程 t 在此之前执行完毕。</span></span><br><span class="line"><span class="comment">//t.join(1000);  //等待 t 线程，等待时间是1000毫秒</span></span><br><span class="line"></span><br><span class="line"><span class="number">8</span>. 说法正误</span><br><span class="line">Hashtable 和 HashMap 的区别是：</span><br><span class="line">  Hashtable 是一个哈希表，该类继承了 AbstractMap，实现了Map接口 <span class="comment">// false。Hashtable 继承了Dictionary 类。</span></span><br><span class="line">  HashMap 是内部基于哈希表实现，该类继承AbstractMap，实现Map接口 <span class="comment">// true。</span></span><br><span class="line">  Hashtable 线程安全的，而 HashMap 是线程不安全的 <span class="comment">// true。</span></span><br><span class="line">  Properties 类 继承了 Hashtable 类，而 Hashtable 类则继承Dictionary 类 <span class="comment">// true。</span></span><br><span class="line">  HashMap允许将 <span class="keyword">null</span> 作为一个 entry 的 key 或者 value，而 Hashtable 不允许。<span class="comment">// true。Hashtable 的key、value都不可以为null。</span></span><br><span class="line"><span class="comment">// 另外，Hashtable 使用对象的hashCode，而 HashMap 重新计算 hash</span></span><br><span class="line">  </span><br><span class="line"><span class="number">9</span>. 输出结果</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="keyword">new</span> B().getValue());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">        <span class="keyword">protected</span> <span class="keyword">int</span> value;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">A</span> <span class="params">(<span class="keyword">int</span> v)</span> </span>&#123;</span><br><span class="line">            setValue(v);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.value= value;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getValue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                value ++;</span><br><span class="line">                <span class="keyword">return</span> value;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                <span class="keyword">this</span>.setValue(value);</span><br><span class="line">                System.out.println(value);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">B</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(<span class="number">5</span>);</span><br><span class="line">            setValue(getValue()- <span class="number">3</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setValue</span><span class="params">(<span class="keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.setValue(<span class="number">2</span> * value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">output：<span class="number">22</span> <span class="number">34</span> <span class="number">17</span></span><br><span class="line">Step <span class="number">1</span>:  <span class="keyword">new</span> B()构造一个B类的实例</span><br><span class="line">  此时<span class="keyword">super</span>(<span class="number">5</span>)语句调用显示调用父类A带参的构造函数，该构造函数调用setValue(v)，这里有两个注意点一是虽然构造函数是A类的构造函数，但此刻正在初始化的对象是B的一个实例，因此这里调用的实际是B类的setValue方法，于是调用B类中的setValue方法 ==&gt; 而B类中setValue方法显示调用父类的setValue方法，将B实例的value值设置为<span class="number">2</span> x <span class="number">5</span> = <span class="number">10</span>。</span><br><span class="line">  紧接着，B类的构造函数还没执行完成，继续执行setValue(getValue()- <span class="number">3</span>) <span class="comment">// 备注1语句。</span></span><br><span class="line">  先执行getValue方法，B类中没有重写getValue方法，因此调用父类A的getValue方法。这个方法比较复杂，需要分步说清楚：</span><br><span class="line">  调用getValue方法之前，B的成员变量value值为<span class="number">10</span>。</span><br><span class="line">  value++ 执行后， B的成员变量value值为<span class="number">11</span>，此时开始执行到<span class="keyword">return</span>语句，将<span class="number">11</span>这个值作为getValue方法的返回值返回出去</span><br><span class="line">  但是由于getValue块被<span class="keyword">try</span> <span class="keyword">finally</span>块包围，因此<span class="keyword">finally</span>中的语句无论如何都将被执行，所以步骤<span class="number">2</span>中<span class="number">11</span>这个返回值会先暂存起来，到<span class="keyword">finally</span>语句块执行完毕后再真正返回出去。</span><br><span class="line">  这里有很重要的一点：<span class="keyword">finally</span>语句块中 <span class="keyword">this</span>.setValue(value)方法调用的是B类的setValue方法。为什么？因为此刻正在初始化的是B类的一个对象（运行时多态），就像最开始第一步提到的一样(而且这里用了使用了<span class="keyword">this</span>关键词显式指明了调用当前对象的方法)。因此，此处会再次调用B类的setValue方法，同上，<span class="keyword">super</span>.关键词显式调用A的setValue方法，将B的value值设置成为了<span class="number">2</span> * <span class="number">11</span> = <span class="number">22</span>。</span><br><span class="line">  因此第一个打印项为<span class="number">22</span>。  </span><br><span class="line">  <span class="keyword">finally</span>语句执行完毕 会把刚刚暂存起来的<span class="number">11</span> 返回出去，也就是说这么经历了这么一长串的处理，getValue方法最终的返回值是<span class="number">11</span>。</span><br><span class="line">  回到前面标注了 <span class="comment">//备注1 的代码语句，其最终结果为setValue(11-3)=&gt;setValue(8)</span></span><br><span class="line">  而大家肯定也知道，这里执行的setValue方法，将会是B的setValue方法。 之后B的value值再次变成了<span class="number">2</span>*<span class="number">8</span> = <span class="number">16</span>;</span><br><span class="line">Step2:  <span class="keyword">new</span> B().getValue()</span><br><span class="line">  B类中没有独有的getValue方法，此处调用A的getValue方法。同Step <span class="number">1</span>，</span><br><span class="line">  调用getValue方法之前，B的成员变量value值为<span class="number">16</span>。</span><br><span class="line">  value++ 执行后， B的成员变量value值为<span class="number">17</span>，此时执行到<span class="keyword">return</span>语句，会将<span class="number">17</span>这个值作为getValue方法的返回值返回出去</span><br><span class="line">  但是由于getValue块被<span class="keyword">try</span> <span class="keyword">finally</span>块包围而<span class="keyword">finally</span>中的语句无论如何都一定会被执行，所以步骤<span class="number">2</span>中<span class="number">17</span>这个返回值会先暂存起来，到<span class="keyword">finally</span>语句块执行完毕后再真正返回出去。</span><br><span class="line">  <span class="keyword">finally</span>语句块中继续和上面说的一样: <span class="keyword">this</span>.setValue(value)方法调用的是B类的setValue()方法将B的value值设置成为了<span class="number">2</span> * <span class="number">17</span> = <span class="number">34</span>。</span><br><span class="line">  因此第二个打印项为<span class="number">34</span>。</span><br><span class="line">  <span class="keyword">finally</span>语句执行完毕 会把刚刚暂存起来的<span class="number">17</span>返回出去。</span><br><span class="line">  因此<span class="keyword">new</span> B().getValue()最终的返回值是<span class="number">17</span>.</span><br><span class="line">Step3:  main函数中的System.out.println</span><br><span class="line">	将刚刚返回的值打印出来，也就是第三个打印项：<span class="number">17</span></span><br><span class="line">  </span><br><span class="line"><span class="number">10</span>. 输出结果</span><br><span class="line"><span class="keyword">package</span> Test;</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">(<span class="keyword">int</span>[] arr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; arr.length; i++) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (arr[i] % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    System.out.print(i);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                System.out.print(<span class="string">"e"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[]args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            test(<span class="keyword">new</span> <span class="keyword">int</span>[] &#123;<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            System.out.print(<span class="string">"E"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;  <span class="comment">// 由于arr[0] =0,所以在进入 test()方法里面会在第一个if 上抛出一个 NullPointerException,接着会执行 finally 的语句, (finally语句先于 return 和 throw语句执行)，输出一个'e，然后回到 main方法中，由于捕捉到异常，所以进入到catch语句中，然后打印一个'E',所以最终结果为"eE"</span></span><br><span class="line"></span><br><span class="line"><span class="number">11</span>. 输出结果</span><br><span class="line">String str =</span><br><span class="line"><span class="string">""</span>;</span><br><span class="line">System.out.print(str.split(<span class="string">","</span>).length);</span><br><span class="line">output：<span class="number">1</span> <span class="comment">// String split 这个方法默认返回一个数组，如果没有找到分隔符，会把整个字符串当成一个长度为1的字符串数组</span></span><br><span class="line">  </span><br><span class="line"><span class="number">12</span>. 判断正误：关于Java中的ClassLoader 的描述：</span><br><span class="line">默认情况下，Java应用启动过程涉及三个ClassLoader: Boostrap, Extension, System <span class="comment">// true, System加载器也称应用加载器</span></span><br><span class="line">一般的情况不同ClassLoader装载的类是不相同的，但接口类例外，对于同一接口所有类装载器装载所获得的类是相同的 <span class="comment">// false</span></span><br><span class="line">类装载器需要保证类装载过程的线程安全 <span class="comment">// true</span></span><br><span class="line">ClassLoader的loadClass在装载一个类时，如果该类不存在它将返回<span class="keyword">null</span> <span class="comment">//false，会直接报错</span></span><br><span class="line">ClassLoader的父子结构中，默认装载采用了父优先 <span class="comment">// true</span></span><br><span class="line">所有ClassLoader装载的类都来自CLASSPATH环境指定的路径 <span class="comment">// false，自定义类加载器实现继承ClassLoader后重写了findClass方法，所以会加载指定路径（程序员自定义的）上的class</span></span><br><span class="line">  </span><br><span class="line"><span class="number">13</span>. 输出结果</span><br><span class="line"><span class="number">2009</span>的<span class="number">2009</span>次方，将结果各位数相加，得出结果如果不是一位数就继续各位相加，直到一位数，最后的结果是？</span><br><span class="line">output：<span class="number">5</span> <span class="comment">// 数字各位相加相当于原数字对 9 取模，2009 % 9可以表示成(9x+2) % 9 = 2，而2009*2009可以表示成(9x+2)(9x+2) % 9 = (9y + 4) % 9 = 4，同理接下去可以表示成(9z+4)(9x+2) % 9 = 8,可以得到规律是2，4，8，7，5，1，那第2009次就是5了</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>javaWeb</tag>
       </tags>
   </entry>
   <entry>
@@ -8689,143 +8740,6 @@ JNI global references: 281
       </tags>
   </entry>
   <entry>
-    <title>操作系统第二章（2）</title>
-    <url>/2018/09/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%882%EF%BC%89/</url>
-    <content><![CDATA[<h1 id="操作系统——进程管理（2）"><a href="#操作系统——进程管理（2）" class="headerlink" title="操作系统——进程管理（2）"></a>操作系统——进程管理（2）</h1><h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><ul>
-<li>概念：“轻量级进程”，是一个基本的CPU执行单元，也是程序执行流的最小单元，由线程ID、程序计数器、寄存器集合和堆栈组成。</li>
-<li>线程也有就绪、阻塞和运行三种基本状态。</li>
-</ul>
-<h3 id="线程与进程的比较"><a href="#线程与进程的比较" class="headerlink" title="线程与进程的比较"></a>线程与进程的比较</h3><p>推荐阅读：<a href="https://blog.csdn.net/shenwanjiang111/article/details/79898774" target="_blank" rel="noopener">多线程</a></p>
-<ul>
-<li>调度。线程是独立调度的基本单位。</li>
-<li>拥有资源。线程不拥有系统资源（或少量必不可少的资源，如自己的内核栈）。</li>
-<li>并发性。多个线程之间可以并发执行。</li>
-<li>系统开销。线程切换时，只需保存少量寄存器内容，开销很小。同一进程中的多个线程共享进程的地址空间，因此线程之间的同步和通信非常容易实现。</li>
-<li>地址空间和其他资源。同一进程的多个线程共享进程资源（地址空间、页表等），进程的线程对其他进程透明。</li>
-<li>通信方面。线程间可以直接读写进程数据段（如全局变量）来进行通信，不一定需要系统调用函数。</li>
-</ul>
-<a id="more"></a>
-<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ul>
-<li>每个线程有唯一的标识符和线程控制块；</li>
-<li>不同的线程可以执行相同的程序（比如浏览器可以打开相同的网站，相同于开启多个线程）；</li>
-<li>同一个进程中的各个线程共享该进程所拥有的资源；</li>
-<li>线程是CPU的独立调度单位，在单CPU的计算机系统中，各线程可交替的占用CPU；在多CPU的计算机系统中，允许不同线程占用不同的CPU，若各个CPU同时为一个进程内的各线程服务则可以缩短进程的处理时间；</li>
-<li>一个线程被创建后便开始了它的生命周期，直至终止，线程在生命周期内会经历阻塞态、就绪态和运行态等各种状态变化。</li>
-</ul>
-<h3 id="线程的实现方式"><a href="#线程的实现方式" class="headerlink" title="线程的实现方式"></a>线程的实现方式</h3><p>分为两类，用户级线程和内核态线程：</p>
-<ul>
-<li>用户级线程：线程管理工作由<strong>应用程序</strong>完成，内核完全意识不到线程的存在（线程切换由application完成，少了管/目态切换的消耗，但不能很好地利用多核CPU）。应用程序可以通过使用线程库设计成多线程程序。</li>
-<li>内核态线程：线程管理（如线程切换，切换线程前从目态切到管态，线程切换后从管态切到目态）由<strong>内核</strong>完成，内核为进程及其内部的每个线程维护上下文信息，调度也是在内核基于线程架构的基础上完成。</li>
-<li>组合形式：应用程序负责线程的创建，线程的调度和同步也在应用程序中进行。这些用户级线程被映射到一些内核级线程上（数量少于用户级线程数）。</li>
-</ul>
-<h2 id="CPU调度"><a href="#CPU调度" class="headerlink" title="CPU调度"></a>CPU调度</h2><ul>
-<li>调度：存在进程争用CPU的情况，CPU调度就是对CPU进行分配，从就绪队列中，按照一定的算法（公平、高效）选择一个进程并将CPU分配给它运行，以实现进程并发的执行。</li>
-</ul>
-<h3 id="调度的层次"><a href="#调度的层次" class="headerlink" title="调度的层次"></a>调度的层次</h3><p>一个作业从提交直到完成，往往要经历三级调度，高级调度（作业调度）、中级调度（内存调度）、低级调度（进程调度）</p>
-<ul>
-<li>高级调度。按一定的原则，从外存上处于后备状态的作业中挑选一个或多个作业，给它们分配内存、I/O设备等必要的资源，并建立相应的进程，以使它们<strong>获得竞争CPU</strong>的权利。对于每个作业只调入一次、调出一次。高级调度在三种调度中频率最低。</li>
-<li>中级调度。为了提高<strong>内存利用率和系统吞吐量</strong>。使哪些暂时不能运行的进程，调至外存等待（即挂起）。当它们具备运行条件而且内存又稍有空闲时，由中级调度决定，将挂起的进程重新调入内存，挂在就绪队列等待运行。</li>
-<li>低级调度。按照某种方法和策略从就绪队列中选取一个进程，并将CPU分配给它。进程调度的频率很高，一般几十毫秒一次。此调度室最基本的，不可或缺。</li>
-<li>三级调度的关系：作业调度为进程活动做准备，进程调度使进程正常活动起来，中级调度将暂时不能运行的进程挂起，中级调度处于作业调度和进程调度之间。</li>
-</ul>
-<h3 id="调度的时机、切换和过程"><a href="#调度的时机、切换和过程" class="headerlink" title="调度的时机、切换和过程"></a>调度的时机、切换和过程</h3><h4 id="OS中，不能进行进程调度的情况"><a href="#OS中，不能进行进程调度的情况" class="headerlink" title="OS中，不能进行进程调度的情况"></a>OS中，不能进行进程调度的情况</h4><ol>
-<li><strong>处理中断</strong>的过程不能进行进程的调度。中断处理过程复杂，实现上很难做到进程切换；而且中断处理是系统工作的一部分，逻辑上不属于某一进程，不应被剥夺CPU资源；</li>
-<li>当进程在os内核程序临界区中，理论上必须加锁，在解锁前不应切换到其他进程运行；</li>
-<li>其他一些完全屏蔽中断的原子操作过程。比如加锁、解锁、中断现场保护、恢复等。</li>
-</ol>
-<p>出现以上情况时，不能马上进行调度和切换，应置系统的请求调度标志，直到上述过程结束之后才进行相应的调度与切换。</p>
-<h4 id="剥夺调度和非剥夺调度"><a href="#剥夺调度和非剥夺调度" class="headerlink" title="剥夺调度和非剥夺调度"></a>剥夺调度和非剥夺调度</h4><ul>
-<li>剥夺调度：当一个进程正在运行时，系统可以基于某种原则，剥夺已分配给它的处理机，将之分配给其它进程。原则主要有：优先权、短进程优先和时间片原则等。</li>
-<li>非剥夺调度：分派程序一旦把处理机分配给某进程后便让它一直运行下去，直到进程完成或发生 进程调度某事件而阻塞时，才把处理机分配给另一个进程。实现简单、系统开销小，适用于大多数的批处理系统，但不能用于分时系统和大多数的实时系统。</li>
-</ul>
-<h4 id="进程调度时的上下文处理"><a href="#进程调度时的上下文处理" class="headerlink" title="进程调度时的上下文处理"></a>进程调度时的上下文处理</h4><ul>
-<li>进程切换往往在调度完成后立刻发生，它要求保存原进程当前切换点的现场信息，恢复被调度进程的现场信息。</li>
-<li>现场切换时，操作系统内核将原进程的现场信息推入到当前进程的内核堆栈来保存它们，并更新堆栈指针。</li>
-<li>内核完成从新进程的内核栈中装入新进程的现场信息、更新当前运行进程空间指针、重设PC寄存器等相关工作后，开始运行新的进程。</li>
-</ul>
-<h3 id="调度基本原则（也是评价一个调度算法的指标）"><a href="#调度基本原则（也是评价一个调度算法的指标）" class="headerlink" title="调度基本原则（也是评价一个调度算法的指标）"></a>调度基本原则（也是评价一个调度算法的指标）</h3><p>基本原则主要有：CPU利用率（尽可能使CPU处于繁忙状态）、系统吞吐量（单位时间内CPU完成作业的数量，如果作业都是短作业，吞吐量就比较高）、周转时间（从作业提交到作业完成所经历的时间）、<strong>等待时间</strong>（进程处于等待CPU状态时间之和）、响应时间（用户提交请求到系统首次产生响应所用的时间）</p>
-<p>重点关注：</p>
-<ul>
-<li>周转时间。<ul>
-<li>周转时间=作业完成时间-作业提交时间。</li>
-<li>平均周转时间是指多个作业周转时间的平均值。</li>
-<li>带权周转时间是指作业周转时间与作业实际运行时间的比值。</li>
-<li>平均带权周转时间=（sigma作业i的带权周转时间）/n。</li>
-</ul>
-</li>
-<li>等待时间。<ul>
-<li>CPU调度算法实际上不影响作业执行或输入/输出操作的时间，只影响作业在就绪队列中等待所花的时间；</li>
-<li>衡量一个算法的优劣，常常只需要简单的考察等待时间即可。</li>
-</ul>
-</li>
-</ul>
-<h3 id="典型调度算法"><a href="#典型调度算法" class="headerlink" title="典型调度算法"></a>典型调度算法</h3><ul>
-<li>有的调度算法适合于作业调度，有的适合于进程调度，有的算法两者都适用。</li>
-<li>常用的调度算法有：先来先服务FCFS，短作业优先SJF、优先级调度算法、高响应比优先调度算法、时间片轮转调度算法、多级反馈队列调度算法</li>
-</ul>
-<h4 id="先来先服务FCFS"><a href="#先来先服务FCFS" class="headerlink" title="先来先服务FCFS"></a>先来先服务FCFS</h4><ul>
-<li>既可用于作业调度，又可用于进程调度；</li>
-<li>应用在作业调度时，每次从后备作业队列中选择最先进入队列的作业，将它们调入内存，分配必要的资源，创建进程并放入就绪队列；</li>
-<li>应用在进程调度时，每次从就绪队列中选择最先进入队列的进程，将CPU分配给它，直到完成或因某些原因而阻塞时才释放CPU；</li>
-<li>FCFS属于不可剥夺算法。</li>
-<li><p>特点：算法简单、效率低；对长作业比较有利，但对短作业不利（相对SJF和高响应比）；有利于CPU繁忙型作业，不利于I/O繁忙型作业。</p>
-<h4 id="短作业优先SJF"><a href="#短作业优先SJF" class="headerlink" title="短作业优先SJF"></a>短作业优先SJF</h4></li>
-<li><p>既可用于作业调度，又可用于进程调度；</p>
-</li>
-<li>应用在作业调度时，从后备队列中选择一个或多个<strong>估计运行时间</strong>最短的作业，调入内存中；</li>
-<li>应用在进程调度时，从就绪队列中选择一个<strong>估计运行时间</strong>最短的进程；</li>
-<li>缺点：对长作业不利，可能导致长作业长期不被调度出现饥饿现象；未考虑作业的紧迫程度，不能保证紧迫性作业会被及时处理；作业的长短由用户提供的估计执行时间而定，用户可能刻意缩短该估计时间；</li>
-<li>特点：SJF调度算法的平均等待时间、平均周转时间最少。</li>
-</ul>
-<h4 id="优先级调度算法"><a href="#优先级调度算法" class="headerlink" title="优先级调度算法"></a>优先级调度算法</h4><ul>
-<li>既可用于作业调度，又可用于进程调度；</li>
-<li>应用在作业调度时，从后备队列中挑选优先级最高的一个或多个作业调入内存；</li>
-<li>应用在进程调度时，从就绪队列中选择优先级最高的进程；</li>
-<li>新的最高优先级进程能够抢占当前执行的进程，要分两种情况：<ul>
-<li>非剥夺式。当前执行的进程让它出于自身原因主动让出CPU（任务完成或等待事件）给更高优先级的进程；</li>
-<li>剥夺式。立即暂停当前执行的进程，将CPU移交给更高优先级的进程。</li>
-</ul>
-</li>
-<li>进程创建后其优先级能够改变，要分两种情况：<ul>
-<li>静态优先级。优先级在进程创建之初确认，之后保持不变。确定静态优先级的依据主要有：进程类型、进程对资源的要求、用户要求。</li>
-<li>动态优先级。进程运行过程中，根据进程情况的变化动态调整优先级。确定动态优先级的依据主要有：进程占有CPU时间的长短、就绪进程等待CPU时间的长短。</li>
-</ul>
-</li>
-</ul>
-<h4 id="高响应比优先调度算法"><a href="#高响应比优先调度算法" class="headerlink" title="高响应比优先调度算法"></a>高响应比优先调度算法</h4><ul>
-<li>主要用于作业调度</li>
-<li>同时考虑每个作业的等待时间和估计的运行时间。每次作业调度时，先计算后备作业队列中每个作业的响应比，从中选出响应比最高的作业投入运行。</li>
-<li>响应比Rp=等待时间/ 要求服务时间 + 1 。要求服务时间即估计运行时间。有利于短作业，同时也有利于先来先服务。</li>
-<li><p>优点：克服了饥饿状态，兼顾了长作业。</p>
-<h4 id="时间片轮转调度算法"><a href="#时间片轮转调度算法" class="headerlink" title="时间片轮转调度算法"></a>时间片轮转调度算法</h4></li>
-<li><p>用在进程调度，不用在作业调度（理解：作业的调入调出不可能随时间片频繁变动）</p>
-</li>
-<li>主要用在分时系统，总是选择就绪队列中第一个进程执行，等待一个时间片后，即使进程未完成运行，也必须释放出（或被剥夺）CPU给下一个进程，被剥夺的进程进入就绪队列的末尾重新排队。</li>
-<li>时间片的大小需要选择合适，太大会使本算法退化成先来先服务算法；太小会使进程切换过于频繁，造成CPU开销太大。选取的标准视以下因素：系统的响应时间、就绪队列中的进程数量和系统的处理能力而定。</li>
-<li><p>此算法利于多用户干预，人机交互得到提升。</p>
-<h4 id="多级反馈队列调度算法"><a href="#多级反馈队列调度算法" class="headerlink" title="多级反馈队列调度算法"></a>多级反馈队列调度算法</h4></li>
-<li><p>用在进程调度，不用在作业调度（理由与时间片算法相同）</p>
-</li>
-<li>通过动态调整进程优先级和时间片大小，综合了时间片轮转调度算法和优先级调度算法</li>
-<li>对短进程和I/O型进程照顾，不必事先估计进程的执行时间；</li>
-<li>实现思想：<ul>
-<li>设置多个不同优先级的队列，比如第1队列优先级最高；</li>
-<li>赋予各个队列的时间片大小也不相同，优先级越高的队列的时间片越小；</li>
-<li>当新进程进入内存后，先放入第1队列的末尾，按照FCFS原则排队。等轮到该进程执行时，如果任务能够完成，便可撤离系统；如果任务完不成，调度程序会将该进程转入第2队列的末尾，再同样按照FCFS原则等待执行，以此类推；</li>
-<li>仅当第1队列为空时，调度程序才会调度第2队列中的进程运行，以此类推。例如，如果CPU正在运行第3队列时，有新的进程加入第1进程末尾，此时新进程将抢占CPU；</li>
-</ul>
-</li>
-<li>优点：终端型作业用户：短作业优先；短批处理作业用户：周转时间较短；长批处理作业用户：经过前几个队列得到部分执行，不会长期得不到处理。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>examination</category>
-      </categories>
-      <tags>
-        <tag>operationSystem</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>操作系统第二章练习（1）</title>
     <url>/2018/08/25/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BB%83%E4%B9%A0%EF%BC%881%EF%BC%89/</url>
     <content><![CDATA[<h1 id="操作系统之进程管理——进程概览"><a href="#操作系统之进程管理——进程概览" class="headerlink" title="操作系统之进程管理——进程概览"></a>操作系统之进程管理——进程概览</h1><h4 id="1-进程的概念、特征和状态转换"><a href="#1-进程的概念、特征和状态转换" class="headerlink" title="1. 进程的概念、特征和状态转换"></a>1. 进程的概念、特征和状态转换</h4><ul>
@@ -8998,6 +8912,143 @@ JNI global references: 281
 <li>管道只能采用半双工通信，某一时刻只能单向传输。若要实现父子通信，必须定义两个管道。</li>
 </ul>
 </li>
+</ul>
+]]></content>
+      <categories>
+        <category>examination</category>
+      </categories>
+      <tags>
+        <tag>operationSystem</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>操作系统第二章（2）</title>
+    <url>/2018/09/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%882%EF%BC%89/</url>
+    <content><![CDATA[<h1 id="操作系统——进程管理（2）"><a href="#操作系统——进程管理（2）" class="headerlink" title="操作系统——进程管理（2）"></a>操作系统——进程管理（2）</h1><h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><ul>
+<li>概念：“轻量级进程”，是一个基本的CPU执行单元，也是程序执行流的最小单元，由线程ID、程序计数器、寄存器集合和堆栈组成。</li>
+<li>线程也有就绪、阻塞和运行三种基本状态。</li>
+</ul>
+<h3 id="线程与进程的比较"><a href="#线程与进程的比较" class="headerlink" title="线程与进程的比较"></a>线程与进程的比较</h3><p>推荐阅读：<a href="https://blog.csdn.net/shenwanjiang111/article/details/79898774" target="_blank" rel="noopener">多线程</a></p>
+<ul>
+<li>调度。线程是独立调度的基本单位。</li>
+<li>拥有资源。线程不拥有系统资源（或少量必不可少的资源，如自己的内核栈）。</li>
+<li>并发性。多个线程之间可以并发执行。</li>
+<li>系统开销。线程切换时，只需保存少量寄存器内容，开销很小。同一进程中的多个线程共享进程的地址空间，因此线程之间的同步和通信非常容易实现。</li>
+<li>地址空间和其他资源。同一进程的多个线程共享进程资源（地址空间、页表等），进程的线程对其他进程透明。</li>
+<li>通信方面。线程间可以直接读写进程数据段（如全局变量）来进行通信，不一定需要系统调用函数。</li>
+</ul>
+<a id="more"></a>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ul>
+<li>每个线程有唯一的标识符和线程控制块；</li>
+<li>不同的线程可以执行相同的程序（比如浏览器可以打开相同的网站，相同于开启多个线程）；</li>
+<li>同一个进程中的各个线程共享该进程所拥有的资源；</li>
+<li>线程是CPU的独立调度单位，在单CPU的计算机系统中，各线程可交替的占用CPU；在多CPU的计算机系统中，允许不同线程占用不同的CPU，若各个CPU同时为一个进程内的各线程服务则可以缩短进程的处理时间；</li>
+<li>一个线程被创建后便开始了它的生命周期，直至终止，线程在生命周期内会经历阻塞态、就绪态和运行态等各种状态变化。</li>
+</ul>
+<h3 id="线程的实现方式"><a href="#线程的实现方式" class="headerlink" title="线程的实现方式"></a>线程的实现方式</h3><p>分为两类，用户级线程和内核态线程：</p>
+<ul>
+<li>用户级线程：线程管理工作由<strong>应用程序</strong>完成，内核完全意识不到线程的存在（线程切换由application完成，少了管/目态切换的消耗，但不能很好地利用多核CPU）。应用程序可以通过使用线程库设计成多线程程序。</li>
+<li>内核态线程：线程管理（如线程切换，切换线程前从目态切到管态，线程切换后从管态切到目态）由<strong>内核</strong>完成，内核为进程及其内部的每个线程维护上下文信息，调度也是在内核基于线程架构的基础上完成。</li>
+<li>组合形式：应用程序负责线程的创建，线程的调度和同步也在应用程序中进行。这些用户级线程被映射到一些内核级线程上（数量少于用户级线程数）。</li>
+</ul>
+<h2 id="CPU调度"><a href="#CPU调度" class="headerlink" title="CPU调度"></a>CPU调度</h2><ul>
+<li>调度：存在进程争用CPU的情况，CPU调度就是对CPU进行分配，从就绪队列中，按照一定的算法（公平、高效）选择一个进程并将CPU分配给它运行，以实现进程并发的执行。</li>
+</ul>
+<h3 id="调度的层次"><a href="#调度的层次" class="headerlink" title="调度的层次"></a>调度的层次</h3><p>一个作业从提交直到完成，往往要经历三级调度，高级调度（作业调度）、中级调度（内存调度）、低级调度（进程调度）</p>
+<ul>
+<li>高级调度。按一定的原则，从外存上处于后备状态的作业中挑选一个或多个作业，给它们分配内存、I/O设备等必要的资源，并建立相应的进程，以使它们<strong>获得竞争CPU</strong>的权利。对于每个作业只调入一次、调出一次。高级调度在三种调度中频率最低。</li>
+<li>中级调度。为了提高<strong>内存利用率和系统吞吐量</strong>。使哪些暂时不能运行的进程，调至外存等待（即挂起）。当它们具备运行条件而且内存又稍有空闲时，由中级调度决定，将挂起的进程重新调入内存，挂在就绪队列等待运行。</li>
+<li>低级调度。按照某种方法和策略从就绪队列中选取一个进程，并将CPU分配给它。进程调度的频率很高，一般几十毫秒一次。此调度室最基本的，不可或缺。</li>
+<li>三级调度的关系：作业调度为进程活动做准备，进程调度使进程正常活动起来，中级调度将暂时不能运行的进程挂起，中级调度处于作业调度和进程调度之间。</li>
+</ul>
+<h3 id="调度的时机、切换和过程"><a href="#调度的时机、切换和过程" class="headerlink" title="调度的时机、切换和过程"></a>调度的时机、切换和过程</h3><h4 id="OS中，不能进行进程调度的情况"><a href="#OS中，不能进行进程调度的情况" class="headerlink" title="OS中，不能进行进程调度的情况"></a>OS中，不能进行进程调度的情况</h4><ol>
+<li><strong>处理中断</strong>的过程不能进行进程的调度。中断处理过程复杂，实现上很难做到进程切换；而且中断处理是系统工作的一部分，逻辑上不属于某一进程，不应被剥夺CPU资源；</li>
+<li>当进程在os内核程序临界区中，理论上必须加锁，在解锁前不应切换到其他进程运行；</li>
+<li>其他一些完全屏蔽中断的原子操作过程。比如加锁、解锁、中断现场保护、恢复等。</li>
+</ol>
+<p>出现以上情况时，不能马上进行调度和切换，应置系统的请求调度标志，直到上述过程结束之后才进行相应的调度与切换。</p>
+<h4 id="剥夺调度和非剥夺调度"><a href="#剥夺调度和非剥夺调度" class="headerlink" title="剥夺调度和非剥夺调度"></a>剥夺调度和非剥夺调度</h4><ul>
+<li>剥夺调度：当一个进程正在运行时，系统可以基于某种原则，剥夺已分配给它的处理机，将之分配给其它进程。原则主要有：优先权、短进程优先和时间片原则等。</li>
+<li>非剥夺调度：分派程序一旦把处理机分配给某进程后便让它一直运行下去，直到进程完成或发生 进程调度某事件而阻塞时，才把处理机分配给另一个进程。实现简单、系统开销小，适用于大多数的批处理系统，但不能用于分时系统和大多数的实时系统。</li>
+</ul>
+<h4 id="进程调度时的上下文处理"><a href="#进程调度时的上下文处理" class="headerlink" title="进程调度时的上下文处理"></a>进程调度时的上下文处理</h4><ul>
+<li>进程切换往往在调度完成后立刻发生，它要求保存原进程当前切换点的现场信息，恢复被调度进程的现场信息。</li>
+<li>现场切换时，操作系统内核将原进程的现场信息推入到当前进程的内核堆栈来保存它们，并更新堆栈指针。</li>
+<li>内核完成从新进程的内核栈中装入新进程的现场信息、更新当前运行进程空间指针、重设PC寄存器等相关工作后，开始运行新的进程。</li>
+</ul>
+<h3 id="调度基本原则（也是评价一个调度算法的指标）"><a href="#调度基本原则（也是评价一个调度算法的指标）" class="headerlink" title="调度基本原则（也是评价一个调度算法的指标）"></a>调度基本原则（也是评价一个调度算法的指标）</h3><p>基本原则主要有：CPU利用率（尽可能使CPU处于繁忙状态）、系统吞吐量（单位时间内CPU完成作业的数量，如果作业都是短作业，吞吐量就比较高）、周转时间（从作业提交到作业完成所经历的时间）、<strong>等待时间</strong>（进程处于等待CPU状态时间之和）、响应时间（用户提交请求到系统首次产生响应所用的时间）</p>
+<p>重点关注：</p>
+<ul>
+<li>周转时间。<ul>
+<li>周转时间=作业完成时间-作业提交时间。</li>
+<li>平均周转时间是指多个作业周转时间的平均值。</li>
+<li>带权周转时间是指作业周转时间与作业实际运行时间的比值。</li>
+<li>平均带权周转时间=（sigma作业i的带权周转时间）/n。</li>
+</ul>
+</li>
+<li>等待时间。<ul>
+<li>CPU调度算法实际上不影响作业执行或输入/输出操作的时间，只影响作业在就绪队列中等待所花的时间；</li>
+<li>衡量一个算法的优劣，常常只需要简单的考察等待时间即可。</li>
+</ul>
+</li>
+</ul>
+<h3 id="典型调度算法"><a href="#典型调度算法" class="headerlink" title="典型调度算法"></a>典型调度算法</h3><ul>
+<li>有的调度算法适合于作业调度，有的适合于进程调度，有的算法两者都适用。</li>
+<li>常用的调度算法有：先来先服务FCFS，短作业优先SJF、优先级调度算法、高响应比优先调度算法、时间片轮转调度算法、多级反馈队列调度算法</li>
+</ul>
+<h4 id="先来先服务FCFS"><a href="#先来先服务FCFS" class="headerlink" title="先来先服务FCFS"></a>先来先服务FCFS</h4><ul>
+<li>既可用于作业调度，又可用于进程调度；</li>
+<li>应用在作业调度时，每次从后备作业队列中选择最先进入队列的作业，将它们调入内存，分配必要的资源，创建进程并放入就绪队列；</li>
+<li>应用在进程调度时，每次从就绪队列中选择最先进入队列的进程，将CPU分配给它，直到完成或因某些原因而阻塞时才释放CPU；</li>
+<li>FCFS属于不可剥夺算法。</li>
+<li><p>特点：算法简单、效率低；对长作业比较有利，但对短作业不利（相对SJF和高响应比）；有利于CPU繁忙型作业，不利于I/O繁忙型作业。</p>
+<h4 id="短作业优先SJF"><a href="#短作业优先SJF" class="headerlink" title="短作业优先SJF"></a>短作业优先SJF</h4></li>
+<li><p>既可用于作业调度，又可用于进程调度；</p>
+</li>
+<li>应用在作业调度时，从后备队列中选择一个或多个<strong>估计运行时间</strong>最短的作业，调入内存中；</li>
+<li>应用在进程调度时，从就绪队列中选择一个<strong>估计运行时间</strong>最短的进程；</li>
+<li>缺点：对长作业不利，可能导致长作业长期不被调度出现饥饿现象；未考虑作业的紧迫程度，不能保证紧迫性作业会被及时处理；作业的长短由用户提供的估计执行时间而定，用户可能刻意缩短该估计时间；</li>
+<li>特点：SJF调度算法的平均等待时间、平均周转时间最少。</li>
+</ul>
+<h4 id="优先级调度算法"><a href="#优先级调度算法" class="headerlink" title="优先级调度算法"></a>优先级调度算法</h4><ul>
+<li>既可用于作业调度，又可用于进程调度；</li>
+<li>应用在作业调度时，从后备队列中挑选优先级最高的一个或多个作业调入内存；</li>
+<li>应用在进程调度时，从就绪队列中选择优先级最高的进程；</li>
+<li>新的最高优先级进程能够抢占当前执行的进程，要分两种情况：<ul>
+<li>非剥夺式。当前执行的进程让它出于自身原因主动让出CPU（任务完成或等待事件）给更高优先级的进程；</li>
+<li>剥夺式。立即暂停当前执行的进程，将CPU移交给更高优先级的进程。</li>
+</ul>
+</li>
+<li>进程创建后其优先级能够改变，要分两种情况：<ul>
+<li>静态优先级。优先级在进程创建之初确认，之后保持不变。确定静态优先级的依据主要有：进程类型、进程对资源的要求、用户要求。</li>
+<li>动态优先级。进程运行过程中，根据进程情况的变化动态调整优先级。确定动态优先级的依据主要有：进程占有CPU时间的长短、就绪进程等待CPU时间的长短。</li>
+</ul>
+</li>
+</ul>
+<h4 id="高响应比优先调度算法"><a href="#高响应比优先调度算法" class="headerlink" title="高响应比优先调度算法"></a>高响应比优先调度算法</h4><ul>
+<li>主要用于作业调度</li>
+<li>同时考虑每个作业的等待时间和估计的运行时间。每次作业调度时，先计算后备作业队列中每个作业的响应比，从中选出响应比最高的作业投入运行。</li>
+<li>响应比Rp=等待时间/ 要求服务时间 + 1 。要求服务时间即估计运行时间。有利于短作业，同时也有利于先来先服务。</li>
+<li><p>优点：克服了饥饿状态，兼顾了长作业。</p>
+<h4 id="时间片轮转调度算法"><a href="#时间片轮转调度算法" class="headerlink" title="时间片轮转调度算法"></a>时间片轮转调度算法</h4></li>
+<li><p>用在进程调度，不用在作业调度（理解：作业的调入调出不可能随时间片频繁变动）</p>
+</li>
+<li>主要用在分时系统，总是选择就绪队列中第一个进程执行，等待一个时间片后，即使进程未完成运行，也必须释放出（或被剥夺）CPU给下一个进程，被剥夺的进程进入就绪队列的末尾重新排队。</li>
+<li>时间片的大小需要选择合适，太大会使本算法退化成先来先服务算法；太小会使进程切换过于频繁，造成CPU开销太大。选取的标准视以下因素：系统的响应时间、就绪队列中的进程数量和系统的处理能力而定。</li>
+<li><p>此算法利于多用户干预，人机交互得到提升。</p>
+<h4 id="多级反馈队列调度算法"><a href="#多级反馈队列调度算法" class="headerlink" title="多级反馈队列调度算法"></a>多级反馈队列调度算法</h4></li>
+<li><p>用在进程调度，不用在作业调度（理由与时间片算法相同）</p>
+</li>
+<li>通过动态调整进程优先级和时间片大小，综合了时间片轮转调度算法和优先级调度算法</li>
+<li>对短进程和I/O型进程照顾，不必事先估计进程的执行时间；</li>
+<li>实现思想：<ul>
+<li>设置多个不同优先级的队列，比如第1队列优先级最高；</li>
+<li>赋予各个队列的时间片大小也不相同，优先级越高的队列的时间片越小；</li>
+<li>当新进程进入内存后，先放入第1队列的末尾，按照FCFS原则排队。等轮到该进程执行时，如果任务能够完成，便可撤离系统；如果任务完不成，调度程序会将该进程转入第2队列的末尾，再同样按照FCFS原则等待执行，以此类推；</li>
+<li>仅当第1队列为空时，调度程序才会调度第2队列中的进程运行，以此类推。例如，如果CPU正在运行第3队列时，有新的进程加入第1进程末尾，此时新进程将抢占CPU；</li>
+</ul>
+</li>
+<li>优点：终端型作业用户：短作业优先；短批处理作业用户：周转时间较短；长批处理作业用户：经过前几个队列得到部分执行，不会长期得不到处理。</li>
 </ul>
 ]]></content>
       <categories>
@@ -9806,130 +9857,6 @@ JNI global references: 281
       </tags>
   </entry>
   <entry>
-    <title>计算机网络第六章</title>
-    <url>/2018/09/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%85%AD%E7%AB%A0/</url>
-    <content><![CDATA[<h1 id="计算机网络——应用层"><a href="#计算机网络——应用层" class="headerlink" title="计算机网络——应用层"></a>计算机网络——应用层</h1><h2 id="应用模型"><a href="#应用模型" class="headerlink" title="应用模型"></a>应用模型</h2><p>分为客户服务模型（Client/Server,C/S）和P2P模型两种</p>
-<ul>
-<li>C/S模型是由主机提供服务，客户机请求服务。详细不解释。</li>
-<li>P2P模型没有固定的客户和服务器的划分，每个结点既作为客户请求资源，又作为服务器提供资源。优点有：<ul>
-<li>减轻了服务器的计算压力；</li>
-<li>多个客户机可以直接共享文档（C/S模式下各客户机无法直接通信）；</li>
-<li>可扩展性好，传统服务器有响应和带宽的限制，因此只能接受一定数量的请求；</li>
-<li>网络健壮性好，单个结点的失效不会影响其他部分的结点。</li>
-</ul>
-</li>
-<li>P2P模式的缺点：<ul>
-<li>会占用较多的内存，影响整机的速度；</li>
-<li>经常进行P2P下载，会对硬盘造成较大的损伤；</li>
-<li>P2P程序会使网络变得非常拥塞，因此遭到各大互联网服务提供商ISP的嫌弃。</li>
-</ul>
-</li>
-</ul>
-<a id="more"></a>
-<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>来自C/S模型，运行在UDP之上，使用53端口。三个部分：层次域名空间、域名服务器和解析器</p>
-<h3 id="层次域名空间"><a href="#层次域名空间" class="headerlink" title="层次域名空间"></a>层次域名空间</h3><p>域名规则：</p>
-<ul>
-<li>标号，比如以<code>www.baidu.com</code>就有三个标号；</li>
-<li>com是顶级域名，baidu是二级域名，www是三级域名；<ul>
-<li>顶级域名分为三类：国家顶级域名（.cn、.us等）；通用顶级域名（.com、.net等）；基础结构域名（只有arpa，用于反向域名解析）</li>
-</ul>
-</li>
-<li>标号中的英文不区分大小写；</li>
-<li>标号中出连字符<code>-</code>外，不能使用其他标点符号；</li>
-<li>每一个标号不能超过63个字符，完整域名不能超过255个字符；</li>
-</ul>
-<h3 id="域名服务器"><a href="#域名服务器" class="headerlink" title="域名服务器"></a>域名服务器</h3><ul>
-<li>域名系统被设计成一个联机分布式的数据库系统，采用C/S模型。</li>
-<li>每一个域名服务器不但能保存<strong>一些</strong>域名到IP地址的解析，还必须具有连向其他域名服务器的信息。没有一台服务器具有因特网上所有主机的映射。域名服务器主要有四种类型：<ul>
-<li>根域名服务器：全球共13个，取名从’A’到’M’，1个主根在美国，另外12个辅根中9个在美国，1个在英国，1个在瑞典，1个在日本。作用：用来管理顶级域名。并不提供直接转换成IP地址的功能。</li>
-<li>顶级域名服务器：负责管理在该服务器注册的所有二级域名，可以给出应答，或下一步应当查找的域名服务器的IP地址。</li>
-<li>授权域名服务器（权限域名服务器）：每一个主机都必须在授权域名服务器处登记。我也不晓得这个是啥，网上搜不到？</li>
-<li>本地域名服务器：比如一个大学、一个系都能拥有一个本地域名服务器。</li>
-</ul>
-</li>
-</ul>
-<h3 id="域名解析过程"><a href="#域名解析过程" class="headerlink" title="域名解析过程"></a>域名解析过程</h3><ul>
-<li>域名 -&gt; IP地址为正向解析；IP地址 -&gt; 域名为反向解析。</li>
-<li>两种解析方式，递归查询和递归与迭代结合查询，字面理解。前者给根域名服务器造成负载太大，几乎不采用。</li>
-<li>本地域名服务器会将查询到的结果保存到本地缓存，方便下次查询。高速缓存在域名服务器中广泛被采用。</li>
-</ul>
-<h2 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h2><p>FTP提供的功能：</p>
-<ul>
-<li>不同种类的主机系统之间的文件传输；</li>
-<li>以用户权限管理的方式提供用户对远程FTP上的文件的管理；</li>
-<li>以匿名FTP的方式提供公用文件共享的管理。</li>
-</ul>
-<p>采用C/S模型，使用TCP可靠传输。一个FTP服务器可以为多个客户进程提供服务。FTP的服务器进程分为<strong>两个部分</strong>：负责<strong>接收新请求</strong>的主进程（端口21），负责<strong>处理单个请求/数据连接</strong>的若干个从属进程（端口20）。</p>
-<ul>
-<li>控制连接：只用来传输控制信息（如连接请求、传送请求等），以7位ASCII格式，在整个会话期间一直保持打开状态。</li>
-<li>数据连接：服务器在收到文件传输请求后，创建数据传送进程和数据连接。在传送完毕后关闭数据连接并结束运行。</li>
-<li>因为控制与数据传送分离，所以也称为带外传送。</li>
-</ul>
-<h2 id="电子邮件"><a href="#电子邮件" class="headerlink" title="电子邮件"></a>电子邮件</h2><ul>
-<li><p>流程：</p>
-<ol>
-<li>发件人通过用户代理（UA，比如Foxmail），向发送方邮件服务器发送邮件（使用SMTP协议，push）；</li>
-<li>发送方邮件服务器将邮件放入邮件缓存队列中，等待发送；</li>
-<li>运行在发送方邮件服务器的SMTP客户进程，发现缓存中的待发送邮件后，向接收方邮件服务器的SMTP服务器进程发起建立TCP连接；</li>
-<li>注：发送方邮件服务器的角色变动：收到UA发来的邮件时作为服务器方；向远程接收方发送邮件时作为客户方；</li>
-<li>TCP连接建立后，SMTP客户进程开始向远程的SMTP服务器进程发送邮件（使用SMTP协议，push）。当所有的待发送邮件完成发送后，SMTP就关闭了该TCP连接；</li>
-<li>运行在接收方邮件服务器中的SMTP服务器进程收到邮件后，将邮件放入收信人的用户邮箱中，等待收信人在方便时进行读取；</li>
-<li>收信人在打算收信时，调用自己的UA，取出邮件（使用POP3协议，pull）。</li>
-</ol>
-</li>
-<li><p>邮件格式：邮件=信封+内容（=首部+主体）；</p>
-<ul>
-<li>必填字段：“To:”指明若干个收件人的电邮地址；“From:”指明发件人，该部分通常由UA填写。</li>
-<li>可选字段：“Subject:”指明邮件主体；等等。</li>
-</ul>
-</li>
-<li>MIME。推荐阅读：<a href="http://likehui.fun/2018/06/02/notes-for-HeadFirstServletsAndJsp4/" target="_blank" rel="noopener">setContenttype()常用的内容类型</a><ul>
-<li>传统的，不采用MIME的邮件，一般只能传送一定长度的ASCII码，对某些编码、格式支持的不好；</li>
-<li>MIME拓展了SMTP协议的功能，特点：定位了许多邮件内容的格式；标准化了多媒体表示方式；定义了传送编码；定义了5个新首部（MIME版本、内容描述、内容标识、内容传送编码、内容类型）</li>
-</ul>
-</li>
-</ul>
-<h3 id="SMTP协议"><a href="#SMTP协议" class="headerlink" title="SMTP协议"></a>SMTP协议</h3><p>使用TCP连接，端口25<br>流程：</p>
-<ol>
-<li>背景：邮件已经抵达发送方邮件服务器的邮件缓存中了。</li>
-<li>SMTP客户每隔一定时间对邮件缓存扫描一次，发现邮件，就利用端口25对接收方邮件服务器的SMTP服务器建立TCP连接。</li>
-<li>连接建立后，接收方SMTP发出“220 Service ready”（服务就绪）。然后SMTP客户向SMTP服务器发送HELO命令（附上发送方的主机号，告知用户身份）。</li>
-<li>SMTP不使用中间的邮件服务器，是通过TCP直接连接两端。</li>
-<li>连接建立后发送邮件，发送过程如下：</li>
-</ol>
-<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//连接建立后发送邮件的交互</span></span><br><span class="line"><span class="symbol">client:</span>MAIL FROM：<span class="params">&lt;**@zju.edu.cn&gt;</span>; <span class="comment">//MAIL命令开始，并告知发件人地址</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">250</span> OK; <span class="comment">//准备好了</span></span><br><span class="line"></span><br><span class="line">if(client: RCPT TO:<span class="params">&lt;收件人地址&gt;</span> )</span><br><span class="line"><span class="symbol">	server:</span> <span class="string">"250 OK"</span> or <span class="string">"550 No such user here"</span> <span class="comment">//每一个RCPT，都有一次交互</span></span><br><span class="line"><span class="comment">//弄清楚接收方是否已做好接受邮件的准备</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">client:</span>DATA+邮件正式内容; <span class="comment">//DATA内容</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">354</span> Start mail input:end with<span class="params">&lt;CRLF&gt;</span>.<span class="params">&lt;CRLF&gt;</span> <span class="comment">//告知结束方式</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">client:</span>QUIT; <span class="comment">//发送完毕</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">221</span>; <span class="comment">//服务关闭</span></span><br></pre></td></tr></table></figure>
-<h3 id="POP3协议"><a href="#POP3协议" class="headerlink" title="POP3协议"></a>POP3协议</h3><ul>
-<li>使用C/S模式，TCP协议，端口110。</li>
-<li>两种工作方式：“下载并保留”和“下载并删除模式”，留和删的指邮件服务器上的邮件。</li>
-<li>另一种使用趋势：使用Hotmail、Gmail等时，收发邮件使用HTTP协议，只有在不同邮件服务器之间传送邮件才使用SMTP协议。</li>
-</ul>
-<h2 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h2><ul>
-<li>HTTP是面向事务的应用层协议，有两类：请求报文和响应报文。</li>
-<li>HTTP的无状态特性：同一个客户第二次访问同一个服务器上的页面时，服务器的响应与第一次被访问时的相同。服务器从不会记忆来的是否是老客户，服务过多少次。在实际应用中，状态的记忆由Cookie来完成。</li>
-<li>非持久连接，持久连接（HTTP/1.1支持）<ul>
-<li>非持久连接：每一个网页元素对象的传输都需要建立一个TCP连接。请求一个文档所需时间为：该文档的传输时间+double*RTT；</li>
-<li>持久连接：建立连接后，可以继续使用该连接传送后续内容。又分为非流水线和流水线两种方式：<ul>
-<li>非流水线：客户在收到前一个响应后才能发起下一个请求（类似回合制游戏？你砍一刀，我回一剑？）</li>
-<li>流水线：允许持续发送请求。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>报文结构，每个字段都是一些ASCII码串，每个字段长度不确定。<ul>
-<li>请求报文：方法+URL+版本+首部行+请求主体（大致结构，不详述）</li>
-<li>相应报文：版本+状态码+短语+首部行+响应主体</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>examination</category>
-      </categories>
-      <tags>
-        <tag>computer network</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>计算机网络第五章</title>
     <url>/2018/09/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%94%E7%AB%A0/</url>
     <content><![CDATA[<h1 id="计算机网络——传输层"><a href="#计算机网络——传输层" class="headerlink" title="计算机网络——传输层"></a>计算机网络——传输层</h1><ul>
@@ -10093,6 +10020,130 @@ JNI global references: 281
 <h4 id="TCP拥塞控制之快重传-amp-快恢复"><a href="#TCP拥塞控制之快重传-amp-快恢复" class="headerlink" title="TCP拥塞控制之快重传&amp;快恢复"></a>TCP拥塞控制之快重传&amp;快恢复</h4><ul>
 <li>使用冗余ACK来进行网络拥塞的检测。在超时机制的基础上引入冗余ACK，能够更早响应报文丢失的情况。</li>
 <li>当发送端连续收到三个冗余ACK时，就执行ssthresh腰斩的过程，此时cwnd也会相应的变成与新的ssthresh一致的值（在慢开始中，ssthresh要找后，cwnd会从1开始），因此叫做快恢复。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>examination</category>
+      </categories>
+      <tags>
+        <tag>computer network</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>计算机网络第六章</title>
+    <url>/2018/09/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%85%AD%E7%AB%A0/</url>
+    <content><![CDATA[<h1 id="计算机网络——应用层"><a href="#计算机网络——应用层" class="headerlink" title="计算机网络——应用层"></a>计算机网络——应用层</h1><h2 id="应用模型"><a href="#应用模型" class="headerlink" title="应用模型"></a>应用模型</h2><p>分为客户服务模型（Client/Server,C/S）和P2P模型两种</p>
+<ul>
+<li>C/S模型是由主机提供服务，客户机请求服务。详细不解释。</li>
+<li>P2P模型没有固定的客户和服务器的划分，每个结点既作为客户请求资源，又作为服务器提供资源。优点有：<ul>
+<li>减轻了服务器的计算压力；</li>
+<li>多个客户机可以直接共享文档（C/S模式下各客户机无法直接通信）；</li>
+<li>可扩展性好，传统服务器有响应和带宽的限制，因此只能接受一定数量的请求；</li>
+<li>网络健壮性好，单个结点的失效不会影响其他部分的结点。</li>
+</ul>
+</li>
+<li>P2P模式的缺点：<ul>
+<li>会占用较多的内存，影响整机的速度；</li>
+<li>经常进行P2P下载，会对硬盘造成较大的损伤；</li>
+<li>P2P程序会使网络变得非常拥塞，因此遭到各大互联网服务提供商ISP的嫌弃。</li>
+</ul>
+</li>
+</ul>
+<a id="more"></a>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>来自C/S模型，运行在UDP之上，使用53端口。三个部分：层次域名空间、域名服务器和解析器</p>
+<h3 id="层次域名空间"><a href="#层次域名空间" class="headerlink" title="层次域名空间"></a>层次域名空间</h3><p>域名规则：</p>
+<ul>
+<li>标号，比如以<code>www.baidu.com</code>就有三个标号；</li>
+<li>com是顶级域名，baidu是二级域名，www是三级域名；<ul>
+<li>顶级域名分为三类：国家顶级域名（.cn、.us等）；通用顶级域名（.com、.net等）；基础结构域名（只有arpa，用于反向域名解析）</li>
+</ul>
+</li>
+<li>标号中的英文不区分大小写；</li>
+<li>标号中出连字符<code>-</code>外，不能使用其他标点符号；</li>
+<li>每一个标号不能超过63个字符，完整域名不能超过255个字符；</li>
+</ul>
+<h3 id="域名服务器"><a href="#域名服务器" class="headerlink" title="域名服务器"></a>域名服务器</h3><ul>
+<li>域名系统被设计成一个联机分布式的数据库系统，采用C/S模型。</li>
+<li>每一个域名服务器不但能保存<strong>一些</strong>域名到IP地址的解析，还必须具有连向其他域名服务器的信息。没有一台服务器具有因特网上所有主机的映射。域名服务器主要有四种类型：<ul>
+<li>根域名服务器：全球共13个，取名从’A’到’M’，1个主根在美国，另外12个辅根中9个在美国，1个在英国，1个在瑞典，1个在日本。作用：用来管理顶级域名。并不提供直接转换成IP地址的功能。</li>
+<li>顶级域名服务器：负责管理在该服务器注册的所有二级域名，可以给出应答，或下一步应当查找的域名服务器的IP地址。</li>
+<li>授权域名服务器（权限域名服务器）：每一个主机都必须在授权域名服务器处登记。我也不晓得这个是啥，网上搜不到？</li>
+<li>本地域名服务器：比如一个大学、一个系都能拥有一个本地域名服务器。</li>
+</ul>
+</li>
+</ul>
+<h3 id="域名解析过程"><a href="#域名解析过程" class="headerlink" title="域名解析过程"></a>域名解析过程</h3><ul>
+<li>域名 -&gt; IP地址为正向解析；IP地址 -&gt; 域名为反向解析。</li>
+<li>两种解析方式，递归查询和递归与迭代结合查询，字面理解。前者给根域名服务器造成负载太大，几乎不采用。</li>
+<li>本地域名服务器会将查询到的结果保存到本地缓存，方便下次查询。高速缓存在域名服务器中广泛被采用。</li>
+</ul>
+<h2 id="FTP"><a href="#FTP" class="headerlink" title="FTP"></a>FTP</h2><p>FTP提供的功能：</p>
+<ul>
+<li>不同种类的主机系统之间的文件传输；</li>
+<li>以用户权限管理的方式提供用户对远程FTP上的文件的管理；</li>
+<li>以匿名FTP的方式提供公用文件共享的管理。</li>
+</ul>
+<p>采用C/S模型，使用TCP可靠传输。一个FTP服务器可以为多个客户进程提供服务。FTP的服务器进程分为<strong>两个部分</strong>：负责<strong>接收新请求</strong>的主进程（端口21），负责<strong>处理单个请求/数据连接</strong>的若干个从属进程（端口20）。</p>
+<ul>
+<li>控制连接：只用来传输控制信息（如连接请求、传送请求等），以7位ASCII格式，在整个会话期间一直保持打开状态。</li>
+<li>数据连接：服务器在收到文件传输请求后，创建数据传送进程和数据连接。在传送完毕后关闭数据连接并结束运行。</li>
+<li>因为控制与数据传送分离，所以也称为带外传送。</li>
+</ul>
+<h2 id="电子邮件"><a href="#电子邮件" class="headerlink" title="电子邮件"></a>电子邮件</h2><ul>
+<li><p>流程：</p>
+<ol>
+<li>发件人通过用户代理（UA，比如Foxmail），向发送方邮件服务器发送邮件（使用SMTP协议，push）；</li>
+<li>发送方邮件服务器将邮件放入邮件缓存队列中，等待发送；</li>
+<li>运行在发送方邮件服务器的SMTP客户进程，发现缓存中的待发送邮件后，向接收方邮件服务器的SMTP服务器进程发起建立TCP连接；</li>
+<li>注：发送方邮件服务器的角色变动：收到UA发来的邮件时作为服务器方；向远程接收方发送邮件时作为客户方；</li>
+<li>TCP连接建立后，SMTP客户进程开始向远程的SMTP服务器进程发送邮件（使用SMTP协议，push）。当所有的待发送邮件完成发送后，SMTP就关闭了该TCP连接；</li>
+<li>运行在接收方邮件服务器中的SMTP服务器进程收到邮件后，将邮件放入收信人的用户邮箱中，等待收信人在方便时进行读取；</li>
+<li>收信人在打算收信时，调用自己的UA，取出邮件（使用POP3协议，pull）。</li>
+</ol>
+</li>
+<li><p>邮件格式：邮件=信封+内容（=首部+主体）；</p>
+<ul>
+<li>必填字段：“To:”指明若干个收件人的电邮地址；“From:”指明发件人，该部分通常由UA填写。</li>
+<li>可选字段：“Subject:”指明邮件主体；等等。</li>
+</ul>
+</li>
+<li>MIME。推荐阅读：<a href="http://likehui.fun/2018/06/02/notes-for-HeadFirstServletsAndJsp4/" target="_blank" rel="noopener">setContenttype()常用的内容类型</a><ul>
+<li>传统的，不采用MIME的邮件，一般只能传送一定长度的ASCII码，对某些编码、格式支持的不好；</li>
+<li>MIME拓展了SMTP协议的功能，特点：定位了许多邮件内容的格式；标准化了多媒体表示方式；定义了传送编码；定义了5个新首部（MIME版本、内容描述、内容标识、内容传送编码、内容类型）</li>
+</ul>
+</li>
+</ul>
+<h3 id="SMTP协议"><a href="#SMTP协议" class="headerlink" title="SMTP协议"></a>SMTP协议</h3><p>使用TCP连接，端口25<br>流程：</p>
+<ol>
+<li>背景：邮件已经抵达发送方邮件服务器的邮件缓存中了。</li>
+<li>SMTP客户每隔一定时间对邮件缓存扫描一次，发现邮件，就利用端口25对接收方邮件服务器的SMTP服务器建立TCP连接。</li>
+<li>连接建立后，接收方SMTP发出“220 Service ready”（服务就绪）。然后SMTP客户向SMTP服务器发送HELO命令（附上发送方的主机号，告知用户身份）。</li>
+<li>SMTP不使用中间的邮件服务器，是通过TCP直接连接两端。</li>
+<li>连接建立后发送邮件，发送过程如下：</li>
+</ol>
+<figure class="highlight dts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//连接建立后发送邮件的交互</span></span><br><span class="line"><span class="symbol">client:</span>MAIL FROM：<span class="params">&lt;**@zju.edu.cn&gt;</span>; <span class="comment">//MAIL命令开始，并告知发件人地址</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">250</span> OK; <span class="comment">//准备好了</span></span><br><span class="line"></span><br><span class="line">if(client: RCPT TO:<span class="params">&lt;收件人地址&gt;</span> )</span><br><span class="line"><span class="symbol">	server:</span> <span class="string">"250 OK"</span> or <span class="string">"550 No such user here"</span> <span class="comment">//每一个RCPT，都有一次交互</span></span><br><span class="line"><span class="comment">//弄清楚接收方是否已做好接受邮件的准备</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">client:</span>DATA+邮件正式内容; <span class="comment">//DATA内容</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">354</span> Start mail input:end with<span class="params">&lt;CRLF&gt;</span>.<span class="params">&lt;CRLF&gt;</span> <span class="comment">//告知结束方式</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">client:</span>QUIT; <span class="comment">//发送完毕</span></span><br><span class="line"><span class="symbol">server:</span><span class="number">221</span>; <span class="comment">//服务关闭</span></span><br></pre></td></tr></table></figure>
+<h3 id="POP3协议"><a href="#POP3协议" class="headerlink" title="POP3协议"></a>POP3协议</h3><ul>
+<li>使用C/S模式，TCP协议，端口110。</li>
+<li>两种工作方式：“下载并保留”和“下载并删除模式”，留和删的指邮件服务器上的邮件。</li>
+<li>另一种使用趋势：使用Hotmail、Gmail等时，收发邮件使用HTTP协议，只有在不同邮件服务器之间传送邮件才使用SMTP协议。</li>
+</ul>
+<h2 id="HTTP协议"><a href="#HTTP协议" class="headerlink" title="HTTP协议"></a>HTTP协议</h2><ul>
+<li>HTTP是面向事务的应用层协议，有两类：请求报文和响应报文。</li>
+<li>HTTP的无状态特性：同一个客户第二次访问同一个服务器上的页面时，服务器的响应与第一次被访问时的相同。服务器从不会记忆来的是否是老客户，服务过多少次。在实际应用中，状态的记忆由Cookie来完成。</li>
+<li>非持久连接，持久连接（HTTP/1.1支持）<ul>
+<li>非持久连接：每一个网页元素对象的传输都需要建立一个TCP连接。请求一个文档所需时间为：该文档的传输时间+double*RTT；</li>
+<li>持久连接：建立连接后，可以继续使用该连接传送后续内容。又分为非流水线和流水线两种方式：<ul>
+<li>非流水线：客户在收到前一个响应后才能发起下一个请求（类似回合制游戏？你砍一刀，我回一剑？）</li>
+<li>流水线：允许持续发送请求。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>报文结构，每个字段都是一些ASCII码串，每个字段长度不确定。<ul>
+<li>请求报文：方法+URL+版本+首部行+请求主体（大致结构，不详述）</li>
+<li>相应报文：版本+状态码+短语+首部行+响应主体</li>
+</ul>
+</li>
 </ul>
 ]]></content>
       <categories>
