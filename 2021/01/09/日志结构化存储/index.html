@@ -102,7 +102,7 @@
 <meta property="og:site_name" content="To the moon">
 <meta property="og:description" content="日志结构化存储系统的基础组织是一个日志，即一个只可添加数据输入的序列。每当你有新的数据要写入的时候，你只需要简单的添加它到日志的末尾，而不需要在磁盘中为它寻找一个位置。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-01-09T09:34:57.135Z">
+<meta property="og:updated_time" content="2021-01-09T09:57:32.803Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="日志结构化存储">
 <meta name="twitter:description" content="日志结构化存储系统的基础组织是一个日志，即一个只可添加数据输入的序列。每当你有新的数据要写入的时候，你只需要简单的添加它到日志的末尾，而不需要在磁盘中为它寻找一个位置。">
@@ -403,7 +403,7 @@
                 
               
 
-              <time title="Created: 2021-01-09 10:49:55 / Modified: 17:34:57" itemprop="dateCreated datePublished" datetime="2021-01-09T10:49:55+08:00">2021-01-09</time>
+              <time title="Created: 2021-01-09 10:49:55 / Modified: 17:57:32" itemprop="dateCreated datePublished" datetime="2021-01-09T10:49:55+08:00">2021-01-09</time>
             
 
             
@@ -499,7 +499,7 @@
 <h3 id="LSM-树与-B-树对比"><a href="#LSM-树与-B-树对比" class="headerlink" title="LSM 树与 B 树对比"></a>LSM 树与 B 树对比</h3><p>LSM 树基本思想：保存一系列在后台合并的 SSTables，可以支持非常高的写入吞吐量。</p>
 <p>写放大：一种现象，比如一次写库操作，需要写多次磁盘。写放大会导致性能代价，存储引擎写入 disk 的次数越多，可用磁盘带宽内每秒写入次数越少。</p>
 <ol>
-<li>许多 B 树尝试布局树，是的叶子页面按顺序出现在 disk 上，但随着树的增长，维持这个顺序是很困难的。LSM 树在合并过程中一次又一次地重写存储的大部分，所以它们更容易使顺序键在 disk 上彼此靠近。</li>
+<li>许多 B 树尝试布局树，使得叶子页面按顺序出现在 disk 上，但随着树的增长，维持这个顺序是很困难的。LSM 树在合并过程中一次又一次地重写存储的大部分，所以它们更容易使顺序键在 disk 上彼此靠近。</li>
 <li>LSM 树写入更快，读取较慢，因为可能需要查多个 SSTables。B 树读取更快。</li>
 <li>B 树的写操作需要①写 redo；②写入树页面，如果发生分裂，要写更多。LSM 树对 SSTable 压缩合并时也会发生写放大，但写放大比 B 树小，支持更高的写入吞吐量，这是因为顺序写入紧凑的 SSTable文件，而不是树中的几个整页面，主要是“顺序写”的优势。</li>
 <li>LSM 的查询时间不可预测，B 树可预测。</li>
@@ -565,6 +565,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/01/14/高并发项目指南书/" rel="prev" title="高并发项目指南书">
+                高并发项目指南书 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -634,7 +638,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">130</span>
+                    <span class="site-state-item-count">131</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
