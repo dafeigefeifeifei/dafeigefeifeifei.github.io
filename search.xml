@@ -11532,11 +11532,17 @@ JNI global references: 281
 <p><a href="https://zhuanlan.zhihu.com/p/55939711" target="_blank" rel="noopener">基于Alluxio与HDFS支撑Presto和TPC-DS查询场景的性能测试</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/51638076" target="_blank" rel="noopener">基于Presto+Alluxio的adhoc查询方案在网易游戏的实践</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/201518612" target="_blank" rel="noopener">唯品会实践案例：基于Alluxio优化电商平台热点数据访问性能</a></p>
+<a id="more"></a>
 <p><a href="https://zhuanlan.zhihu.com/p/100070360" target="_blank" rel="noopener">网易严选：基于Alluxio+Impala深度融合架构的BI系统性能优化实践</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/80066121" target="_blank" rel="noopener">探秘Presto+Alluxio高效云端SQL查询</a></p>
 <p><a href="https://zhuanlan.zhihu.com/p/57873784" target="_blank" rel="noopener">百度案例：使用Alluxio提速数据查询30倍</a></p>
 <p><a href="https://blog.csdn.net/DolphinScheduler/article/details/109882480" target="_blank" rel="noopener">Presto在滴滴的探索与实践</a></p>
-<a id="more"></a>
+<p><a href="https://blog.csdn.net/wypblog/article/details/111399181" target="_blank" rel="noopener">Presto在车好多的实践</a></p>
+<p>别的文章：</p>
+<p><a href="https://blog.csdn.net/DolphinScheduler/article/details/112386876" target="_blank" rel="noopener">即席查询（Ad Hoc）如何做到又快又稳？</a></p>
+<p> <a href="https://my.oschina.net/dataclub/blog/4983931" target="_blank" rel="noopener">网易云音乐数仓建模案例—声波APP</a></p>
+<p><a href="http://www.databanker.cn/project/77058.html" target="_blank" rel="noopener">大数据展现——即席查询</a></p>
+<p><a href="https://www.sohu.com/a/284946736_99916561" target="_blank" rel="noopener">教育大数据智能分析平台研究与实践</a>  架构图有趣，文字价值一般</p>
 <h2 id="贝壳找房"><a href="#贝壳找房" class="headerlink" title="贝壳找房"></a>贝壳找房</h2><h3 id="为什么使用-Alluxio"><a href="#为什么使用-Alluxio" class="headerlink" title="为什么使用 Alluxio"></a>为什么使用 Alluxio</h3><p>QueryEngine 底层目前使用三种查询引擎：MR、Tez 和 Spark SQL，根据用户的选择及查询的代价来智能的选择执行引擎。为了降低对 Spark SQL 的影响，Spark SQL 引擎使用的是独有的 Yarn 集群。原始架构有如下问题：</p>
 <p>1）数据量大，而且请求量变大，查询性能变差；</p>
 <p>2）Spark SQL 计算与存储分离，每次查询都需要远程加载数据，数据本地行查，性能差；</p>
@@ -11599,7 +11605,7 @@ JNI global references: 281
 <p>1) 计算与存储同置，这样数据就不需通过网络反复读取，造成网络流量浪费。</p>
 <p>2) 减少HDFS读写长尾对人群计算造成的额外影响，同时减少人群计算对于HDFS稳定性的影响。</p>
 <p>3) 广告人群计算介于线上生产任务跟离线任务之间的任务类型。这里我们希望能保证这类应用的可靠性和稳定性，从而更好地为公司业务赋能。</p>
-<h3 id="结果评价"><a href="#结果评价" class="headerlink" title="结果评价"></a>结果评价</h3><p>基于Alluxio的新架构解决了HDFS热点数据的读取问题，从而使得广告人群计算这类准生产应用也能得以保障，实现了技术赋能业务。另外，计算效率的提升也对带来了可观的资源的节约，额为支撑的硬件只是少量SSD盘。</p>
+<h3 id="结果评价"><a href="#结果评价" class="headerlink" title="结果评价"></a>结果评价</h3><p>基于Alluxio的新架构解决了HDFS热点数据的读取问题，从而使得广告人群计算这类准生产应用也能得以保障，实现了技术赋能业务。另外，计算效率的提升也对带来了可观的资源的节约，额外支撑的硬件只是少量SSD盘。</p>
 <h2 id="网易严选：基于Alluxio-Impala深度融合架构的BI系统性能优化实践"><a href="#网易严选：基于Alluxio-Impala深度融合架构的BI系统性能优化实践" class="headerlink" title="网易严选：基于Alluxio+Impala深度融合架构的BI系统性能优化实践"></a>网易严选：基于Alluxio+Impala深度融合架构的BI系统性能优化实践</h2><h3 id="Alluxio在网易严选BI场景的挑战分析"><a href="#Alluxio在网易严选BI场景的挑战分析" class="headerlink" title="Alluxio在网易严选BI场景的挑战分析"></a>Alluxio在网易严选BI场景的挑战分析</h3><p>Alluxio的部署和使用方式非常简单，然而在大规模数据的BI场景中不经调优地直接使用Alluxio，性能结果与预想的存在一定差距。具体原因分析如下：</p>
 <ol>
 <li>Alluxio并不像我们最初设想的那样，只是一个单纯的缓存服务。Alluxio首先是一个分布式的虚拟文件系统，有完整的元数据管理、块数据管理、UFS管理（底层文件系统的简称）以及健康检查机制，尤其是它的元数据管理实现比很多底层文件系统更加强大。这些功能是Alluxio的优点和特色，但也意味着<strong>如果每次都完整地使用Alluxio的全部功能</strong>，完成整个读操作的<strong>链路额外开销</strong>要比从一个单纯的代理服务、或支持自动Load的缓存服务要高。</li>
@@ -11648,14 +11654,14 @@ JNI global references: 281
 </li>
 <li><p>支持查询进度滚动更新，提升了用户体验</p>
 </li>
-<li>支持查询可以指定优先级，为用户不同等级的业务提供了优先级控制的能力</li>
+<li><strong>支持查询可以指定优先级，为用户不同等级的业务提供了优先级控制的能力</strong></li>
 <li>修改通信协议，支持业务方可以传达自定义信息，满足了用户的日志审计需要等</li>
 <li>支持DeprecatedLzoTextInputFormat格式</li>
 <li>支持读HDFS Parquet文件路径</li>
 </ul>
 <p><strong>稳定性建设</strong>：Presto在使用过程中会遇到很多稳定性问题，比如Coordinator OOM，Worker Full GC等，为了解决和方便定位这些问题，首先我们做了监控体系建设，主要包括：</p>
 <ul>
-<li>通过Presto Plugin实现日志审计功能</li>
+<li><strong>通过Presto Plugin实现日志审计功能</strong></li>
 <li>通过JMX获取引擎指标将监控信息写入Ganglia</li>
 <li>将日志审计采集到HDFS和ES；统一接入运维监控体系，将所有指标发到 Kafka；</li>
 <li>Presto UI改进：可以查看Worker信息，可以查看Worker死活信息</li>
@@ -11674,9 +11680,31 @@ JNI global references: 281
 <li><strong>Presto on Alluxio查询性能提升35%，但是内存占用和性能提升不成正比</strong>，所以我们放弃了Presto on Alluxio，后续可能会对一些性能要求敏感的业务使用。</li>
 <li>Presto on Carbondata是在18年8月份测试的，当时的版本，Carbondata稳定性较差，性能没有明显优势，一些场景ORC更快，所以我们没有再继续跟踪调研Presto on Carbondata。因为滴滴有专门维护Druid的团队，所以我们对接了Presto on Druid，一些场景性能提升4~5倍，后续我们会更多关注Presto on Clickhouse及Presto on Elasticsearch。</li>
 </ul>
+<h2 id="Presto在车好多的实践"><a href="#Presto在车好多的实践" class="headerlink" title="Presto在车好多的实践"></a>Presto在车好多的实践</h2><p>优化：</p>
+<p>客户端和服务端之间加一层代理</p>
+<ul>
+<li>代理层的作用不仅隐藏了 Coordinator 真实地址，而且可以根据需求设置一些客户端接入规范，以便能区分接入方式/类型等。我们还在代理层附加了下面两个主要功能：在每一个 Query 结束时，会记录其所有信息并发送到 Kafka，最终落入到 Hive，即日志审计，方便管理员后续分析/治理；监控一些 Query 指标，在超出阈值时主动 kill Query，提高集群稳定性。</li>
+</ul>
+<p>服务经常 OOM，很不稳定。经过调研，我们采取以下措施来优化 OOM 问题：</p>
+<ul>
+<li>设置堆外内存最大使用量 MaxDirectMemorySize</li>
+<li>设置 glibc 的参数 export MALLOC_ARENA_MAX=1 </li>
+</ul>
+<h3 id="2-3-棘手的排队问题出现"><a href="#2-3-棘手的排队问题出现" class="headerlink" title="2.3 棘手的排队问题出现"></a>2.3 棘手的排队问题出现</h3><p>背景</p>
+<blockquote>
+<p>经过了一年多的迭代，Presto 在车好多集团内部成为了提供 Adhoc 查询的核心组件，数十个业务线的数百名用户都重度依赖 Presto 来实现他们的分析需求或者报表结果，基本上集群每天有 600+用户（数据分析师、运营、市场、产品等），高峰期每秒提交数目最大能达到百级别。在这样的一个情况下，高峰期任务排队的情况就会出现并且越来越严重，严重影响了用户的使用体验。</p>
+</blockquote>
+<p>解决方案&amp;效果</p>
+<p>首先的想到的是任务治理</p>
+<p>•  大查询限制：导致集群排队的主要原因是大查询（耗费计算资源多的 Query）长时间占用集群资源不释放，集群最大运行 Query 数目被打满，后续提交的 Query 只能排队。为了限制大查询，我们下调单个 Query 的最大运行时间、最大扫描分区数目、内存使用最大值、stage 数目等，让集群资源快速流转起来；</p>
+<p>•  单个用户 Query 数目限制：我们下调单个用户的最大运行数目以及最大排队数目，防止单个用户提交过多查询占满集群资源，其他用户没有机会提交；</p>
+<p>•  优化 SQL：我们根据一些规则，给出 SQL 优化的建议，比如：避免笛卡尔积、distinct 滥用、非等值 join 等情况，并推动用户优化 SQL；</p>
+<p>•  推动上层 BI 工具缓存结果：为了方便用户使用，有一些 BI 工具来对接 Presto，有多个用户会查看同一张报表，基于这样的情况，没有必要每次查看都要发起一次查询，工具层缓存这个结果，对底层 Presto 的压力会大大缓解；</p>
+<p>•  推动中间表的建设，优化查源表的情况，减少计算资源的浪费；</p>
+<p>•  每周统计出各个部门的资源使用账单&amp;资源消耗排名 Top N 的用户，并通知，这是推动用户优化任务重要的数据来源；</p>
+<p>其次，增加资源，这也是必然要尝试的一个方法。然而由于一些客观原因，比如：成本、机房初始容量规划等，无法给集群进行提供充足的资源，只能小规模有限扩容。</p>
+<p>通过以上两个方面的优化，尤其是任务治理，排队情况得到缓解，然而总会有一些新用户会提交一些不合理的任务，因此任务治理是一项长期持续的工作。资源方面，没有条件新增，那么就只能在存量资源上想办法。</p>
 <hr>
-<p>别的文章：</p>
-<p><a href>即席查询（Ad Hoc）如何做到又快又稳？</a></p>
 <h2 id="即席查询（Ad-Hoc）如何做到又快又稳？"><a href="#即席查询（Ad-Hoc）如何做到又快又稳？" class="headerlink" title="即席查询（Ad Hoc）如何做到又快又稳？"></a>即席查询（Ad Hoc）如何做到又快又稳？</h2><p>以下的这四种问题虽然都是在即席查询场景中相对常见的问题，但解决起来却并不容易。</p>
 <ul>
 <li>只查询单个总 PV 和总 UV，但是却读取了上百 G 数据；</li>
@@ -11712,6 +11740,42 @@ JNI global references: 281
 </ol>
 </li>
 </ol>
+<h2 id="网易云音乐数仓建模案例—声波APP"><a href="#网易云音乐数仓建模案例—声波APP" class="headerlink" title="网易云音乐数仓建模案例—声波APP"></a>网易云音乐数仓建模案例—声波APP</h2><p><strong>3.1现有设计</strong></p>
+<p>快速便捷获取高质量数据是业务侧的希冀，同时为减少ad-hoc式的查询也是我们的希冀。因此构建声波olap模型，目标是帮助业务人员快速使用数据，获取结果并用于业务生产。</p>
+<p>取数模型设计：</p>
+<p><img src="/2021/03/13/Presto-Alluxio综述/取数模型设计.png" alt></p>
+<p>目前模型建设流程：</p>
+<ol>
+<li>业务侧/已有报表中归纳常用指标</li>
+<li>模型设计（常分析的业务过程（交易、互动）的明细、用户、房间、用户+房间的汇总表）</li>
+<li>模型评审</li>
+<li>配置模型（使用场景的说明、字段业务口径、技术口径、添加自定义维度、自定义度量）</li>
+<li>测试使用</li>
+</ol>
+<p>流量自动化的解决方案：</p>
+<ol>
+<li>策划梳理坑位信息-〉与策划勾兑坑位信息-〉设计埋点scm信息-〉上传埋点到埋点平台-〉与开发勾兑埋点内容–〉下载最终版坑位信息制作坑位码表。</li>
+<li>设计流量自动化的聚合表模型：uid+os+appver+mspm+source（+房间id+房间模版类型id）的粒度统计对应的(曝光、点击、进房)次数、人数和时长等信息。构建流量自动化模型，最终可由取数展示，<strong>该模型可以查看日常曝光点击的坑位PV、UV，同时可以查看核心（曝光-点击-进房）漏斗数据</strong>。</li>
+</ol>
+<p><strong>3.2思考</strong></p>
+<p>目前存在的难点，这些都是后期会优化的内容。</p>
+<ul>
+<li>数据侧：a.模型设计(聚合、解耦)  b.模型迭代回跑</li>
+<li>平台侧：a.平台开发进度无法满足模型使用  b.问题响应速度依赖其他部门</li>
+<li>业务侧：a.对数据的维度、度量、聚合、日期分区的理解困难 b.自主分析数据的习惯尚未建立</li>
+</ul>
+<h2 id="大数据展现——即席查询"><a href="#大数据展现——即席查询" class="headerlink" title="大数据展现——即席查询"></a>大数据展现——即席查询</h2><p><strong>产品定位</strong></p>
+<p>　　即席查询（BONC Intelligent Query）是北京东方国信科技股份有限公司针对商业智能应用领域、面向公司内部开发人员和行业最终用户使用的快速查询、取数的应用工具。即席查询能有效地减少取数环节、实现快速取数响应，并能够有效缓解支撑人员的工作压力、能够防止各级人员理解差异或偏差，低成本、高效地保证统计口径一致。通过即席查询以“IT系统”替代“IT部门”实现取数支撑，能够促进IT支撑的转型，把更多的精力投入到数据保障和数据分析领域。</p>
+<h3 id="1-统一的语义管理体系"><a href="#1-统一的语义管理体系" class="headerlink" title="1. 统一的语义管理体系"></a>1. 统一的语义管理体系</h3><p>　　由元数据平台提供<strong>统一的指标与维度语义管理体系</strong>，避免重复定义维度和指标，独立、业务语义管理与物理数据层的管理各自独立且通过映射关联，具备更强的灵活性和可扩展性，关注业务、查询。业务人员不需要了解数据物理上是如何存放、如何理解、如何获取，只需要知道自已在业务上想要什么数据。</p>
+<h3 id="2-智能化查询取数"><a href="#2-智能化查询取数" class="headerlink" title="2. 智能化查询取数"></a>2. 智能化查询取数</h3><p>　　后台可以根据立方体配置信息，自动选择表及表关联进行查询。保证找到数据量最小，运算量最小的数据进行取数。系统可进行自动优化，对于汇总级较快的查询，直接展示，<strong>对于明细级较慢的查询，自动生成后台任务</strong>；并且可以根据系统的使用情况进行<strong>自组织管理，自动优化数据存储、优化数据查询语句、优化数据索引、自动重复利用数据缓存</strong>等。</p>
+<h3 id="3-多样化取数方式"><a href="#3-多样化取数方式" class="headerlink" title="3. 多样化取数方式"></a>3. 多样化取数方式</h3><p>　　包括规则定义取数、模版取数、预约任务取数、文件上传取数、SQL模版取数等取数方式。</p>
+<ul>
+<li><strong>规则定义取数</strong>：用户可以根据实际需求通过页面自定义取数规则。通过设定描述性的维度约束、设定查询特定的指标数值范围来实现。</li>
+<li>模板取数：针对在一定时期内存在需要重复多次但约束条件变更不大的需求。在规则定义取数基础之上，将按一定规则配置的取数查询，保存为共享的模版，通过定制好的模版提供查询，为快速查询提供了良好的解决方式。</li>
+<li>预约任务取数：在规则定义取数时，如果是明细查询，查询数据时会自动转为任务执行，任务在一定的时间段内才会被执行，出于系统的性能考虑，需要对系统的任务执行情况作相应的调度和控制。</li>
+<li>文件上传取数：主要用于小规模小范围，而且需求比较明确的快速查询，可以省去通过自己构建维度来查询，大大的方便了操作人员的使用。</li>
+<li><strong>SQL模板取数</strong>：（也就是自助 SQL）通常情况下，专业IT人员如果想要操作数据库，必须使用数据库客户端工具连接到数据库服务器上进行操作，SQL模板取数提供了一个WEB版的SQL客户端工具，用户通过使用浏览器即可对数据库进行数据操作、查询。</li>
+</ul>
 ]]></content>
       <categories>
         <category>review</category>
