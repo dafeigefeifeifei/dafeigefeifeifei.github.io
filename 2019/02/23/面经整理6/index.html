@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/git.jpeg">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/7.jpg">
-<meta property="og:updated_time" content="2021-01-14T09:39:08.697Z">
+<meta property="og:updated_time" content="2021-06-12T06:22:09.535Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面经整理6">
 <meta name="twitter:description" content="SSM系列问题推荐阅读：SSM常见面试问题 汇总：趣链、蘑菇街、随手记、网易、招银、IBM、阿里 趣链Java一面之lh篇自我介绍。讲一下项目。 1. 类加载的过程。三个阶段：加载、连接、初始化。  加载：①class文件加载到内存中；②方法区生成运行时类文件；③堆区生成class对象，作为访问方法区中类文件的访问入口。 连接：①验证文件正确性；②为类的静态变量分配内存，并初始化默认值；③符号引用">
@@ -431,7 +431,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2021-01-14 17:39:08" itemprop="dateModified" datetime="2021-01-14T17:39:08+08:00">2021-01-14</time>
+                <time title="Modified: 2021-06-12 14:22:09" itemprop="dateModified" datetime="2021-06-12T14:22:09+08:00">2021-06-12</time>
               
             
           </span>
@@ -502,7 +502,7 @@
 <a id="more"></a>
 <p>详解 classLoader 的loadClass</p>
 <h3 id="PriorityQueue-实现大根堆"><a href="#PriorityQueue-实现大根堆" class="headerlink" title="PriorityQueue 实现大根堆"></a>PriorityQueue 实现大根堆</h3><p>因为 PriorityQueue默认是小根堆，那么该怎么实现大根堆呢？</p>
-<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">11</span>;</span><br><span class="line">Queue&lt;Integer&gt; maxHeap = <span class="keyword">new</span> PriorityQueue&lt;&gt;(DEFAULT_INITIAL_CAPACITY, <span class="keyword">new</span> Comparator&lt;Integer&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(Integer o1, Integer o2)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> o2-o1; <span class="comment">// 大于0就交换，小于0则保持原位置</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">11</span>;</span><br><span class="line">Queue&lt;Integer&gt; maxHeap = <span class="keyword">new</span> PriorityQueue&lt;&gt;(DEFAULT_INITIAL_CAPACITY, <span class="keyword">new</span> Comparator&lt;Integer&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(Integer o1, Integer o2)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> o2-o1; <span class="comment">// 关键：compare函数 return的结果如果小于0则保持原位置，大于 0 则交换。</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>compartor 采用了策略模式，使用策略对象来改变它的行为。</p>
 <p>comparator 用法扩展阅读 <a href="https://blog.csdn.net/u012250875/article/details/55126531" target="_blank" rel="noopener">Comparator的用法</a></p>
 <h3 id="2-用过哪些集合类。"><a href="#2-用过哪些集合类。" class="headerlink" title="2. 用过哪些集合类。"></a>2. 用过哪些集合类。</h3><p><img src="/2019/02/23/面经整理6/3.png" alt></p>
