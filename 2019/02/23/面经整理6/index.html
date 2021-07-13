@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/git.jpeg">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/5.png">
 <meta property="og:image" content="http://yoursite.com/2019/02/23/面经整理6/7.jpg">
-<meta property="og:updated_time" content="2021-06-12T06:22:09.535Z">
+<meta property="og:updated_time" content="2021-07-13T03:18:59.559Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="面经整理6">
 <meta name="twitter:description" content="SSM系列问题推荐阅读：SSM常见面试问题 汇总：趣链、蘑菇街、随手记、网易、招银、IBM、阿里 趣链Java一面之lh篇自我介绍。讲一下项目。 1. 类加载的过程。三个阶段：加载、连接、初始化。  加载：①class文件加载到内存中；②方法区生成运行时类文件；③堆区生成class对象，作为访问方法区中类文件的访问入口。 连接：①验证文件正确性；②为类的静态变量分配内存，并初始化默认值；③符号引用">
@@ -431,7 +431,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2021-06-12 14:22:09" itemprop="dateModified" datetime="2021-06-12T14:22:09+08:00">2021-06-12</time>
+                <time title="Modified: 2021-07-13 11:18:59" itemprop="dateModified" datetime="2021-07-13T11:18:59+08:00">2021-07-13</time>
               
             
           </span>
@@ -830,12 +830,26 @@
 </ol>
 <p>参考链接：<a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/Multithread/AQS.md" target="_blank" rel="noopener">AQS</a>文末</p>
 <h3 id="补充：将Redis配置为缓存，在Spring中是怎么做的？"><a href="#补充：将Redis配置为缓存，在Spring中是怎么做的？" class="headerlink" title="补充：将Redis配置为缓存，在Spring中是怎么做的？"></a>补充：将Redis配置为缓存，在Spring中是怎么做的？</h3><ol>
-<li>配置三样东西：①Spring对缓存的支持也就是cacheManager（本次采用的实现类：RedisCacheManager）；②Redis对话使用的RedisTemplate，③连接工厂。</li>
-<li>首先启动Spring 缓存支持，创建一个CacheManager的Bean，</li>
-<li>使用的三个注解：Cacheable、CacheEvit、CachePut。<ol>
+<li><p>配置三样东西：①Spring对缓存的支持也就是cacheManager（本次采用的实现类：RedisCacheManager）；②Redis对话使用的RedisTemplate，③连接工厂。</p>
+</li>
+<li><p>首先启动Spring 缓存支持，创建一个CacheManager的Bean，</p>
+</li>
+<li><p>使用的三个注解：Cacheable、CacheEvit、CachePut。</p>
+<ol>
 <li>Cacheable：当重复使用相同参数调用方法的时候，方法本身不会被调用执行，即方法本身被略过了，取而代之的是方法的结果直接从缓存中找到并返回了。</li>
 <li>CacheEvit： 调用时会删除掉数据库和缓存里面的值。可以在@CacheEvict 里面添加condition 表达式，让其满足什么条件的时候才删除缓存。可以设置是否清除掉缓存中所有数据。</li>
-<li>CachePut：使用@CachePut标注的方法在执行前不会去检查缓存中是否存在之前执行过的结果，而是每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中。</li>
+<li><p>CachePut：使用@CachePut标注的方法在执行前不会去检查缓存中是否存在之前执行过的结果，而是每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中。</p>
+<blockquote>
+<p>使用 spring-cache 有三个步骤：</p>
+<p>在启动类上加入 @EnableCaching 注解；</p>
+<p>使用 CacheManager 初始化要使用的缓存框架，使用 @CacheConfig 注解注入要使用的资源；</p>
+<p>使用 @Cacheable 等注解对资源进行缓存。<br>而针对缓存操作的注解有三个：</p>
+<p>@Cacheable 表示如果缓存系统里没有这个数值，就将方法的返回值缓存起来；</p>
+<p>@CachePut 表示每次执行该方法，都把返回值缓存起来；</p>
+<p>@CacheEvict 表示执行方法的时候，清除某些缓存值。<br>非常简单，对缓存的操作也无非是 CRUD。</p>
+<p>&lt;&lt;&lt;&lt;拉勾教育、八点一刻：Redis缓存一致性设计</p>
+</blockquote>
+</li>
 </ol>
 </li>
 </ol>

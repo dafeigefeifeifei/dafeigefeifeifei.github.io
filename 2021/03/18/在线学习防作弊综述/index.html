@@ -103,7 +103,7 @@
 <meta property="og:description" content="【题外话】机器学习论文怎么写： 很大一部分论文描述或研究了新的机器学习方法或理论。这类论文的例子可能包括: 一篇提出新的学习算法的论文; 一篇描述困难应用的解决方案的论文; 或者一篇证明某种学习方法的错误的界限的论文。这些论文有望作出重要的(i)算法，(ii)应用，或(iii)理论贡献。NIPS 寻求发表在世界上有很高影响力的论文——不仅在我们的研究社区，而且在其他领域。因此，在适当的情况下，将根">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2021/03/18/在线学习防作弊综述/1.png">
-<meta property="og:updated_time" content="2021-05-20T06:26:31.978Z">
+<meta property="og:updated_time" content="2021-06-22T10:42:25.817Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在线学习防作弊综述">
 <meta name="twitter:description" content="【题外话】机器学习论文怎么写： 很大一部分论文描述或研究了新的机器学习方法或理论。这类论文的例子可能包括: 一篇提出新的学习算法的论文; 一篇描述困难应用的解决方案的论文; 或者一篇证明某种学习方法的错误的界限的论文。这些论文有望作出重要的(i)算法，(ii)应用，或(iii)理论贡献。NIPS 寻求发表在世界上有很高影响力的论文——不仅在我们的研究社区，而且在其他领域。因此，在适当的情况下，将根">
@@ -422,7 +422,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2021-05-20 14:26:31" itemprop="dateModified" datetime="2021-05-20T14:26:31+08:00">2021-05-20</time>
+                <time title="Modified: 2021-06-22 18:42:25" itemprop="dateModified" datetime="2021-06-22T18:42:25+08:00">2021-06-22</time>
               
             
           </span>
@@ -656,6 +656,24 @@
 <li>幼儿园教师编制落实情况 分析模型。判断不同区域幼儿园教师编制是否 落实到位，将幼儿园教师严重缺编的 区域作为延伸审计重点。</li>
 <li>不 同 性 质 幼 儿 园 家 长 、教 师满意度分析模型。并按区域、幼儿园性质进 行分组，分析不同性质、不同区域、不 同财政投入情况下，家长、教师对幼 儿园的满意度。</li>
 </ol>
+<hr>
+<p>《基于改进时间卷积网络的日志序列异常检测_杨瑞朋》</p>
+<p>检验模型：embedding 层、改进的 TCN 层、自适应平均池化层。</p>
+<ol>
+<li>embedding 层。日志模板序号映射成<strong>词向量</strong>。</li>
+<li>改进 TCN。<ol>
+<li>输入第一个一维空洞卷积层，并进行归 一化。需要指明的参数包括日志模板词嵌入的维 度、日志模板词典的大小、卷积核尺寸、步长、padding 大小及是否加入空洞。</li>
+<li>根据第一个卷积层的输出与 padding 的 大小，对卷积后的张量进行切片来实现因果卷积。<ol>
+<li>因果卷积：利用卷积，从后往前数长度 h 个日志记录，来预测下一个日志记录。特点是该卷积仅依赖于 1，2~h 的输入，而不会依赖 h+1 及以后的输入。</li>
+</ol>
+</li>
+<li>添加 PReLU 激活函数。</li>
+<li>dropout</li>
+<li>堆叠相同结构的第 2 个卷积块，构成一个残差块。</li>
+</ol>
+</li>
+<li>自适应平均池化层。</li>
+</ol>
 
       
     </div>
@@ -715,8 +733,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2021/04/11/机器学习实战读书笔记/" rel="prev" title="机器学习实战读书笔记">
-                机器学习实战读书笔记 <i class="fa fa-chevron-right"></i>
+              <a href="/2021/06/21/深度学习入门到跑路/" rel="prev" title="深度学习入门到跑路">
+                深度学习入门到跑路 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
