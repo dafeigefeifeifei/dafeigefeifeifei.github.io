@@ -1,0 +1,1576 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="副标题：高性能网络服务器的demo 级别实现  fork select epoll IO事件库，以 libevent 举例。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webRTC使用记录2">
+<meta property="og:url" content="http://yoursite.com/2020/07/23/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%952/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="副标题：高性能网络服务器的demo 级别实现  fork select epoll IO事件库，以 libevent 举例。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-07-23T02:15:10.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.869Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="computer network">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/23/webRTC使用记录2/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>webRTC使用记录2 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/23/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%952/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webRTC使用记录2
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-23 10:15:10" itemprop="dateCreated datePublished" datetime="2020-07-23T10:15:10+08:00">2020-07-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>副标题：高性能网络服务器的demo 级别实现</p>
+<ol>
+<li>fork</li>
+<li>select</li>
+<li>epoll</li>
+<li>IO事件库，以 libevent 举例。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="c-语言实现高性能网络服务器"><a href="#c-语言实现高性能网络服务器" class="headerlink" title="c 语言实现高性能网络服务器"></a>c 语言实现高性能网络服务器</h2><h3 id="以-fork-方式"><a href="#以-fork-方式" class="headerlink" title="以 fork 方式"></a>以 fork 方式</h3><p>（父进程）每收到一个连接，就 fork 一个子进程。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 tcp_server.c 的基础上进行改写</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// create tcp socket</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">// bind socket</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">// listen</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(;;)&#123;</span><br><span class="line">  <span class="comment">// accept</span></span><br><span class="line">  ...    </span><br><span class="line">  pid = fork() <span class="comment">// pid == 0 子进程，pid&gt;0 父进程    </span></span><br><span class="line">  <span class="keyword">if</span>(pid == <span class="number">0</span>)&#123;</span><br><span class="line">  	<span class="comment">// recv &amp; close_accept</span></span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(pid != <span class="number">0</span>)&#123;</span><br><span class="line">  <span class="comment">// close_socket</span></span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>问题：</p>
+<ol>
+<li>资源被长期占用</li>
+<li>分配子进程花费时间长</li>
+</ol>
+<hr>
+<h3 id="select-实现"><a href="#select-实现" class="headerlink" title="select 实现"></a>select 实现</h3><ul>
+<li>属于异步 IO，即以事件触发的机制对 IO 操作进行处理。</li>
+<li>系统开销小，不必创建进程或者线程，也不必维护。</li>
+<li>默认只有 1024 个连接，epoll 无此限制</li>
+</ul>
+<p>步骤：</p>
+<ol>
+<li><p>遍历文件描述符集中所有描述符，找到有变化的描述符。</p>
+<ol>
+<li>os 底层发现socket 有数据过来时，select 自己还需要做判断，确定到底有没有数据过来。</li>
+</ol>
+</li>
+<li><p>监听 socket 跟数据处理 socket 要区别对待。</p>
+</li>
+<li><p>socket 必须设置为非阻塞方式工作，但 select 是阻塞的。</p>
+</li>
+</ol>
+<p>重要 API：</p>
+<table>
+<thead>
+<tr>
+<th>api</th>
+<th>FD_ZERO</th>
+<th>FD_SET</th>
+<th>FD_ISSET</th>
+<th>FD_CLEAR</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>文件描述符集中的所有描述符全部清掉</td>
+<td>将某描述符设置到集内</td>
+<td>判断某描述符是否在集内</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>api</strong></td>
+<td><strong>flag fcntl(fd, F_SETFL&#x2F;F_GETFL,flag)</strong></td>
+<td><strong>events select(nfds, readfds, writefds, exceptfds, timeout)</strong></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>文件描述符控制函数，用于控制阻塞&#x2F; 非阻塞</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>tips: </p>
+<ol>
+<li>events——select 找出哪些事件被触发了</li>
+<li>nfds——最大的文件描述符+1（约定俗成，意义不明）</li>
+<li>readfds、writefds、exceptfds——读、写、异常的文件描述符集</li>
+<li>timeout——超时时间，select 以阻塞方式执行，所以达到超时时间后，select 结束掉，进入下一个循环。一般 500 毫秒。</li>
+</ol>
+<p> select demo：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 tcp_server.c 的基础上进行改写</span></span><br><span class="line"><span class="comment">// 重点就是文件描述符集fd_sets，首先制造 socket_fd用于监听</span></span><br><span class="line"><span class="comment">// 在遍历 fd_sets 时，发现有连接，就制造 accept_fd；有数据，就使用accept_fd 传输数据。</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> accept_fds[FD_SIZE] = &#123;<span class="number">-1</span>,&#125;; <span class="comment">// FD_SIZE 默认 1024</span></span><br><span class="line"><span class="comment">// create tcp socket</span></span><br><span class="line">...</span><br><span class="line">flags = fcntl(socket_fd, F_GETFL, <span class="number">0</span>); <span class="comment">// 获取 socket_fd 的 flag</span></span><br><span class="line">fcntl(socket_fd, F_SETFL, flags | O_NONBLOCK); <span class="comment">// 设置为非阻塞 </span></span><br><span class="line">max_fd=socket_fd;</span><br><span class="line"><span class="comment">// bind socket</span></span><br><span class="line">...</span><br><span class="line"><span class="comment">// listen</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(;;)&#123;</span><br><span class="line">  FD_ZERO(&amp;fd_sets); <span class="comment">// 清空fd_sets</span></span><br><span class="line">  FD_SET(socket_fd, &amp;fd_sets); <span class="comment">// 将当前 socket （监听 socket）设置到 fd_sets 文件描述符集内</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; i&lt;FD_SIZE; i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(accept_fd[i]  != <span class="number">-1</span>)&#123;</span><br><span class="line">      <span class="keyword">if</span>(accept_fds[i] &gt; max_fd)&#123;</span><br><span class="line">        max_fd = accept_fds[i]; <span class="comment">//使 max_fd 保持为最大文件描述符</span></span><br><span class="line">      &#125;</span><br><span class="line">      FD_SET(accept_fds[i], &amp;fd_sets);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  events = select(max_fd+<span class="number">1</span>, &amp;fd_sets,<span class="literal">NULL</span>,<span class="literal">NULL</span>,<span class="literal">NULL</span>); <span class="comment">// 读文件描述符集被 select</span></span><br><span class="line">	<span class="keyword">if</span>(events &lt; <span class="number">0</span>)&#123;</span><br><span class="line">   	<span class="comment">// 调用失败</span></span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(events == <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">// 超时</span></span><br><span class="line">    continues;</span><br><span class="line">  &#125;<span class="keyword">else</span> <span class="keyword">if</span>(events)&#123;</span><br><span class="line">    <span class="keyword">if</span>(FD_ISSET(socket_fd, &amp;fd_sets))&#123; </span><br><span class="line">      <span class="comment">// socket_fd 发生了变动，说明来了新的连接，可以进行 accept</span></span><br><span class="line">      </span><br><span class="line">      <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>; FD_SIZE; i++)&#123;</span><br><span class="line">        <span class="keyword">if</span>(accept_fds[i] == <span class="number">-1</span>)&#123;</span><br><span class="line">          curpos = i;</span><br><span class="line">          <span class="keyword">break</span>; <span class="comment">// 找到空槽</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="type">socklen_t</span> addr_len = <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr);</span><br><span class="line">      accept_fd = accept(socket_fd,</span><br><span class="line">                        	(<span class="keyword">struct</span> sockaddr *)&amp;remoteaddr,</span><br><span class="line">                        	&amp;addr_len); <span class="comment">//创建一个accept_fd</span></span><br><span class="line">      flags = fcntl(accept_fd, F_GETFL, <span class="number">0</span>); <span class="comment">// 获取 socket_fd 的 flag</span></span><br><span class="line">			fcntl(accept_fd, F_SETFL, flags | O_NONBLOCK); <span class="comment">// 设置为非阻塞 </span></span><br><span class="line">      accept_fd[curpos]=accept_fd; <span class="comment">// 插入槽中</span></span><br><span class="line">    &#125;</span><br><span class="line">		<span class="comment">// 触发的是数据事件</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>; j &lt; FD_SIZE; j++ )&#123;</span><br><span class="line">      <span class="keyword">if</span>( (accept_fds[j] != <span class="number">-1</span>) &amp;&amp; FD_ISSET(accept_fds[j], &amp;fd_sets))&#123; </span><br><span class="line">        <span class="comment">//有事件时，读数据</span></span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;accept event :%d, accept_fd: %d\n&quot;</span>,j, accept_fds[j]);</span><br><span class="line">        <span class="type">char</span> in_buf[MESSAGE_SIZE];</span><br><span class="line">        <span class="built_in">memset</span>(in_buf, <span class="number">0</span>, MESSAGE_SIZE);</span><br><span class="line">        <span class="type">int</span> ret = recv(accept_fds[j], &amp;in_buf, MESSAGE_SIZE, <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span>(ret == <span class="number">0</span>)&#123;</span><br><span class="line">          close(accept_fds[j]);</span><br><span class="line">          accept_fds[j] = <span class="number">-1</span>;</span><br><span class="line">        &#125; </span><br><span class="line"></span><br><span class="line">        <span class="built_in">printf</span>( <span class="string">&quot;receive message:%s\n&quot;</span>, in_buf );</span><br><span class="line">        send(accept_fds[j], (<span class="type">void</span>*)in_buf, MESSAGE_SIZE, <span class="number">0</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">  <span class="comment">// close_socket</span></span><br><span class="line">  ...</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="epoll-实现"><a href="#epoll-实现" class="headerlink" title="epoll 实现"></a>epoll 实现</h3><p>特点：</p>
+<ol>
+<li>没有文件描述符的限制，数量远远超过 1024。</li>
+<li>时间复杂度 O(1)，不受文件描述符数量而影响效率。</li>
+<li>epoll 经过内核级优化。</li>
+<li>触发模式：<ol>
+<li>水平触发Level trigger，默认，如果数据没有处理完，下次过来时会告知。 select 也属于水平触发的情况。一般用于比较重要的场合。</li>
+<li>边缘触发edge trigger，效率更高，但开发难度高。仅触发一次，不会管你有无处理完所有数据。</li>
+</ol>
+</li>
+</ol>
+<p>重要 api：</p>
+<table>
+<thead>
+<tr>
+<th>api</th>
+<th>int epoll_create()</th>
+<th>int epoll_ctl(epfd,op,fd,struct epoll_event *event)</th>
+<th>int epoll_wait(epfd,events, maxevents,timeout)</th>
+<th></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>创建一个 epoll 的文件描述符</td>
+<td>向 epoll 添加事件fd</td>
+<td>等待事件</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>tips：</p>
+<pre><code>1. epfd：由 epoll_create 创建出的 fd
+ 2. events：发生改变的事件数组
+ 3. maxevents：每次返回时最大返回的事件数量
+ 4. timeout：超时时间，没有事件时，会等待到timeout 后停止 epoll，然后再来一轮 ，500 毫秒即可
+</code></pre>
+<p>epoll 的事件：</p>
+<ol>
+<li>EPOLLET：可以用来设置成边缘触发模式 。</li>
+<li>EPOLLIN：数据来的事件。</li>
+<li>EPOLLOUT：数据往外写的事件。</li>
+<li>EPOLLPRI：出现问题、中断的事件。</li>
+<li>EPOLLERR：读写出现问题的事件。</li>
+<li>EPOLLHUP：挂起的事件。</li>
+</ol>
+<p>epoll_ctl 相关操作：</p>
+<ol>
+<li>EPOLL_CTL_ADD：将文件描述符 add 到 epoll 里</li>
+<li>EPOLL_CTL_MOD: 修改 epoll 里的文件描述符</li>
+<li>EPOLL_CTL_DEL: 删除 epoll 里的文件描述符</li>
+</ol>
+<p>epoll 重要结构体</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">union</span> <span class="title">epoll_data</span>&#123;</span></span><br><span class="line">	<span class="type">void</span>      *ptr;</span><br><span class="line">	<span class="type">int</span> 		  fd;</span><br><span class="line">	<span class="type">uint32_t</span>	u32;</span><br><span class="line">	<span class="type">uint64_t</span>	u64;</span><br><span class="line">&#125;<span class="type">epoll_data_t</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span>&#123;</span></span><br><span class="line">	<span class="type">uint32_t</span> 				events;</span><br><span class="line">	<span class="type">epoll_data_t</span> 		data; <span class="comment">//用户数据</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>epoll demo：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 tcp_server.c 的基础上进行改写</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">ev</span>, <span class="title">events</span>[<span class="title">MAX_EVENTS</span>];</span> <span class="comment">// MAX_EVENTS可以设为 20，同时刻的并发数</span></span><br><span class="line"><span class="comment">// create tcp socket</span></span><br><span class="line">...</span><br><span class="line">flags = fcntl(socket_fd, F_GETFL, <span class="number">0</span>); <span class="comment">// 获取 socket_fd 的 flag</span></span><br><span class="line">fcntl(socket_fd, F_SETFL, flags | O_NONBLOCK); <span class="comment">// 设置为非阻塞 </span></span><br><span class="line"></span><br><span class="line">epoll_fd = epoll_create(<span class="number">256</span>);</span><br><span class="line">ev.events = EPOLLIN; <span class="comment">//监听一般设置为水平触发</span></span><br><span class="line">ev.fd = socket_fd;</span><br><span class="line">epoll_ctl(epoll_fd,EPOLL_CTL_ADD, socket_fd, &amp;ev);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(;;)&#123;</span><br><span class="line">  <span class="comment">// epoll_wait用于等待IO事件。如果当前没有可用的事件，这个函数会阻塞调用线程。</span></span><br><span class="line">  event_number = epoll_wait(epoll_fd, events, MAX_EVENTS, TIMEOUT); </span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;event_number; i++)&#123;</span><br><span class="line">    <span class="keyword">if</span>(events[i].data.fd == socket_fd)&#123;</span><br><span class="line">      <span class="comment">//监听的 socket事件，所以需要创建连接</span></span><br><span class="line">      <span class="type">int</span> addr_len = <span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in);</span><br><span class="line">      accept_fd = accept(socket_fd,</span><br><span class="line">                        	(<span class="keyword">struct</span> sockaddr *)&amp;remoteaddr,</span><br><span class="line">                        	&amp;addr_len); <span class="comment">//创建一个accept_fd</span></span><br><span class="line">      flags = fcntl(accept_fd, F_GETFL, <span class="number">0</span>);</span><br><span class="line">      fcntl(accept_fd, F_SETFL, flags | O_NONBLOCK); <span class="comment">// 设置为非阻塞 </span></span><br><span class="line">   		ev.events = EPOLLIN | EPOLLET; <span class="comment">//边缘触发</span></span><br><span class="line">      ev.data.fd = accept_fd;</span><br><span class="line">      epoll_ctl(epoll_fd, EPOLL_CTL_ADD, accept_fd, &amp;ev); <span class="comment">// accept_fd 交由 epoll 托管</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(events[i].events &amp; EPOLLIN)&#123;</span><br><span class="line">      <span class="keyword">do</span>&#123;</span><br><span class="line">        <span class="built_in">memset</span>(in_buf, <span class="number">0</span>, MESSAGE_SIZE);</span><br><span class="line">          <span class="type">int</span> ret = recv(events[i,.data.fd, (<span class="type">void</span>*)in_buf, MESSAGE_SIZE, <span class="number">0</span>);</span><br><span class="line">          <span class="keyword">if</span>(ret == <span class="number">0</span>)&#123;</span><br><span class="line">            close(events[i].data.fd);</span><br><span class="line">          &#125; </span><br><span class="line">          <span class="keyword">if</span>(ret == MESSAGE_LEN)&#123; <span class="comment">// 缓冲区满了</span></span><br><span class="line">            <span class="comment">// 进一步处理</span></span><br><span class="line">          &#125;</span><br><span class="line">       &#125;<span class="keyword">while</span>(ret &lt; <span class="number">-1</span> &amp;&amp; errno == EINTR);</span><br><span class="line">        <span class="keyword">if</span>(ret &lt; <span class="number">0</span>)&#123;</span><br><span class="line">          <span class="keyword">switch</span>(errno)&#123;</span><br><span class="line">            <span class="keyword">case</span> EAGAIN: <span class="comment">// 数据没了，等下一次再传数据</span></span><br><span class="line">              <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>: </span><br><span class="line">              <span class="keyword">break</span>;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span>(写操作)&#123;...略&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line">                                </span><br><span class="line">close(socket_fd);</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;                                </span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="epoll-fork"><a href="#epoll-fork" class="headerlink" title="epoll + fork"></a>epoll + fork</h3><p>实现demo:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在执行 epoll 前（即上文 for 死循环前）执行：</span></span><br><span class="line"><span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>;i&lt;MAX_PROCESS;i++)&#123; <span class="comment">//4 核 cpu 时，MAX_PROCESS可以设为4</span></span><br><span class="line">	<span class="keyword">if</span>(pid != <span class="number">0</span>)&#123;</span><br><span class="line">		pid = fork(); <span class="comment">// 创建预设的子进程</span></span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(pid == <span class="number">0</span>)&#123;</span><br><span class="line">	<span class="comment">//子进程做的事,一直包含到 return0 之前的“epoll执行”部分</span></span><br><span class="line">	<span class="comment">// epoll_wait</span></span><br><span class="line">	...</span><br><span class="line">	<span class="comment">//accept_fd</span></span><br><span class="line">	...</span><br><span class="line">	<span class="comment">//recv</span></span><br><span class="line">	...</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">  <span class="comment">// 父进程</span></span><br><span class="line">  <span class="keyword">do</span>&#123;</span><br><span class="line">    pid = waitpid(<span class="number">-1</span>,<span class="literal">NULL</span>,<span class="number">0</span>); <span class="comment">// 等待所有子进程结束</span></span><br><span class="line">  &#125;<span class="keyword">while</span>(pid != <span class="number">-1</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h3 id="libevent"><a href="#libevent" class="headerlink" title="libevent"></a>libevent</h3><p> 重要函数：</p>
+<ol>
+<li><p>event_base_new：创建实例，并初始化</p>
+</li>
+<li><p>event_base_dispatch: 事件触发器</p>
+</li>
+<li><p>event_new: 创建 event 队列，还有event_add、event_del、event_free 等都属于较底层 api。</p>
+</li>
+<li><p>evconnlistener_new_bind:  综合了socket监听和触发的功能，属于较高级的 api</p>
+</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="title function_">void</span> <span class="params">(*evconnlistener_cb)</span> <span class="params">(<span class="keyword">struct</span> evconnlistener *,</span></span><br><span class="line"><span class="params">																	<span class="type">evutil_socket_t</span>,</span></span><br><span class="line"><span class="params">																	<span class="keyword">struct</span> sockaddr *,</span></span><br><span class="line"><span class="params">																	<span class="type">int</span> socklen, <span class="type">void</span> *)</span>;</span><br><span class="line"><span class="keyword">struct</span> evconnlistener *</span><br><span class="line"><span class="title function_">evconnlistener_new_bind</span><span class="params">(<span class="keyword">struct</span> event_base *base,</span></span><br><span class="line"><span class="params">												evconnlistener_cb cb,</span></span><br><span class="line"><span class="params">												<span class="type">void</span> *ptr,</span></span><br><span class="line"><span class="params">												<span class="type">unsigned</span> flags,</span></span><br><span class="line"><span class="params">												<span class="type">int</span> backlog,</span></span><br><span class="line"><span class="params">												<span class="type">const</span> <span class="keyword">struct</span> sockaddr *sa,</span></span><br><span class="line"><span class="params">												<span class="type">int</span> socklen)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>tips：</p>
+<ol>
+<li>event_base ：通过event_base_new生成。</li>
+<li>evconnlistener_cb：是一种回调函数，当有连接进来时，会触发这个回调函数</li>
+<li>*ptr 是一个指针，指向 evconnlistener_cb函数的参数</li>
+<li>flags：事件的标识，libevent 提供有重复触发。。。各种标识。</li>
+<li>backlog：socket 相关，相当于排队请求的。。。（不明）</li>
+<li>sockaddr：服务请求的地址，包括 ip 和 port</li>
+<li>socklen：socket 的长度</li>
+</ol>
+<p>libevent demo（使用高级 api）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化 event_base</span></span><br><span class="line"><span class="comment">// 监听&amp;触发，使用evconnlistener_new_bind</span></span><br><span class="line"><span class="comment">// 开始循环，使用event_base_dispatch</span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">int</span> argc, <span class="type">char</span> **argv)</span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">event_base</span> *<span class="title">base</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">evconnlistener</span> *<span class="title">listener</span>;</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">sin</span>;</span></span><br><span class="line">    <span class="type">int</span> port = <span class="number">8111</span>;</span><br><span class="line"></span><br><span class="line">    base = event_base_new(); <span class="comment">/* 初始化event_base */</span></span><br><span class="line">    <span class="keyword">if</span> (!base) &#123;</span><br><span class="line">        <span class="built_in">puts</span>(<span class="string">&quot;Couldn&#x27;t open event base&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*初始化绑定地址*/</span></span><br><span class="line">    <span class="built_in">memset</span>(&amp;<span class="built_in">sin</span>, <span class="number">0</span>, <span class="keyword">sizeof</span>(<span class="built_in">sin</span>));</span><br><span class="line">    <span class="built_in">sin</span>.sin_family = AF_INET;</span><br><span class="line">    <span class="built_in">sin</span>.sin_addr.s_addr = INADDR_ANY;</span><br><span class="line">    <span class="built_in">sin</span>.sin_port = htons(port);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 初始化evconnlistener(绑定地址、设置回调函数以及连接属性) */</span></span><br><span class="line">    listener = evconnlistener_new_bind(base, accept_conn_cb, <span class="literal">NULL</span>, LEV_OPT_CLOSE_ON_FREE|LEV_OPT_REUSEABLE, <span class="number">-1</span>,(<span class="keyword">struct</span> sockaddr*)&amp;<span class="built_in">sin</span>, <span class="keyword">sizeof</span>(<span class="built_in">sin</span>));</span><br><span class="line">    <span class="keyword">if</span> (!listener) &#123;</span><br><span class="line">        perror(<span class="string">&quot;Couldn&#x27;t create listener&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 设置Listen错误回调函数 */</span></span><br><span class="line">    evconnlistener_set_error_cb(listener, accept_error_cb);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* 开始accept进入循环 */</span></span><br><span class="line">    event_base_dispatch(base);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上涉及了<code>accept_conn_cb</code>，<code>accept_error_cb</code>这些回调函数，需要另外实现。</p>
+<p>接收数据事件的回调函数accept_conn_cb：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 举例：接收数据事件的回调函数：</span></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">accept_conn_cb</span><span class="params">(<span class="keyword">struct</span> evconnlistener *listener,<span class="type">evutil_socket_t</span> fd, <span class="keyword">struct</span> sockaddr *address, <span class="type">int</span> socklen,<span class="type">void</span> *ctx)</span>&#123;</span><br><span class="line">    <span class="comment">/* 初始化一个bufferevent用于数据的写入和读取，首先需要从Listerner中获取event_base */</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">event_base</span> *<span class="title">base</span> =</span> evconnlistener_get_base(listener);</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">bufferevent</span> *<span class="title">bev</span> =</span> bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);</span><br><span class="line">    <span class="comment">/*设置buferevent的回调函数，这里设置了读和事件的回调函数*/</span></span><br><span class="line">    bufferevent_setcb(bev, echo_read_cb, <span class="literal">NULL</span>, echo_event_cb, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="comment">/* 启用该bufevent写和读 */</span></span><br><span class="line">     bufferevent_enable(bev, EV_READ|EV_WRITE);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上又涉及了<code>echo_read_cb</code>,<code>echo_event_cb</code>等回调函数，此处略去不表。</p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/22/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%951/" rel="next" title="webRTC使用记录1">
+                <i class="fa fa-chevron-left"></i> webRTC使用记录1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/" rel="prev" title="webRTC使用记录3">
+                webRTC使用记录3 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#c-%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0%E9%AB%98%E6%80%A7%E8%83%BD%E7%BD%91%E7%BB%9C%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">c 语言实现高性能网络服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5-fork-%E6%96%B9%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">以 fork 方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#select-%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">select 实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll-%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.</span> <span class="nav-text">epoll 实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#epoll-fork"><span class="nav-number">1.4.</span> <span class="nav-text">epoll + fork</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#libevent"><span class="nav-number">1.5.</span> <span class="nav-text">libevent</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

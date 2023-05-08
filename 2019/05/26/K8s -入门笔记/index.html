@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="K8s 入门笔记本文第一章来源自 Weekend read, Serverless, Docker, Kubernetes，及文中涉及的五篇 tutorials。主要针对以下问题：  什么是 K8s？ Pods、Nodes、Services，又是什么？ Serverless 又是什么？ Cluster 该如何开始，又该怎么维护？  本文第二章开始，就是对极客时间出品的《深入剖析Kubernetes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8s 入门笔记">
+<meta property="og:url" content="http://yoursite.com/2019/05/26/K8s%20-%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="K8s 入门笔记本文第一章来源自 Weekend read, Serverless, Docker, Kubernetes，及文中涉及的五篇 tutorials。主要针对以下问题：  什么是 K8s？ Pods、Nodes、Services，又是什么？ Serverless 又是什么？ Cluster 该如何开始，又该怎么维护？  本文第二章开始，就是对极客时间出品的《深入剖析Kubernetes">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-05-26T01:10:18.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.839Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/26/K8s -入门笔记/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>K8s 入门笔记 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/K8s%20-%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">K8s 入门笔记
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-05-26 09:10:18" itemprop="dateCreated datePublished" datetime="2019-05-26T09:10:18+08:00">2019-05-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Java/" itemprop="url" rel="index"><span itemprop="name">Java+</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="K8s-入门笔记"><a href="#K8s-入门笔记" class="headerlink" title="K8s 入门笔记"></a>K8s 入门笔记</h1><p>本文第一章来源自 <a target="_blank" rel="noopener" href="https://dev.to/softchris/weekend-read-serverless-docker-kubernetes-56co">Weekend read, Serverless, Docker, Kubernetes</a>，及文中涉及的五篇 tutorials。主要针对以下问题：</p>
+<ol>
+<li>什么是 K8s？</li>
+<li>Pods、Nodes、Services，又是什么？</li>
+<li>Serverless 又是什么？</li>
+<li>Cluster 该如何开始，又该怎么维护？</li>
+</ol>
+<p>本文第二章开始，就是对极客时间出品的《深入剖析Kubernetes》，进行概括总结。</p>
+<p><a target="_blank" rel="noopener" href="https://time.geekbang.org/column/article/17841">K8s 知识图谱</a></p>
+<span id="more"></span>
+
+<h2 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h2><ol>
+<li><p>k8s 的使用背景：需要多台机器分担负载并可能随时发生弹性缩放的场景下，k8s 是处理 containers 的好的实践方案。</p>
+<ol>
+<li>使用 containers 可实现环境的复用，让 dev&#x2F;pre&#x2F;Online 环境都表现得一致。</li>
+<li>使用 container API 可一次管理多个 containers，适用于任务调度、负载均衡、分布式等场景。</li>
+</ol>
+</li>
+<li><p>k8s 是一个开源系统，能够自动进行部署、缩放、管理容器内的 app 等。</p>
+</li>
+<li><p>Minikube 是一个工具，能够让k8s 跑在本地。</p>
+<ol>
+<li>另外有一个开源的 kubernetes-client，不知道跟 Minukube 相比孰优孰劣。</li>
+</ol>
+</li>
+<li><p>Nodes——作为 Pod 运行的地方。通常是一个 worker machine(可以是物理机或者虚拟机)。</p>
+<ol>
+<li>Node ：pods &#x3D; 1 ：N</li>
+<li>在集群中，Master 通过 Nodes 管理 pods。</li>
+<li>每个 Node 都有至少一个<strong>Kubelet</strong>，至少一个<strong>container runtime</strong><ol>
+<li>Kubelet，负责 k8s master 跟 node 之间交流的进程， 负责管理 pods，是 node 节点的核心。<strong>kubelet 主要负责同容器运行时（比如 Docker 项目）打交道</strong>。而这个交互所依赖的，是一个称作 CRI（Container Runtime Interface）的远程调用接口，这个接口定义了容器运行时的各项核心操作，比如：启动一个容器需要的所有参数。<ol>
+<li>所以 K8s 不关心部署的是什么容器运行时，只要能够运行标准的容器镜像，就可以通过 CRI 接入到 K8s 中。</li>
+<li><strong>kubelet 还通过 gRPC 协议同一个叫作 Device Plugin 的插件进行交互</strong>，用在对 GPU 等硬件使用上。</li>
+<li><strong>kubelet通过 CNI 和 CSI 两个接口调用网络插件和存储插件为容器配置网络和持久化存储</strong>。</li>
+</ol>
+</li>
+<li>A container runtime（如 docker），负责从 registry 中拉 image，开启 container，并运行 app。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>Pods——k8s平台上的原子单位，是部署环境的最小单元。</p>
+</li>
+<li><p>最精辟的定义：<strong>Pod，其实是一组共享了某些资源的容器</strong>。详细解释：<strong>Pod 里的所有容器，共享的是同一个 Network Namespace，并且可以声明共享同一个 Volume</strong>。</p>
+</li>
+<li><p>通常是一个或一些 containers。常见的有 docker、containers 之间的共享资源(如共享存储、网络、镜像信息等)。</p>
+</li>
+<li><p>pod 里的containers，共享同一个 ip 和端口。就算是同一个 Node 里的 Pod，也有唯一独立的 IP 地址。</p>
+</li>
+<li><p>Pods 是具有生命周期的，当一个 Pod 死亡时，K8s 会通过一个叫做 <strong>ReplicaSet</strong> 的机制开启新的 Pods 来保证 app 的正常运行。</p>
+<ol>
+<li>使用 Service 来实现 Pods 间的同步机制。</li>
+<li>死亡后 ip 地址回收，重启 Pods 时，会发放新的 ip 地址。所以会出现同一个 Pod，经过短暂下线又上线后，换了个 ip 的情况。</li>
+</ol>
+</li>
+<li><p>K8s 中的 Service 维护了一系列 Pods 的集合，并提供访问它们的方式。 </p>
+<ol>
+<li>用 <strong>Label</strong> 和 <strong>Selector</strong> 来实现 Service 跟 Pods 之间的沟通，通常用 Label+logicalName 来指代某个Pod，而不是 ip 地址。Label 是 K-V 格式的。</li>
+<li>有依赖关系的 Pods 间使用 yaml&#x2F;json 进行记录。</li>
+</ol>
+</li>
+<li><p>Service 有多种分类（角色）：</p>
+<ol>
+<li>ClusterIP(default)：仅允许集群访问的内部 IP。</li>
+<li>NodePort：让集群中的某一部分 Node使用同一个端口暴露服务，用 NAT 来实现。<ol>
+<li>外部使用”：”访问。</li>
+<li>是 ClusterIP 的父集合。</li>
+</ol>
+</li>
+<li>LoadBalancer：一个外部的负载均衡器，通常分配一个固定的外部 IP。<ol>
+<li>是 NodePort 的父集合。</li>
+</ol>
+</li>
+<li>ExternalName：相当于取一个别名，然后返回一个 CNAME 记录。<ol>
+<li>不使用代理，需要 v1.7 或更高版本的 kube-dns。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>像上文提到的 Docker，其实就是一种 container runtime，帮助用户创建可复制的环境(指定 os、lib 的版本、环境变量等等)。Docker 负责创建 container，这个 container 中会包含 app 运行需要的所有东西（含源码）。</p>
+<ol>
+<li>注意 Docker 跟虚拟机的区别。Docker 使用 <strong>layered file system</strong>（分层文件系统），让containers 之间共享部分资源，相比虚拟机，更少出现独占资源的情况。</li>
+<li>Docker containers 间相互独立，而且是轻量级的、安全的系统单元。</li>
+<li>欲开启一个 Docker。首先需要定义一个<code>Dockerfile</code>，文件中需要指定 os、环境变量等信息。然后创建 image(或者从别的地方拉)。最后运行一个container。</li>
+<li>Docker 采用 <strong>volume</strong> （或称为 Docker volume 数据卷）的方式向 containers 提供持久化存储，比如存储 log、json、SQLite 等，就算 containers 生命周期结束了，存在 volume 中的数据也不会被删除。</li>
+<li>使用 <strong>Docker Compose</strong> 实现组件复用，具备了微服务的思想。使用了 Compose 后，开启 Docker时，可能仅需要定义 <strong>Dockerfile</strong>了，后续的image 和 containers 的管理都可以交给compose 来完成。<ol>
+<li>使用 docker-compose.yaml 进行配置，配置内容为：Build、Environment、Image、Networks、Ports、Volumes 等。</li>
+</ol>
+</li>
+<li>更多 Docker 内容参考：<a target="_blank" rel="noopener" href="https://www.runoob.com/docker/docker-tutorial.html">Docker 菜鸟教程</a></li>
+</ol>
+</li>
+<li><p>Serverless，服务端逻辑运行在无状态的计算容器中，通常是 Event-driven。</p>
+</li>
+<li><p>并非不需要服务器作为计算资源，而是程序员无需理会计算资源的申请和维护，而交由平台来管理。</p>
+</li>
+<li><p>参考：<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/59483">大道至简 - 基于Docker的Serverless探索之旅</a></p>
+</li>
+</ol>
+<h2 id="二、极客时间《深入剖析Kubernetes》-学习笔记"><a href="#二、极客时间《深入剖析Kubernetes》-学习笔记" class="headerlink" title="二、极客时间《深入剖析Kubernetes》 学习笔记"></a>二、极客时间《深入剖析Kubernetes》 学习笔记</h2><ol>
+<li><p>docker 最简介绍，源自 PaaS，但因为 DockerImage 的存在，使得程序在打包时附带上了操作系统的文件系统，使得程序在多服务器上实现近似的”一键部署”的功能。</p>
+</li>
+<li><p>沙盒技术，容器本质是一种具有<strong>边界</strong>的<strong>沙盒技术</strong>，沙盒中盛装的就是外部应用。</p>
+<ol>
+<li>边界：<strong>容器技术的核心功能，就是通过约束和修改进程的动态表现，从而为其创造出一个“边界”。</strong></li>
+<li>回顾<strong>进程</strong>的概念：<strong>一个程序运行起来后的计算机执行环境的总和</strong>。</li>
+<li>Docker 容器属于单进程模型，是指只有一个进程时 Docker 可控的。所以Docker 容器是允许多个进程的，区别在于其他进程不为 Docker 容器控制。</li>
+</ol>
+</li>
+<li><p>Docker 最核心两个技术：<strong>Cgroups</strong> 和 <strong>Namespace</strong>。</p>
+</li>
+</ol>
+<h3 id="1-Groups"><a href="#1-Groups" class="headerlink" title="1. Groups"></a>1. Groups</h3><ol>
+<li><p>Cgroups，或叫 Linux Control Groups：制造约束（边界）的主要手段，多是指资源限制。</p>
+</li>
+<li><p>限制 docker 控制的进程对 host os （宿主机）的资源使用情况，避免此进程饥饿或占据过多资源(CPU、内存等)。</p>
+</li>
+<li><p>Cgroups 就是用来<strong>限制一个进程组能够使用的资源上限，包括 CPU、内存、磁盘、网络带宽等等</strong>的工具。</p>
+</li>
+<li><p>具体过程是：使用<strong>一个子系统目录</strong>加上<strong>一组资源限制文件</strong>完成资源限制的意图。</p>
+</li>
+</ol>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># cgroup 挂载的资源(cpuset（单独 cpu 核与内存结点），cpu，cpuacct，blkio（IO 限制），memory等)</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">mount -t cgroup</span> </span><br><span class="line">cpuset on /sys/fs/cgroup/cpuset type cgroup (rw,nosuid,nodev,noexec,relatime,cpuset)</span><br><span class="line">cpu on /sys/fs/cgroup/cpu type cgroup (rw,nosuid,nodev,noexec,relatime,cpu)</span><br><span class="line">cpuacct on /sys/fs/cgroup/cpuacct type cgroup (rw,nosuid,nodev,noexec,relatime,cpuacct)</span><br><span class="line">blkio on /sys/fs/cgroup/blkio type cgroup (rw,nosuid,nodev,noexec,relatime,blkio)</span><br><span class="line">memory on /sys/fs/cgroup/memory type cgroup (rw,nosuid,nodev,noexec,relatime,memory)</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># 比如在cpu 目录/sys/fs/cgroup/cpu 下，创建新文件夹container，linux 会自动生成一系列资源限制文件（也称控制组，归属于 container 子系统），如下：</span></span></span><br><span class="line">1. cgroup.clone_children </span><br><span class="line">2. cpu.cfs_period_us  ## 总 cpu 时间，默认100ms</span><br><span class="line">3. cpu.rt_period_us  </span><br><span class="line">4. cpu.shares notify_on_release</span><br><span class="line">5. cgroup.procs      </span><br><span class="line">6. cpu.cfs_quota_us  ## 此 container 最大cpu 时间限制</span><br><span class="line">7. cpu.rt_runtime_us </span><br><span class="line">8. cpu.stat  </span><br><span class="line">9. tasks ## 将某程序的 pid 写入，说明控制组的配置就会生效</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="2-Namespace"><a href="#2-Namespace" class="headerlink" title="2. Namespace"></a>2. Namespace</h4><p>也可以在 <code>Docker run</code>命令执行时带上一些参数。</p>
+<ol>
+<li><p>Namespace：修改进程视图的手段，包括 PID Namespace、Mount&#x2F;UTS&#x2F;UTS&#x2F;Network&#x2F;User 等Namespace。</p>
+<ol>
+<li><p>PID Namespace 举例：一个 docker 在 run 了某个应用之后，此应用只能看到一个<strong>全新的进程空间（其实是 mock 空间）</strong>，此空间里一般只有自己应用的进程（pid 被修改为 1，也是后续创建进程的父进程），看不到其他进程。</p>
+<ol>
+<li>为什么这么设计？因为这么做之后，容器应用就可以跟应用同生命周期，对后续的容器编排非常重要。</li>
+</ol>
+</li>
+<li><p>Mount Namespace：只让当前应用看到此 namespace 下的挂载点信息。</p>
+<ol>
+<li><p>挂载：将新的文件系统关联至当前根文件系统（一般在分区后使用，举例：外置硬盘都被当成 file，但需要挂载后才能被 linux 识别）。参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Link-Luck/p/9856168.html">Linux 文件系统挂载</a>， <a target="_blank" rel="noopener" href="https://blog.csdn.net/daydayup654/article/details/78788310">Linux中挂载详解以及mount命令用法</a>，<a target="_blank" rel="noopener" href="http://mini.eastday.com/mobile/180105000516046.html">一文看懂linux的挂载原理和流程</a>。</p>
+</li>
+<li><p><strong>Mount Namespace 对容器进程视图的改变，一定是伴随着挂载操作（mount）才能生效</strong>。</p>
+<ol start="3">
+<li>完整操作系统文件一般是root 开始，然后<code>/etc,/dev,…</code>文件，挂载时，将一套完整的 os 文件挂载到某个子目录下，这样一来，docker 中的进程只能看到此子目录下的文件系统，实现管窥而不得全貌。这一套完成的 os 文件系统也是俗称的<strong>容器镜像</strong>，官方名称—— <strong>rootfs（根文件系统，撑死几百兆，比虚拟机 OS 占用空间小太多了）</strong>。</li>
+</ol>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="comment"># rootfs 包含的一级目录：</span></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">ls</span> /</span></span><br><span class="line">bin dev etc home lib lib64 mnt opt proc root run sbin sys tmp usr var</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>docker 是使用命令<code> pivot_root 系统调用</code>来实现以上文件挂载过程的（此命令借鉴并升级 自 linux 系统中的<code>chroot</code>命令）。</p>
+<ol start="5">
+<li><p>用户只需要解压打包好的容器镜像，那么这个应用运行所需要的完整的执行环境就被重现出来了。</p>
+<ol>
+<li><p>不过这里的容器镜像其实是<strong>增量镜像</strong>（笔者自己编的词），因为一个 rootfs 可能是经过多次多人修改后的，每次修改都保存全量并不现实，所以会带上一些增量记录(专业名词：lay)，将多个增量 lay 进行文件合并(AuFS命令，联合文件系统)，最终组成一个完成的 os 文件系统。</p>
+</li>
+<li><p>rootfs 一般分成三成：只读层、可读写层、init 层。只读层对应的正是 ubuntu:latest 镜像的五层。可读写层默认为空，一般增删改都发生在这一层，如果是删除操作，会通过创建<code>whiteout</code>文件，遮挡住只读层的文件来实现。init 层是容器启动时用户想设置的 hosts、resolv.conf 等信息，此信息一般不会再 Docker Hub 间流通，所以放在 init 层中。</p>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<ol>
+<li>上面的读写层通常也称为容器层，下面的只读层称为镜像层，所有的增删查改操作都只会作用在容器层，相同的文件上层会覆盖掉下层。知道这一点，就不难理解镜像文件的修改，比如修改一个文件的时候，首先会从上到下查找有没有这个文件，找到，就复制到容器层中，修改，修改的结果就会作用到下层的文件，这种方式也被称为copy-on-write。</li>
+<li>查了一下，包括但不限于以下这几种：aufs, device mapper, btrfs, overlayfs, vfs, zfs。aufs是ubuntu 常用的，device mapper 是 centos，btrfs 是 SUSE，overlayfs ubuntu 和 centos 都会使用，现在最新的 docker 版本中默认两个系统都是使用的 overlayfs，vfs 和 zfs 常用在 solaris 系统。</li>
+<li>镜像的多层结构使得它可以在多个镜像之间共享和征用。</li>
+</ol>
+</blockquote>
+</li>
+<li><p>需要明确的是，挂载了文件系统，但内核仍然是宿主机内核，而且无解。</p>
+<ol start="3">
+<li><p>Network Namespace：只让当前应用看到此 namespace 下的网络设置和配置。</p>
+<ol start="4">
+<li><p>但是，如果 docker 中的 app 想修改时间，然后影响到了 host os 的时间，这种情况是不能被允许的。所以对于 docker 来说，有一些资源和对象(比如时间)，是<strong>不能被 Namespace 化的</strong>。</p>
+</li>
+<li><p>一个进程的每种 Linux Namespace，都在它对应的 &#x2F;proc&#x2F;[进程号]&#x2F;ns 下有一个对应的虚拟文件，并且链接到一个真实的 Namespace 文件上。</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="3-Docker-技术与虚拟机比较"><a href="#3-Docker-技术与虚拟机比较" class="headerlink" title="3. Docker 技术与虚拟机比较"></a>3. Docker 技术与虚拟机比较</h4><pre><code> ![](1.jpg)
+</code></pre>
+<ol>
+<li><p>左虚拟机，右 docker。</p>
+</li>
+<li><p>虚拟机需要 <strong>Hypervisor</strong> 对应用进程的隔离负责，需要 <strong>Guest OS</strong> 作为真实的虚拟机提供一个各种虚拟化软件，占用了百兆的内存资源。而且多经过虚拟化软件这一层对 IO、网络等性能损耗也大。</p>
+</li>
+<li><p>docker 不需要 Hypervisor 和 Guest OS ，更加敏捷、更高性能。</p>
+</li>
+<li><p>但是就是因为没有 GuestOS，那么也就不存在自己专属的 OS 内核。</p>
+</li>
+<li><p>举例：在左图中，hostOS 可以是 win，但 app 是运行在 linux 环境下，所以GuestOS 安装上linux后，app 就可以运行。</p>
+</li>
+<li><p>但在右图，如果是同一个 hostOS 跟 app，那么因为内核是 win，所以 app 无法正常运行。即使可以挂载不同 OS 的操作系统文件，但内核没变，也变不了。</p>
+</li>
+<li><p>结论：如果应用依赖内核版本，那么 docker 也无法解决，除非再使用虚拟机。</p>
+</li>
+<li><p>数据卷 Volume</p>
+<ol>
+<li><strong>Volume 机制，允许你将宿主机上指定的目录或者文件，挂载到容器里面进行读取和修改操作。</strong></li>
+<li>挂载技术：Linux 的<strong>绑定挂载（bind mount）机制</strong>。挂载的本质就是修改 inode，实现了重定向。</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/22/Flink-%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0-1/" rel="next" title="Flink 入门笔记(1)">
+                <i class="fa fa-chevron-left"></i> Flink 入门笔记(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/26/ARTS-10/" rel="prev" title="ARTS(10)">
+                ARTS(10) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#K8s-%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B0"><span class="nav-number">1.</span> <span class="nav-text">K8s 入门笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.</span> <span class="nav-text">一、基本概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4%E3%80%8A%E6%B7%B1%E5%85%A5%E5%89%96%E6%9E%90Kubernetes%E3%80%8B-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="nav-number">1.2.</span> <span class="nav-text">二、极客时间《深入剖析Kubernetes》 学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Groups"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. Groups</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Namespace"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">2. Namespace</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Docker-%E6%8A%80%E6%9C%AF%E4%B8%8E%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%AF%94%E8%BE%83"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">3. Docker 技术与虚拟机比较</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

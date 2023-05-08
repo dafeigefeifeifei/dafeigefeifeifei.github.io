@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="【题外话】机器学习论文怎么写： 很大一部分论文描述或研究了新的机器学习方法或理论。这类论文的例子可能包括: 一篇提出新的学习算法的论文; 一篇描述困难应用的解决方案的论文; 或者一篇证明某种学习方法的错误的界限的论文。这些论文有望作出重要的(i)算法，(ii)应用，或(iii)理论贡献。NIPS 寻求发表在世界上有很高影响力的论文——不仅在我们的研究社区，而且在其他领域。因此，在适当的情况下，将根">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在线学习防作弊综述">
+<meta property="og:url" content="http://yoursite.com/2021/03/18/%E5%9C%A8%E7%BA%BF%E5%AD%A6%E4%B9%A0%E9%98%B2%E4%BD%9C%E5%BC%8A%E7%BB%BC%E8%BF%B0/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="【题外话】机器学习论文怎么写： 很大一部分论文描述或研究了新的机器学习方法或理论。这类论文的例子可能包括: 一篇提出新的学习算法的论文; 一篇描述困难应用的解决方案的论文; 或者一篇证明某种学习方法的错误的界限的论文。这些论文有望作出重要的(i)算法，(ii)应用，或(iii)理论贡献。NIPS 寻求发表在世界上有很高影响力的论文——不仅在我们的研究社区，而且在其他领域。因此，在适当的情况下，将根">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2021/03/18/%E5%9C%A8%E7%BA%BF%E5%AD%A6%E4%B9%A0%E9%98%B2%E4%BD%9C%E5%BC%8A%E7%BB%BC%E8%BF%B0/1.png">
+<meta property="article:published_time" content="2021-03-18T07:53:17.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.889Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="Cheating Detection">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/03/18/%E5%9C%A8%E7%BA%BF%E5%AD%A6%E4%B9%A0%E9%98%B2%E4%BD%9C%E5%BC%8A%E7%BB%BC%E8%BF%B0/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/18/在线学习防作弊综述/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>在线学习防作弊综述 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/18/%E5%9C%A8%E7%BA%BF%E5%AD%A6%E4%B9%A0%E9%98%B2%E4%BD%9C%E5%BC%8A%E7%BB%BC%E8%BF%B0/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在线学习防作弊综述
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-03-18 15:53:17" itemprop="dateCreated datePublished" datetime="2021-03-18T15:53:17+08:00">2021-03-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/review/" itemprop="url" rel="index"><span itemprop="name">review</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>【题外话】机器学习论文怎么写：</p>
+<p>很大一部分论文描述或研究了新的机器学习方法或理论。这类论文的例子可能包括: 一篇提出新的学习算法的论文; 一篇描述困难应用的解决方案的论文; 或者一篇证明某种学习方法的错误的界限的论文。这些论文有望作出重要的(i)算法，(ii)应用，或(iii)理论贡献。NIPS 寻求发表在世界上有很高影响力的论文——不仅在我们的研究社区，而且在其他领域。因此，在适当的情况下，将根据以下五个标准对文件进行评价:</p>
+<ol>
+<li>算法的新颖性。例如，一篇论文给出了一个算法的优雅的新推导; 或者一篇论文提出了一个解决现有问题的新方法。</li>
+<li>应用&#x2F;问题的新颖性。例如，一篇论文提出了一个重要的应用，迄今为止很少在 NIPS 研究。或者，引入一个新的机器学习问题(过去的一些例子包括独立分量分析和结构预测) ，并提出一个算法。</li>
+<li>应用的难度。例如，将机器学习应用于一个困难的、重要的、“真实”的应用程序，它考虑到让一个非琐碎的系统工作的全部复杂性。</li>
+<li>结果的质量。该算法是否经过严格论证，能够对所考虑的任务给出良好的经验性表现(在这里，“真实”数据或“真实”实验可能比“人工”或“玩具”实验更有效) ，或者理论结果是否强大和有趣等等。</li>
+<li>洞察力传达。论文是否传达了对算法性质的洞察力; 实际应用或问题的性质; 学到的一般经验教训; 以及&#x2F;或其他人今后工作可能使用的理论或数学工具。</li>
+</ol>
+<p>论文的类型：</p>
+<ol>
+<li>为该模型提出了一种新的自然学习模型和算法(例如: 贝叶斯学习、统计学习、 PAC 学习、在线学习、 MDP 学习、 Boosting)。</li>
+<li>在一些标准设置中提出了一种改进的算法并进行了分析。</li>
+<li>证明一些人一直在尝试的学习任务是困难的或不可能的。</li>
+<li>“其他”。学习定理的元定理等。技术上的困难或新奇不是目标。影响学习的过程和实践是目标。实验结果是好的，但一般来说是不必要的。</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="基于深度学习的MOOC作弊行为检测研究"><a href="#基于深度学习的MOOC作弊行为检测研究" class="headerlink" title="基于深度学习的MOOC作弊行为检测研究"></a>基于深度学习的MOOC作弊行为检测研究</h2><p>万子云,陈世伟,秦斌,聂伟,徐明.基于深度学习的MOOC作弊行为检测研究[J].信息安全学报,2021,6(01):32-39.</p>
+<p>为了提高教育平台的学分认可度，需要做防作弊的研究。</p>
+<p><strong>被动防护：技术手段禁止学习者在在线学习过程做一些违规操作。</strong></p>
+<ul>
+<li><strong>早期技术</strong>：例如,采用操作系统内核的API调用技术、系统消息拦截技术、回调技术、钩子技术、注册表访问技术等手段对一些违规操作实施禁用或者屏蔽,从而达到禁止学生进行页面切换、答案复制及互助抄袭的目的。</li>
+</ul>
+<p>知识：</p>
+<p>正常的学习者会先观看学习视频,再做练习,最后提交答案,异常的学习者可能会直接做练习或者集中在某一个时间段进行刷课等。</p>
+<p>异常行为检测问题广泛存在于各个领域,例如网络入侵检测[<a href="javascript:void(0);">5</a>,<a href="javascript:void(0);">6</a>]、信用卡欺诈检测[<a href="javascript:void(0);">7</a>]、故障检测[<a href="javascript:void(0);">8</a>]、居民用电检测[<a href="javascript:void(0);">9</a>]。根据已有的文献研究,异常行为检测算法可以分为基于人工提取特征的传统机器学习算法和基于自动化提取特征的深度学习算法[<a href="javascript:void(0);">10</a>],但是传统机器学习算法过度依赖于人工特征提取,且常常由于特征提取不完整,导致模型性能不佳等问题。因此,许多学者尝试使用基于深度学习的方法进行异常行为检测。</p>
+<p>研究现状——适用于特定作弊形式：</p>
+<ol>
+<li>常永虎等人基于考生在网络考试中的行为数据,提出了一种基于互相抄袭的作弊检测算法,该算法通过计算考生在答题的时间和答案上的相似度来判断作弊的可能性。</li>
+<li>Ruiperez-Valiente J A等人开发了一种算法来识别使用CAMEO(使用多个账号复制答案)方法进行作弊的学习者,该算法通过比较学习者、问题和提交特征对CAMEO的影响,<strong>建立了一个不依赖IP的随机森林分类器</strong>，以识别CAMEO学习者。</li>
+<li>Sangalli V A等人[<a href="javascript:void(0);">3</a>]针对学习者互相分享答案以及使用虚假账号获取正确答案这两种作弊手段,设计了一些指标来得到相应的特征,再利用K-means聚类算法对其进行聚类来识别使用这两种作弊手段的学习者。</li>
+</ol>
+<p>研究现状——通用场景</p>
+<ol>
+<li>卷积神经网络(Convolutional Neural Networks,CNN)[<a href="javascript:void(0);">11</a>]与循环神经网络(Recurrent Neural Networks,RNN)[<a href="javascript:void(0);">12</a>]是比较常见的深度学习网络模型,CNN的优势在于能够在空间维度上提取局部特征,RNN的优势在于能够在时间维度上提取时序特征。<strong>对于复杂的MOOC学习者的学习行为数据,一般是具有序列性质的,因此,在挖掘学习行为特征时,需要考虑其空间上的联系,也需要考虑其时间维度上的关联信息</strong>。</li>
+<li>本文尝试将深度学习模型应用于MOOC作弊行为检测中,结合CNN和RNN网络模型来对学习者的学习行为序列进行建模,但是,普通的RNN一方面存在着梯度消失的问题,另一方面只能学习单个方向的时序特征,为了解决这些问题,本文将RNN网络替换成其变种网络—双向门控循环单元(Bidirectional Gated Recurrent Unit,Bi GRU)[<a href="javascript:void(0);">13</a>],采用CNN-Bi GRU联合网络提取学习行为序列的空间及时序特征。(1)针对之前的MOOC作弊行为检测方法存在的应用场景单一化,过度依赖人工提取特征,检测效果不稳定等问题,本文提出了一种基于CNN-Bi GRU-Attention联合网络的MOOC作弊行为检测模型,该模型融合了CNN、Bi GRU、Attention三层网络结构,实现了自动化特征提取,可以适用于多种作弊形式的检测,性能较好。</li>
+</ol>
+<p>样本选取：</p>
+<p>在进行MOOC作弊行为检测研究时,相对于正常样本,作弊样本往往是少之又少。基于此,本文采用<strong>序列截断扩增、平移扩增</strong>这两种数据扩增方法来增加作弊行为序列的样本量。截断扩增,具体而言就是<strong>对长度过长的作弊行为序列进行截断,将截断后的序列打上作弊的标签,从而增加作弊标签的样本量</strong>。而平移扩增是指<strong>通过时间滑窗的方式,以24 h的固定窗口前后滑动,获取一段新的作弊行为序列</strong>。</p>
+<p>行业成熟应用</p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/148738080?from_voters_page=true">有效防止学员通过挂机的方式进行学时作弊</a>:**防切屏模式 **&#x2F; <strong>规定时间内的离开提醒(播放视频时隔一段时间检测鼠标任务)</strong></p>
+<hr>
+<h2 id="Identifying-Cheating-Users-in-Online-Courses"><a href="#Identifying-Cheating-Users-in-Online-Courses" class="headerlink" title="Identifying Cheating Users in Online Courses"></a>Identifying Cheating Users in Online Courses</h2><p>Sangalli, V. A., Martinez-Munoz, G., &amp; Canabate, E. P. (2020). <em>Identifying Cheating Users in Online Courses. 2020 IEEE Global Engineering Education Conference (EDUCON).</em> doi:10.1109&#x2F;educon45650.2020.9125252 </p>
+<p>学生类型：通读所有材料和练习的学生，以复习内容为主的学生，以及少数以做练习为主的学生。</p>
+<h4 id="A-Co-occurrence-in-exercise-answers"><a href="#A-Co-occurrence-in-exercise-answers" class="headerlink" title="A. Co-occurrence in exercise answers"></a>A. Co-occurrence in exercise answers</h4><p><strong>事件的同时发生</strong>是一个用户与另一个用户的关联程度的指标；<strong>在相同的时间做相同练习</strong>的帐户们将被认为是可疑的。</p>
+<ol>
+<li>为了计算可疑的用户对，首先计算<strong>每个可能的用户对在短时间内做相同的练习的次数</strong>。</li>
+<li>然后，为了进行后续分析，我们将在给定的时间范围内回答了至少一定数量的练习的学生配对。设置最小练习数是为了排除在同一时间窗口中偶然回答相同练习的用户。我们考虑的时间框架为1分钟，2分钟，5分钟和10分钟，期间发生最少10~20 个相同的练习</li>
+</ol>
+<h4 id="B-Interaction-types"><a href="#B-Interaction-types" class="headerlink" title="B. Interaction types"></a>B. Interaction types</h4><ol>
+<li>△t 基本都是负数</li>
+<li>巧合出现的几乎都是XC和CC， 这些模式似乎是使用收获帐户（CAMEOtechnique）的真实用户的清晰暗示。其中分享 IP 的比例高是 CAMEO 的典型特征，比例低则不一定。</li>
+<li>很少有第一答案正确和第二错误（CX）的情况。 缺少这种模式和答案的同时出现似乎是两个真实用户之间进行协作的明确指标</li>
+</ol>
+<h4 id="C-Amount-of-pairs-of-users-and-shared-exercises"><a href="#C-Amount-of-pairs-of-users-and-shared-exercises" class="headerlink" title="C. Amount of pairs of users and shared exercises"></a>C. Amount of pairs of users and shared exercises</h4><ol>
+<li>许多用户都有不止一对可疑账户。一个用户可能有几个收获帐户，或者一组用户相互协作。</li>
+<li>多组时间窗口：1、2、5、10 分钟，完成 10 个、20 个练习的 unique user 的柱状图分布情况。全文以 <strong>2 分钟至少 10 个练习</strong>进行实验！</li>
+</ol>
+<p>计算过程step</p>
+<ol>
+<li><strong>确定用户偏向</strong>。即 UB(u1, u2)，UB为正表示u1 做题发生在 u2 之后。</li>
+<li><strong>计算最终得分差</strong>。<ol>
+<li>如果一对用户在一个时间窗口内解决相同的练习并具有<strong>较高的最终分数差异</strong>，则表明这对用户可能由区域帐户和虚假帐户组成，因为存在一个不关心最终分数的帐户。 </li>
+<li>相反，如果他们的<strong>最终成绩差异很小</strong>，则可能表明两个合作的学生，因为他们都试图通过该课程。</li>
+</ol>
+</li>
+<li><strong>材料和练习的比例 MIR</strong>。</li>
+<li><strong>共享 IP 的比例。</strong></li>
+</ol>
+<p>KMeans 做法：</p>
+<p>为了自动识别收割者和合作者，我们对先前定义的变量进行了K-均值分析。 具体来说，对于每对分别应用1分钟，2分钟，5分钟和10分钟的时间框架以及最少10和20次练习的帐户，我们计算了指标：用户偏见，得分差异，最小MIR和共享IP地址的百分比。 由于用户偏见和得分差异根据用户排列的顺序而具有不同的符号，因此我们选择对用户输入的顺序进行排序，以使用户偏见为正，并保留该顺序以计算其他指标。 这样做是为了避免仅由用户输入的顺序引起的歧义。 此外，还添加了CC和XC案例的百分比作为属性。 在处理数据集之前，通过去除均值和按比例缩放到单位方差来对功能进行标准化。 K-means是使用k &#x3D; 2执行的，结果被用于将成对的帐户标记为a harvester pair和a collaborator pair</p>
+<h2 id="Detecting-and-preventing“multiple-account”cheating-inmassive-open-online-courses"><a href="#Detecting-and-preventing“multiple-account”cheating-inmassive-open-online-courses" class="headerlink" title="Detecting and preventing“multiple-account”cheating inmassive open online courses"></a>Detecting and preventing“multiple-account”cheating inmassive open online courses</h2><p>Northcutt, C. G., Ho, A. D., &amp; Chuang, I. L. (2016). Detecting and preventing “multiple-account” cheating in massive open online courses. Computers &amp; Education, 100, 71–80. doi:10.1016&#x2F;j.compedu.2016.04.008 </p>
+<p><img src="/2021/03/18/%E5%9C%A8%E7%BA%BF%E5%AD%A6%E4%B9%A0%E9%98%B2%E4%BD%9C%E5%BC%8A%E7%BB%BC%E8%BF%B0/1.png"></p>
+<p>分布 B 代表两个合作者，有时一个人的答案先于另一个人，有时会反过来，但时间会非常接近。</p>
+<p>分布C 是 CAMEO 行为的典型。</p>
+<p>分布 D 只是一种有序的巧合，可以通过注册时间或者时间偏好来过滤掉。</p>
+<h2 id="The-Detection-of-Cheating-on-E-Exams-in-Higher-Education—The-Performance-of-Several-Old-and-Some-New-Indicators"><a href="#The-Detection-of-Cheating-on-E-Exams-in-Higher-Education—The-Performance-of-Several-Old-and-Some-New-Indicators" class="headerlink" title="The Detection of Cheating on E-Exams in Higher Education—The Performance of Several Old and Some New Indicators"></a>The Detection of Cheating on E-Exams in Higher Education—The Performance of Several Old and Some New Indicators</h2><p>AUTHOR&#x3D;Ranger Jochen, Schmidt Nico, Wolgast Anett TITLE&#x3D;The Detection of Cheating on E-Exams in Higher Education—The Performance of Several Old and Some New Indicators  JOURNAL&#x3D;Frontiers in Psychology     VOLUME&#x3D;11      YEAR&#x3D;2020 PAGES&#x3D;2390   URL&#x3D;<a target="_blank" rel="noopener" href="https://www.frontiersin.org/article/10.3389/fpsyg.2020.568825">https://www.frontiersin.org/article/10.3389/fpsyg.2020.568825</a>     DOI&#x3D;10.3389&#x2F;fpsyg.2020.568825    ISSN&#x3D;1664-1078  </p>
+<p>五种不同类型的指标。</p>
+<ol>
+<li>我们考虑的<strong>person-fit</strong>指标，评估规律的考生的反应模式。这些指标是 U1统计量(van der Flier，1977)、 U3统计量(van der Flier，1982)、 CS 统计量(Sato，1975)和 HT 统计量(Sijtsma，1986)。<ol>
+<li>当一个考生的回答和所有其他回答之间的平均协方差为零时，HT 统计值为零，其最大值为1，越小越异常。</li>
+</ol>
+</li>
+<li>基于<strong>响应时间</strong>的指标。这些指标是 KL 统计量(Man 等，2018) ，一个类似于 Marianti 等人(2014)和 Sinharay (2018)提出的 Z2统计量，和一个新的指标ー KT 统计量ー来评估一个考生的反应时间模式的 Guttman 同质性。<ol>
+<li>KL：基于考生在单题上花费的总测试时间的比例，评估了一个考生的反应时间剖面与样本中的平均反应时间剖面的一致性，越大说明欺骗。</li>
+<li>KT 统计评估一个考生的个人答复时间是否与样本中的典型答复时间顺序相同。</li>
+</ol>
+</li>
+<li>基于<strong>响应修订数量和相应响应时间</strong>的指标(Qualls，2005; Bishop 和 Egan，2017)。其中两个指标(N1、 N2)与答复修订次数有关，两个指标(NC1、 NC2)与修订次数有关，三个指标(T1、 T2、 T3)与修订次数有关。<ol>
+<li>N1和 NC1统计量化了考生在考试期间改变答案的频率。它们是基于最后一次尝试的反应。N1 是考生修改次数，这个修改是否由不正确答案改为正确答案[ NC1(g) &#x3D; 1]。</li>
+<li>N2 和 NC2 量化了中途修正的情况。</li>
+<li>T1、 T2和 T3统计值反映了回答问题所需的时间。</li>
+</ol>
+</li>
+<li>基于<strong>答复和答复时间之间关系</strong>的指标。这个指标(CD)是库克的距离总测试时间的回归总得分的反应。<ol>
+<li>CD 统计评估考生的数据模式是否与样本中测试成绩和总测试时间之间的一般关系一致。</li>
+</ol>
+</li>
+<li>基于<strong>不同考生反应模式相似性</strong>的两个指标(Maynes，2017; zoploglu，2017)。第一个指标(PT)是根据相同答复的数量确定的，第二个指标(PI)是根据相同的错误答复的数量确定的; 关于早先对教育测试领域某些指标的表现进行的研究，见卡拉巴索(2003年)、 Tendeiro 和 Meijer (2014年)、 Kim 等人(2017年)、 Sinharay (2017年)和 Man 等人(2018年)。<ol>
+<li>PT 和 PI 统计评估不同考生的反应模式的相似程度。对于 PT 统计信息，可以将每个响应模式与样本中最相似的响应模式匹配。这是具有最多相同数量的响应模式。PT 统计量是反应模式中相同反应的相对频率及其匹配。PI 统计量与 PT 统计量相似，只有一个例外。为了确定最相似的响应模式，只考虑不正确的响应。PI 统计量是相同的不正确答案在回答模式及其匹配中的相对频率。</li>
+</ol>
+</li>
+</ol>
+<h2 id="Towards-a-General-Purpose-Anomaly-Detection-Method-toIdentify-Cheaters-in-Massive-Open-Online-Courses"><a href="#Towards-a-General-Purpose-Anomaly-Detection-Method-toIdentify-Cheaters-in-Massive-Open-Online-Courses" class="headerlink" title="Towards a General Purpose Anomaly Detection Method toIdentify Cheaters in Massive Open Online Courses"></a>Towards a General Purpose Anomaly Detection Method toIdentify Cheaters in Massive Open Online Courses</h2><p>Alexandron G , JA Ruipérez-Valiente,  Pritchard D E . Towards a General Purpose Anomaly Detection Method to Identify Cheaters in Massive Open Online Courses.  2020.</p>
+<ol>
+<li>我们证明了一种基于异常检测的通用检测方法，在一种作弊类型上进行训练，<strong>可以泛化地检测使用其他方法的作弊者</strong>。</li>
+<li>其次，我们提出了一个新的基于时间的个体异常行为统计。</li>
+</ol>
+<p>主要贡献：</p>
+<ol>
+<li>使用了更通用的参数：GE、GE-time、video-watch-time、Fraction of videos watched 这些。</li>
+</ol>
+<h2 id="一种干部在线作弊学习行为分析与预测策略"><a href="#一种干部在线作弊学习行为分析与预测策略" class="headerlink" title="一种干部在线作弊学习行为分析与预测策略"></a>一种干部在线作弊学习行为分析与预测策略</h2><p>陈乾国. 一种干部在线作弊学习行为分析与预测策略[J]. 计算机工程, 2017, 43(009):17-22,28.</p>
+<p>作弊检测规则：</p>
+<ol>
+<li>同一时间学习多门课程，Cnum≥2，则判定该学员存在作弊学习行为。而此种情况又具体分为下面 2 种类型:<ol>
+<li>同一时间学习完成，则判定学员存在作弊学习。</li>
+<li>同一时间开始学习多门课程，即判定为作弊学习行为。</li>
+</ol>
+</li>
+<li>学员学习视频课程所用时间小于课程总时长的 80% ，则判定学员存在作弊学习行为。</li>
+<li>学员学习视频课程结束时间小于课程学习开始时间，这明显违反学习规则，判定为作弊学习 行为。</li>
+<li>学员在1d之内所学课程时长总和大于 24 h，即判定为存在作弊学习行为。</li>
+</ol>
+<p>首先对数据集中学习记录的每个特征进行编码，根据编码对学习记录进行识别与检测分析。 然后，利用第 1 节中的作弊检测规则及步骤，分析 干部学员的学习特点，对每条学习记录进行检测分析，发现存在作弊行为的学习记录（lee：相当于打标签了）。这种模式对数据量相对较少的数据集处理起来方便准确，但一旦数据量过大，此种模式的检测效率将大大降低。下面将以本节的检测结果集作为基准进行数据挖掘，分析和预测学员学习行为。</p>
+<p>模型：libSVM</p>
+<h2 id="一种在线学习平台检测刷课作弊的技术"><a href="#一种在线学习平台检测刷课作弊的技术" class="headerlink" title="一种在线学习平台检测刷课作弊的技术"></a>一种在线学习平台检测刷课作弊的技术</h2><p>王晖, 宋学庆. 一种在线学习平台检测刷课作弊的技术:. </p>
+<p>定时心跳检测：检测用户播放时长以及视频间隔播放的时间点，<strong>数据库中两次相邻插入播放记录的时间差值，若小于本地提交播放时间，说明存在刷课行为</strong>。</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://www.imufe.edu.cn/jwc/jwgl/201811/t20181101_95600.html">关于网络课程刷课、作弊处理通知</a></p>
+<p>刷课、代考、异常操作学员账号。</p>
+<hr>
+<p> <a target="_blank" rel="noopener" href="https://www.gksec.com/auto_NetClass.html">对某在线教育网站的刷课检测对抗之旅</a></p>
+<blockquote>
+<p>同学，我们已经发现您具有相应的网络知识，了解浏览器的调试模式，这挺好的，以下是要对您说的一些警告信息。警告：请不要以任何取巧方式进行作弊刷课或帮助其他人刷课，系统已对所有课时的真实性进行统计计算评估，收集数据包括不限于（浏览器头，版本，播放器记录，登录时长，cookie,referer,ip追踪,终端平台，是否符是您的账号，登录过多少个账号，历史登录记录.. 等各种操作数据及ajax随机埋点），一经发现作弊轻则取消学时，重则取消成绩。</p>
+</blockquote>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://www.tlpoe.com/key/%E7%94%A8%E8%84%9A%E6%9C%AC%E5%88%B7%E8%AF%BE%E6%A3%80%E6%B5%8B%E4%B8%8D%E5%87%BA%E6%9D%A5%E5%90%97.html">为什么刷课会被检测出违规呢</a></p>
+<p>一个是通过行为的判定，比如很机械化的规律操作（这个几率很低）</p>
+<p>第二个是通过IP判断，一般来说刷课平台用家庭IP就很安全，但是难免同学要登录签到上直播课，可能导致ip全国飞来飞去，增加了检测的几率。所以能提供签到+直播的平台可以完美解决这个问题。</p>
+<p>第三是小白喜欢用秒刷，高倍数去刷完课，但是官方并不提供相应倍数，就时长与学习记录不匹配，可以抓。</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://liaoguoyin.com/2018/fake-xxt">轻松刷掉学习通、双创网课的猥琐思路</a></p>
+<ol>
+<li>通过 JavaScript 脚本把<strong>手动点击</strong>模拟为<strong>脚本自动点击</strong>下一步等一系列操作</li>
+</ol>
+<p>他为啥能判断你作弊？后台大数据..？”别太高估了这群可能是外包的开发人员”</p>
+<p>在学习通的服务器端检测机制：</p>
+<ul>
+<li>当你第一次请求播放 API 的时候，他会记录你请求的时间戳，然后每隔 60 秒检测一次心跳包。</li>
+<li>如果你频繁的请求新视频，不论你是加速看的还是直接拖 Safari 进度条，但是你几秒就看完了一节他好几分钟的课的事实，已经明明白白的摆在他服务器的请求数据里面的，然后你也就明明白白的了。</li>
+</ul>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://www.edusoho.com/news/34/show">EduSoho学习数据全站升级：学员多开、挂机、刷学时？这个功能帮你全部搞定</a></p>
+<p>“课程学习时长”、“用户学习时长”,”累加学习时长”,”去重学习时长”.</p>
+<ol>
+<li>在某些网校中，学员为了冲击排行、获取奖励，很可能会使用多个浏览器或多个终端，同时打开不同的学习任务进行刷课。<ul>
+<li>以视频、音频、图文等课程类型为主的网校可以选择“后踢前”策略，方便用户进行终端切换。</li>
+<li>以作业、考试、直播等课程类型为主的网校则可以选择“前踢后”策略，避免造成学习中断。</li>
+</ul>
+</li>
+<li>为了刷满学时，完成规定任务，学员还可能将课程后台挂机，或是在上课的同时切换窗口发邮件、聊天、看视频。<ul>
+<li>网校还可以通过学习行为的差别，对学员的“有效学习时长”进行自由定义。比如以视频的实际播放时长作为统计维度，就可以更有效的防止学员挂机作弊哦</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>《教育审计分析模型与案例》期刊</p>
+<p>主要审计分析模型：</p>
+<ol>
+<li>学前教育发展总体评价分 析模型。多部门数据关联分析，并按城乡、区际、幼儿园 性质(公办园、民办园)分组，分析了 城乡之间、区域之间、不同性质幼儿 园之间的收费、生均收支、师资力量 等，对南京市学前教育均等化现状进 行总体评价。</li>
+<li>幼儿园规划制定与落实情 况分析模型。审计不同区域幼儿园规划数 与适龄儿童数据是否匹配，判断幼儿 园规划是否能满足区域需求，审计不 同区域幼儿园规划是否按照进度落 实，将规划与需求严重不匹配、规划 落实严重滞后的区域作为延伸审计 重点。</li>
+<li>幼儿园教师编制落实情况 分析模型。判断不同区域幼儿园教师编制是否 落实到位，将幼儿园教师严重缺编的 区域作为延伸审计重点。</li>
+<li>不 同 性 质 幼 儿 园 家 长 、教 师满意度分析模型。并按区域、幼儿园性质进 行分组，分析不同性质、不同区域、不 同财政投入情况下，家长、教师对幼 儿园的满意度。</li>
+</ol>
+<hr>
+<p>《基于改进时间卷积网络的日志序列异常检测_杨瑞朋》</p>
+<p>检验模型：embedding 层、改进的 TCN 层、自适应平均池化层。</p>
+<ol>
+<li>embedding 层。日志模板序号映射成<strong>词向量</strong>。</li>
+<li>改进 TCN。<ol>
+<li>输入第一个一维空洞卷积层，并进行归 一化。需要指明的参数包括日志模板词嵌入的维 度、日志模板词典的大小、卷积核尺寸、步长、padding 大小及是否加入空洞。</li>
+<li>根据第一个卷积层的输出与 padding 的 大小，对卷积后的张量进行切片来实现因果卷积。<ol>
+<li>因果卷积：利用卷积，从后往前数长度 h 个日志记录，来预测下一个日志记录。特点是该卷积仅依赖于 1，2~h 的输入，而不会依赖 h+1 及以后的输入。</li>
+</ol>
+</li>
+<li>添加 PReLU 激活函数。</li>
+<li>dropout</li>
+<li>堆叠相同结构的第 2 个卷积块，构成一个残差块。</li>
+</ol>
+</li>
+<li>自适应平均池化层。</li>
+</ol>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Cheating-Detection/" rel="tag"><i class="fa fa-tag"></i> Cheating Detection</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/13/Presto-Alluxio%E7%BB%BC%E8%BF%B0/" rel="next" title=" Presto & Alluxio综述">
+                <i class="fa fa-chevron-left"></i>  Presto & Alluxio综述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/06/21/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E5%88%B0%E8%B7%91%E8%B7%AF/" rel="prev" title="深度学习入门到跑路">
+                深度学习入门到跑路 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84MOOC%E4%BD%9C%E5%BC%8A%E8%A1%8C%E4%B8%BA%E6%A3%80%E6%B5%8B%E7%A0%94%E7%A9%B6"><span class="nav-number">1.</span> <span class="nav-text">基于深度学习的MOOC作弊行为检测研究</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Identifying-Cheating-Users-in-Online-Courses"><span class="nav-number">2.</span> <span class="nav-text">Identifying Cheating Users in Online Courses</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-Co-occurrence-in-exercise-answers"><span class="nav-number">2.0.1.</span> <span class="nav-text">A. Co-occurrence in exercise answers</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-Interaction-types"><span class="nav-number">2.0.2.</span> <span class="nav-text">B. Interaction types</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-Amount-of-pairs-of-users-and-shared-exercises"><span class="nav-number">2.0.3.</span> <span class="nav-text">C. Amount of pairs of users and shared exercises</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Detecting-and-preventing%E2%80%9Cmultiple-account%E2%80%9Dcheating-inmassive-open-online-courses"><span class="nav-number">3.</span> <span class="nav-text">Detecting and preventing“multiple-account”cheating inmassive open online courses</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Detection-of-Cheating-on-E-Exams-in-Higher-Education%E2%80%94The-Performance-of-Several-Old-and-Some-New-Indicators"><span class="nav-number">4.</span> <span class="nav-text">The Detection of Cheating on E-Exams in Higher Education—The Performance of Several Old and Some New Indicators</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Towards-a-General-Purpose-Anomaly-Detection-Method-toIdentify-Cheaters-in-Massive-Open-Online-Courses"><span class="nav-number">5.</span> <span class="nav-text">Towards a General Purpose Anomaly Detection Method toIdentify Cheaters in Massive Open Online Courses</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E7%A7%8D%E5%B9%B2%E9%83%A8%E5%9C%A8%E7%BA%BF%E4%BD%9C%E5%BC%8A%E5%AD%A6%E4%B9%A0%E8%A1%8C%E4%B8%BA%E5%88%86%E6%9E%90%E4%B8%8E%E9%A2%84%E6%B5%8B%E7%AD%96%E7%95%A5"><span class="nav-number">6.</span> <span class="nav-text">一种干部在线作弊学习行为分析与预测策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E7%A7%8D%E5%9C%A8%E7%BA%BF%E5%AD%A6%E4%B9%A0%E5%B9%B3%E5%8F%B0%E6%A3%80%E6%B5%8B%E5%88%B7%E8%AF%BE%E4%BD%9C%E5%BC%8A%E7%9A%84%E6%8A%80%E6%9C%AF"><span class="nav-number">7.</span> <span class="nav-text">一种在线学习平台检测刷课作弊的技术</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

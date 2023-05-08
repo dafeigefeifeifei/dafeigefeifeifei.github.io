@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="计算机网络——网络层（1）网络层的功能 异构网络互联：[理解]将多个不同的计算机网络连起来 路由与转发： 拥塞控制  异构网络互联 定义：两个以上的计算机网络，通过一定的方法，用一种或多种通信处理设备（即中间设备）相互联结起来，以构成更大的网络系统。通常指用路由器进行网络互联和路由选择。  中间设备：按层次划分：  物理层：中继器、集线器； 数据链路层：网桥、交换机； 网络层：路由器； 网络层以上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络第四章-1">
+<meta property="og:url" content="http://yoursite.com/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="计算机网络——网络层（1）网络层的功能 异构网络互联：[理解]将多个不同的计算机网络连起来 路由与转发： 拥塞控制  异构网络互联 定义：两个以上的计算机网络，通过一定的方法，用一种或多种通信处理设备（即中间设备）相互联结起来，以构成更大的网络系统。通常指用路由器进行网络互联和路由选择。  中间设备：按层次划分：  物理层：中继器、集线器； 数据链路层：网桥、交换机； 网络层：路由器； 网络层以上">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/2.png">
+<meta property="article:published_time" content="2018-09-05T03:27:43.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.908Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="computer network">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/05/计算机网络第四章-1/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>计算机网络第四章-1 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络第四章-1
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-09-05 11:27:43" itemprop="dateCreated datePublished" datetime="2018-09-05T11:27:43+08:00">2018-09-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="计算机网络——网络层（1）"><a href="#计算机网络——网络层（1）" class="headerlink" title="计算机网络——网络层（1）"></a>计算机网络——网络层（1）</h1><h2 id="网络层的功能"><a href="#网络层的功能" class="headerlink" title="网络层的功能"></a>网络层的功能</h2><ol>
+<li>异构网络互联：[理解]将多个不同的计算机网络连起来</li>
+<li>路由与转发：</li>
+<li>拥塞控制</li>
+</ol>
+<h3 id="异构网络互联"><a href="#异构网络互联" class="headerlink" title="异构网络互联"></a>异构网络互联</h3><ul>
+<li><p>定义：两个以上的计算机网络，通过一定的方法，用一种或多种通信处理设备（即中间设备）相互联结起来，以构成更大的网络系统。通常指用路由器进行网络互联和路由选择。</p>
+</li>
+<li><p>中间设备：按层次划分：</p>
+<ul>
+<li>物理层：中继器、集线器；</li>
+<li>数据链路层：网桥、交换机；</li>
+<li>网络层：路由器；</li>
+<li>网络层以上：网关。</li>
+<li>注：物理层和数据链路层的中间设备，连起来的网络还是同一个网络，未达到互联的目的。</li>
+</ul>
+</li>
+<li><p>效果：用因为网络层都采用了标准化协议（即IP协议），虽然互联起来的各种物理网络的异构性本来是客观存在的，但是<strong>通过IP协议就可以使这些性能各异的网络在网络层上看起来好像是一个统一的网络</strong>，这种使用IP协议的虚拟互联网络可简称为IP网络。</p>
+</li>
+<li><p>好处是：当互联网上的主机进行通信时，就好像在一个网络上通信一样，而看不见互联的具体的网络异构细节（如具体的编址方案、路由选择协议等）</p>
+</li>
+</ul>
+<span id="more"></span>
+
+
+<h3 id="路由与转发"><a href="#路由与转发" class="headerlink" title="路由与转发"></a>路由与转发</h3><ul>
+<li>路由选择与转发是路由器的两个功能。路由器的介绍可先看：<a target="_blank" rel="noopener" href="http://likehui.fun/2018/07/29/Note-for-Computer-Network-6/">Note for Computer Network 6</a>。路由器的详细介绍参考本站博客：（暂未提供，本章最后几节）。</li>
+<li>路由选择是根据特定的路由选择协议构造出的路由表，同时更新维护路由表（经常或定期与相邻路由器交换路由信息）。<ul>
+<li>路由选择协议，大概就是：按照分布式算法，再根据从相邻路由器得到的有关整个网络拓扑的变化情况，动态的改变所选择的路由。</li>
+</ul>
+</li>
+<li>转发即分组转发，根据转发表将用户的IP报从合适的端口转发出去。关键操作是：转发表查询、转发以及相关的队列管理和任务调度等。</li>
+<li>转发表是从路由表得来的，两者的倾向不同，路由表需要对网络拓扑变化的计算最优化，转发表需要使查找过程最优化。有关路由选择的原理时，往往对二者不作区分，统一使用路由表这一名词。</li>
+</ul>
+<h3 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h3><ul>
+<li>拥塞：出现过量的分组而引起网络性能下降的现象。通俗理解：是A与B之间的网络发生堵塞导致传输过慢或者丢包，来不及传输。</li>
+<li>现象：观察到网络吞吐量随网络负载的增大，吞吐量明显下降，说明可能出现了网络拥塞。</li>
+<li>拥塞控制要解决的主要问题：如何获取网络中发生的拥塞信息，从而利用这些信息进行控制，以避免由于拥塞而出现分组的丢失以及严重拥塞产生的网络死锁的现象。</li>
+<li>控制办法：防止过多的数据注入到网络中，这样可以使网络中的路由器或链路不至于过载。拥塞控制是一个全局性的过程，涉及到所有的主机、路由器，以及与降低网络性能有关的所有因素。有两种办法：<ul>
+<li>开环控制。设计网络时事先将有关发生拥塞的因素考虑周到，力求不产生拥塞。是一种静态的预防方法，系统运行后不再需要修改。理解：无需对当前网络状况的反馈。</li>
+<li>闭环控制。采用监控网络系统去监视，及时检测到哪里发生拥塞，然后将拥塞信息传到合适的地方，以便调整网络系统的运行。是基于反馈环路的概念，是一种动态的方法。</li>
+</ul>
+</li>
+</ul>
+<h2 id="路由算法"><a href="#路由算法" class="headerlink" title="路由算法"></a>路由算法</h2><p>按照能否随网络的通信量或拓扑<strong>自适应地</strong>进行调整变化来划分，分为静态路由算法和动态路由算法两类。</p>
+<h3 id="静态路由算法"><a href="#静态路由算法" class="headerlink" title="静态路由算法"></a>静态路由算法</h3><ul>
+<li>由网络管理员手工配置路由信息系，当拓扑结构或链路发生变化时，需要网络管理员手工去修改路由表中相关的静态路由信息。</li>
+<li>特点：<ul>
+<li>简便、可靠，在负荷稳定、拓扑变化不大的网络中运行效果很好，广泛应用在高度安全性的军事系统和较小的商业网络。</li>
+<li>大型和复杂的网络不宜采用静态路由。（网管难以全面了解整个网络拓扑结构，如果拓扑结果出现变化，需要大范围调整，工作难度和复杂程度高）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="动态路由算法"><a href="#动态路由算法" class="headerlink" title="动态路由算法"></a>动态路由算法</h3><ul>
+<li>路由表是通过相互联接的路由器彼此交换信息，然后按照一定的算法优化出来的。</li>
+<li>特点：<ul>
+<li>能够有效改善网络性能，利用流量控制</li>
+<li>算法复杂，会增加网络负荷，应对动态变化时，反应过快引起振荡，反应过慢影响网络路由的一致性；所以算法要仔细设计</li>
+</ul>
+</li>
+<li>常用动态路由算法有两类，距离-向量路由算法和链路状态路由算法：</li>
+</ul>
+<h4 id="距离-向量路由算法"><a href="#距离-向量路由算法" class="headerlink" title="距离-向量路由算法"></a>距离-向量路由算法</h4><ul>
+<li>所有结点都定期地将他们的整个路由选择表（包括目的地即下一结点和距离，距离在<strong>RIP算法</strong>中也叫跳数）传送给相邻结点</li>
+<li>最常见的就是RIP算法，推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/lycb_gz/article/details/1612254">RIP路由协议及工作原理</a>，下文也有详细解释。</li>
+<li>结点的路由表在以下场景发生更新：<ul>
+<li>被通告一条新的路由，本结点的路由选择表中不存在，需要加入进来；</li>
+<li>发来的信息中有一条到达某目的地的路由，比当前使用的路由代价更小，更新进来。</li>
+</ul>
+</li>
+<li>算法实质：迭代计算一条路由中的站段数或延迟时间，得到到达一个目标的最短路径。</li>
+<li>特点：更新报文的大小与通信子网的结点个数成正比，在通信子网上传送的路由选择信息的数量很容易变得非常大。</li>
+<li>“好消息传得快，坏消息传的慢”，慢收敛是导致发生路由回路问题的根本原因。</li>
+</ul>
+<h4 id="链路状态路由算法"><a href="#链路状态路由算法" class="headerlink" title="链路状态路由算法"></a>链路状态路由算法</h4><ul>
+<li>要求结点具有完全的网络拓扑信息</li>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/wangquannetwork/article/details/45315233">距离矢量与链路状态的区别</a>，精华如下：<ul>
+<li>距离矢量算法中。① 会将所有路由信息跟<strong>直连邻居</strong>共享；② 使用Bellman-Ford算法，容易产生环路、无穷大的问题，需要配合防环机制，并且网络规模越大，收敛速度越慢；③ 更新的是“路由条目”；④ 协议发送周期性完整表更新；</li>
+<li>链路状态算法中。① 将<strong>直连的链路状态</strong>跟域(domain)内&#x2F;区域(area)内的所有路由器共享；② 使用强健的OSPF算法（如dijkstra），不易产生环路，收敛速度快；③ 更新的是“拓扑”；④ 非周期性部分表更新。</li>
+</ul>
+</li>
+<li>特点：链路状态只涉及相邻路由器的连通状态，与整个互联网的规模并无直接关系，可以用于大型或路由信息变化聚敛的互联网环境</li>
+</ul>
+<h3 id="层次路由"><a href="#层次路由" class="headerlink" title="层次路由"></a>层次路由</h3><ul>
+<li>出于管理和扩展的目的，因特网可以被分割成许多不同的自治系统（Autonomous System，AS）。换句话说，因特网是由自治系统汇集而成的。</li>
+<li>现在的自治系统被扩展的定义为：共享同一路由选择策略的一组路由器。</li>
+<li>IGP（Interior gateway protocols）——<strong>内部网关协议</strong>，定义为在一个自治系统内部使用的路由协议（包括动态路由协议和静态路由）。<ul>
+<li>IGP的功能是完成数据包在AS内部的路由选择，或者说，是讲述数据包如何穿过本地AS的。</li>
+<li>RIPv1&amp;v2，IGRP，EIGRP，OSPF，ISIS都是典型的IGP。使用最多的有：RIP和OSPF协议。</li>
+</ul>
+</li>
+<li>EGP（Exterior gateway protocols）——<strong>外部网关协议</strong>，定义为在多个自治系统之间使用的路由协议。<ul>
+<li>它主要完成数据包在AS间的路由选择，或者说，讲述数据包为了到达目的IP，需要通过哪些AS。</li>
+<li>BGP4是最常用的一种EGP。</li>
+</ul>
+<p>	</p>
+</li>
+<li>采用分层路由后，每个路由器知道如何将分组路由到自己所在区域的目标地址，但对于其他区域内结构毫不知情。</li>
+<li>有关IGP和EGP的内容，参考下一篇博客内容</li>
+</ul>
+<h2 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h2><h3 id="IPv4的转发分组"><a href="#IPv4的转发分组" class="headerlink" title="IPv4的转发分组"></a>IPv4的转发分组</h3><ul>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/songdechiu/p/5338063.html">IPv4数据报格式</a></li>
+</ul>
+<p><img src="/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/1.png" alt="ipv4"></p>
+<p><img src="/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/2.png" alt="ipv4长度"></p>
+<ul>
+<li><p>首部长度、总长度、片偏移，分别以4B、1B、8B为基本单位。</p>
+</li>
+<li><p>重要字段含义：</p>
+<ul>
+<li>总长度：要结合数据链路层的MTU值来定（以太网的MTU为1500字节）；</li>
+<li>标识：占16位，用以分片和组装，各片的标识都一样；</li>
+<li>标志：两个参数MF和DF。MF&#x3D;1表示后面还有分片，MF&#x3D;0表示最后一个分片；DF&#x3D;0表示允许分片。</li>
+<li>片偏移：13位字段，表示分片在整个数据报（原始位置）中的相对位置。</li>
+<li>生存时间TTL：为了确保分组不会永远在网络中循环，经过一次转发分组，TTL减一，但TTL为0时，丢弃该分组。</li>
+<li>协议，8位字段。</li>
+<li>源地址和目的地址字段都是4字节。</li>
+</ul>
+</li>
+<li><p>以某例题举例：</p>
+</li>
+</ul>
+<blockquote>
+<p>IP分组的前40字节内容（十六进制） <br><br>45   00 00 30  01 9b 40 00  80 06 1d e8  c0 a8 00 08  d3 44 47   50 <br><br>0b   d9 13 88  84 6b 41 c5  00 00 00 00  70 02 43 80  5d b0 00   00</p>
+</blockquote>
+<ul>
+<li><p><code>45 00</code>指版本4，首部长度5（5*4B&#x3D;20B），服务0；</p>
+</li>
+<li><p><code>00 30</code>指总长度48（48*1B&#x3D;48B），</p>
+</li>
+<li><p><code>01 9b</code>指标识019b，可以唯一指代某一数据报（分拆后的分组具有相同标识）</p>
+</li>
+<li><p><code>40 00</code>，转化为二级制：<code>01000000 00000000</code>，前3位是标志（指中间一位DF&#x3D;1，最后一位MF&#x3D;0），后13位是片偏移（指0）</p>
+</li>
+<li><p><code>80 06</code>，指生存时间128，协议6（指TCP）</p>
+</li>
+<li><p><code>1d e8</code>，指首部检验和，略去不管</p>
+</li>
+<li><p><code>c0 a8 00 08</code>，指源地址192.168.0.8</p>
+</li>
+<li><p><code>d3 44 47 50</code>，指目的地址211.68.71.80</p>
+</li>
+<li><p>第二行是数据部分，不管</p>
+</li>
+<li><p>网络层转发分组的流程：</p>
+<ul>
+<li>此路由器设为A。从数据报中提取目的主机的IP地址Z，得出目的网络地址为Net；</li>
+<li>①若A与Net直连，可以直接交付给Z；</li>
+<li>②若以上不满足，且A的路由表中有个路由B，B是目的主机Z指定的路由，交付给B；</li>
+<li>③若以上不满足，且A的路由表中有一个路由C，C可以到达网络Net，交付给C；</li>
+<li>④若以上不满足，且A的路由表有一个默认路由D，交付给D；</li>
+<li>⑤若以上不满足，则报告转发分组出错。</li>
+</ul>
+</li>
+</ul>
+<h3 id="IPv4地址与NAT"><a href="#IPv4地址与NAT" class="headerlink" title="IPv4地址与NAT"></a>IPv4地址与NAT</h3><h4 id="IPv4-1"><a href="#IPv4-1" class="headerlink" title="IPv4"></a>IPv4</h4><ul>
+<li><p>IPv4地址分为A、B、C、D、E五类。</p>
+</li>
+<li><p>A类（1-126）0开头；</p>
+</li>
+<li><p>B类（128~191）10开头；</p>
+</li>
+<li><p>C类（192~223）110开头；</p>
+</li>
+<li><p>D类（224~239）1110开头；</p>
+</li>
+<li><p>E类（240~255）1111开头；</p>
+</li>
+<li><p>全32位</p>
+<ul>
+<li>全0，表示本网络上的本主机；</li>
+<li>全1，，表示整个TCP&#x2F;IP网络的广播地址，但实际上因为路由器对广播域的隔离，此时等效于本网络的广播地址；</li>
+</ul>
+</li>
+<li><p>主机号：</p>
+<ul>
+<li>全0的表示本网络本身，全1表示本网络的广播地址（如果目的地址是广播地址，会认为消息是发往本网段所有主机的消息）</li>
+<li>127.0.0.0网络保留作为环路自检地址；</li>
+</ul>
+</li>
+<li><p>IP地址是分等级的地址结构；</p>
+<ul>
+<li>IP地址管理机构在分配IP地址时只分配网络号，，主机号由得到网络的单位自行分配；</li>
+<li>路由器仅根据网络号来转发分组（不考虑目标主机号）；</li>
+</ul>
+</li>
+<li><p>当一个主机同时连接到两个网络时，该主机必须同时具有两个相应的IP地址。因此一个路由器至少有两个IP地址（实际上，路由器每个端口至少一个IP地址）</p>
+</li>
+<li><p>用转发器或网桥连接起来的若干个局域网仍然是同一个网络。</p>
+</li>
+</ul>
+<h4 id="网络地址转换"><a href="#网络地址转换" class="headerlink" title="网络地址转换"></a>网络地址转换</h4><ul>
+<li>网络地址转换（NAT）：通过将专用网络地址转换为公用地址，从而对外隐藏了内部管理的IP地址。</li>
+<li>私有IP地址只用于LAN，不用于WAN。私有IP网段有：<ul>
+<li>A：10.0.0.0~10.255.255.255</li>
+<li>B：172.16.0.0~172.31.255.255</li>
+<li>C：192.168.0.0~192.168.255.255</li>
+</ul>
+</li>
+<li>使用网关路由器，开启NAT功能，对照着NAT转换表，将本地地址转换成全球地址。只需一个全球地址，就可以让多台主机同时访问因特网。</li>
+<li>NAT看到了端口，所以工作在传输层。</li>
+</ul>
+<h3 id="子网划分、子网掩码、CIDR"><a href="#子网划分、子网掩码、CIDR" class="headerlink" title="子网划分、子网掩码、CIDR"></a>子网划分、子网掩码、CIDR</h3><h4 id="子网划分"><a href="#子网划分" class="headerlink" title="子网划分"></a>子网划分</h4><ul>
+<li>两级IP地址的空间利用率低；</li>
+<li>采用划分子网的方式，使两段IP地址变成为三级IP地址。实现办法：从主机号借用若干个比特作为子网号:IP地址&#x3D;{&lt;网络号&gt;,&lt;子网号&gt;,&lt;主机号&gt;}；</li>
+<li>流程：传来的IP数据报，根据网络号，找到连接在本单位网络上路由器，然后此路由器再按照目的网络号和子网号找到目的子网 ，最后交付给目的主机。</li>
+</ul>
+<h4 id="无分类编址CIDR"><a href="#无分类编址CIDR" class="headerlink" title="无分类编址CIDR"></a>无分类编址CIDR</h4><ul>
+<li>CIDR,Classless Inter-Domain Routing</li>
+<li>使用斜线记法，将网络前缀都相同的连续IP地址组成CIDR地址块，一个地址块能够表示很多地址，这种地址的聚合称为路由聚合，或构成超网。</li>
+<li>CIDR的优点：网络前缀灵活</li>
+<li>具体说明参考 ：<a target="_blank" rel="noopener" href="https://blog.csdn.net/dan15188387481/article/details/49873923">CIDR地址块及其子网划分（内含原始IP地址分类及其子网划分的介绍）</a></li>
+<li>最长前缀匹配（最佳匹配）。路由表中的 每个项目由“网络前缀 ”和“下一跳地址”组成。在查找路由表时可能会得到不止一个匹配结果，应当从匹配结果中选择具有最长网络前缀的路由，因为网络前缀越长，其地址块就越小，因此路由就越具体。</li>
+<li>CIDR常用二叉线索的方式查找最长前缀匹配。</li>
+</ul>
+<h2 id="ARP协议、DHCP协议与ICMP协议"><a href="#ARP协议、DHCP协议与ICMP协议" class="headerlink" title="ARP协议、DHCP协议与ICMP协议"></a>ARP协议、DHCP协议与ICMP协议</h2><h3 id="IP地址与硬件地址"><a href="#IP地址与硬件地址" class="headerlink" title="IP地址与硬件地址"></a>IP地址与硬件地址</h3><ul>
+<li>IP地址放在IP数据报的首部，MAC地址放在MAC帧的首部，所以数据链路层无法看到IP地址。</li>
+<li>由于路由器的隔离，IP网络无法通过广播方式依靠MAC地址完成跨网络的寻址（可以理解为：在局域网的链路层，能够通过广播MAC地址的方式寻址），所以IP网络只能使用IP地址完成寻址。</li>
+<li>在IP网络转发分组时，IP分组在每个网络都被路由器解封装和重新封装，使用的MAC地址也是不断改变的。</li>
+</ul>
+<h3 id="地址解析协议ARP"><a href="#地址解析协议ARP" class="headerlink" title="地址解析协议ARP"></a>地址解析协议ARP</h3><ul>
+<li>ARP用来进行<strong>局域网</strong>内，从IP地址到MAC地址的映射。</li>
+<li>每个主机都设有一个ARP高速缓存，存放ARP表（本局域网上各主机和路由器的IP地址到MAC地址的映射表），并使用ARP协议动态维护。</li>
+<li>ARP工作在网络层。是普通的单播。</li>
+<li>工作原理：<ol>
+<li>主机A打算向本局域网的主机B发送IP数据报；</li>
+<li>先查找ARP表中是否有B的IP地址，如果有，就能查出MAC地址，完成传输；</li>
+<li>如果ARP表中没有，主机A发送MAC地址为FF-FF-FF-FF-FF-FF的帧广播ARP请求分组；</li>
+<li>主机B收到该ARP请求后，会想主机A发送响应ARP，分组中包含B的IP与MAC地址映射关系 ；</li>
+<li>A收到该映射关系后，写入A的ARP表中，然后按照查到的MAC地址，发送MAC帧。</li>
+</ol>
+</li>
+</ul>
+<h3 id="动态主机配置协议DHCP"><a href="#动态主机配置协议DHCP" class="headerlink" title="动态主机配置协议DHCP"></a>动态主机配置协议DHCP</h3><ul>
+<li>用于给主机动态地分配IP地址，提供即插即用联网的机制，是应用层协议，基于UDP；</li>
+<li>原理：使用客户&#x2F;服务器方式。	<ul>
+<li>需要IP的主机向局域网中的DHCP服务器（可能不止一个，挑最快回复的那个）广播发送<strong>发现报文</strong>，该主机称为DHCP客户；广播发送全部主机，但只有DHCP服务器才能回答；</li>
+<li>DHCP服务器现在数据库中查找该计算机的配置信息，若找到则返回找到的信息；若没有找到，则从服务器的IP地址池中取一个地址分配给原主机。回答的报文叫<strong>提供报文</strong> ；</li>
+<li>客户机如果接受该提供报文的参数，会通过广播消息到DHCP服务器 ，请求提供IP地址；</li>
+<li>DHCP服务器收到请求后，将IP地址分配给DHCP客户机</li>
+</ul>
+</li>
+<li>tips：<ul>
+<li>被动态分配的IP地址是临时的，有一段“租用期”；</li>
+<li>应用层协议有两种工作方式：客户&#x2F;服务器方式和p2p方式，本例属于前者；</li>
+<li>本协议基于UDP，因为不需要建立连接，而TCP协议需要先建立连接 ，但如果不知道对方IP地址，根本不可能建立套接字连接。</li>
+</ul>
+</li>
+</ul>
+<h3 id="网际控制报文协议ICMP"><a href="#网际控制报文协议ICMP" class="headerlink" title="网际控制报文协议ICMP"></a>网际控制报文协议ICMP</h3><ul>
+<li>为了提高IP数据报交付成功的机会，<strong>网络层</strong>使用了ICMP来允许主机或路由器报告差错和异常情况。</li>
+<li>ICMP是IP层协议。</li>
+<li>ICMP有两种类型，ICMP差错报告报文和ICMP询问报文：<ul>
+<li>ICMP差错报告报文，用在目标主机或沿途上的路由器向源主机发送差错 报告的情况，有五种类型：<ul>
+<li>终点不可达：不能交付时</li>
+<li>源点抑制：发生网络拥塞时</li>
+<li>时间超过：TTL减为零，或终点发现超时</li>
+<li>参数问题：字段有误时</li>
+<li>改变路由：重定向时</li>
+</ul>
+</li>
+<li>ICMP询问报文，有四种类型<ul>
+<li>回送请求和回答报文（例PING）</li>
+<li>时间戳请求和回答报文</li>
+<li>掩码地址请求和回答报文</li>
+<li>路由器询问和通告报文</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ICMP最常见两个应用：PING和Traceroute&#x2F;tracert（跟踪分组经过的路由）</li>
+<li>PING工作在应用层，直接使用网络层的ICMP协议；Traceroute&#x2F;tracert工作在网络层。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%882%EF%BC%89/" rel="next" title="操作系统第二章（2）">
+                <i class="fa fa-chevron-left"></i> 操作系统第二章（2）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/08/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%883%EF%BC%89/" rel="prev" title="操作系统第二章（3）">
+                操作系统第二章（3） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E5%B1%82%EF%BC%881%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">计算机网络——网络层（1）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">1.1.</span> <span class="nav-text">网络层的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%9E%84%E7%BD%91%E7%BB%9C%E4%BA%92%E8%81%94"><span class="nav-number">1.1.1.</span> <span class="nav-text">异构网络互联</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E4%B8%8E%E8%BD%AC%E5%8F%91"><span class="nav-number">1.1.2.</span> <span class="nav-text">路由与转发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="nav-number">1.1.3.</span> <span class="nav-text">拥塞控制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">路由算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.1.</span> <span class="nav-text">静态路由算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.2.</span> <span class="nav-text">动态路由算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%9D%E7%A6%BB-%E5%90%91%E9%87%8F%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">距离-向量路由算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E7%8A%B6%E6%80%81%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">链路状态路由算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%82%E6%AC%A1%E8%B7%AF%E7%94%B1"><span class="nav-number">1.2.3.</span> <span class="nav-text">层次路由</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv4"><span class="nav-number">1.3.</span> <span class="nav-text">IPv4</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IPv4%E7%9A%84%E8%BD%AC%E5%8F%91%E5%88%86%E7%BB%84"><span class="nav-number">1.3.1.</span> <span class="nav-text">IPv4的转发分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IPv4%E5%9C%B0%E5%9D%80%E4%B8%8ENAT"><span class="nav-number">1.3.2.</span> <span class="nav-text">IPv4地址与NAT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IPv4-1"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">IPv4</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">网络地址转换</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%90%E7%BD%91%E5%88%92%E5%88%86%E3%80%81%E5%AD%90%E7%BD%91%E6%8E%A9%E7%A0%81%E3%80%81CIDR"><span class="nav-number">1.3.3.</span> <span class="nav-text">子网划分、子网掩码、CIDR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%90%E7%BD%91%E5%88%92%E5%88%86"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">子网划分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E5%88%86%E7%B1%BB%E7%BC%96%E5%9D%80CIDR"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">无分类编址CIDR</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARP%E5%8D%8F%E8%AE%AE%E3%80%81DHCP%E5%8D%8F%E8%AE%AE%E4%B8%8EICMP%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.4.</span> <span class="nav-text">ARP协议、DHCP协议与ICMP协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80%E4%B8%8E%E7%A1%AC%E4%BB%B6%E5%9C%B0%E5%9D%80"><span class="nav-number">1.4.1.</span> <span class="nav-text">IP地址与硬件地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E5%9D%80%E8%A7%A3%E6%9E%90%E5%8D%8F%E8%AE%AEARP"><span class="nav-number">1.4.2.</span> <span class="nav-text">地址解析协议ARP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E4%B8%BB%E6%9C%BA%E9%85%8D%E7%BD%AE%E5%8D%8F%E8%AE%AEDHCP"><span class="nav-number">1.4.3.</span> <span class="nav-text">动态主机配置协议DHCP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E9%99%85%E6%8E%A7%E5%88%B6%E6%8A%A5%E6%96%87%E5%8D%8F%E8%AE%AEICMP"><span class="nav-number">1.4.4.</span> <span class="nav-text">网际控制报文协议ICMP</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

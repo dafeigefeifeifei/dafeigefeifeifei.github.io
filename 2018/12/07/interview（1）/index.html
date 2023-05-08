@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="网易考拉 java 凉面面经 1. 同步 异步 非阻塞 阻塞 bio nio aio这题问的是网络 IO 模型。 以 IO 的读数据（read）举例，会经历两个阶段：1）等待数据准备。2）将数据从内核拷贝到进程中。 IO 模型主要分为五种：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="interview（1）">
+<meta property="og:url" content="http://yoursite.com/2018/12/07/interview%EF%BC%881%EF%BC%89/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="网易考拉 java 凉面面经 1. 同步 异步 非阻塞 阻塞 bio nio aio这题问的是网络 IO 模型。 以 IO 的读数据（read）举例，会经历两个阶段：1）等待数据准备。2）将数据从内核拷贝到进程中。 IO 模型主要分为五种：">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/12/07/interview%EF%BC%881%EF%BC%89/ExceptionTree.png">
+<meta property="article:published_time" content="2018-12-07T05:47:20.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.863Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="javaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/07/interview%EF%BC%881%EF%BC%89/ExceptionTree.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/07/interview（1）/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>interview（1） | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/07/interview%EF%BC%881%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">interview（1）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-07 13:47:20" itemprop="dateCreated datePublished" datetime="2018-12-07T13:47:20+08:00">2018-12-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/97738">网易考拉 java 凉面面经</a></p>
+<h3 id="1-同步-异步-非阻塞-阻塞-bio-nio-aio"><a href="#1-同步-异步-非阻塞-阻塞-bio-nio-aio" class="headerlink" title="1. 同步 异步 非阻塞 阻塞 bio nio aio"></a>1. 同步 异步 非阻塞 阻塞 bio nio aio</h3><p>这题问的是网络 IO 模型。</p>
+<p>以 IO 的读数据（read）举例，会经历两个阶段：<br>1）等待数据准备。<br>2）将数据从内核拷贝到进程中。</p>
+<p>IO 模型主要分为五种：</p>
+<span id="more"></span>
+
+<ol>
+<li>阻塞 IO<br>1. 第一阶段，进程发起 recvfrom，Kernel 开始准备数据（同时用户进程被 block）。<br>2. 数据准备好了之后，进入第二阶段，Kernel 开始负责拷贝数据到用户内存（完成之前，用户进程被 block）。<br>3. Kernel 返回一个 ok 告知用户进程拷贝完毕。</li>
+<li>非阻塞 IO<br>1. 第一阶段，进程发起轮询 recvfrom（并立即返回），询问数据是否准备好。<br>2. 第二阶段，当 recvfrom 时发现数据已准备好后，不再立即返回，而是将用户进程 block，同时 Kernel 开始拷贝数据。<br>3. Kernel 返回一个 ok 告知用户进程拷贝完毕。<br>4. 【墙裂推荐阅读】：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/geason/p/5774096.html">深入理解Java NIO</a></li>
+<li>IO 复用<br>1. 第一阶段，进程发起 select，Kernel 开始准备数据（同时用户进程被 block，其实是进程等待多个 socket，一旦有一个 socket 准备好了，就可以变成就绪态完成业务，业务结束重新进入阻塞态）。<br>2. 第二阶段，当数据准备好后，select 就会返回用户进程，之后，用户进程发起 recvfrom，等待 Kernel 拷贝数据（同时用户进程被 block）。<br>3. Kernel 返回一个 ok 告知用户进程拷贝完毕。<br>4. 跟<code>阻塞 IO</code>很像，但 select 的优势是<strong>能处理更多的连接</strong>，参考解释：<a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000010394268?sort=created">IO多路复用 到底是阻塞还是非阻塞</a></li>
+<li>信号驱动 IO<br>1. 第一阶段，进程发出 sigaction 信号并立即返回，Kernel 开始准备数据（用户进程不被 block）。<br>2. 第二阶段，Kernel 发出 sigio 信号告知进程数据已准备完毕，用户进程发出 recvfrom 给 Kernel（同时对自身 block）。等待 Kernel 拷贝数据。<br>3. Kernel 返回一个 ok 告知用户进程拷贝完毕。</li>
+<li>异步 IO<br>1. 第一阶段：用户进程发起 aio_read 并立即返回，Kernel 开始准备数据（进程不被 block）。<br>2. 第二阶段：Kernel 在数据准备完成后，会立即开始拷贝数据。<br>3. 等一切完成后，Kernel 发出一个 signal 告知进程 read 完毕。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/findumars/p/6361627.html">5种网络 IO 模型</a><br>github 代码实例：<a target="_blank" rel="noopener" href="https://github.com/waylau/distributed-systems-technologies-and-cases-analysis/tree/master/samples/chapter1/distributed-systems-technologies-and-cases-analysis/src/com/waylau/essentialjava/iomode">iomode</a></p>
+<h3 id="2-java异常机制类图手写"><a href="#2-java异常机制类图手写" class="headerlink" title="2. java异常机制类图手写"></a>2. java异常机制类图手写</h3><p><img src="/2018/12/07/interview%EF%BC%881%EF%BC%89/ExceptionTree.png" alt="ExceptionTree.png"></p>
+<p>RuntimeException &#x3D;&#x3D; UncheckedException</p>
+<h3 id="3-spring事务传播机制"><a href="#3-spring事务传播机制" class="headerlink" title="3. spring事务传播机制"></a>3. spring事务传播机制</h3><p>spring 定义了七种事务传播行为</p>
+<blockquote>
+<p>PROPAGATION_REQUIRED – 支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择。<br>PROPAGATION_SUPPORTS – 支持当前事务，如果当前没有事务，就以非事务方式执行。<br>PROPAGATION_MANDATORY – 支持当前事务，如果当前没有事务，就抛出异常。（没有事务直接报错）<br>PROPAGATION_REQUIRES_NEW – 新建事务，如果当前存在事务，把当前事务挂起。（无论什么时候都新建事务）<br>PROPAGATION_NOT_SUPPORTED – 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。<br>PROPAGATION_NEVER – 以非事务方式执行，如果当前存在事务，则抛出异常。（若有事务直接报错）<br>PROPAGATION_NESTED – 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。</p>
+</blockquote>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ServiceA &#123;</span><br><span class="line">     void <span class="keyword">method</span><span class="constructor">A()</span> &#123;</span><br><span class="line">         <span class="module-access"><span class="module"><span class="identifier">ServiceB</span>.</span></span><span class="keyword">method</span><span class="constructor">B()</span>; <span class="comment">// 运行到此处了</span></span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line">ServiceB &#123;</span><br><span class="line">     void <span class="keyword">method</span><span class="constructor">B()</span> &#123;</span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>举例理解：以上事务传播级别都是指<code>ServiceB#methodB()</code>，先看 A 有没有事务，再看 B 的级别是否需要起事务。加深理解：</p>
+<table>
+<thead>
+<tr>
+<th align="center">B的事务传播级别</th>
+<th align="center">A 有事务</th>
+<th align="center">A 无事务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">required</td>
+<td align="center">支持A</td>
+<td align="center">新建事务</td>
+</tr>
+<tr>
+<td align="center">supports</td>
+<td align="center">支持A</td>
+<td align="center">非事务方式执行</td>
+</tr>
+<tr>
+<td align="center">mandatory</td>
+<td align="center">支持A</td>
+<td align="center">抛异常</td>
+</tr>
+<tr>
+<td align="center">required_new</td>
+<td align="center">事务A挂起，再新建事务</td>
+<td align="center">新建事务</td>
+</tr>
+<tr>
+<td align="center">not_supported</td>
+<td align="center">事务A挂起，非事务方式执行</td>
+<td align="center">非事务方式执行</td>
+</tr>
+<tr>
+<td align="center">never</td>
+<td align="center">抛异常</td>
+<td align="center">非事务方式执行</td>
+</tr>
+<tr>
+<td align="center">nested</td>
+<td align="center">嵌套事务A内执行</td>
+<td align="center">新建事务</td>
+</tr>
+</tbody></table>
+<p>解释：</p>
+<ul>
+<li>创建一个新事务：新事务跟原来事务没有任何关系；</li>
+<li>嵌套事务：A、B 两个事务有父子关系，父事务提交或回滚时，子事务也会提交或回滚；</li>
+</ul>
+<p>PS：nested 方式并不是专门为方法嵌套使用的，默认的 required 方式足够满足我们的需要了。</p>
+<p>事务的一些小功能：</p>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010383937/article/details/80865741">深入理解事务–Spring 事务的传播机制</a></p>
+<h3 id="4-数据库有-2000w-条记录，复制到另一个服务器内，保证无重复，速度快"><a href="#4-数据库有-2000w-条记录，复制到另一个服务器内，保证无重复，速度快" class="headerlink" title="4. 数据库有 2000w 条记录，复制到另一个服务器内，保证无重复，速度快"></a>4. 数据库有 2000w 条记录，复制到另一个服务器内，保证无重复，速度快</h3><p>2000w 记录大概有 2G（估算）<br>方案：</p>
+<ol>
+<li>定点停机迁移方案。</li>
+<li>MySQL 的 binlog方案。解析主服务器的 binlog 日志，把数据写入从服务器中；</li>
+<li>触发器方案。创建触发器，在数据写入时，同时写入新的服务器中。</li>
+<li>memcached 协议方案。在数据写入时，同时让 Memcached 服务器接收，然后解析 json 到新的数据库。</li>
+<li>中间件方案。</li>
+</ol>
+<p>Tips：</p>
+<ol>
+<li>先 select into outfile 然后再 load data infile 。</li>
+<li>考虑先把索引删除，迁移后再重新建立。</li>
+<li>考虑先把引擎改成 MyISAM。因为在数据量比较大的情况MyISAM的插入速度比Innodb高，这里也是当数据导入完成后再将存储引擎修改为InnoDB。</li>
+<li>导出语句的 insert 语句写成多值形式。</li>
+<li>如果发送的SQL语句太长，以致超过了max_allowed_packet的大小，可以合适地修改这个值。</li>
+<li>增加bulk_insert_buffer_size。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_26334813/article/details/80503973">MySQL-大批量数据如何快速的数据迁移</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/ronmy/article/details/65651713">MySQL数据库的无缝迁移问题：binlog方案、触发器方案</a><br><a target="_blank" rel="noopener" href="https://my.oschina.net/sansom/blog/153433">mysql 中如何提高大表之间复制效率</a></p>
+<h3 id="5-redis-事务实现，集群实现"><a href="#5-redis-事务实现，集群实现" class="headerlink" title="5. redis 事务实现，集群实现"></a>5. redis 事务实现，集群实现</h3><p>以 MULTI 开始一个事务，然后将多个命令入队到事务中，最后由 EXEC 命令触发事务，一并执行事务中的所有命令。</p>
+<p>Tips: redis 命令是原子性的，但是 Redis 事务并不是原子性的。</p>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="http://www.runoob.com/redis/redis-transactions.html">Redis 事务-Runoob.com</a>,<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/ae4c52af3390">Redis之事务实现</a>,<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wuxl360/p/5920330.html">Redis集群搭建与简单使用</a></p>
+<p>墙裂推荐阅读：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/shamo89/p/8376907.html">Redis(十一):Redis 的事务功能详解</a></p>
+<p>Redis 集群方案：</p>
+<ol>
+<li>客户端分片：在客户端进行路由选择，把对 Key 的访问转发到不同的 Redis 实例中，最后把返回结果汇集。</li>
+<li>代理层：Redis 客户端把请求发送给代理，由代理按照路由规则发送正确的 Redis 实例，并将结果汇集返回给客户端。</li>
+<li>P2P 模式：使用 Hash Slot 进行数据拆分。Redis 客户端发送请求到某个 Redis 实例，如果数据不在此实例时，实例返回重定向指定给客户端，客户端进行对目标实例进行访问请求。</li>
+<li>使用云服务器上的集群服务。</li>
+</ol>
+<blockquote>
+<p>redis cluster在设计的时候，就考虑到了去中心化，去中间件，也就是说，集群中的每个节点都是平等的关系，都是对等的，每个节点都保存各自的数据和整个集群的状态。每个节点都和其他所有节点连接，而且这些连接保持活跃，这样就保证了<strong>我们只需要连接集群中的任意一个节点，就可以获取到其他节点的数据</strong>。</p>
+</blockquote>
+<blockquote>
+<p>Redis 集群没有并使用传统的一致性哈希来分配数据，而是采用另外一种叫做<strong>哈希槽</strong> (hash slot)的方式来分配的。redis cluster 默认分配了 16384 个slot，当我们set一个key 时，会用<strong>CRC16算法</strong>来取模得到所属的slot，然后将这个key 分到哈希槽区间的节点上，具体算法就是：CRC16(key) % 16384。所以我们在测试的时候看到set 和 get 的时候，直接跳转到了7000端口的节点。</p>
+</blockquote>
+<blockquote>
+<p>Redis 集群会把数据存在一个 master 节点，然后在这个 master 和其对应的salve 之间进行数据同步。当读取数据时，也根据一致性哈希算法到对应的 master 节点获取数据。只有当一个master 挂掉之后，才会启动一个对应的 salve 节点，充当 master 。</p>
+</blockquote>
+<blockquote>
+<p>需要注意的是：必须要3个或以上的主节点，否则在创建集群时会失败，并且当存活的主节点数小于总节点数的一半时，整个集群就无法提供服务了。</p>
+</blockquote>
+<h3 id="6-数据库哈希索引、B-树索引，原理，优缺点"><a href="#6-数据库哈希索引、B-树索引，原理，优缺点" class="headerlink" title="6. 数据库哈希索引、B+树索引，原理，优缺点"></a>6. 数据库哈希索引、B+树索引，原理，优缺点</h3><p>推荐阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/heiming/p/5865101.html">MySQL B+树索引和哈希索引的区别</a><br>原理：<br>哈希索引：采用一定的哈希算法，把键值换算成新的哈希值，只需要一次哈希算法即可立刻定位到相应的位置。<br>B+ 树索引：使用平衡的多叉树，非叶节点做索引，关键字都放在叶子节点中，叶子节点间通过双向指针快速左右移动，效率非常高。 </p>
+<p>区别：</p>
+<ol>
+<li>哈希索引适用于等值查询，一般一次算法就能找到键值，比 B+ 树更好快。</li>
+<li>哈希索引不适用于范围查询（包括部分模糊查询等）。</li>
+<li>哈希索引不适用于联合索引最左规则（最左规则：多列联合查询时，把最常用的放在最左能加快索引速度）。</li>
+<li>如果有大量重复键值的情况，哈希索引效率极低。</li>
+<li>B+ 树可以很好地利用局部性原理（3 层 B+ 树可以表示上百万的数据，只需要三次 IO）。</li>
+</ol>
+<h3 id="7-java线程池有哪些参数，分别有什么作用"><a href="#7-java线程池有哪些参数，分别有什么作用" class="headerlink" title="7. java线程池有哪些参数，分别有什么作用"></a>7. java线程池有哪些参数，分别有什么作用</h3><p>线程池正是为了解决多线程效率低的问题而产生的，它使得线程可以被复用。<br>线程池参数有七个：<br>（lee 记忆：两个数、两个时间、一个队列一个工厂、一个拒绝策略）</p>
+<ol>
+<li>corePollSize：核心线程数。当线程池中的线程数目达到corePoolSize后，就会把到达的任务放到缓存队列当中。通常不会被回收，除非主动设置。</li>
+<li>maximumPoolSize：最大线程数。表明线程中最多能够创建的线程数量。</li>
+<li>keepAliveTime：空闲的线程保留的时间。</li>
+<li>TimeUnit：时间单位。</li>
+<li>BlockingQueue<Runnable>：阻塞队列，存储等待执行的任务。参数有ArrayBlockingQueue、LinkedBlockingQueue、SynchronousQueue可选。</Runnable></li>
+<li>ThreadFactory：线程工厂，用来创建线程</li>
+<li>RejectedExecutionHandler：队列已满，而且任务量大于最大线程的异常处理策略（lee 注：可理解为<strong>拒绝策略</strong>）。有以下取值</li>
+</ol>
+<ul>
+<li>ThreadPoolExecutor.AbortPolicy:丢弃任务并抛出RejectedExecutionException异常。 </li>
+<li>ThreadPoolExecutor.DiscardPolicy：也是丢弃任务，但是不抛出异常。 </li>
+<li>ThreadPoolExecutor.DiscardOldestPolicy：丢弃队列最前面的任务，然后重新尝试执行任务（重复此过程）</li>
+<li>ThreadPoolExecutor.CallerRunsPolicy：由调用线程处理该任务</li>
+</ul>
+<h3 id="8-重入锁有哪些，底层实现方式"><a href="#8-重入锁有哪些，底层实现方式" class="headerlink" title="8. 重入锁有哪些，底层实现方式"></a>8. 重入锁有哪些，底层实现方式</h3><p>可重入锁（ReentrantLock）：一个线程在获取了锁之后，再次去获取了同一个锁，这时候仅仅是把状态值进行累加，并不会互斥（即允许重入）。像 synchronized 和 ReentrantLock 都是可重入锁。 推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/yanyan19880509/article/details/52345422">轻松学习 java 可重入锁(ReentrantLock)</a><br>实现代码参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36520235/article/details/81669831">可重入锁 ReentrantLock 的底层原理实现？</a></p>
+<p>扩展知识：<br>可重入锁分为：公平锁和非公平锁两类。</p>
+<blockquote>
+<p>公平锁保证等待时间最长的线程将优先获得锁，而非公平锁并不会保证多个线程获得锁的顺序，但是非公平锁的并发性能表现更好，ReentrantLock默认使用非公平锁。</p>
+</blockquote>
+<p>以非公平锁举例，大意是指：</p>
+<ol>
+<li>首先在 <code>lock()</code>方法中用 CAS 进行抢占锁（或设置 state 变量），如果抢占失败，会调用 <code>acquire()</code>方法。</li>
+<li>方法中继续调用<code>tryAcquire()</code>方法再次去获取锁，先判断是否有锁，再判断这个锁是不是本线程持有，若是则修改 state 值。</li>
+<li>若<code>tryAcquire()</code>方法失败，则将线程置于列尾进行排队。</li>
+</ol>
+<p>除了可重入锁外，还有中断锁（Lock）、读写锁（ReadWriteLock）、偏向锁、自旋锁等。</p>
+<ul>
+<li>偏向锁：适用于无竞争的情况下，偏向于第一个访问锁的线程，引入偏向锁是为了在无多线程竞争的情况下尽量减少不必要的轻量级锁执行。一旦出现竞争，就撤掉偏向锁，升级为轻量级锁。</li>
+</ul>
+<p><strong>锁的 3 种优化</strong>：、</p>
+<ol>
+<li>自适应自旋锁：自旋的次数不固定，如果上次自旋成功了，那么下一次的自旋次数会增加。</li>
+<li>锁消除：JVM 如果检测到不可能存在共享数据竞争时，JVM 会对这些同步锁进行锁消除（依据是逃逸分析的数据支持）。比如，StringBuffer 的 append()方法、Vector 的 add() 方法，在出现某些代码时，JVM 会大胆地进行锁消除。</li>
+<li>锁粗化：如果一系列连续加锁的操作，也会造成效率降低。锁粗化就是将上面的加锁解锁操作连接在一起，形成范围更大的锁。以上操作由 JVM 检测完成。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41376740/article/details/80607243">JAVA 并发各种锁</a></p>
+<h3 id="9-数据库的-on-where-having-区别"><a href="#9-数据库的-on-where-having-区别" class="headerlink" title="9. 数据库的 on where having 区别"></a>9. 数据库的 on where having 区别</h3><p>on、where、having 都是条件筛选数据。<br>区别：</p>
+<ol>
+<li>on 通过限制条件筛选后得到中间表，然后中间表返回得到查询结果。</li>
+<li>where 是得到中间表后，再通过限制条件筛选出结果。相比下，on 的中间表数据集小，效率更高。</li>
+<li>having 必须跟 GroupBy 一起出现，where 不一定。where 在聚集函数计算前筛选，having 在之后筛选。相比之前，where 更快一些。</li>
+</ol>
+<h3 id="10-一个try-finally-块返回值是哪个"><a href="#10-一个try-finally-块返回值是哪个" class="headerlink" title="10. 一个try finally 块返回值是哪个"></a>10. 一个try finally 块返回值是哪个</h3><ol>
+<li>首先，return 放在 try-finally 块中是个不好的习惯。</li>
+<li>先执行 try 中的 return，然而并不会结束程序，而是继续执行 finally（但 return 的东西不会改变）。</li>
+<li>然后执行 finally 代码，如果 finally 中有 return（提前结束程序，会被 IDE 警告块不正常完成），就会覆盖掉 try 里的 return（即失效了）。</li>
+</ol>
+<h3 id="11-值传递-索引传递"><a href="#11-值传递-索引传递" class="headerlink" title="11. 值传递 索引传递"></a>11. 值传递 索引传递</h3><ul>
+<li>值传递：方法调用时，实参把它的值传递给对应的形参，而方法内部仅能拿到一个副本，对副本的修改不会改变原实参的值。比如基本数据类型传值。</li>
+<li>引用传递：方法调用时，实参的地址传递给对应的形参，如果方法内部对地址中的内容进行了修改，那个原实参的值也会相应发生改变。</li>
+<li>但对于一些非基本数据类型，比如 String、Integer、Double等 immutable 的类型需要特殊处理，可以当做值传递来处理。</li>
+</ul>
+<p>Ps：原始类型包装类（primitive wrappers）（Integer，Long, Short, Double, Float, Character, Byte, Boolean）也都是不可变的。</p>
+<p>有关不可修改对象可参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/ymrfzr/article/details/51201934">Java中mutable对象和immutable对象的区别</a></p>
+<h3 id="12-RPC框架"><a href="#12-RPC框架" class="headerlink" title="12. RPC框架"></a>12. RPC框架</h3><p>RPC 是指远程过程调用，通过网络来表达调用的语义和传达调用的数据，并得到返回的结果。<br>目的是本地调用远程的方法时，隐藏底层的通讯细节，达到功能与服务实现解耦的效果。<br>RPC 框架一般有：rpcx、grpc、go std rpc、thrift、dubbo等<br>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/quuqu/article/details/79304614">流行的 rpc 框架性能测试对比</a></p>
+<h3 id="13-多线程实现方式"><a href="#13-多线程实现方式" class="headerlink" title="13. 多线程实现方式"></a>13. 多线程实现方式</h3><ol>
+<li>继承 Thread，覆写 run()方法，再调用 start()方法。</li>
+<li>实现 Runnable 接口，然后创建 Thread 实例，再调用 thread.start()方法。</li>
+<li>实现 Callable 接口，覆写 call()方法，通过 FutureTask<V> 包装器创建 Thread 实例，再调用 thread.start()方法。<br>推荐阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/felixzh/p/6036074.html">JAVA多线程实现</a></V></li>
+</ol>
+<p>&#x2F;&#x2F; todo 补充一下  Future 类的用法，在多线程合并请求时也用得上：</p>
+<h3 id="14-反射的几种情况"><a href="#14-反射的几种情况" class="headerlink" title="14. 反射的几种情况"></a>14. 反射的几种情况</h3><p>深度好文：<a target="_blank" rel="noopener" href="https://www.sczyh30.com/posts/Java/java-reflection-1/">深入解析 Java 反射（1） - 基础</a></p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/28/%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%EF%BC%881%EF%BC%89/" rel="next" title="负载均衡（1）">
+                <i class="fa fa-chevron-left"></i> 负载均衡（1）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/10/%E9%AB%98%E5%B9%B6%E5%8F%91%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" rel="prev" title="高并发笔记（1）">
+                高并发笔记（1） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%90%8C%E6%AD%A5-%E5%BC%82%E6%AD%A5-%E9%9D%9E%E9%98%BB%E5%A1%9E-%E9%98%BB%E5%A1%9E-bio-nio-aio"><span class="nav-number">1.</span> <span class="nav-text">1. 同步 异步 非阻塞 阻塞 bio nio aio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-java%E5%BC%82%E5%B8%B8%E6%9C%BA%E5%88%B6%E7%B1%BB%E5%9B%BE%E6%89%8B%E5%86%99"><span class="nav-number">2.</span> <span class="nav-text">2. java异常机制类图手写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-spring%E4%BA%8B%E5%8A%A1%E4%BC%A0%E6%92%AD%E6%9C%BA%E5%88%B6"><span class="nav-number">3.</span> <span class="nav-text">3. spring事务传播机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9C%89-2000w-%E6%9D%A1%E8%AE%B0%E5%BD%95%EF%BC%8C%E5%A4%8D%E5%88%B6%E5%88%B0%E5%8F%A6%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%86%85%EF%BC%8C%E4%BF%9D%E8%AF%81%E6%97%A0%E9%87%8D%E5%A4%8D%EF%BC%8C%E9%80%9F%E5%BA%A6%E5%BF%AB"><span class="nav-number">4.</span> <span class="nav-text">4. 数据库有 2000w 条记录，复制到另一个服务器内，保证无重复，速度快</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-redis-%E4%BA%8B%E5%8A%A1%E5%AE%9E%E7%8E%B0%EF%BC%8C%E9%9B%86%E7%BE%A4%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">5. redis 事务实现，集群实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%93%88%E5%B8%8C%E7%B4%A2%E5%BC%95%E3%80%81B-%E6%A0%91%E7%B4%A2%E5%BC%95%EF%BC%8C%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">6.</span> <span class="nav-text">6. 数据库哈希索引、B+树索引，原理，优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E6%9C%89%E5%93%AA%E4%BA%9B%E5%8F%82%E6%95%B0%EF%BC%8C%E5%88%86%E5%88%AB%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">7. java线程池有哪些参数，分别有什么作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E9%87%8D%E5%85%A5%E9%94%81%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">8.</span> <span class="nav-text">8. 重入锁有哪些，底层实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84-on-where-having-%E5%8C%BA%E5%88%AB"><span class="nav-number">9.</span> <span class="nav-text">9. 数据库的 on where having 区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E4%B8%80%E4%B8%AAtry-finally-%E5%9D%97%E8%BF%94%E5%9B%9E%E5%80%BC%E6%98%AF%E5%93%AA%E4%B8%AA"><span class="nav-number">10.</span> <span class="nav-text">10. 一个try finally 块返回值是哪个</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E5%80%BC%E4%BC%A0%E9%80%92-%E7%B4%A2%E5%BC%95%E4%BC%A0%E9%80%92"><span class="nav-number">11.</span> <span class="nav-text">11. 值传递 索引传递</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-RPC%E6%A1%86%E6%9E%B6"><span class="nav-number">12.</span> <span class="nav-text">12. RPC框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">13.</span> <span class="nav-text">13. 多线程实现方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-%E5%8F%8D%E5%B0%84%E7%9A%84%E5%87%A0%E7%A7%8D%E6%83%85%E5%86%B5"><span class="nav-number">14.</span> <span class="nav-text">14. 反射的几种情况</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

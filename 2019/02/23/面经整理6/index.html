@@ -1,0 +1,2456 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="SSM系列问题推荐阅读：SSM常见面试问题 汇总：趣链、蘑菇街、随手记、网易、招银、IBM、阿里 趣链Java一面之lh篇自我介绍。讲一下项目。 1. 类加载的过程。三个阶段：加载、连接、初始化。  加载：①class文件加载到内存中；②方法区生成运行时类文件；③堆区生成class对象，作为访问方法区中类文件的访问入口。 连接：①验证文件正确性；②为类的静态变量分配内存，并初始化默认值；③符号引用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面经整理6">
+<meta property="og:url" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="SSM系列问题推荐阅读：SSM常见面试问题 汇总：趣链、蘑菇街、随手记、网易、招银、IBM、阿里 趣链Java一面之lh篇自我介绍。讲一下项目。 1. 类加载的过程。三个阶段：加载、连接、初始化。  加载：①class文件加载到内存中；②方法区生成运行时类文件；③堆区生成class对象，作为访问方法区中类文件的访问入口。 连接：①验证文件正确性；②为类的静态变量分配内存，并初始化默认值；③符号引用">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/3.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/reverse.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/6.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/2.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/bridge_pattern_uml_diagram.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/StringPool.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/4.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/git.jpeg">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/5.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/7.jpg">
+<meta property="article:published_time" content="2019-02-23T01:39:18.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.915Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="javaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/3.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/23/面经整理6/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>面经整理6 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面经整理6
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-02-23 09:39:18" itemprop="dateCreated datePublished" datetime="2019-02-23T09:39:18+08:00">2019-02-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>SSM系列问题推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/mrleeapple/article/details/78464723">SSM常见面试问题</a></p>
+<p>汇总：趣链、蘑菇街、随手记、网易、招银、IBM、阿里</p>
+<h1 id="趣链Java一面之lh篇"><a href="#趣链Java一面之lh篇" class="headerlink" title="趣链Java一面之lh篇"></a>趣链Java一面之lh篇</h1><p>自我介绍。<br>讲一下项目。</p>
+<h3 id="1-类加载的过程。"><a href="#1-类加载的过程。" class="headerlink" title="1. 类加载的过程。"></a>1. 类加载的过程。</h3><p>三个阶段：加载、连接、初始化。</p>
+<ul>
+<li>加载：①class文件加载到内存中；②方法区生成运行时类文件；③堆区生成class对象，作为访问方法区中类文件的访问入口。</li>
+<li>连接：①验证文件正确性；②为类的静态变量分配内存，并初始化默认值；③符号引用转换成直接引用。</li>
+<li>初始化：为类变量赋予正确的初始值。</li>
+</ul>
+<span id="more"></span>
+
+<p>详解 classLoader 的loadClass</p>
+<h3 id="PriorityQueue-实现大根堆"><a href="#PriorityQueue-实现大根堆" class="headerlink" title="PriorityQueue 实现大根堆"></a>PriorityQueue 实现大根堆</h3><p>因为 PriorityQueue默认是小根堆，那么该怎么实现大根堆呢？</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">11</span>;</span><br><span class="line">Queue&lt;Integer&gt; maxHeap = <span class="keyword">new</span> PriorityQueue&lt;&gt;(DEFAULT_INITIAL_CAPACITY, <span class="keyword">new</span> Comparator&lt;Integer&gt;() &#123;</span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">int</span> <span class="title">compare</span><span class="params">(Integer o1, Integer o2)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> o2-o1; <span class="comment">// 关键：compare函数 return的结果如果小于0则保持原位置，大于 0 则交换。</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>compartor 采用了策略模式，使用策略对象来改变它的行为。</p>
+<p>comparator 用法扩展阅读 <a target="_blank" rel="noopener" href="https://blog.csdn.net/u012250875/article/details/55126531">Comparator的用法</a></p>
+<h3 id="2-用过哪些集合类。"><a href="#2-用过哪些集合类。" class="headerlink" title="2. 用过哪些集合类。"></a>2. 用过哪些集合类。</h3><p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/3.png"></p>
+<p>Map、List、Set。<br>List：ArrayList、LinkedList、Vector；<br>Map：HashMap、HashTable、TreeMap、LinkedHashMap</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// TreeMap 自定义Comparator，先按名字排序，名字相同者按年龄排序：</span></span><br><span class="line">TreeMap&lt;Student,String&gt; tmap = <span class="keyword">new</span> TreeMap&lt;Student,String&gt;(<span class="keyword">new</span> Comparator&lt;Student&gt;<span class="literal">()</span>&#123;</span><br><span class="line">	@Override</span><br><span class="line">	public <span class="built_in">int</span> compare(Student s1,Student s2)&#123;</span><br><span class="line">		<span class="built_in">int</span> num = s1.get<span class="constructor">Name()</span>.compare<span class="constructor">To(<span class="params">s2</span>.<span class="params">getName</span>()</span>);</span><br><span class="line">		<span class="keyword">if</span>(num<span class="operator"> == </span><span class="number">0</span>)&#123;</span><br><span class="line">			return <span class="keyword">new</span> <span class="constructor">Integer(<span class="params">s1</span>.<span class="params">getAge</span>()</span>).compare<span class="constructor">To(<span class="params">s2</span>.<span class="params">getAge</span>()</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		return num;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-HashMap和HashTable区别。"><a href="#3-HashMap和HashTable区别。" class="headerlink" title="3. HashMap和HashTable区别。"></a>3. HashMap和HashTable区别。</h3><ul>
+<li>HashMap：①线程不安全；②key和value可为null；③扩容机制不同：初始默认16，两倍扩容。④链表长度大于8后，且桶的数量大于等于64 时，链表转为红黑树（桶数量低于64时会优先扩容）。</li>
+<li>HashTable: ① 线程安全，Synchronized锁，效率低，目前已经用ConcurrentHashMap代替使用；②key不可为null；③初始默认11，2n+1扩容。④没有转红黑树的机制。</li>
+</ul>
+<h3 id="4-讲一下FutureTask，怎么获取返回值的，其他几种多线程的实现比较。"><a href="#4-讲一下FutureTask，怎么获取返回值的，其他几种多线程的实现比较。" class="headerlink" title="4. 讲一下FutureTask，怎么获取返回值的，其他几种多线程的实现比较。"></a>4. 讲一下FutureTask，怎么获取返回值的，其他几种多线程的实现比较。</h3><p>深度解析 futureTask：</p>
+<ol>
+<li>关键点一：RunnableFuture 接口，它同时继承了 Runnable、Future 两个接口，而 FutureTask 正是它的实现类。</li>
+<li>关键点二：用户自己实现的 <code>**Callable</code> 实现类。</li>
+<li>执行步骤：<ol>
+<li>首先对线程池执行 <code>submit(**Callable)</code>方法，内部 <code>**Callable</code> 是作为参数放进 FutureTask 实例（<code>**FutureTask</code>）中的，所以其实是在执行<code>execute（**FutureTask）</code>，而带有业务逻辑的<code> call()</code>方法逻辑也就顺理成章的成了<code> run()</code>方法逻辑。</li>
+<li><code>execute(**FutureTask)</code>方法会触发<code>**FutureTask</code>的<code>run()</code>方法，执行完成后，会封装成 <code>Future</code> 对象返回。</li>
+<li>最后可以通过<code>**FutureTask.get()</code>方法拿到返回值（get 方法其实是线程阻塞的，所以 java 中的 Future 用法并不是真正意义上的异步操作）。</li>
+<li>注：可以使用 <code>Thread.start()</code>方法代替线程池执行的<code> submit()</code>方法，两者后面的执行逻辑是相似的。</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ①FutureTask 单独使用</span></span><br><span class="line"><span class="comment">/** 1. Callable接口及发散的类，带着线程工作逻辑，被new出来。</span></span><br><span class="line"><span class="comment"> *  2. Future接口及发散类，new时传入Callable实例。</span></span><br><span class="line"><span class="comment"> *  3. Thread接口及发散类，new 时传入Future实例。</span></span><br><span class="line"><span class="comment"> *  4. 启动线程，可以get返回值（get方法会阻塞线程，）。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ConstruceCallable</span>&lt;<span class="title">V</span>&gt; <span class="keyword"><span class="keyword">implements</span> <span class="type">Callable</span></span>&lt;<span class="title">V</span>&gt;</span>&#123;</span><br><span class="line">	@Override</span><br><span class="line">	<span class="keyword">public</span> V call() throws Exception&#123;</span><br><span class="line">		<span class="comment">// todo 业务逻辑</span></span><br><span class="line">		<span class="keyword">return</span> V;</span><br><span class="line">	&#125;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">Callable&lt;V&gt; oneCallable = <span class="keyword">new</span> <span class="type">ConstruceCallable</span>&lt;V&gt;();</span><br><span class="line">FutureTask&lt;V&gt; task = <span class="keyword">new</span> <span class="type">FutureTask</span>&lt;V&gt;(oneCallable);</span><br><span class="line">Thread thread = <span class="keyword">new</span> <span class="type">Thread</span>(task);</span><br><span class="line">thread.start(); <span class="comment">// 启动线程</span></span><br><span class="line">task.<span class="keyword">get</span>(); <span class="comment">// 拿到返回值V </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// ②FutureTask 结合线程池使用</span></span><br><span class="line"><span class="comment">/** 1. new 一个 ThreadPoolExecutor</span></span><br><span class="line"><span class="comment"> *  2. 在一个List&lt;FutureTask&gt; 中，逐个新增FutureTask实例</span></span><br><span class="line"><span class="comment"> *  3. 接收task列表，执行executor.submit 方法</span></span><br><span class="line"><span class="comment"> *  4. 遍历list获取返回值。</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">ThreadPoolExecutor executor = <span class="keyword">new</span> <span class="type">ThreadPoolExecutor</span>(<span class="number">5</span>,<span class="number">10</span>,<span class="number">10</span>L,</span><br><span class="line">		TimeUnit.SECONDS,<span class="keyword">new</span> <span class="type">LinkedBlockingDeque</span>&lt;&gt;(<span class="number">10</span>));</span><br><span class="line">List&lt;FutureTask&gt; tasks = <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">for</span>(int i =<span class="number">0</span>;i&lt;<span class="number">10</span>;++i)&#123;</span><br><span class="line">	FutureTask task = <span class="keyword">new</span> <span class="type">FutureTask</span>(<span class="keyword">new</span> <span class="type">SomeCallable</span>());</span><br><span class="line">	executor.submit(task);</span><br><span class="line">	tasks.add(task);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span>(FutureTask futureTask : <span class="type">tasks</span>)&#123;</span><br><span class="line">	System.out.println(futureTask.<span class="keyword">get</span>());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>比较：</p>
+<blockquote>
+<p>线程池七大参数的关系：其中比较容易让人误解的是：corePoolSize，maximumPoolSize，workQueue之间关系。<br>1.当线程数小于corePoolSize时，新提交任务将创建一个新线程执行任务，即使此时线程池中存在空闲线程。<br>2.当线程数达到corePoolSize时，新提交任务将被放入workQueue中，等待线程池中任务调度执行<br>3.当workQueue已满，且maximumPoolSize&gt;corePoolSize时，新提交任务会创建新线程执行任务<br>4.当提交任务数超过maximumPoolSize时，新提交任务由RejectedExecutionHandler处理<br>5.当线程池中超过corePoolSize线程，空闲时间达到keepAliveTime时，关闭空闲线程<br>6.当设置allowCoreThreadTimeOut(true)时，线程池中corePoolSize线程空闲时间达到keepAliveTime也将关闭 </p>
+</blockquote>
+<p>线程池的四种拒绝策略：</p>
+<ol>
+<li>CallerRunsPolicy：线程调用运行该任务的 execute 本身。这个策略显然不想放弃执行任务。但是由于池中已经没有任何资源了，那么就直接使用调用该execute的线程本身来执行。</li>
+<li>AbortPolicy：处理程序遭到拒绝将抛出运行时 RejectedExecutionException。这种策略直接抛出异常，丢弃任务。</li>
+<li>DiscardPolicy：不能执行的任务将被删除。这种策略和AbortPolicy几乎一样，也是丢弃任务，只不过他不抛出异常。</li>
+<li>DiscardOldestPolicy：如果执行程序尚未关闭，则位于工作队列头部的任务将被删除，然后重试执行程序。该策略就稍微复杂一些，在pool没有关闭的前提下首先丢掉缓存在队列中的最早的任务，然后重新尝试运行该任务。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/duoduo18up/article/details/80245414">FutureTask的底层实现</a></p>
+<h4 id="为什么我们调用-start-方法时会执行-run-方法，为什么我们不能直接调用-run-方法？"><a href="#为什么我们调用-start-方法时会执行-run-方法，为什么我们不能直接调用-run-方法？" class="headerlink" title="为什么我们调用 start() 方法时会执行 run() 方法，为什么我们不能直接调用 run() 方法？"></a>为什么我们调用 start() 方法时会执行 run() 方法，为什么我们不能直接调用 run() 方法？</h4><p>new 一个 Thread，线程进入了新建状态;调用 start() 方法，会启动一个线程并使线程进入了就绪状态，当分配到时间片后就可以开始运行了。 start() 会执行线程的相应准备工作，然后自动执行 run() 方法的内容，这是真正的多线程工作。 而直接执行 run() 方法，会把 run 方法当成一个 main 线程下的普通方法去执行，并不会在某个线程中执行它，所以这并不是多线程工作。</p>
+<p><strong>总结： 调用 start 方法方可启动线程并使线程进入就绪状态，而 run 方法只是 thread 的一个普通方法调用，还是在主线程里执行。</strong></p>
+<h3 id="5-MySQL怎么实现事务的，在SSM框架中你是怎么做的？"><a href="#5-MySQL怎么实现事务的，在SSM框架中你是怎么做的？" class="headerlink" title="5. MySQL怎么实现事务的，在SSM框架中你是怎么做的？"></a>5. MySQL怎么实现事务的，在SSM框架中你是怎么做的？</h3><h3 id="6-用过哪些设计模式，讲一个你最常用的，讲一下你对代理模式的理解。"><a href="#6-用过哪些设计模式，讲一个你最常用的，讲一下你对代理模式的理解。" class="headerlink" title="6. 用过哪些设计模式，讲一个你最常用的，讲一下你对代理模式的理解。"></a>6. 用过哪些设计模式，讲一个你最常用的，讲一下你对代理模式的理解。</h3><ol>
+<li>代理模式就是通过代理来控制对象的访问。可以详细访问到对象的方法，并且在方法先后添加一些业务逻辑。</li>
+<li>主要用在AOP、事务、日志打印、权限控制、远程调用、安全代理等。</li>
+<li>代理模式通常有两种实现方式：静态代理和动态代理，后者又有两种实现，jdk和cglib。<ol>
+<li>静态代理，一般就是加一层包装类的形式，原始类当作参数传入包装类，通过调用包装类间接调用目标对象。</li>
+<li>jdk 方式，使用 implements 了InvocationHandler 的某类 handler，将原始接口target当作参数field传入构造方法，然后在代理类中invoke 方法中调用 method.invoke(target,args )。main方法首先获取这个某类 handler，然后通过 Proxy.newProxyInstance 拿到实例，之后随便调用 target 类的方法。</li>
+</ol>
+</li>
+<li>jdk：面向接口生成代理，自带的Proxy和InvocationHandler。</li>
+</ol>
+<p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/1.png"></p>
+<ol start="4">
+<li><p>cglib：没有接口这一硬性条件。基于ASM，是一种直接操作字节码的框架，推荐阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xrq730/p/6661692.html">Cglib及其基本使用</a></p>
+</li>
+<li><p>详细参考第 11 题。</p>
+</li>
+<li><p>ASM 阅读推荐：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhuoxiuwu/article/details/78619645">ASM</a>，精华总结如下：</p>
+<ol>
+<li><p>ASM 是一种动态修改字节码数组的工具，跟一般的代理类有所区别，ASM 的最终目的是生成可以被装载的class 文件。</p>
+</li>
+<li><p>ASM技术对程序员隐藏了字节码偏移的细节，程序员只需要操作一个类似于树的数据结构，对字节码进行遍历即可。</p>
+</li>
+<li><p>具体做法是实现一个ClassVisitor 接口的类，重写相关的visit 方法，ASM 会自动调用这些 visit 方法</p>
+</li>
+</ol>
+</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 以下例子中重写了 visitField 方法，将修饰符修改为 Private</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">AccessClassAdapter</span> <span class="keyword">extends</span> <span class="title class_">ClassAdapter</span> &#123; </span><br><span class="line">  <span class="keyword">public</span> <span class="title function_">AccessClassAdapter</span><span class="params">(ClassVisitor cv)</span> &#123; </span><br><span class="line">    <span class="built_in">super</span>(cv); </span><br><span class="line">  &#125; </span><br><span class="line">  <span class="keyword">public</span> FieldVisitor <span class="title function_">visitField</span><span class="params">(<span class="keyword">final</span> <span class="type">int</span> access, <span class="keyword">final</span> String name, </span></span><br><span class="line"><span class="params"><span class="keyword">final</span> String desc, <span class="keyword">final</span> String signature, <span class="keyword">final</span> Object value)</span> &#123; </span><br><span class="line">    <span class="type">int</span> <span class="variable">privateAccess</span> <span class="operator">=</span> Opcodes.ACC_PRIVATE; </span><br><span class="line">    <span class="keyword">return</span> cv.visitField(privateAccess, name, desc, signature, value); </span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​      </p>
+<h3 id="7-手写反转单链表。"><a href="#7-手写反转单链表。" class="headerlink" title="7. 手写反转单链表。"></a>7. 手写反转单链表。</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> <span class="title function_">reverse</span><span class="params">(TreeNode head)</span>&#123;</span><br><span class="line">  <span class="keyword">if</span>(<span class="literal">null</span> == head || <span class="literal">null</span> == head.next())&#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  TreeNode pre, cur, next;</span><br><span class="line">  pre = <span class="literal">null</span>; cur = head;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span>(<span class="literal">null</span> != cur)&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="literal">null</span> == cur.next())&#123;</span><br><span class="line">      <span class="comment">// cur 是原链最后一个结点</span></span><br><span class="line">      cur.next() = pre;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    next = cur.next();  <span class="comment">// 核心思路：</span></span><br><span class="line">    cur.next() = pre;   <span class="comment">// 1. 让 cur 的后继指针指向它的 pre</span></span><br><span class="line">    pre = cur;          <span class="comment">// 2. 用 next 记住 cur 移动的下一位，保证不断链</span></span><br><span class="line">    cur = next;					<span class="comment">// 3. 再让 cur 来到 next 的位置</span></span><br><span class="line">  &#125;</span><br><span class="line">  head.next() = cur;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按步骤 123 依此进行反转</p>
+<p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/reverse.jpg"></p>
+<h3 id="8-项目中实现了哪些功能。有没有文字处理的功能。"><a href="#8-项目中实现了哪些功能。有没有文字处理的功能。" class="headerlink" title="8. 项目中实现了哪些功能。有没有文字处理的功能。"></a>8. 项目中实现了哪些功能。有没有文字处理的功能。</h3><p>个人项目流程：</p>
+<ol>
+<li>将java代码生成字节数组；<ul>
+<li>1.1 热替换字节码数组；</li>
+<li>1.2 自定义类加载器；</li>
+</ul>
+</li>
+<li>然后将字节数组转换成Class类（类加载）；</li>
+<li>反射调用的方式执行代码，获得执行结果；</li>
+</ol>
+<p>扩展：HotSpot 将字节码编译成机器码的两种方式：</p>
+<ol>
+<li>解释执行：需要时，将字节码逐条翻译成机器码并执行。<ul>
+<li>优点：无需等待编译。</li>
+<li>约占80%代码。</li>
+</ul>
+</li>
+<li>编译执行：将部分字节码提前全部翻译好，然后执行，即 JIT。<ul>
+<li>优点：实际运行速度更快。</li>
+<li>采取了分层编译的方式，内置多个即时编译器，这些编译器有着不同的编译速度和各自特色，可以根据程序运行信息选取合适编译器，对编译后的执行效率进行优化。</li>
+<li>约占20%代码。</li>
+</ul>
+</li>
+<li>混合模式中，大部分打码采用解释执行，对于反复执行的热点代码，以方法为单位进行编译执行。</li>
+</ol>
+<h3 id="补充-：字节码中与方法调用相关的指令"><a href="#补充-：字节码中与方法调用相关的指令" class="headerlink" title="补充 ：字节码中与方法调用相关的指令"></a>补充 ：字节码中与方法调用相关的指令</h3><ol>
+<li>invokestatic：用于调用静态方法；</li>
+<li>invokespecial：用于调用私有实例方法、构造器，以及使用 super关键字调用父类的实例方法或构造器，和所实现接口的默认方法；</li>
+<li>invokevirtual：用于调用非私有实例方法；</li>
+<li>invokeinterface：用于调用接口方法；</li>
+<li>invokedynamic：用于调用动态方法。</li>
+</ol>
+<p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/6.png"></p>
+<p>参考“《深入拆解 Java 虚拟机（极客时间）》04.JVM 是如何执行方法调用的（上）？”</p>
+<h4 id="虚方法调用对性能影响很大"><a href="#虚方法调用对性能影响很大" class="headerlink" title="虚方法调用对性能影响很大"></a>虚方法调用对性能影响很大</h4><p>所以 JIT 采取了两种优化手段：内联缓存和方法内联，用来加速动态绑定。</p>
+<ol>
+<li>内联缓存：核心过程：利用缓存（快），避免基于方法表的动态绑定（慢）。<ul>
+<li><p>缓存内容：虚方法中调用者的动态类型，以及该类型对应的目标方法。		- 所谓动态类型，就是运行时在程序内部动态生成的类或者类型。从多态的角度来看，理解为不同的子类这种情况。</p>
+</li>
+<li><p>分类：单态内联（JVM 中采用），多态内联，超多态内联。</p>
+<ul>
+<li>多态内联，缓存多种动态类型及其目标方法。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>参考“《深入拆解 Java 虚拟机（极客时间）》05.JVM 是如何执行方法调用的（下）？”</p>
+<h3 id="9-知道JavaCompile的底层实现吗，具体怎么做的？不调api，你会怎么实现这个功能？"><a href="#9-知道JavaCompile的底层实现吗，具体怎么做的？不调api，你会怎么实现这个功能？" class="headerlink" title="9. 知道JavaCompile的底层实现吗，具体怎么做的？不调api，你会怎么实现这个功能？"></a>9. 知道JavaCompile的底层实现吗，具体怎么做的？不调api，你会怎么实现这个功能？</h3><h3 id="10-讲一下spring的ioc原理，怎么实现依赖注入的，具体是在哪一个环节注入属性的？"><a href="#10-讲一下spring的ioc原理，怎么实现依赖注入的，具体是在哪一个环节注入属性的？" class="headerlink" title="10. 讲一下spring的ioc原理，怎么实现依赖注入的，具体是在哪一个环节注入属性的？"></a>10. 讲一下spring的ioc原理，怎么实现依赖注入的，具体是在哪一个环节注入属性的？</h3><p>IOC实现：</p>
+<ol>
+<li>首先要有一个 Resource 接口及发散的几个类，用于解决IOC容器中内容从哪里来的问题。也就是配置文件从哪里读、怎么读的问题。</li>
+<li>然后要有一个 BeanDefiniton 类及发散的几个类，用来解决Bean的具体定义问题（包括名字、类型、属性值或引用等），相当于把这些告诉IOC容器，让容器可以根据这个定义创建实例。</li>
+<li>然后要有一个 BeanFactory 接口及发散的几个类，用于解决 IOC 容器在已获取到 Bean 的定义情况下，如何装配、获取Bean实例的问题。<ul>
+<li>其中有一个<code>AutowireCapableBeanFactory </code>类，是一种具有<strong>自动装配功能</strong>的BeanFactory，实现了<code>doCreateBean</code>方法。具体有三步：①通过 BeanDefinition 中保存的类信息实例化一个对象；②把对象保存在 BeanDefinition 中，以备下次获取；③为其装配属性。装配属性时，通过 BeanDefinition 中维护的 PropertyValues 集合类，把 String - Value 键值对注入到 Bean 的属性中去。如果 Value 的类型是 BeanReference 则说明其是一个引用（对应于 XML 中的 ref），通过 getBean 对其进行获取，然后注入到属性中。</li>
+</ul>
+</li>
+<li>最后要有一个 ApplicationContext 接口及发散的几个类，对前面三个进行功能的封装，解决根据地址获得IOC容器并使用的问题。</li>
+</ol>
+<p>依赖注入：	<strong>组件之间的依赖关系由容器在运行期间确定。</strong></p>
+<ol>
+<li>应用程序依赖于IOC容器，由IOC容器将对象需要的外部资源（比如其他对象、资源、常量数据等），注入到这个对象中。</li>
+<li>BeanDefinition决定了依赖的具体关系的定义。</li>
+<li>BeanFactory 进行注入的实施工作。</li>
+</ol>
+<p>墙裂推荐阅读：<a target="_blank" rel="noopener" href="https://www.zybuluo.com/dugu9sword/note/382745">tiny-spring 分析</a><br>IOC与DI的区别讲的很好：<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_21843047/article/details/80297951">控制反转和依赖注入的理解(通俗易懂)</a></p>
+<ul>
+<li>bean的实例化前调用，也就是将AbsractBeanDefinition转换为BeanWrapper 前的处理。给子类一个修改BeanDefinition的机会，也就是说当程序经过这个方法（即<code>applyBeanPostProcessorsBeforeInstantiation()</code>）后，bean可能已经不是我们认为的bean了，而是或许成为了一个经过处理的代理bean，可能是通过 cglib 生成的，也可能是通过其它技术生成的。</li>
+</ul>
+<p>上一段参考：<a target="_blank" rel="noopener" href="http://book.51cto.com/art/201311/419089.htm">实例化的前置处理</a></p>
+<h3 id="11-aop的实现原理，你的项目中怎么做的？"><a href="#11-aop的实现原理，你的项目中怎么做的？" class="headerlink" title="11. aop的实现原理，你的项目中怎么做的？"></a>11. aop的实现原理，你的项目中怎么做的？</h3><p>JDK的方式：</p>
+<ol>
+<li>可以通过 Proxy 的 <code>newProxyInstance(obj.getClassLoader(), obj.getClass().getInterfaces(), handler)</code>，可以返回 obj 的代理对象 proxy。</li>
+<li>InvocationHandler 接口有个invoke方法。当调用proxy.func(args)方法时，对象内部将委托给 handler.invoke(proxy, func, args) 函数实现。</li>
+</ol>
+<p>cglib的方式：</p>
+<p>利用BeanPostProcessor接口和BeanFactoryAware接口，分别可以获取AOP在IOC容器中植入的位置，以及为哪些对象提供植入的清单。<br>切点通知器PointcutAdvisor类，用于提供对哪个对象的哪个方法进行什么样的拦截 的具体内容。动态代理的步骤：</p>
+<p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/2.png"></p>
+<p>口述过程：首先是，在所有的Bean被实例化之前，“创造代理对象”的类即AutoProxyCreator先被实例化；普通bean在被实例化、初始化时，判断类是否是要被拦截的目标，如果是，则取出这个类的信息，并找到“欲拦截的方法”，“拦截的具体操作”，统统交给AopProxy生成代理。AopProxy生成一个InvocationHandler，在其中的invoke方法被执行。</p>
+<p>代码实现及原理剖析：<a target="_blank" rel="noopener" href="https://blog.csdn.net/wenbingoon/article/details/8988553">Spring AOP 实现原理</a></p>
+<h3 id="12-HTTP请求涉及的协议，以及依次用到的协议的先后顺序。"><a href="#12-HTTP请求涉及的协议，以及依次用到的协议的先后顺序。" class="headerlink" title="12. HTTP请求涉及的协议，以及依次用到的协议的先后顺序。"></a>12. HTTP请求涉及的协议，以及依次用到的协议的先后顺序。</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/myxyj/article/details/80027700">访问一个URL经历了哪些过程（最详尽版！）</a></p>
+<h3 id="13-HTTPS请求的过程，这个过程是在TCP建立连接之前还是之后？"><a href="#13-HTTPS请求的过程，这个过程是在TCP建立连接之前还是之后？" class="headerlink" title="13. HTTPS请求的过程，这个过程是在TCP建立连接之前还是之后？"></a>13. HTTPS请求的过程，这个过程是在TCP建立连接之前还是之后？</h3><p>当然是之后了。</p>
+<h3 id="14-安全证书和server公钥之间的关系。"><a href="#14-安全证书和server公钥之间的关系。" class="headerlink" title="14. 安全证书和server公钥之间的关系。"></a>14. 安全证书和server公钥之间的关系。</h3><blockquote>
+<p>数字证书 &#x3D; 数字签名 + （server 的公钥 &amp; server 的个人信息）。</p>
+</blockquote>
+<blockquote>
+<p>其中（server 的公钥 &amp; server 的个人信息）可以使用 Hash 算法得到消息摘要。<br>消息摘要使用 CA 的私钥可以得到数字签名。<br>client 验证证书的过程：</p>
+</blockquote>
+<blockquote>
+<p>取出证书中的（server 的公钥 &amp; server 的个人信息），使用相同的 Hash 算法得到消息摘要1；<br>取出证书中的数字签名，使用 CA 的公钥解密，得到消息摘要2；<br>比较两份消息摘要，如果不同，说明可能遭到了篡改。</p>
+</blockquote>
+<h3 id="15-Redis的持久化机制。"><a href="#15-Redis的持久化机制。" class="headerlink" title="15. Redis的持久化机制。"></a>15. Redis的持久化机制。</h3><h3 id="16-有没有做过Redis集群？"><a href="#16-有没有做过Redis集群？" class="headerlink" title="16. 有没有做过Redis集群？"></a>16. 有没有做过Redis集群？</h3><h3 id="17-redis的主从复制是怎么一个过程？"><a href="#17-redis的主从复制是怎么一个过程？" class="headerlink" title="17. redis的主从复制是怎么一个过程？"></a>17. redis的主从复制是怎么一个过程？</h3><ol>
+<li>单向的，只能从master到slave。</li>
+<li>作用：数据热备、服务冗余（备机）、读写分离（负载均衡）、实现高可用的基础。</li>
+<li>过程：<ol>
+<li>slave 开启主从复制，slave存储有master的ip 和端口信息；slave每秒一次调用复制函数，一旦发现有可用主机，就根据ip和端口创建socket连接；slave发送ping命令进行首次请求；身份验证；将自身端口信息发给master。</li>
+<li>数据同步：可分为全量复制和部分复制两种模式。</li>
+<li>同步完后，master发送写命令给slave，slave执行写命令。此阶段master-slave之间还维持心跳机制。</li>
+</ol>
+</li>
+<li>心跳机制：用于主从复制的超时判断、数据安全。心跳机制过程：master -&gt; slave 发送ping；slave -&gt; master 发送replconf ack。</li>
+<li>主从复制可能出现的问题：延迟不一致（措施：监控延迟）；数据过期（定期删、惰性删）；故障切换（哨兵）；复制超时、复制中断（超时释放资源或者重新建立连接）。</li>
+</ol>
+<p>参考阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/kismetv/p/9236731.html#t1">深入学习Redis（3）：主从复制</a></p>
+<h3 id="18-知道zookeeper吗？讲一下"><a href="#18-知道zookeeper吗？讲一下" class="headerlink" title="18. 知道zookeeper吗？讲一下"></a>18. 知道zookeeper吗？讲一下</h3><h3 id="19-知道git-flow吗？讲一下"><a href="#19-知道git-flow吗？讲一下" class="headerlink" title="19. 知道git flow吗？讲一下"></a>19. 知道git flow吗？讲一下</h3><p>Gitflow 工作流程使用两个并行的、长期运行的分支来记录项目的历史记录，分别是 master 和 develop 分支。</p>
+<ul>
+<li>Master，随时准备发布线上版本的分支，其所有内容都是经过全面测试和核准的（生产就绪）。<ul>
+<li>Hotfix，维护（maintenance）或修复（hotfix）分支是用于给快速给生产版本修复打补丁的。修复（hotfix）分支很像发布（release）分支和功能（feature）分支，除非它们是基于 master 而不是 develop 分支。</li>
+</ul>
+</li>
+<li>Develop，是合并所有功能（feature）分支，并执行所有测试的分支。只有当所有内容都经过彻底检查和修复后，才能合并到 master 分支。<ul>
+<li>Feature，每个功能都应留在自己的分支中开发，可以推送到 develop 分支作为功能（feature）分支的父分支。</li>
+</ul>
+</li>
+</ul>
+<h3 id="20-JVM中的堆最大量在32位，64位机器上的区别。"><a href="#20-JVM中的堆最大量在32位，64位机器上的区别。" class="headerlink" title="20. JVM中的堆最大量在32位，64位机器上的区别。"></a>20. JVM中的堆最大量在32位，64位机器上的区别。</h3><h3 id="21-redis怎么实现过期的？"><a href="#21-redis怎么实现过期的？" class="headerlink" title="21. redis怎么实现过期的？"></a>21. redis怎么实现过期的？</h3><h3 id="22-redis-的-lru？"><a href="#22-redis-的-lru？" class="headerlink" title="22. redis 的 lru？"></a>22. redis 的 lru？</h3><p>有很多种实现，这里提两种：链表法，链表&amp;HashMap 法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 链表法，伪代码</span></span><br><span class="line">List&lt;Integer&gt; lru = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line"><span class="keyword">void</span> <span class="title function_">put</span><span class="params">(Entry entry)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">this</span>.get(entry.key) != -<span class="number">1</span>)&#123;</span><br><span class="line">		lru.putHead(lru.get(entry));</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		lru.putHead(entry);</span><br><span class="line">		<span class="keyword">if</span>(IsFull() == <span class="literal">true</span>)&#123;</span><br><span class="line">			lru.dropTail();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 链表&amp;HashMap 法 ，待补充</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="23-用过微服务吗？"><a href="#23-用过微服务吗？" class="headerlink" title="23. 用过微服务吗？"></a>23. 用过微服务吗？</h3><h3 id="24-linux操作熟悉吗？"><a href="#24-linux操作熟悉吗？" class="headerlink" title="24. linux操作熟悉吗？"></a>24. linux操作熟悉吗？</h3><h1 id="蘑菇街-Java-一面"><a href="#蘑菇街-Java-一面" class="headerlink" title="蘑菇街 Java 一面"></a>蘑菇街 Java 一面</h1><h3 id="1-项目中做词法、语法解析了吗？"><a href="#1-项目中做词法、语法解析了吗？" class="headerlink" title="1. 项目中做词法、语法解析了吗？"></a>1. 项目中做词法、语法解析了吗？</h3><h3 id="2-项目中旧的字节码有没有做卸载？"><a href="#2-项目中旧的字节码有没有做卸载？" class="headerlink" title="2. 项目中旧的字节码有没有做卸载？"></a>2. 项目中旧的字节码有没有做卸载？</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/pony1223/p/8654720.html"><a target="_blank" rel="noopener" href="https://www.cnblogs.com/pony1223/p/8654720.html">JVM学习七：JVM之类加载器之类的卸载</a></a></p>
+<p>精华：</p>
+<pre><code>1. 加载时，方法区形成某类的二进制数据（运行时数据结构），对应堆中该类的 class 对象（类的实例对象，唯一存在，除非类被卸载了，也就是比如`**ServiceImpl.class`指代的东西），之后不管是 new 还是反射或者 newInstance 拿到的都是另一种实例对象，跟上面的 class 对象不一样。
+2. 卸载就是对 class 对象、classLoader 对象的引用都删除的过程。怎么删除？让栈中对 classLoader 的引用、对 class 对象的引用，对实例对象的引用，以及实例对象都置 null 即可。
+</code></pre>
+<h3 id="3-写多线程一般用到哪些类？"><a href="#3-写多线程一般用到哪些类？" class="headerlink" title="3. 写多线程一般用到哪些类？"></a>3. 写多线程一般用到哪些类？</h3><h3 id="4-多线程的可见性问题，为什么会有这个问题？"><a href="#4-多线程的可见性问题，为什么会有这个问题？" class="headerlink" title="4. 多线程的可见性问题，为什么会有这个问题？"></a>4. 多线程的可见性问题，为什么会有这个问题？</h3><h3 id="5-G1-原理？"><a href="#5-G1-原理？" class="headerlink" title="5. G1 原理？"></a>5. G1 原理？</h3><h3 id="6-maven-使用的中央仓库，还是自己做了-maven-镜像？"><a href="#6-maven-使用的中央仓库，还是自己做了-maven-镜像？" class="headerlink" title="6. maven 使用的中央仓库，还是自己做了 maven 镜像？"></a>6. maven 使用的中央仓库，还是自己做了 maven 镜像？</h3><h3 id="7-MySQL-数据库的主从复制。"><a href="#7-MySQL-数据库的主从复制。" class="headerlink" title="7. MySQL 数据库的主从复制。"></a>7. MySQL 数据库的主从复制。</h3><h3 id="8-TCP-的拆包、粘包问题。"><a href="#8-TCP-的拆包、粘包问题。" class="headerlink" title="8. TCP 的拆包、粘包问题。"></a>8. TCP 的拆包、粘包问题。</h3><p>前置知识：</p>
+<ul>
+<li>UDP 是基于报文的，不会发生拆包、粘包现象。UDP 首部有一个参数会指出数据报文长度，因此在应用层可以很好地将不同的数据报文区分开。</li>
+<li>TCP 是基于字节流的，在 TCP 的首部没有表示数据长度的字段，所以可能发生拆包、粘包的现象。</li>
+</ul>
+<h4 id="什么是拆包、粘包"><a href="#什么是拆包、粘包" class="headerlink" title="什么是拆包、粘包"></a>什么是拆包、粘包</h4><ol>
+<li>接收端收到的一个包中，存在着发送端发来的两个包的数据，即出现了粘包，主要问题：接收端不知两个数据包边界。</li>
+<li>接收端收到两个包，但这两个包要么是缺少一端，要么是多出一部分，主要问题：同时出现了拆包跟粘包。</li>
+</ol>
+<h4 id="发生的原因："><a href="#发生的原因：" class="headerlink" title="发生的原因："></a>发生的原因：</h4><p>拆包：一次发送数据大于缓存区大小、最大报文长度。</p>
+<p>粘包：缓存区多个包的数据一次性发出去；接收端应用层没有及时读取缓存区数据包。</p>
+<h4 id="TCP-采用的解决办法："><a href="#TCP-采用的解决办法：" class="headerlink" title="TCP 采用的解决办法："></a>TCP 采用的解决办法：</h4><p>解决原则：让每一个数据包知道自己的边界信息。具体：</p>
+<ol>
+<li>发送端可以将每一个包封装成固定的长度不足补0，接收端每次从缓冲区读取固定长度的数据。</li>
+<li>在包之间设置边界，比如添加特殊标记等。</li>
+<li>包首部增加包长度的字段。</li>
+</ol>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://blog.csdn.net/wxy941011/article/details/80428470">TCP粘包，拆包及解决方法</a></p>
+<h3 id="9-一般-Web-开发会分为几层？"><a href="#9-一般-Web-开发会分为几层？" class="headerlink" title="9. 一般 Web 开发会分为几层？"></a>9. 一般 Web 开发会分为几层？</h3><h3 id="10-如果使用单例模式拿到的对象，在-JVM-中只能有一个吗？"><a href="#10-如果使用单例模式拿到的对象，在-JVM-中只能有一个吗？" class="headerlink" title="10. 如果使用单例模式拿到的对象，在 JVM 中只能有一个吗？"></a>10. 如果使用单例模式拿到的对象，在 JVM 中只能有一个吗？</h3><h3 id="11-一个Tomcat-可以部署多个项目吗？"><a href="#11-一个Tomcat-可以部署多个项目吗？" class="headerlink" title="11. 一个Tomcat 可以部署多个项目吗？"></a>11. 一个Tomcat 可以部署多个项目吗？</h3><h3 id="12-一个-Tomcat-是运行在一个-JVM-上的吗？（其实是问-Tomcat-跟-JVM-的关系）"><a href="#12-一个-Tomcat-是运行在一个-JVM-上的吗？（其实是问-Tomcat-跟-JVM-的关系）" class="headerlink" title="12. 一个 Tomcat 是运行在一个 JVM 上的吗？（其实是问 Tomcat 跟 JVM 的关系）"></a>12. 一个 Tomcat 是运行在一个 JVM 上的吗？（其实是问 Tomcat 跟 JVM 的关系）</h3><p>JVM ：Tomcat ：J2EE &#x3D; 1 : 1 : N。运行应用程序的 JVM 就是运行 Tomcat 的那个 JVM。</p>
+<p>参考：<a target="_blank" rel="noopener" href="http://likehui.fun/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/">面经整理5</a>，进入页面搜索“Tomcat”即可。</p>
+<h3 id="13-一个-JVM-上多个应用程序，他们有可能发生类冲突吗？jar-包冲突吗？"><a href="#13-一个-JVM-上多个应用程序，他们有可能发生类冲突吗？jar-包冲突吗？" class="headerlink" title="13. 一个 JVM 上多个应用程序，他们有可能发生类冲突吗？jar 包冲突吗？"></a>13. 一个 JVM 上多个应用程序，他们有可能发生类冲突吗？jar 包冲突吗？</h3><h3 id="14-Tomcat-的-classLoader-架构图？"><a href="#14-Tomcat-的-classLoader-架构图？" class="headerlink" title="14. Tomcat 的 classLoader 架构图？"></a>14. Tomcat 的 classLoader 架构图？</h3><h1 id="随手记-Java-一面"><a href="#随手记-Java-一面" class="headerlink" title="随手记 Java 一面"></a>随手记 Java 一面</h1><h3 id="1-Redis-缓存有个过期时间，过期了也就没了，或者有一种比较实时的，修改时马上修改这个缓存吗？"><a href="#1-Redis-缓存有个过期时间，过期了也就没了，或者有一种比较实时的，修改时马上修改这个缓存吗？" class="headerlink" title="1. Redis 缓存有个过期时间，过期了也就没了，或者有一种比较实时的，修改时马上修改这个缓存吗？"></a>1. Redis 缓存有个过期时间，过期了也就没了，或者有一种比较实时的，修改时马上修改这个缓存吗？</h3><ul>
+<li>项目中采用的是高一致性的主动更新策略。拿到真实数据后，立即更新缓存数据。<ul>
+<li>如果采用弱一致性的做法，可以只更新缓存，然后让缓存异步地批量更新数据库。</li>
+</ul>
+</li>
+<li>对于交互时保存的缓存数据 ，设置过期时间。请求接口时，先请求Redis缓存，如果命中则返回命中数据，否则还是执行HTTP请求调用接口。</li>
+</ul>
+<h3 id="2-更新记录时，你是怎么让Redis知道自己的缓存失效的？"><a href="#2-更新记录时，你是怎么让Redis知道自己的缓存失效的？" class="headerlink" title="2. 更新记录时，你是怎么让Redis知道自己的缓存失效的？"></a>2. 更新记录时，你是怎么让Redis知道自己的缓存失效的？</h3><h3 id="3-JVM类加载的默认加载先后顺序。"><a href="#3-JVM类加载的默认加载先后顺序。" class="headerlink" title="3. JVM类加载的默认加载先后顺序。"></a>3. JVM类加载的默认加载先后顺序。</h3><p>检查类是否已被加载的检查顺序是自底而上，尝试加载顺序是自顶而下。<br>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/eff666/article/details/52203406">java中类的加载顺序介绍(ClassLoader)</a></p>
+<h3 id="4-四种GC算法的细节，优缺点比较。"><a href="#4-四种GC算法的细节，优缺点比较。" class="headerlink" title="4. 四种GC算法的细节，优缺点比较。"></a>4. 四种GC算法的细节，优缺点比较。</h3><h3 id="5-分代收集算法中，新生代使用什么算法？"><a href="#5-分代收集算法中，新生代使用什么算法？" class="headerlink" title="5. 分代收集算法中，新生代使用什么算法？"></a>5. 分代收集算法中，新生代使用什么算法？</h3><h3 id="6-新生代、老年代各采用什么算法？为什么用？"><a href="#6-新生代、老年代各采用什么算法？为什么用？" class="headerlink" title="6. 新生代、老年代各采用什么算法？为什么用？"></a>6. 新生代、老年代各采用什么算法？为什么用？</h3><h3 id="7-什么情况下会从新生代升级成老年代？"><a href="#7-什么情况下会从新生代升级成老年代？" class="headerlink" title="7. 什么情况下会从新生代升级成老年代？"></a>7. 什么情况下会从新生代升级成老年代？</h3><ol>
+<li>生命周期较长的对象进入老年代；</li>
+<li>动态判定：相同年龄的对象的总内存超过了Survivor内存空间的一半的对象，进入老年代。</li>
+<li>Minor GC触发内存分配担保时；</li>
+<li>大对象直接进入老年代。</li>
+</ol>
+<h3 id="8-分配担保机制讲一下。"><a href="#8-分配担保机制讲一下。" class="headerlink" title="8. 分配担保机制讲一下。"></a>8. 分配担保机制讲一下。</h3><ol>
+<li>在Minor GC之前，JVM检查老年代最大可用连续可用空间是否大于新生代所有对象总空间。</li>
+<li>如果大于，Minor GC 可以保证是安全的。</li>
+<li>如果不成立，JVM 会检查对HandlePromotionFailure的设置是否允许担保失败。</li>
+<li>如果允许担保失败（冒风险），会继续检查老年代最大连续可用空间是否大于历次晋升到老年代对象的平均大小。<ol>
+<li>如果大于，可以尝试进行一次有风险的GC；</li>
+<li>如果小于，说明不愿意冒险，将进行一次Full GC。</li>
+</ol>
+</li>
+</ol>
+<h3 id="9-偏向锁是什么，什么情况下会取消偏向锁？"><a href="#9-偏向锁是什么，什么情况下会取消偏向锁？" class="headerlink" title="9. 偏向锁是什么，什么情况下会取消偏向锁？"></a>9. 偏向锁是什么，什么情况下会取消偏向锁？</h3><h3 id="10-锁的轻量级、重量级讲一下区分。"><a href="#10-锁的轻量级、重量级讲一下区分。" class="headerlink" title="10. 锁的轻量级、重量级讲一下区分。"></a>10. 锁的轻量级、重量级讲一下区分。</h3><h3 id="11-轻量锁和偏向锁会在哪里做什么标记吗？"><a href="#11-轻量锁和偏向锁会在哪里做什么标记吗？" class="headerlink" title="11. 轻量锁和偏向锁会在哪里做什么标记吗？"></a>11. 轻量锁和偏向锁会在哪里做什么标记吗？</h3><h3 id="12-Spring是怎么解决循环依赖的？详细一点。"><a href="#12-Spring是怎么解决循环依赖的？详细一点。" class="headerlink" title="12. Spring是怎么解决循环依赖的？详细一点。"></a>12. Spring是怎么解决循环依赖的？详细一点。</h3><p>首先Spring不支持原型bean的循环依赖，也无法解决构造器中的循环依赖问题，这里指的都是单例bean。</p>
+<ul>
+<li>涉及到三种缓存：<ol>
+<li>① singletonObjects；② earlySingletonObjects；③ singletonFactories。</li>
+<li>缓存①是完全初始化好的bean的缓存；</li>
+<li>缓存②是存放原始bean的缓存；</li>
+<li>缓存③是存放bean工厂的缓存。</li>
+</ol>
+</li>
+</ul>
+<p>创建bean 并顺便缓存的过程：</p>
+<ol>
+<li>从<code>doGetBean()</code>方法开始，会先尝试从缓存1中获取bean，此对象可能有三种状态（null、原始bean、完全态的bean）。</li>
+<li>若状态为 null（即缓存中没取到 bean），就需要创建bean，首先调用<code>createBeanInstance()</code>创建一个原始bean，然后将单例的 beanFactory 添加到缓存3中（从这个工厂就可以获取原始对象的引用，也就是所谓的“早期引用”）。</li>
+<li>之后向原始 bean 中注入属性并解析依赖（所谓循环依赖，通常就卡在2.5步上）。</li>
+<li>执行完成后，返回完全实例化后的 bean，同时放入缓存1中。</li>
+</ol>
+<p>出现循环依赖时，取缓存的过程：</p>
+<ol>
+<li>先从 singletonObjects 即缓存1中取bean 实例。如果没取到，则去 earlySingletonObjects 即缓存2中取，如果没取到，则从singletonFactories即缓存3中取出 ObjectFactory 对象，然后从中获取原始 bean 实例的引用（即早期引用）。</li>
+<li>获取成功后，将该原始bean实例放入 earlySingletonObjects 即缓存2中，同时将 ObjectFactory对象从 singletonFactories 中移除。</li>
+<li>拿到原始 bean 的引用，就可以完成另一个被依赖的 bean 的初始化了，如此循环依赖被解决。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="http://www.tianxiaobo.com/2018/06/08/Spring-IOC-%E5%AE%B9%E5%99%A8%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">Spring-bean的循环依赖以及解决方式</a></p>
+<h3 id="13-Spring-IOC-为解决循环依赖问题使用的缓存机制。"><a href="#13-Spring-IOC-为解决循环依赖问题使用的缓存机制。" class="headerlink" title="13. Spring IOC 为解决循环依赖问题使用的缓存机制。"></a>13. Spring IOC 为解决循环依赖问题使用的缓存机制。</h3><p>参考 上一题（T 12），此处不赘述。</p>
+<h3 id="14-ConcurrentHashMap怎么保证在扩容操作时的线程安全？"><a href="#14-ConcurrentHashMap怎么保证在扩容操作时的线程安全？" class="headerlink" title="14 .ConcurrentHashMap怎么保证在扩容操作时的线程安全？"></a>14 .ConcurrentHashMap怎么保证在扩容操作时的线程安全？</h3><p>本题分两步来看：</p>
+<ol>
+<li>先看 <a target="_blank" rel="noopener" href="http://www.tianxiaobo.com/2018/01/18/HashMap-%E6%BA%90%E7%A0%81%E8%AF%A6%E7%BB%86%E5%88%86%E6%9E%90-JDK1-8/">HashMap 本身的扩容操作</a></li>
+<li>再看 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zerotomax/p/8687425.html#go7">ConcurrentHashMap 的扩容 get put 操作</a></li>
+</ol>
+<h4 id="1-先看-HashMap-本身的扩容操作"><a href="#1-先看-HashMap-本身的扩容操作" class="headerlink" title="1. 先看 HashMap 本身的扩容操作"></a>1. 先看 HashMap 本身的扩容操作</h4><ul>
+<li>HashMap 的扩容：</li>
+<li>先涉及两个参数：newCap 和 newThreshold，newCap 通常是原来的2倍，阈值（Threshold）也变为原来的2倍。</li>
+<li>扩容后要将键值对Hash的重新计算，然后移动到合适的位置上去，如下：<ol>
+<li>在链表中，如果<code>e.hash &amp; oldCap == 0</code>，则保持在原本的位置上，并且相同计算结果的结点按原来的相对位置接在后面。</li>
+<li>如果<code>e.hash &amp; oldCap == 1</code>，则这些结点都要放在原位置j + oldCap 的位置上，这些结点相对位置不变。</li>
+<li>在红黑树中，如果需要扩容操作，红黑树也需要拆分后重新映射。研究拆分之前，建议先阅读下边的扩展内容——红黑树的树化步骤。现在说一下拆分过程：首先红黑树中保留了原链表结点的 next 指针，所以分组方式跟原链表完全相同，将分成两种不同的链表。</li>
+<li>红黑树拆分后变成两个链表，长度自然会变短，如果长度小于等于 6 ，那么此半个红黑树将保持链表状态；如果长度超过 6 ，那么将继续树化，成为一颗红黑树。</li>
+</ol>
+</li>
+</ul>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/jianghuxiaojin/article/details/52006118#commentBox">java-并发-ConcurrentHashMap高并发机制-jdk1.8</a></p>
+<p>扩展：红黑树的树化步骤，如下：</p>
+<ol>
+<li>将链表普通结点改造成 TreeNode 树形节点链表；</li>
+<li>将得到的链表转化成红黑树。<ol>
+<li>形成红黑树时需要比较结点间的大小：① 首先比较 hash 的大小；② 如果相等，则检查键类是否实现了 Comparable 接口，若是则调用 compareTo 方法进行比较；③ 若仍无法比较大小，则调用<code>tieBreakOrder()</code>方法进行仲裁，仲裁后就有大小的区别了。</li>
+<li>链表转红黑树后，原链表的连接顺序依旧被保留了下来（next 指针来实现）。</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-再看-ConcurrentHashMap-的各种骚操作的线程安全："><a href="#2-再看-ConcurrentHashMap-的各种骚操作的线程安全：" class="headerlink" title="2. 再看 ConcurrentHashMap 的各种骚操作的线程安全："></a>2. 再看 ConcurrentHashMap 的各种骚操作的线程安全：</h4><p>以下内容来自：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zerotomax/p/8687425.html">ConcurrentHashMap源码分析(1.8)</a></p>
+<h4 id="0-使用-Unsafe-的方法执行的原子性操作"><a href="#0-使用-Unsafe-的方法执行的原子性操作" class="headerlink" title="0. 使用 Unsafe 的方法执行的原子性操作"></a>0. 使用 Unsafe 的方法执行的原子性操作</h4><p><code>tabAt()</code> 用来返回节点数组的指定位置的节点的原子操作。<br><code>casTabAt()</code> cas原子操作，在指定位置设定值<br><code>setTabAt()</code> 原子操作，在指定位置设定值</p>
+<h4 id="0-1-关于sizeCtl-变量"><a href="#0-1-关于sizeCtl-变量" class="headerlink" title="0.1 关于sizeCtl 变量"></a>0.1 关于sizeCtl 变量</h4><p>-1 :代表table正在初始化,其他线程应该交出CPU时间片<br>-N: 表示正有N-1个线程执行扩容操作（高 16 位是 length 生成的标识符，低 16 位是扩容的线程数，最大 65535）<br>大于 0: 如果table已经初始化,代表table容量,默认为table大小的0.75,如果还未初始化,代表需要初始化的大小</p>
+<h4 id="1-初始化操作："><a href="#1-初始化操作：" class="headerlink" title="1. 初始化操作："></a>1. 初始化操作：</h4><p>首先有一个执行“初始化操作”的线程，然后观察 sizectl 参数，如果小于 0 ，此线程自旋等待；如果大于等于 0 ，则利用 CAS 操作将其设为 -1，此 CAS 操作保证以下操作的线程安全：为数组开辟内存，将 sizeCtl 设为数组长度的 3&#x2F;4（即sc &#x3D; n - (n &gt;&gt;&gt; 2)）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化完整源码：</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Initializes table, using the size recorded in sizeCtl.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> Node&lt;K,V&gt;[] initTable() &#123;</span><br><span class="line">    Node&lt;K,V&gt;[] tab; <span class="type">int</span> sc;</span><br><span class="line">    <span class="keyword">while</span> ((tab = table) == <span class="literal">null</span> || tab.length == <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((sc = sizeCtl) &lt; <span class="number">0</span>)</span><br><span class="line">            Thread.<span class="keyword">yield</span>(); <span class="comment">// lost initialization race; just spin</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (U.compareAndSwapInt(<span class="built_in">this</span>, SIZECTL, sc, -<span class="number">1</span>)) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> ((tab = table) == <span class="literal">null</span> || tab.length == <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="type">int</span> <span class="variable">n</span> <span class="operator">=</span> (sc &gt; <span class="number">0</span>) ? sc : DEFAULT_CAPACITY;</span><br><span class="line">                    <span class="meta">@SuppressWarnings(&quot;unchecked&quot;)</span></span><br><span class="line">                    Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])<span class="keyword">new</span> <span class="title class_">Node</span>&lt;?,?&gt;[n];</span><br><span class="line">                    table = tab = nt;</span><br><span class="line">                    sc = n - (n &gt;&gt;&gt; <span class="number">2</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                sizeCtl = sc;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> tab;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-put-操作"><a href="#2-put-操作" class="headerlink" title="2. put 操作"></a>2. put 操作</h4><ol>
+<li>先拿到欲添加的 key 的 hash（执行<code>(h ^ (h &gt;&gt;&gt; 16)) &amp; HASH_BITS;</code>）。</li>
+<li>若 table 还没有申请到内存，则先执行初始化操作，即本题上一节。</li>
+<li>若将要放置的位置没有元素，会执行<code>casTabAt()</code>方法尝试添加。</li>
+<li>若检测到当前元素的hash为moved状态（说明正在执行<code>transfer()</code>操作，此操作会调用<code>ForwardingNode()</code>方法，此方法会将元素的hash设置为moved）。说明正处于数组扩张的数据复制阶段，则此线程也会参与去复制即<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/39b747c99d32">helpTransfer</a>，通过允许多线程复制的功能，以此来减少数组的复制所带来的性能损失。</li>
+<li>若当前位置有元素，则使用 Synchronized 的方式加锁，对以下操作进行线程安全控制：① 若是链表，遍历链表，若同hash同key，则替换该value；不然，新建node加到链表末尾???存疑，可详看下方链接② 若是红黑树，则添加到红黑树中。</li>
+</ol>
+<p>大神打架：<a target="_blank" rel="noopener" href="https://bbs.csdn.net/topics/392302628?page=1">关于HashMap在put时Node插入方向的问题</a></p>
+<h4 id="3-get操作"><a href="#3-get操作" class="headerlink" title="3. get操作"></a>3. get操作</h4><p>get 操作无锁，支持并发</p>
+<h4 id="4-链表转树操作"><a href="#4-链表转树操作" class="headerlink" title="4. 链表转树操作"></a>4. 链表转树操作</h4><ol>
+<li>在执行<code>treeifyBin()</code>转树方法时，若桶的数量小于 64 时，优先触发扩容操作，细节参考本题下一节：扩容操作。</li>
+<li>若桶数量多于 64 时，使用Synchronized 方式加锁，对以下操作进行线程安全控制：① 将普通结点转换为 TreeNode 结点；② 将 TreeNode 组成的链表构造出 Treebin 对象，在 Treebin 对象的构造方法中，链表被转换成了红黑树。</li>
+</ol>
+<h4 id="5-扩容操作"><a href="#5-扩容操作" class="headerlink" title="5. 扩容操作"></a>5. 扩容操作</h4><p>首先调用<code>tryPresize()</code>方法（支持并发），确定扩容的目标值（决定扩容的次数），以及根据<code>sizeCtl</code>参数选择进入不同的分支。<br>最终来到<code>transfer</code>方法处。</p>
+<ol>
+<li>首先如果多线程一起进行扩容操作，那么每个线程最少处理 16 个长度的数组元素，以避免此方法占用过多的 CPU 使用。</li>
+<li>第一个进入扩容的线程负责初始化一个新的table，长度是旧的两倍。</li>
+<li>然后分配一个区间的桶（一般是16 个）给此线程，完成下标的控制。<ol>
+<li>如果扩容结束，可以尝试领取新的区间；如果无法领取，那么 sizeCtl 减一，扩容的线程减少一个。</li>
+<li>如果数组i处桶是空的，就尝试用 CAS 占位，将占位符 fwd 插入。</li>
+<li>如果桶不是空，而且已经有了占位符，说明已有其他线程处理过此操作，那么当前线程将跳过这个桶。</li>
+<li>如果以上都不是，而且扩容操作没有完成，那么将开始同步处理这个桶。</li>
+</ol>
+</li>
+<li>处理每个桶的行为是同步的，使用Synchronized关键词修饰，剩下的操作与HashMap基本一致，不再赘述。</li>
+</ol>
+<h3 id="15-公平锁非公平锁讲一下。"><a href="#15-公平锁非公平锁讲一下。" class="headerlink" title="15. 公平锁非公平锁讲一下。"></a>15. 公平锁非公平锁讲一下。</h3><h3 id="16-CountDownLatch-和-CyclicBarrier。"><a href="#16-CountDownLatch-和-CyclicBarrier。" class="headerlink" title="16. CountDownLatch 和 CyclicBarrier。"></a>16. CountDownLatch 和 CyclicBarrier。</h3><p>countDownLatch是倒计时器，可以用于模拟多线程同时触发验证并行性的场景。一个或者多个线程，等待其他多个线程完成某件事情之后才能执行。</p>
+<ol>
+<li>主线程 new 一个 CountDownLatch（同时指定计数的个数），然后开启线程池，紧接着执行countdownlatch.wait()方法，主线程阻塞。</li>
+<li>线程池的业务代码中执行 countDownLatch.countDown()将个数减一，等到个数减为零时，主线程从 await()处被唤醒。</li>
+</ol>
+<p>CyclicBarrier是循环栅栏，可以用于多线程计算数据，最后合并计算结果的应用场景。多个线程互相等待，直到到达同一个同步点，再继续一起执行。</p>
+<ol>
+<li>主线程 new 一个 CyclicBarrier（同时指定计数的个数），然后开启线程池。</li>
+<li>线程池的业务代码中执行 cyclicBarrier.await()方法，线程被阻塞，等到有足够个数的线程被阻塞时，这些线程会被唤醒继续执行 await()后面的代码。</li>
+</ol>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/Multithread/AQS.md">AQS</a>文末</p>
+<h3 id="补充：将Redis配置为缓存，在Spring中是怎么做的？"><a href="#补充：将Redis配置为缓存，在Spring中是怎么做的？" class="headerlink" title="补充：将Redis配置为缓存，在Spring中是怎么做的？"></a>补充：将Redis配置为缓存，在Spring中是怎么做的？</h3><ol>
+<li><p>配置三样东西：①Spring对缓存的支持也就是cacheManager（本次采用的实现类：RedisCacheManager）；②Redis对话使用的RedisTemplate，③连接工厂。</p>
+</li>
+<li><p>首先启动Spring 缓存支持，创建一个CacheManager的Bean，</p>
+</li>
+<li><p>使用的三个注解：Cacheable、CacheEvit、CachePut。</p>
+<ol>
+<li>Cacheable：当重复使用相同参数调用方法的时候，方法本身不会被调用执行，即方法本身被略过了，取而代之的是方法的结果直接从缓存中找到并返回了。</li>
+<li>CacheEvit： 调用时会删除掉数据库和缓存里面的值。可以在@CacheEvict 里面添加condition 表达式，让其满足什么条件的时候才删除缓存。可以设置是否清除掉缓存中所有数据。</li>
+<li>CachePut：使用@CachePut标注的方法在执行前不会去检查缓存中是否存在之前执行过的结果，而是每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中。</li>
+</ol>
+<blockquote>
+<p>使用 spring-cache 有三个步骤：</p>
+<p>在启动类上加入 @EnableCaching 注解；</p>
+<p>使用 CacheManager 初始化要使用的缓存框架，使用 @CacheConfig 注解注入要使用的资源；</p>
+<p>使用 @Cacheable 等注解对资源进行缓存。<br>而针对缓存操作的注解有三个：</p>
+<p>@Cacheable 表示如果缓存系统里没有这个数值，就将方法的返回值缓存起来；</p>
+<p>@CachePut 表示每次执行该方法，都把返回值缓存起来；</p>
+<p>@CacheEvict 表示执行方法的时候，清除某些缓存值。<br>非常简单，对缓存的操作也无非是 CRUD。</p>
+<p>&lt;&lt;&lt;&lt;拉勾教育、八点一刻：Redis缓存一致性设计</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="补充：Redis不支持事务回滚，那么事务中Redis崩溃怎么办？"><a href="#补充：Redis不支持事务回滚，那么事务中Redis崩溃怎么办？" class="headerlink" title="补充：Redis不支持事务回滚，那么事务中Redis崩溃怎么办？"></a>补充：Redis不支持事务回滚，那么事务中Redis崩溃怎么办？</h3><ol>
+<li>使用Aof持久化方式时，Redis服务器如果宕机，可能只执行了事务中的一部分操作；</li>
+<li>那么Redis服务器会在重启前检查上述状态，同时退出运行，并输出报错信息；</li>
+<li>可以借助redis-check-aof工具修复上述的只增文件，会把执行不完全的事务删除。</li>
+</ol>
+<p>为什么不支持回滚？因为Redis认为回滚无法解决任何程序错误问题，而为了运行速度的考虑，所以不支持回滚。</p>
+<h3 id="补充：Java中什么时候会出现内存泄漏，举个栗子？"><a href="#补充：Java中什么时候会出现内存泄漏，举个栗子？" class="headerlink" title="补充：Java中什么时候会出现内存泄漏，举个栗子？"></a>补充：Java中什么时候会出现内存泄漏，举个栗子？</h3><p><strong>【important】错误地保持了强引用（比如赋值给了static 变量），那么对象就可能没机会转变为类似弱引用的可达性状态了。判断内存泄漏的思路：检查弱引用指向的对象是否被垃圾收集。</strong></p>
+<p>定义就是：不再被使用的对象的内存不会被回收。</p>
+<ol>
+<li>单例对象持有其他短生命周期对象的引用。</li>
+<li>静态集合类中引用的对象，如果对象需要移除时，要把集合对象置null，整个集合 clear 掉。</li>
+</ol>
+<p>举例如下。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">num</span> <span class="operator">=</span> New <span class="title function_">String</span><span class="params">(<span class="string">&quot;abc&quot;</span>)</span>;</span><br><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> <span class="title class_">ArrayList</span>&lt;String&gt;();</span><br><span class="line">list.add(num);</span><br><span class="line">num=<span class="literal">null</span>;</span><br><span class="line">list.clear();<span class="comment">//用完后需要及时 clear 掉</span></span><br></pre></td></tr></table></figure>
+
+<p>“abc”字符串有两个强引用指向它，num 和 list 集合，使用完后，都需要进行处理。</p>
+<h3 id="补充：静态内部类"><a href="#补充：静态内部类" class="headerlink" title="补充：静态内部类"></a>补充：静态内部类</h3><p>静态内部类不需要依赖外部类的实例，也无法访问外部类的非静态的变量和方法。</p>
+<h3 id="补充：初始化顺序"><a href="#补充：初始化顺序" class="headerlink" title="补充：初始化顺序"></a>补充：初始化顺序</h3><p>存在继承的情况下，初始化顺序为：</p>
+<ul>
+<li>父类（静态变量、静态语句块）</li>
+<li>子类（静态变量、静态语句块）</li>
+<li>父类（实例变量、普通语句块）</li>
+<li>父类（构造函数）</li>
+<li>子类（实例变量、普通语句块）</li>
+<li>子类（构造函数）</li>
+</ul>
+<h3 id="补充：Redis的禁忌操作有哪些，注意事项，优化策略？"><a href="#补充：Redis的禁忌操作有哪些，注意事项，优化策略？" class="headerlink" title="补充：Redis的禁忌操作有哪些，注意事项，优化策略？"></a>补充：Redis的禁忌操作有哪些，注意事项，优化策略？</h3><h4 id="1-键值设计"><a href="#1-键值设计" class="headerlink" title="1. 键值设计"></a>1. 键值设计</h4><ol>
+<li>key名设计<ul>
+<li>原则：无特殊字符。</li>
+<li>建议：可读、可管理、简洁。</li>
+</ul>
+</li>
+<li>value设计<ul>
+<li>原则：拒绝大key，防止网卡流量、大查询。</li>
+<li>建议：控制数据类型合适、控制key的生命周期；使用hash，set，zset，list等对存储量过多的元素进行优化（比如100个桶，先hash取模，找到某一个key）。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-命令设计"><a href="#2-命令设计" class="headerlink" title="2. 命令设计"></a>2. 命令设计</h4><ol>
+<li>注意O(N)命令，尽量避免使用；</li>
+<li>禁止线上使用keys、flushall、flushdb等命令；</li>
+<li>合理使用select；</li>
+<li>使用批量操作提高效率。</li>
+<li>Redis事务较弱，建议不要过多使用</li>
+<li>Redis集群版本在使用Lua上有特殊要求</li>
+<li>monitor命令慎用。</li>
+</ol>
+<h4 id="3-配置优化"><a href="#3-配置优化" class="headerlink" title="3. 配置优化"></a>3. 配置优化</h4><ol>
+<li>限制同时连接的客户数量。</li>
+<li>设置客户端连接时的超时时间，单位为秒。</li>
+<li>限制脚本的最长运行时间，默认为5秒钟。</li>
+<li>内存淘汰策略的选择。</li>
+</ol>
+<h4 id="4-集群批量操作的优化"><a href="#4-集群批量操作的优化" class="headerlink" title="4. 集群批量操作的优化"></a>4. 集群批量操作的优化</h4><ol>
+<li>IO优化的思路：<blockquote>
+<p>(1) 命令本身的效率：例如sql优化，命令优化<br>(2) 网络次数：减少通信次数<br>(3) 降低接入成本:长连&#x2F;连接池,NIO等<br>(4) IO访问合并:O(n)到O(1)过程:批量接口(mget)</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="5-其他优化"><a href="#5-其他优化" class="headerlink" title="5. 其他优化"></a>5. 其他优化</h4><ol>
+<li>redis间数据同步可以使用：redis-port</li>
+<li>热key寻找</li>
+</ol>
+<p>墙裂建议阅读：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/829f16d1ca1f">Redis注意事项及常见优化</a></p>
+<h3 id="补充：Redis中的Value值太大怎么办？"><a href="#补充：Redis中的Value值太大怎么办？" class="headerlink" title="补充：Redis中的Value值太大怎么办？"></a>补充：Redis中的Value值太大怎么办？</h3><p>Value最多可以容纳的数据长度是512M。<br>可以用阿里云的<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/117042">大key搜索工具</a>。</p>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/lu_wei_wei/article/details/50906101">Redis中String类型的Value最大可以容纳数据长度</a></p>
+<h3 id="补充：高并发情况下，如何保证Redis缓存的一致性？"><a href="#补充：高并发情况下，如何保证Redis缓存的一致性？" class="headerlink" title="补充：高并发情况下，如何保证Redis缓存的一致性？"></a>补充：高并发情况下，如何保证Redis缓存的一致性？</h3><h3 id="补充：分布式锁的实现"><a href="#补充：分布式锁的实现" class="headerlink" title="补充：分布式锁的实现"></a>补充：分布式锁的实现</h3><p>参考这一节的内容 :<a target="_blank" rel="noopener" href="https://github.com/doocs/advanced-java/blob/master/docs/distributed-system/distributed-lock-redis-vs-zookeeper.md">advanced-java 分布式锁</a></p>
+<p>分布式锁主要从① 互斥②不能死锁③容错三个考点来陈述：</p>
+<h4 id="1-Redis-实现的分布式锁"><a href="#1-Redis-实现的分布式锁" class="headerlink" title="1. Redis 实现的分布式锁"></a>1. Redis 实现的分布式锁</h4><p>Redis 使用 SETNX 命令来实现分布式锁，但有“原生 setnx”和“RedLock”两种方案</p>
+<h5 id="1-1-原生-setnx-方案"><a href="#1-1-原生-setnx-方案" class="headerlink" title="1.1 原生 setnx 方案"></a>1.1 原生 setnx 方案</h5><p>setnx 全称 set is not exists 。</p>
+<p>redis 2.6之前的方案： <code>SETNX key value</code></p>
+<p>redis 2.6之后的方案：现在都以 SET + NX 参数的方案为主</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET resource_name my_random_value NX PX 30000</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><code>NX</code>：表示只有 <code>key</code> 不存在的时候才会设置成功。（如果此时 redis 中存在这个 key，那么设置失败，返回 <code>nil</code>）</li>
+<li><code>PX 30000</code>：意思是 30s 后锁自动释放。别人创建的时候如果发现已经有了就不能加锁了。</li>
+<li>返回 1，设置 key 成功；返回 0，设置 key 失败</li>
+</ul>
+</blockquote>
+<p>使用以下 lua 脚本删除 key：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除锁的时候，找到 key 对应的 value，跟自己传过去的 value 做比较，如果是一样的才删除。</span></span><br><span class="line"><span class="keyword">if</span> redis.call(<span class="string">&quot;get&quot;</span>,KEYS[<span class="number">1</span>]) == ARGV[<span class="number">1</span>] <span class="keyword">then</span></span><br><span class="line">	<span class="keyword">return</span> redis.call(<span class="string">&quot;del&quot;</span>,KEYS[<span class="number">1</span>])</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>缺陷：因为集群中数据使用异步保证数据的一致性，假设clientA 从 master 处拿到了锁，但 master 未完成数据的同步，此时 master 发生了 crash，系统将重新选举 master，clientB 可以从新 master 处拿到锁，于是 clientA 和 clientB 都获取到 key 的锁，集群中的缺陷就此暴露出了。（lee 理解：脑裂时不能保证互斥性）</p>
+<p>改进办法：采用 RedLock 方案。</p>
+<h5 id="1-2-RedLock-方案"><a href="#1-2-RedLock-方案" class="headerlink" title="1.2 RedLock 方案"></a>1.2 RedLock 方案</h5><blockquote>
+<p>这个场景是假设有一个 redis cluster，有 5 个 redis master 实例。然后执行如下步骤获取一把锁：</p>
+<ol>
+<li><p>获取当前时间戳，单位是毫秒；</p>
+</li>
+<li><p>跟上面类似，轮流尝试在每个 master 节点上创建锁，过期时间较短，一般就几十毫秒；</p>
+</li>
+<li><p>如果尝试创建锁失败，无论什么原因，一旦失败就立即尝试下一个节点。</p>
+</li>
+<li><p>尝试在<strong>大多数节点</strong>上建立一个锁，比如 5 个节点就要求是 3 个节点 <code>n / 2 + 1</code>；</p>
+</li>
+<li><p>客户端计算建立好锁的时间，如果建立锁的时间小于超时时间，就算建立成功了；</p>
+</li>
+<li><p>要是锁建立失败了，那么就依次之前建立过的锁删除；</p>
+</li>
+<li><p>只要别人建立了一把分布式锁，你就得<strong>不断轮询去尝试获取锁</strong>。</p>
+</li>
+</ol>
+</blockquote>
+<p>创建锁失败的原因可能是：当前 key 的锁已经被其他 client 占有、master 节点不可用</p>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="http://ifeve.com/redis-lock/">《Redis官方文档》用Redis构建分布式锁</a></p>
+<h4 id="2-zk-实现的分布式锁"><a href="#2-zk-实现的分布式锁" class="headerlink" title="2. zk 实现的分布式锁"></a>2. zk 实现的分布式锁</h4><h5 id="2-1-临时-znode-方案"><a href="#2-1-临时-znode-方案" class="headerlink" title="2.1 临时 znode 方案"></a>2.1 临时 znode 方案</h5><blockquote>
+<p>zk 分布式锁，其实可以做的比较简单，就是某个节点尝试创建临时 znode，此时创建成功了就获取了这个锁；这个时候别的客户端来创建锁会失败，只能<strong>注册个监听器</strong>监听这个锁。释放锁就是删除这个 znode，一旦释放掉就会通知客户端，然后有一个等待着的客户端就可以再次重新加锁。</p>
+</blockquote>
+<h5 id="2-2-临时顺序节点方案"><a href="#2-2-临时顺序节点方案" class="headerlink" title="2.2 临时顺序节点方案"></a>2.2 临时顺序节点方案</h5><blockquote>
+<p>如果有一把锁，被多个人竞争，此时需要排队，第一个拿到锁的人会执行，然后释放锁；后面的每个人都会去监听<strong>排在自己前面</strong>的那个人创建的 node 上，一旦某个人释放了锁，排在自己后面的人就会被 zookeeper 给通知，一旦被通知了之后，就 ok 了，自己就获取到了锁，就可以执行代码了。</p>
+</blockquote>
+<p>基本步骤：</p>
+<blockquote>
+<p>1.建立一个节点，假如名为：lock 。节点类型为持久节点（PERSISTENT）<br>2.每当进程需要访问共享资源时，会调用分布式锁的lock()或tryLock()方法获得锁，这个时候会在第一步创建的lock节点下建立相应的顺序子节点，节点类型为临时顺序节点（EPHEMERAL_SEQUENTIAL），通过组成特定的名字name+<em>lock</em>+顺序号。<br>3.在建立子节点后，对lock下面的所有以name开头的子节点进行排序，判断刚刚建立的子节点顺序号是否是最小的节点，假如是最小节点，则获得该锁对资源进行访问。 （lee 理解：为什么是最小？因为拿到锁并释放锁的节点，会删除它的 znode，如果轮到当前节点，那么它所属的顺序号就应当是最小的）<br>4.假如不是该节点，就获得该节点的上一顺序节点，并给该节点是否存在注册监听事件。同时在这里阻塞。等待监听事件的发生，获得锁控制权。<br>5.当调用完共享资源后，调用unlock（）方法，关闭zk，进而可以引发监听事件，释放该锁。<br>实现的分布式锁是严格的按照顺序访问的并发锁。</p>
+</blockquote>
+<h4 id="3-etcd-实现的分布式锁"><a href="#3-etcd-实现的分布式锁" class="headerlink" title="3. etcd 实现的分布式锁"></a>3. etcd 实现的分布式锁</h4><p>[扩展]：有关 raft 协议大神级动画：<a target="_blank" rel="noopener" href="http://thesecretlivesofdata.com/raft/">raft</a>，真不知道哪个神仙画的，太棒了！</p>
+<p>对于每一个锁比如名字为 mylock，实际写入 key 时就叫做 <code>key1=mylock/uuid1</code>，如果两个 client 同时写 mylock 锁，写操作都会成功，但在 mylock 目录下会同时存在不同 uuid 的两个 key。UUID 可以保证全局的唯一性。使用每个 key 对应的一个自增的<code>Revision</code>号（进行一次事务，revision 自增 1），此 Revision 会返回给创建 key 的 client，由 client 记录下来。client 取 key 时，会把 <code>mylock/</code>下的所有 key-value 对都拿到，然后通过 revision 号来判断自己是否获得了锁。</p>
+<p>租约：client 创建 key-value 时要设置租约期，租约到期时 key-value 会被删除，同时也可以被client续约。</p>
+<p>避免死锁的方式：持有锁的 client 会创建一个定时任务作为心跳对 key 进行续约，一旦此 client 故障，那么租期到了就会自动释放锁，允许其他 client 来获取。</p>
+<p>这里写的很详细（甚至有大量篇幅介绍etcd 以及 raft 协议），有兴趣可以了解：<a target="_blank" rel="noopener" href="http://blogspring.cn/view/120">分布式锁的最佳实践之：基于 Etcd 的分布式锁</a></p>
+<h4 id="三种实现分布式锁方式的区别"><a href="#三种实现分布式锁方式的区别" class="headerlink" title="三种实现分布式锁方式的区别"></a>三种实现分布式锁方式的区别</h4><ol>
+<li>redis 方式，需要应用自己不断地去获取锁，比较消耗性能。而且如果请求锁的 app 挂掉了，需要等待超时时间后才能释放锁。</li>
+<li>zk 方式，获取不到锁，注册个监听器即可，不需要不断主动尝试获取锁，性能开销较小。如果请求锁的 app 挂掉了，那么 znode 就会被删除，无需等待超时时间。通过一个自增序号判断 client 是否为获得锁的 client。</li>
+<li>etcd 跟 zk 很接近，也是通过一个自增序号判断是否为获得锁的 client。</li>
+</ol>
+<p>另：这个链接里面，涉及到Redisson 方案，以及使用 setnx 时存在的缺陷，值得一看：<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/603575">阿里云专访Redisson作者Rui Gu：构建开源企业级Redis客户端之路</a></p>
+<h3 id="补充：网络并发量突增时，该怎么处理"><a href="#补充：网络并发量突增时，该怎么处理" class="headerlink" title="补充：网络并发量突增时，该怎么处理?"></a>补充：网络并发量突增时，该怎么处理?</h3><ol>
+<li>如果是几何型的递增，只能增加应用的集群节点、数据库集群节点或分布式模块管理。</li>
+<li>如果是不规则的高峰模式，可以从应用和数据模型着手，减少服务器请求时间。<ol>
+<li>必要的数据缓存；</li>
+<li>合理的静态化页面；</li>
+<li>多节点应用集群；</li>
+</ol>
+</li>
+<li>如果高并发来自于恶意请求，不仅要改bug，还要限制IP访问。</li>
+<li>请求放到消息队列里面；<ol>
+<li>优点：异步处理请求，消峰、降低系统耦合</li>
+<li>缺点：一致性问题、可用性问题、复杂性问题。</li>
+</ol>
+</li>
+<li>图形验证码；</li>
+<li>做服务降级。</li>
+</ol>
+<h3 id="补充：秒杀场景下保证库存数据的正确性"><a href="#补充：秒杀场景下保证库存数据的正确性" class="headerlink" title="补充：秒杀场景下保证库存数据的正确性"></a>补充：秒杀场景下保证库存数据的正确性</h3><blockquote>
+<p>库存数据只需要达到最终一致，使用 MQ 做事件驱动加上 Redis 事务即可。增加&#x2F;扣减库存时用 Redis 事务做原子操作，每次扣减库存时生成一个唯一 ID，归还时带上该唯一 ID 用于做幂等操作。下单出错或者关单归还库存时可以通过 MQ 异步做最终的事务补偿。</p>
+</blockquote>
+<h3 id="补充：服务器负载历史记录怎么查看？"><a href="#补充：服务器负载历史记录怎么查看？" class="headerlink" title="补充：服务器负载历史记录怎么查看？"></a>补充：服务器负载历史记录怎么查看？</h3><p>shell 中的 uptime 命令，top 命令等都行</p>
+<h3 id="补充：数据库死锁的例子"><a href="#补充：数据库死锁的例子" class="headerlink" title="补充：数据库死锁的例子"></a>补充：数据库死锁的例子</h3><p><a target="_blank" rel="noopener" href="https://uule.iteye.com/blog/2422193">MYSQL数据库死锁的原因和解决方法</a></p>
+<h1 id="网易-Lua-一面"><a href="#网易-Lua-一面" class="headerlink" title="网易 Lua 一面"></a>网易 Lua 一面</h1><h3 id="1-Mybatis-在-SSM-框架中充当什么角色？"><a href="#1-Mybatis-在-SSM-框架中充当什么角色？" class="headerlink" title="1. Mybatis 在 SSM 框架中充当什么角色？"></a>1. Mybatis 在 SSM 框架中充当什么角色？</h3><ol>
+<li>主要完成对 JDBC 的封装，去掉了繁琐的 JDBC 代码和结果集的设置。</li>
+<li>使用 XML 或注解，将接口和普通Java类映射成数据库中的数据，解除了 sql 跟代码的耦合。</li>
+</ol>
+<h3 id="2-JDBC-做了哪些事情呢、以及-JDBC-的设计模式？"><a href="#2-JDBC-做了哪些事情呢、以及-JDBC-的设计模式？" class="headerlink" title="2. JDBC 做了哪些事情呢、以及 JDBC 的设计模式？"></a>2. JDBC 做了哪些事情呢、以及 JDBC 的设计模式？</h3><ol>
+<li><p>跟数据库建立连接，</p>
+</li>
+<li><p>使用 statement 执行 SQL 语句。（或者使用PreparedStatement，用？代替指定字符串，进行预编译，更加高效，还可防止SQL注入）。</p>
+</li>
+<li><p>执行查询，返回 ResultSet，循环调用next方法，获取每一行内容。</p>
+</li>
+<li><p>任何一个 jdbc 的 Driver 必须类似以下格式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 向 DriverManger 注册自己</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyJDBCDriver</span> <span class="keyword">implements</span> <span class="title class_">Driver</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        DriverManager.registerDriver(<span class="keyword">new</span> <span class="title class_">MyJDBCDriver</span>());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>使用 jdbc 时，使用<code>Class.forName(com.**.**.MyJDBCDriver)</code>，相当于加载这个driver，上边代码中的 static 代码块就会执行，完成了<code>MyJDBCDriver</code>的实例化。</p>
+</li>
+<li><p>补充：jdbc 主要使用了桥接模式</p>
+<ol>
+<li><p>桥接模式核心：一个抽象类使用了指向另一个接口的引用。抽象类可以有多种实现子类，接口也可以有多种实现，作用：使用桥接模式就是为了让抽象部分和实现部分都能够独立变化。抽象类设为 AC，接口设为 API，接口实现设为 Class1、Class2，AC 继承子类设为 ClassA、ClassB，真实使用代码为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ClassA</span> <span class="variable">classA</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AC</span>(<span class="keyword">new</span> <span class="title class_">Class1</span>());</span><br><span class="line"><span class="type">ClassB</span> <span class="variable">classB</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">AC</span>(<span class="keyword">new</span> <span class="title class_">Class2</span>());</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/bridge_pattern_uml_diagram.jpg"></p>
+</li>
+<li><p>至于 jdbc 的桥接模式，参考4&#x2F;5两项，不再做多余解释。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h3 id="3-IDE-项目中另外起一个JVM、进程来做，有什么思路吗？"><a href="#3-IDE-项目中另外起一个JVM、进程来做，有什么思路吗？" class="headerlink" title="3. IDE 项目中另外起一个JVM、进程来做，有什么思路吗？"></a>3. IDE 项目中另外起一个JVM、进程来做，有什么思路吗？</h3><h3 id="5-跳表的建立规则，它怎么决定一个数据要不要上升到上一层。"><a href="#5-跳表的建立规则，它怎么决定一个数据要不要上升到上一层。" class="headerlink" title="5. 跳表的建立规则，它怎么决定一个数据要不要上升到上一层。"></a>5. 跳表的建立规则，它怎么决定一个数据要不要上升到上一层。</h3><blockquote>
+<p>一个链表内每一个结点可能包含多个指向后续元素的指针，后续节点个数是通过一个随机函数生成器得到</p>
+</blockquote>
+<p>跳表是通过随机函数来决定某个数据要不要去哪一层。</p>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/sunxianghuang/article/details/52221913">跳表（SkipList）</a></p>
+<h3 id="6-CPU-缓存的更新和替换策略。"><a href="#6-CPU-缓存的更新和替换策略。" class="headerlink" title="6. CPU 缓存的更新和替换策略。"></a>6. CPU 缓存的更新和替换策略。</h3><p>CPU 采用了三级高速缓存，替换算法主要有三种：FIFO、LFU、LRU。其中LRU最常用。</p>
+<h3 id="7-内存的值发生了变化后，cache要如何感知呢？"><a href="#7-内存的值发生了变化后，cache要如何感知呢？" class="headerlink" title="7. 内存的值发生了变化后，cache要如何感知呢？"></a>7. 内存的值发生了变化后，cache要如何感知呢？</h3><p>先看 cache 的写入策略：</p>
+<ol>
+<li><strong>写回法</strong>：当CPU写Cache命中时，只改变其缓存的内容，而不写入内存，直到替换策略把该块替换出来时才写入内存。这种方法减少了访问内存的次数，缩短了时间，也提高了内存带宽利用率，但在保持与内存内容的一致性上存在在隐患，并且使用写回法，必须为每个缓存块设置一个修改位，来反映此块是否被CPU修改过。</li>
+<li><strong>全写法</strong>：当写Cache命中时，立即在所有的等级存储介质里更新，即同时写进Cache与内存，而当Cache未命中时，直接向内存写入，而Cache不用设置修改位或相应的判断器。这种方法的好处是，当Cache命中时，由于缓存和内存是同时写入的，所以可以很好的保持缓存和内存内容的一致性，但缺点也很明显，由于每次写入操作都要更新所有的存储体，如果一次有大量的数据要更新，就要占用大量的内存带宽，而现在PC系统中，内存带宽本来就不宽裕，而写操作占用太多带宽的话，那主要的读操作就会受到比较大的影响。</li>
+<li><strong>写一次法</strong>：这是一种基于上面两种方法的写策略，它的特点是，除了第一次写Cache命中的时候要写入内存，其它时候都和写回法一样，只修改缓存。其实这也就是一种对缓存一致性的妥协，使得在缓存一致性和延迟中取的一个较好的平衡。</li>
+</ol>
+<blockquote>
+<p>现在的CPU一般都有多个核，我们知道当某个核读取某个内存地址时，会把这个内存地址附近的64个字节放到当前核的cache line中，假设此时另外一个CPU核同时把这部分数据放到了对应的cache line中，这时候这64字节的数据实际上有三份，两份在CPU cache中，一份在主存中。自然而然就要考虑到数据一致性的问题，如何保证在某一个核中的数据做了改动时，其它的数据副本也能感知到变化呢？是由缓存一致性协议来保证的。缓存一致性协议也叫作MESI协议。<br>除了一致性协议外，还需要内存屏障的配合。</p>
+</blockquote>
+<p>这两部分就不展开了，可以参考下面两个链接。</p>
+<p>内容参考：<a target="_blank" rel="noopener" href="https://yq.aliyun.com/articles/8061">性能服务端系列 – 处理器篇</a><br>扩展阅读：<a target="_blank" rel="noopener" href="http://cenalulu.github.io/linux/all-about-cpu-cache/">关于CPU Cache – 程序猿需要知道的那些事</a></p>
+<h3 id="8-select、poll、epoll的区别？"><a href="#8-select、poll、epoll的区别？" class="headerlink" title="8. select、poll、epoll的区别？"></a>8. select、poll、epoll的区别？</h3><p>往下翻，参考：趣链 Java 一面之二 的第一题。</p>
+<h3 id="9-实现一个数据结构，拥有栈的pop和push，同时提供一个min函数可以取最小值，怎么实现？"><a href="#9-实现一个数据结构，拥有栈的pop和push，同时提供一个min函数可以取最小值，怎么实现？" class="headerlink" title="9. 实现一个数据结构，拥有栈的pop和push，同时提供一个min函数可以取最小值，怎么实现？"></a>9. 实现一个数据结构，拥有栈的pop和push，同时提供一个min函数可以取最小值，怎么实现？</h3><p>提供两个栈，stack1 和 stack2，stack1进行栈的基本操作，stack2的栈顶作为min的记录，如果压栈的元素小于stack2的栈顶元素，则压入stack2，如果出栈的元素等于stack2的栈顶元素，说明min元素要出栈，此时stack2的栈顶元素pop出。</p>
+<h3 id="10-接上一题，如果要你提供多个最小值，你要怎么做？"><a href="#10-接上一题，如果要你提供多个最小值，你要怎么做？" class="headerlink" title="10. 接上一题，如果要你提供多个最小值，你要怎么做？"></a>10. 接上一题，如果要你提供多个最小值，你要怎么做？</h3><p>接上题解法，stack2的后续几个元素就是多个最小值。</p>
+<h3 id="11-大量数据的并行化处理思路"><a href="#11-大量数据的并行化处理思路" class="headerlink" title="11. 大量数据的并行化处理思路"></a>11. 大量数据的并行化处理思路</h3><p>背景：8G 甚至更多的数据，无法一次性放入内存中，所以需要分治的思想（甚至可以使用多线程并行处理），有两种策略：</p>
+<ol>
+<li>快速排序分治。先扫一遍数据，按大小分16 个区间（快排），并把数据放入。然后可以启动 16 个线程并行对这些数据进行排序，小区间排序完成后，整体数据就有序了。</li>
+<li>归并排序分治。不提前扫数据，直接分成 16 个小数据集合，启动 16 个线程进行排序，排序完成后再将有序集合合并。</li>
+</ol>
+<h1 id="网易-Lua-二面"><a href="#网易-Lua-二面" class="headerlink" title="网易 Lua 二面"></a>网易 Lua 二面</h1><ol>
+<li><p>如何避免外来Java代码任意创建多线程等其他危险操作？</p>
+<p>只知道 redis 中可以嵌套 lua 脚本来实现自定义的逻辑。</p>
+</li>
+</ol>
+<h1 id="招银网络-Java-一面"><a href="#招银网络-Java-一面" class="headerlink" title="招银网络 Java 一面"></a>招银网络 Java 一面</h1><h3 id="1-事务中用了try-catch捕获了异常，那么事务还会回滚吗？"><a href="#1-事务中用了try-catch捕获了异常，那么事务还会回滚吗？" class="headerlink" title="1. 事务中用了try-catch捕获了异常，那么事务还会回滚吗？"></a>1. 事务中用了try-catch捕获了异常，那么事务还会回滚吗？</h3><p>将异常捕获,并且在catch块中不对事务做显式提交(或其他应该做的操作如关闭资源等)&#x3D;生吞掉异常.<br>一般不用try-catch捕获异常。如果非要捕获，那就要在catch语句块中显式地抛异常&#x2F;显式地回滚。</p>
+<p><a target="_blank" rel="noopener" href="https://a-bin.iteye.com/blog/1056839">try catch异常抛出与spring事务回滚策略相关</a></p>
+<h3 id="2-Servlet-的生命周期"><a href="#2-Servlet-的生命周期" class="headerlink" title="2. Servlet 的生命周期"></a>2. Servlet 的生命周期</h3><ol>
+<li>加载</li>
+<li>初始化</li>
+<li>处理请求</li>
+<li>服务终止<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/lgk8023/p/6427977.html">Servlet生命周期</a></li>
+</ol>
+<h3 id="4-事务A，包含语句B，B异常时，事务A会回滚吗？"><a href="#4-事务A，包含语句B，B异常时，事务A会回滚吗？" class="headerlink" title="4. 事务A，包含语句B，B异常时，事务A会回滚吗？"></a>4. 事务A，包含语句B，B异常时，事务A会回滚吗？</h3><p>会。</p>
+<h3 id="5-web-xml-能配置什么信息"><a href="#5-web-xml-能配置什么信息" class="headerlink" title="5. web.xml 能配置什么信息"></a>5. web.xml 能配置什么信息</h3><p>过滤器、监听器、applicationContext、Servlet等。</p>
+<h3 id="6-String-跟-StringBuffer、StringBuilder的区别"><a href="#6-String-跟-StringBuffer、StringBuilder的区别" class="headerlink" title="6. String 跟 StringBuffer、StringBuilder的区别"></a>6. String 跟 StringBuffer、StringBuilder的区别</h3><p>String 是不可变类，StringBuffer 是可变类，线程安全。StringBuilder 是可变类，线程不安全。</p>
+<p>从效率来讲，String -&gt; StringBuffer -&gt; StringBuilder, 先降后升。</p>
+<p>String不可变的优点之一：String 的 hash 值也不可变，只需要计算一次，有利于作为 hashmap 的 key。</p>
+<p>String 补充：</p>
+<p>如果 new 一个 String，那么 String Object存在于堆里，如果 String str &#x3D; “abc”，将不在堆里，而在字符串常量池中有字面量“abc”和 String Object。</p>
+<p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/StringPool.jpg"></p>
+<h3 id="7-wait-和-sleep-的区别"><a href="#7-wait-和-sleep-的区别" class="headerlink" title="7. wait 和 sleep 的区别"></a>7. wait 和 sleep 的区别</h3><ol>
+<li>sleep，让CPU不让锁。</li>
+<li>wait，放弃锁。</li>
+</ol>
+<h3 id="补充：用户级线程与内核级线程的区别："><a href="#补充：用户级线程与内核级线程的区别：" class="headerlink" title="补充：用户级线程与内核级线程的区别："></a>补充：用户级线程与内核级线程的区别：</h3><p>包括有没有陷入内核：<br>阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42229896/article/details/80667187">用户线程与内核线程的区别</a></p>
+<h1 id="IBM-Java-二面"><a href="#IBM-Java-二面" class="headerlink" title="IBM Java 二面"></a>IBM Java 二面</h1><h3 id="1-项目中-MySQL-数据表的设计有遵循范式吗？第二范式的要求？"><a href="#1-项目中-MySQL-数据表的设计有遵循范式吗？第二范式的要求？" class="headerlink" title="1. 项目中 MySQL 数据表的设计有遵循范式吗？第二范式的要求？"></a>1. 项目中 MySQL 数据表的设计有遵循范式吗？第二范式的要求？</h3><ul>
+<li><p>第二范式：在第一范式要求的基础上（表是平表），要求每一个非主属性完全函数依赖于码。</p>
+</li>
+<li><p>3NF：首先属于2NF，然后每一个非主属性不传递依赖于码。任何非主属性不依赖于其他非主属性。</p>
+</li>
+<li><p>intent与Sentence的一对多关系。</p>
+</li>
+</ul>
+<h3 id="2-查询过程中碰到性能方面的问题吗？"><a href="#2-查询过程中碰到性能方面的问题吗？" class="headerlink" title="2. 查询过程中碰到性能方面的问题吗？"></a>2. 查询过程中碰到性能方面的问题吗？</h3><p>虽然没有碰到，但还是尽量采用比较好的设计。比如：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/zly9923218/article/details/51007554">SQL优化</a>。<ol>
+<li>列出查询字段，避免select *；</li>
+<li>索引列不能含 null，建索引会失败</li>
+<li>避免通配符%，出现在搜寻词首，该列索引将不生效</li>
+<li>避免 orderby中的计算表达式或非索引项</li>
+</ol>
+</li>
+<li>利用冗余设计，避免表连接。</li>
+</ol>
+<h3 id="3-分页是怎么实现的？这个工具是一个Jar包吗？Sql语句中怎么实现？"><a href="#3-分页是怎么实现的？这个工具是一个Jar包吗？Sql语句中怎么实现？" class="headerlink" title="3. 分页是怎么实现的？这个工具是一个Jar包吗？Sql语句中怎么实现？"></a>3. 分页是怎么实现的？这个工具是一个Jar包吗？Sql语句中怎么实现？</h3><p>用的PageHelper，引入PageHelper的依赖，<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_21996541/article/details/79796117">PageHelper类实现了interceptor接口</a>，是mybatis的拦截器。</p>
+<ol>
+<li>传入当前页面、每页记录数，赋值到Page类中（，同时赋值到ThreadLocal中，成为线程私有）；</li>
+<li>然后PageHelper实现了interceptor接口，通过拦截器获取到Page类的参数，然后在SQLparser中完成分页SQL语句的拼装，最终完成分页操作。</li>
+</ol>
+<p>不使用PageHelper，单纯sql实现：</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// <span class="keyword">limit</span>可以接受一到两个参数：</span><br><span class="line">如果是一个参数，表示返回最大的记录行数目（<span class="keyword">LIMIT</span> n 等价于 <span class="keyword">LIMIT</span> <span class="number">0</span>,n）。</span><br><span class="line">如果是两个参数，第一个指定返回记录行的偏移量（起始位置），第二个指定返回记录行的最大数目（记录条数）。</span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">LIMIT</span> <span class="number">5</span>,<span class="number">10</span>；</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">LIMIT</span> <span class="number">95</span>,<span class="number">-1</span>； // <span class="number">-1</span> 表示到末尾</span><br><span class="line"></span><br><span class="line">// <span class="keyword">limit</span> <span class="keyword">offset</span>用法：</span><br><span class="line">返回四行、偏移量<span class="number">9</span>。</span><br><span class="line"><span class="keyword">SELECT</span>  * <span class="keyword">FROM</span> <span class="keyword">table</span> <span class="keyword">LIMIT</span> <span class="number">4</span> <span class="keyword">OFFSET</span> <span class="number">9</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="4-你的Redis做缓存，key、value是怎么设计的？"><a href="#4-你的Redis做缓存，key、value是怎么设计的？" class="headerlink" title="4. 你的Redis做缓存，key、value是怎么设计的？"></a>4. 你的Redis做缓存，key、value是怎么设计的？</h3><h3 id="5-Spring-Schedule-的底层实现？执行频率？表达式？"><a href="#5-Spring-Schedule-的底层实现？执行频率？表达式？" class="headerlink" title="5. Spring Schedule 的底层实现？执行频率？表达式？"></a>5. Spring Schedule 的底层实现？执行频率？表达式？</h3><ol>
+<li>实现 SchedulingConfigurer 接口，重写 configureTasks 方法。</li>
+<li>创建一个 trigger触发，并增加一个runnable的task，放入业务逻辑。</li>
+<li>从数据库中取出自定义的 cron 语句，然后得到 CronTrigger。</li>
+<li><code>0 0 8 * * ？*</code>每天8点执行一次</li>
+</ol>
+<h3 id="6-批量数据的导入导出？有什么效果？easyExcel有什么突出的亮点？"><a href="#6-批量数据的导入导出？有什么效果？easyExcel有什么突出的亮点？" class="headerlink" title="6. 批量数据的导入导出？有什么效果？easyExcel有什么突出的亮点？"></a>6. 批量数据的导入导出？有什么效果？easyExcel有什么突出的亮点？</h3><p>使用EasyExcel进行批量数据的导入导出，具有映射到Java类的功能。</p>
+<ul>
+<li>导出时，可以自动生成表头。导入时，可以根据excel中的列号映射到java模型中。</li>
+</ul>
+<p>EasyExcel的使用步骤：</p>
+<ol>
+<li>添加maven依赖。</li>
+<li>加上ExcelProperty的注解。</li>
+</ol>
+<h3 id="7-如果你的API出现性能问题，你会怎么考虑去调优它？"><a href="#7-如果你的API出现性能问题，你会怎么考虑去调优它？" class="headerlink" title="7. 如果你的API出现性能问题，你会怎么考虑去调优它？"></a>7. 如果你的API出现性能问题，你会怎么考虑去调优它？</h3><ol>
+<li>架构设计上：<ol>
+<li>应用服务器设置集群、增加反向代理和负载均衡。</li>
+<li>业务层可以使用Dubbo等RPC框架实现分布式调用，达到多节点同时处理计算。</li>
+<li>使用redis、es等nosql实现存储。</li>
+</ol>
+</li>
+<li>代码角度上：<ol>
+<li>将某些环节设置为异步处理，比如本项目中，分析意图和调取用户信息的任务可以异步进行。在Future模式下，先返回一个future给调用者，等需要结果时再调用future.get()获得结果。唯一需要注意的是要设置一个超时时间。</li>
+<li>检查线程池、数据库连接池的配置是否合适。</li>
+<li>sql 优化：减少聚合函数、增加必要索引等。</li>
+</ol>
+</li>
+</ol>
+<h3 id="8-你用JVM能做哪些方面的调优呢？"><a href="#8-你用JVM能做哪些方面的调优呢？" class="headerlink" title="8. 你用JVM能做哪些方面的调优呢？"></a>8. 你用JVM能做哪些方面的调优呢？</h3><p>【强推！】R 大推荐 JVM 书籍：<a target="_blank" rel="noopener" href="https://rednaxelafx.iteye.com/blog/1886170">豆列：从表到里学习JVM实现</a></p>
+<p>举个栗子，以高可用、低延迟为调优目标：</p>
+<ol>
+<li>需要量化GC时间和频率对响应时间和可用性的影响。</li>
+</ol>
+<p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/4.png"></p>
+<p>上图说明：降低单次GC时间和GC次数，可以有效减少GC对响应时间的影响。</p>
+<ul>
+<li>选用合适的GC 收集器、重新设置内存比例、调整JVM参数等。</li>
+</ul>
+<h4 id="1-Major-GC-和-Minor-GC-太频繁"><a href="#1-Major-GC-和-Minor-GC-太频繁" class="headerlink" title="1. Major GC 和 Minor GC 太频繁"></a>1. Major GC 和 Minor GC 太频繁</h4><p>背景：新生对象太多、存活太少。动态年龄低的时候就已经晋升老年代，引起频繁Major GC。<br>步骤：</p>
+<ol>
+<li>先尝试增加 Eden 空间，Minor GC频次降一半。<ul>
+<li>虽然Eden区的扫描时间增加一倍，但是Minor GC 的间隔时间是以前的两倍，那么存活对象的数量将减小（短命对象就是优化点），这时对象的复制耗时会降低。</li>
+<li>所以需要确定对象的生命周期分布情况。</li>
+</ul>
+</li>
+<li>检查 new threshold 参数，也就是动态年龄判断（对象的晋升年龄阈值，很可能低于15）</li>
+</ol>
+<h4 id="2-请求高峰期发生GC-，导致服务可用性下降。"><a href="#2-请求高峰期发生GC-，导致服务可用性下降。" class="headerlink" title="2. 请求高峰期发生GC ，导致服务可用性下降。"></a>2. 请求高峰期发生GC ，导致服务可用性下降。</h4><p>背景：CMS 的重新标记阶段是STW的，所以需要降低此时间。</p>
+<ul>
+<li><p>跨代引用：重新标记阶段中，新生代持有指向老年代对象的引用，就是跨代引用。（虽然CMS是针对老年代的，但还是需要扫描）</p>
+</li>
+<li><p>所以CMS的重复标记阶段要全堆扫描，那么堆中对象的数目影响了Remark阶段耗时。降低Remark阶段耗时问题转换成如何减少新生代对象数量。</p>
+</li>
+<li><p>Remark 前又一次可中断的预清理阶段，等待Minor GC的发生（有时限，超时会等不到Minor GC） 。</p>
+</li>
+<li><p>优化 CMSScavengeBeforeRemark参数（增加此数值），用来保证Remark前强制进行一次Minor GC。	消除部分不可达对象，降低后期正式扫描时需要扫描的对象</p>
+</li>
+</ul>
+<p>强推：CMS 过程分析：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2a1b2f17d3e4">图解CMS垃圾回收机制，你值得拥有</a><br>推荐阅读：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2017/12/29/jvm-optimize.html">美团GC实例</a></p>
+<h3 id="3-比较-CMS、G1、ZGC"><a href="#3-比较-CMS、G1、ZGC" class="headerlink" title="3. 比较 CMS、G1、ZGC"></a>3. 比较 CMS、G1、ZGC</h3><ol>
+<li>目标。CMS、G1：最短回收停顿时间；</li>
+<li>共同特点：<ol>
+<li>都是并发清除器，对 CPU 敏感，</li>
+</ol>
+</li>
+<li>CMS 特点：<ol>
+<li>标记清除算法，存在大量空间碎片，需要一次 Full GC 来处理(可以设置多次 CMS 触发一次 Full GC)。</li>
+<li>CMS 使用<strong>空间列表</strong>用于对象分配内存。</li>
+<li>只作用于老年代和永久带。</li>
+</ol>
+</li>
+<li>G1特点：<ol>
+<li>切分多个 Region，每次回收含垃圾最多的 Region（而不是全部），从而降低停顿。</li>
+<li>可设置最大停顿时间。</li>
+<li>使用写屏障。</li>
+</ol>
+</li>
+<li>ZGC 特点：<ol>
+<li>与 G1类似，都使用了Region（在 ZGC 中称为 Page），但 ZGC 分区不是为了减少停顿，。</li>
+<li>不设最大停顿时间。</li>
+<li>GC 的停顿时间，不随堆的规模和存活对象的规模变化而变化。</li>
+<li>但使用读屏障，而且采用并发压缩的过程。</li>
+<li>建议查看本站另一篇文章，梳理的很清晰：<a target="_blank" rel="noopener" href="http://likehui.fun/2019/04/11/ZGC-%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/">ZGC 特性解读</a></li>
+</ol>
+</li>
+</ol>
+<h3 id="9-Git-的git-add-commit-和push-的区别？"><a href="#9-Git-的git-add-commit-和push-的区别？" class="headerlink" title="9. Git 的git add commit 和push 的区别？"></a>9. Git 的git add commit 和push 的区别？</h3><p>git add 是把文件添加到暂存区。<br>git commit 提交更改，把暂存区的所有内容提交到当前分支上。<br>git push 是将本地分支推送到远程分支。</p>
+<h3 id="补充：git面试题汇总："><a href="#补充：git面试题汇总：" class="headerlink" title="补充：git面试题汇总："></a>补充：git面试题汇总：</h3><p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/git.jpeg"></p>
+<ol>
+<li>Git branch name     创建名字为name的branch</li>
+<li>Git checkout xxx_dev    切换到名字为xxx_dev的分支</li>
+<li>Git pull    从远程分支拉取代码到本地分支</li>
+<li>Git checkout -b name   创建并切换到name</li>
+<li>Git push origin name    执行推送的操作，完成本地分支向远程分支的同步</li>
+<li>Git log filename 查看文件提交历史</li>
+<li>Git log branch file 查看分支提交历史</li>
+<li>我们在本地工程常会修改一些配置文件，这些文件不需要被提交，而我们又不想每次执行git status时都让这些文件显示出来，我们该如何操作？<ul>
+<li>答：在Git工作区的跟目录下创建一个特殊的.gitignore文件，然后把忽略的文件名编辑进去，Git就会自动忽略这些文件。</li>
+</ul>
+</li>
+<li>git提交代码时候写错commit信息后，如何重新设置commit信息？<ul>
+<li>答：可以通过Git commit –amend 来对本次commit进行修改。</li>
+</ul>
+</li>
+<li>什么时候应使用 “git stash”？<ul>
+<li>git stash 命令把你未提交的修改（已暂存（staged）和未暂存的（unstaged））保存以供后续使用，以后就可以从工作副本中进行还原。</li>
+</ul>
+</li>
+<li>如何从 git 中删除文件，而不将其从文件系统中删除？</li>
+<li>如果你在 git add 过程中误操作，你最终会添加不想提交的文件。但是，git rm 则会把你的文件从你暂存区（索引）和文件系统（工作树）中删除，这可能不是你想要的。所以：换成 git reset 操作。</li>
+<li>git 常规命令：<blockquote>
+<p>git commit：是将本地修改过的文件提交到本地库中；<br>git push：是将本地库中的最新信息发送给远程库；<br>git pull：是从远程获取最新版本到本地，并自动merge；<br>git fetch：是从远程获取最新版本到本地，不会自动merge；<br>git merge：是用于从指定的commit(s)合并到当前分支，用来合并两个分支；</p>
+<ol start="14">
+<li>git clone <source repository> <destination repository>  本地</destination></li>
+</ol>
+</blockquote>
+</li>
+</ol>
+<h3 id="补充：Mybatis的逆向工程"><a href="#补充：Mybatis的逆向工程" class="headerlink" title="补充：Mybatis的逆向工程"></a>补充：Mybatis的逆向工程</h3><p>使用MybatisGenerator工具和mybatis-generator-gui界面工具，根据现有数据库表结构的基础上，自动生成bean、sql语句的xml、Mapper等文件<br>步骤：</p>
+<ol>
+<li>连接到数据库中。</li>
+<li>指定各文件的存放位置。</li>
+<li>生成代码。</li>
+</ol>
+<h3 id="补充：将Entity类实例Null-的属性字段过滤掉的最佳实践。通常用在-JPA-中"><a href="#补充：将Entity类实例Null-的属性字段过滤掉的最佳实践。通常用在-JPA-中" class="headerlink" title="补充：将Entity类实例Null 的属性字段过滤掉的最佳实践。通常用在 JPA 中"></a>补充：将Entity类实例Null 的属性字段过滤掉的最佳实践。通常用在 JPA 中</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lee 理解：通过 Wrapper修饰 src，然后取出所有的属性，过滤掉实例中属性为 null 的属性</span></span><br><span class="line"><span class="comment">// lee 认为，这种设计模式也很值得学习</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">JpaUtil</span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">copyNotNullProperties</span><span class="params">(Object src, Object target)</span>&#123;</span><br><span class="line">    BeanUtils.copyProperties(src, target, getNullPropertyNames(src));</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> String[] getNullPropertyNames(Object object)&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="type">BeanWrapper</span> <span class="variable">wrapper</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanWrapperImpl</span>(object);</span><br><span class="line">    <span class="keyword">return</span> Stream.of(wrapper.getPropertyDescriptors())</span><br><span class="line">      .map(PropertyDescriptor::getName)</span><br><span class="line">      .filter(propertyName -&gt; wrapper.getPropertyValue(propertyName) == <span class="literal">null</span>)</span><br><span class="line">      .toArray(String[]::<span class="keyword">new</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="补充：配置Spring的方式："><a href="#补充：配置Spring的方式：" class="headerlink" title="补充：配置Spring的方式："></a>补充：配置Spring的方式：</h3><ol>
+<li>XML 文件；</li>
+<li>注解；</li>
+<li>Java配置：</li>
+</ol>
+<blockquote>
+<p>Spring对Java配置的支持是由@Configuration注解和@Bean注解来实现的。由@Bean注解的方法将会实例化、配置和初始化一个新对象，这个对象将由Spring的IoC容器来管理。**@Bean声明所起到的作用与<code>&lt;bean/&gt; </code>元素类似**。被@Configuration所注解的类则表示这个类的主要目的是作为bean定义的资源。被@Configuration声明的类可以通过在同一个类的内部调用@bean方法来设置嵌入bean的依赖关系。</p>
+</blockquote>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/mrleeapple/article/details/78464723">请搜关键词：Spring配置</a></p>
+<h3 id="补充：Restful-说一下："><a href="#补充：Restful-说一下：" class="headerlink" title="补充：Restful 说一下："></a>补充：Restful 说一下：</h3><ol>
+<li>网络上的信息定义为一种资源</li>
+<li>使用 HTTP 协议中的 get、post、put、delete等操作方式代表资源的增删改查操作。</li>
+<li>个人理解：比较理想化、不太适合复杂业务逻辑的项目。</li>
+</ol>
+<h3 id="补充：反射执行Java代码的优缺点？"><a href="#补充：反射执行Java代码的优缺点？" class="headerlink" title="补充：反射执行Java代码的优缺点？"></a>补充：反射执行Java代码的优缺点？</h3><p>优点：</p>
+<ol>
+<li>能够动态获取类的实例，提高系统的灵活性和扩展性；</li>
+<li>与Java动态编译相结合，可以实现更多功能。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>性能较低；</li>
+<li>反射相对不太安全；</li>
+<li>破坏了类的封装性， 可以获取这个类的私有方法和属性。</li>
+</ol>
+<h4 id="反射之本地实现"><a href="#反射之本地实现" class="headerlink" title="反射之本地实现"></a>反射之本地实现</h4><ol>
+<li>方法调用时，也就是将传入的参数准备好，执行 <code>Method.invoke()</code>方法，然后调用进入目标方法。</li>
+<li>此方法会调用<code>MethodAccessor</code>接口的<code>invoke()</code>方法，然后进入委派实现<code>DelegatingMethodAccessorImpl()</code>，再然后进入本地实现<code>NativeMethodAccessorImpl</code>最终达到目标方法。</li>
+<li>就是说会通过 Java 调用 C++，然后再转到 Java，比较耗时，适合只执行一次的目标方法，如果想多次执行，就会切换到动态实现了（调用次数超过15次，就由委派实现切换到动态实现）。</li>
+</ol>
+<h4 id="反射之动态实现"><a href="#反射之动态实现" class="headerlink" title="反射之动态实现"></a>反射之动态实现</h4><ol>
+<li>动态实现是一种将方法动态生成字节码的实现方式，先经过十分耗时的“生成字节码”的操作，然后通过字节码进行反射却不怎么耗时（比本地实现效率高上20倍）。</li>
+<li>对比两种方式，如果是仅执行一次的方法，那么本地实现比较划算，如果是要多次执行的热点代码，将会切换到动态实现，通过字节码来执行反射更加合理。这种情况十分类似于 Java 代码中的解释执行跟编译执行的区别，如下：<ul>
+<li>热点代码（编译执行 – 动态实现）</li>
+<li>冷门代码（解释执行 – 本地实现）</li>
+</ul>
+</li>
+</ol>
+<h4 id="反射为什么效率低"><a href="#反射为什么效率低" class="headerlink" title="反射为什么效率低"></a>反射为什么效率低</h4><ol>
+<li>变长参数方法导致的 Object 数组。</li>
+<li>基本类型的自动装箱、拆箱。</li>
+<li>某些场合的方法内联失效。</li>
+</ol>
+<p>目前的优化方向：</p>
+<ol>
+<li>方法内联。</li>
+<li>关闭反射调用的 Inflation 机制，取消本地实现，全部使用动态实现。</li>
+<li>取消每次反射调用前的检查。也就是<code>method.setAccessible(true);</code></li>
+</ol>
+<p>参考“《深入拆解 Java 虚拟机（极客时间）》07.JVM 是如何实现反射的？”</p>
+<h4 id="反射的运用领域？"><a href="#反射的运用领域？" class="headerlink" title="反射的运用领域？"></a>反射的运用领域？</h4><ol>
+<li>反射可以拿到类的实例；</li>
+<li>反射可以用来判断某类是不是另一个类的实例；</li>
+<li>可以用<code>Array.newInstance(Class,int)</code>来构造该类型的数组；</li>
+<li>自定义注解：在自定义注解时，需要三步①<strong>定义注解——相当于定义标记</strong>；②<strong>配置注解——把标记打在需要用到的程序代码中；</strong>③<strong>解析注解——在编译期或运行时检测到标记，并进行特殊操作。</strong>其中第三步，就是通过反射来实现。参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a7bedc771204">自定义注解-简书</a>，<a target="_blank" rel="noopener" href="https://blog.csdn.net/xsp_happyboy/article/details/80987484">自定义注解-csdn</a>。</li>
+<li>可以访问到类的成员（注：<code>getDeclaredMethods()</code>方法不会返回父类成员，但能够返回私有成员；<code>getMethods()</code>方法刚好相反），拿到成员后，可以：</li>
+<li>使用<code>Methods.setAccessible()</code>方法可以绕过Java 的语言限制；</li>
+<li>使用<code>Constructor.newInstance()</code>获得类的实例；</li>
+<li>使用<code>Method.invoke()</code>来调用方法。</li>
+</ol>
+<p>有关反射的内容：这里有篇文章看到热泪：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/5H6UHcP6kvR2X5hTj_SBjA">假笨说-从一起GC血案谈到反射原理</a>，有脑无脑强推！！！</p>
+<h1 id="阿里-Java-一面"><a href="#阿里-Java-一面" class="headerlink" title="阿里 Java 一面"></a>阿里 Java 一面</h1><h3 id="1-Spring-怎么对-bean-进行增强或者修改。"><a href="#1-Spring-怎么对-bean-进行增强或者修改。" class="headerlink" title="1. Spring 怎么对 bean 进行增强或者修改。"></a>1. Spring 怎么对 bean 进行增强或者修改。</h3><p>可以通过bean的后处理器。</p>
+<ol>
+<li>bean 的后处理器中的BeforInitialization 和 AfterInitialization 方法。</li>
+<li>init-method 、destroy-method 方法；</li>
+<li>实现*Aware 接口，在bean 中Spring框架的某些对象，比如ApplicationContext、beanFactory、beanName等。</li>
+</ol>
+<h3 id="2-CountDownLatch-细节"><a href="#2-CountDownLatch-细节" class="headerlink" title="2. CountDownLatch 细节"></a>2. CountDownLatch 细节</h3><h3 id="3-new-一个很大的对象，对象是怎么分配的"><a href="#3-new-一个很大的对象，对象是怎么分配的" class="headerlink" title="3. new 一个很大的对象，对象是怎么分配的"></a>3. new 一个很大的对象，对象是怎么分配的</h3><h3 id="4-最新的垃圾回收机制有了解过吗？"><a href="#4-最新的垃圾回收机制有了解过吗？" class="headerlink" title="4. 最新的垃圾回收机制有了解过吗？"></a>4. 最新的垃圾回收机制有了解过吗？</h3><p>ZGC</p>
+<h3 id="5-项目访问量对项目的影响？"><a href="#5-项目访问量对项目的影响？" class="headerlink" title="5. 项目访问量对项目的影响？"></a>5. 项目访问量对项目的影响？</h3><h3 id="6-Redis-的key、value能装类吗？"><a href="#6-Redis-的key、value能装类吗？" class="headerlink" title="6. Redis 的key、value能装类吗？"></a>6. Redis 的key、value能装类吗？</h3><h3 id="7-怎么序列化类的？"><a href="#7-怎么序列化类的？" class="headerlink" title="7. 怎么序列化类的？"></a>7. 怎么序列化类的？</h3><p>一般通过ObjectOutputStream 和 ObjectInputStream 进行序列化和反序列化的。</p>
+<ol>
+<li>类首先实现 Serializable 接口。<ol>
+<li>在不想被序列化的属性前加上 transient 关键字；</li>
+<li>也可以在类中自定义 WriteObject 、ReadObject 方法，让某些 transient 修饰的属性按照自定义的方式完成序列化。</li>
+<li>静态属性不会被序列化。</li>
+</ol>
+</li>
+<li>如果打算序列化父类的某些行为，那么父类也需要实现 Serializable 接口。所有引用对象也必须是可序列化的。</li>
+<li>序列化是深拷贝的过程。</li>
+<li>指定序列化ID，让相互传输数据的两个客户端之间类的序列化ID保持一致，这样才能正确地反序列化拿到数据。<ul>
+<li>序列化ID 一般可以通过：类名，接口名，方法和属性等来生成的。</li>
+</ul>
+</li>
+<li>对象转为二进制举例：新建一个 ObjectOutputStream 对象，同时传入一个 OutputStream 作为存储二进制数据的位置。再调用<code>writeObject()</code>将对象写入。</li>
+</ol>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 核心代码</span></span><br><span class="line"><span class="comment">// 一个名为 A 并实现 Serializable 接口的类此处未展示</span></span><br><span class="line"><span class="comment">// 类 A 不能是内部类，因为内部类的序列化要依赖于外部类</span></span><br><span class="line">@Test</span><br><span class="line">public void test<span class="literal">()</span> &#123;</span><br><span class="line">	A a = <span class="keyword">new</span> <span class="constructor">A()</span>;</span><br><span class="line">	a.value = <span class="number">1</span>;</span><br><span class="line">	a.name = <span class="string">&quot;xiaoming&quot;</span>;</span><br><span class="line"></span><br><span class="line">	FileOutputStream fos = null;</span><br><span class="line">	FileInputStream fis = null;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		fos = <span class="keyword">new</span> <span class="constructor">FileOutputStream(<span class="string">&quot;temp&quot;</span>)</span>;</span><br><span class="line">		ObjectOutputStream oos = <span class="keyword">new</span> <span class="constructor">ObjectOutputStream(<span class="params">fos</span>)</span>;</span><br><span class="line">		oos.write<span class="constructor">Object(<span class="params">a</span>)</span>;</span><br><span class="line">		fos.close<span class="literal">()</span>;</span><br><span class="line"></span><br><span class="line">		fis = <span class="keyword">new</span> <span class="constructor">FileInputStream(<span class="string">&quot;temp&quot;</span>)</span>;</span><br><span class="line">		ObjectInputStream ois = <span class="keyword">new</span> <span class="constructor">ObjectInputStream(<span class="params">fis</span>)</span>;</span><br><span class="line">		A a2 = (A) ois.read<span class="constructor">Object()</span>;</span><br><span class="line">		fis.close<span class="literal">()</span>;</span><br><span class="line">		<span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(<span class="string">&quot;==========&quot;</span>);</span><br><span class="line">		<span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(a2.value);</span><br><span class="line">		<span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(a2.name);</span><br><span class="line"></span><br><span class="line">	&#125;catch (IOException e)&#123;</span><br><span class="line">		e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">	&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">		e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>参考阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/a724888/article/details/80210095">Java基础18：Java序列化与反序列化</a></p>
+<p>深拷贝扩展：</p>
+<ol>
+<li>简短解说： 浅拷贝：拷贝对象与原始对象的引用类型引用同一个对象；深拷贝：拷贝对象与原始对象的引用类型引用不同对象。</li>
+<li>欲实现引用属性的拷贝，就需要实现 cloneable 接口，并重写 clone 方法来实现。比如想拷贝类 A，就让类A按上面的做法。</li>
+</ol>
+<ul>
+<li>不重写 clone 方法，默认就是浅拷贝，重写了才是深拷贝。</li>
+</ul>
+<ol start="3">
+<li>欲实现引用对象的<strong>深拷贝</strong>，就需要让被引用的类也同样实现 cloneable 接口，并重写其 clone 方法来实现。也就是说类 A 携带有指向类 B 的引用，那么 A、B 都要实现 cloneable 接口并重写 clone 方法。但是此做法不利于后期的维护。</li>
+<li>以上两种做法要么不全面，要么太难，所以可以采用序列化的方式来实现，参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/NaLanZiYi-LinEr/p/9192734.html">Java深拷贝与序列化</a></li>
+</ol>
+<h3 id="8-Redis-数据的序列化机制？"><a href="#8-Redis-数据的序列化机制？" class="headerlink" title="8. Redis 数据的序列化机制？"></a>8. Redis 数据的序列化机制？</h3><ol>
+<li>使用 RedisTemplate 中的一个序列化工具：<code>GenericJackson2JsonRedisSerializer</code>。</li>
+</ol>
+<p>推荐阅读:<a target="_blank" rel="noopener" href="https://blog.csdn.net/asdfsadfasdfsa/article/details/79962056">RedisTemplate序列化工具</a></p>
+<h3 id="9-序列化成字符串然后存到Redis的value-中，这部分工作能否让Redis-完成？效率如何？"><a href="#9-序列化成字符串然后存到Redis的value-中，这部分工作能否让Redis-完成？效率如何？" class="headerlink" title="9. 序列化成字符串然后存到Redis的value 中，这部分工作能否让Redis 完成？效率如何？"></a>9. 序列化成字符串然后存到Redis的value 中，这部分工作能否让Redis 完成？效率如何？</h3><h3 id="10-ConcurrentHashMap-的-put-方法"><a href="#10-ConcurrentHashMap-的-put-方法" class="headerlink" title="10. ConcurrentHashMap 的 put 方法"></a>10. ConcurrentHashMap 的 put 方法</h3><p>参考随手记第 14 题，往上翻。</p>
+<h3 id="11-MySQL-索引的优先原则"><a href="#11-MySQL-索引的优先原则" class="headerlink" title="11. MySQL 索引的优先原则"></a>11. MySQL 索引的优先原则</h3><p>最左前缀原则。</p>
+<h3 id="12-我的项目中动态编译、类加载的全部过程"><a href="#12-我的项目中动态编译、类加载的全部过程" class="headerlink" title="12. 我的项目中动态编译、类加载的全部过程"></a>12. 我的项目中动态编译、类加载的全部过程</h3><p>类加载参考其他题目，这里说一下编译过程：</p>
+<ol>
+<li>首先要涉及 JavaCompiler 这个类，它是 JDK 提供的动态编译的 api；</li>
+<li>然后涉及 JavaFileObject 接口及发散类，它是封装源码和字节码的对象；</li>
+<li>然后涉及 JavaFileManager 接口及发散类，编译器通过这个类来管理JavaFileObject对象；</li>
+<li>然后调用<code>getTask()</code>方法生成编译任务并执行。获取到输出流，最终将输出流转换成字节数组。</li>
+</ol>
+<h3 id="补充：-MySQL-的行溢出"><a href="#补充：-MySQL-的行溢出" class="headerlink" title="补充： MySQL 的行溢出"></a>补充： MySQL 的行溢出</h3><p>行溢出：如果某条记录太大，即使叶子结点中还剩余一多半的空间但仍然存不下怎么办？这种情况称之为<strong>行溢出</strong>。<br>简单的解决方式就是把记录存储在溢出页（磁盘的其它空闲地方）中，然后叶子结点中存储的是这个记录的指针。</p>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/nullzx/p/8978177.html">B+树在磁盘存储中的应用</a>，包括了对 4KB 大小的解释。</p>
+<h3 id="补充：锁的-JVM-相关命令："><a href="#补充：锁的-JVM-相关命令：" class="headerlink" title="补充：锁的 JVM 相关命令："></a>补充：锁的 JVM 相关命令：</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-XX:PreBlockSpin <span class="regexp">//</span> 更改自旋等待的次数</span><br><span class="line">-XX:+UseSpinning <span class="regexp">//</span> 开启或关闭自旋锁</span><br><span class="line">-XX:-UseBiasedLocking=false <span class="regexp">//</span> 命令关闭偏向锁（default 开启）</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="补充：对象头细节："><a href="#补充：对象头细节：" class="headerlink" title="补充：对象头细节："></a>补充：对象头细节：</h3><p>对象头主要包括两部分数据：Mark Word（标记字段）、Klass Pointer（类型指针）。</p>
+<ul>
+<li>Mark Word：默认存储对象的HashCode，分代年龄和锁标志位信息。	- 锁标志位：无锁 01、偏向锁 01、轻量级锁 00、重量级锁 10。</li>
+<li>Klass Pointer：对象指向它的类元数据（亦称Klass、类类型，即类信息存储的地方，在方法区）的指针。</li>
+</ul>
+<h3 id="补充：Atomic-源码细节："><a href="#补充：Atomic-源码细节：" class="headerlink" title="补充：Atomic 源码细节："></a>补充：Atomic 源码细节：</h3><p>比如 AtomicInteger 的<code>getAndIncrement()</code>调用的就是 Unsafe 类的 <code>getAndAddInt()</code>方法。此方法使用 do-while 配合 CAS 进行自旋：</p>
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 来自 Unsafe类</span></span><br><span class="line">public final <span class="built_in">int</span> get<span class="constructor">AndAddInt(Object <span class="params">var1</span>, <span class="params">long</span> <span class="params">var2</span>, <span class="params">int</span> <span class="params">var4</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">int</span> var5;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="comment">// 取出内存中的值 var5</span></span><br><span class="line">        var5 = this.get<span class="constructor">IntVolatile(<span class="params">var1</span>, <span class="params">var2</span>)</span>;</span><br><span class="line">    &#125; <span class="keyword">while</span>(!this.compare<span class="constructor">AndSwapInt(<span class="params">var1</span>, <span class="params">var2</span>, <span class="params">var5</span>, <span class="params">var5</span> + <span class="params">var4</span>)</span>); <span class="comment">// CAS 实现 var5 + var4</span></span><br><span class="line"></span><br><span class="line">    return var5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="补充：Unsafe-类学习总结："><a href="#补充：Unsafe-类学习总结：" class="headerlink" title="补充：Unsafe 类学习总结："></a>补充：Unsafe 类学习总结：</h3><p>本小节知识点参考博客：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/02/14/talk-about-java-magic-class-unsafe.html">Java魔法类：Unsafe应用解析</a></p>
+<ol>
+<li>Unsafe 的调用方必须是被Bootstrap CL 加载的类，否则会抛出安全异常，解决办法是：<ol>
+<li>方法一：将欲调用 Unsafe 的类的 jar 包添加到默认的 bootstrap 路径中。</li>
+<li>方法二：使用反射获取单例对象 Unsafe。</li>
+</ol>
+</li>
+</ol>
+<p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/5.png"></p>
+<ol>
+<li><strong>内存的操作</strong>。以下主要讲解<strong>直接内存</strong>：通过Unsafe.allocateMemory分配内存、Unsafe.setMemory进行内存初始化，而后构建Cleaner对象用于跟踪DirectByteBuffer对象的垃圾回收。</li>
+<li><strong>CAS 操作</strong>。代码可参考上一题——Atomic 源码细节。其中调用的 <code>compareAndSwap*</code>才是真正的原子操作，<code>CAS#getAndAddInt()</code>是在原子操作的基础上增加了自旋的逻辑。</li>
+<li><strong>线程调度</strong>。</li>
+</ol>
+<blockquote>
+<p>Java锁和同步器框架的核心类AbstractQueuedSynchronizer，就是通过调用LockSupport.park()和LockSupport.unpark()实现线程的阻塞和唤醒的，而LockSupport的park、unpark方法实际是调用Unsafe的park、unpark方式来实现。<br>4. <strong>内存屏障</strong>。其实是 CPU 或者 IDE 对内存随机访问的一个安全点，使得此点之前的所有读写操作都执行后才可以开始执行此点之后的操作，避免代码重排序。体现在 Unsafe类中的<code>*Fence()</code>系列方法<br>5. Class 操作。不展开，直接看原博客。<br>6. 对象操作。主要应用场景是：非常规的对象实例化方式（比如绕过类构造器，绕过安全检查等）。<br>7. 数组相关。主要跟 AtomicIntegerArray中的数组操作中的元素定位有关。<br>8. 系统相关。系统指针大小（32位指针大小是4B，64位是8B）；内存页大小（作者主机上内存页大小是4096B）。</p>
+</blockquote>
+<h3 id="补充：ReentrantLock-源码细节："><a href="#补充：ReentrantLock-源码细节：" class="headerlink" title="补充：ReentrantLock 源码细节："></a>补充：ReentrantLock 源码细节：</h3><h1 id="趣链-Java-一面之二"><a href="#趣链-Java-一面之二" class="headerlink" title="趣链 Java 一面之二"></a>趣链 Java 一面之二</h1><h3 id="redis-高效的原因，IO-多路复用讲一下"><a href="#redis-高效的原因，IO-多路复用讲一下" class="headerlink" title="redis 高效的原因，IO 多路复用讲一下"></a>redis 高效的原因，IO 多路复用讲一下</h3><ol>
+<li>redis 是纯内存访问；</li>
+<li>redis 使用单线程，避免了线程的切换和竞争；</li>
+<li>redis 实现了 I&#x2F;O 多路复用技术，IO效率很高。</li>
+</ol>
+<p>IO 多路复用：用select、poll、epoll监听多个io对象，一旦某个io对象数据准备好了，就可以通知用户进程，完成业务。好处是单个进程可以处理多个socket连接。</p>
+<ul>
+<li>select：当用户进程调用select，此用户进程被阻塞，然后select会轮询它负责的socket流，当任意一个socket中的数据准备好了，select就会返回，此时用户进程会调用read操作拷贝数据。</li>
+<li>poll：基于链表来存储，没有最大连接数的限制（也就是说可扩展长度）。</li>
+<li>epoll：基于事件驱动：<ul>
+<li>epoll 对象存放着“添加进来的事件”，这些事件挂载在红黑树中（能避免重复事件）</li>
+<li>上面的这些事件会跟设备驱动建立回调关系，当事件发生时，会调用这个回调函数。此时发生的事件也会被添加到一个双链表中。</li>
+</ul>
+</li>
+</ul>
+<p>对比 select、poll、epoll：</p>
+<ol>
+<li>select 和 poll 的时间复杂度都是O(n)，都是无差别轮询所有流。两者本质没有差别，只是 poll 会把用户传入的数组拷到内核空间，然后逐个查询状态，而且 poll 是基于链表实现的。</li>
+<li>epoll 的时间复杂度是O(1)，epoll 会把哪个流发生的什么 IO 事件发给我们，涉及到一些函数回调。</li>
+</ol>
+<h3 id="从-Java-内存模型角度讲一下-i-执行步骤"><a href="#从-Java-内存模型角度讲一下-i-执行步骤" class="headerlink" title="从 Java 内存模型角度讲一下 i++ 执行步骤"></a>从 Java 内存模型角度讲一下 i++ 执行步骤</h3><ol>
+<li>从主内存中取出变量i到工作内存；</li>
+<li>工作内存完成+1操作；</li>
+<li>写回主内存。</li>
+</ol>
+<h3 id="a-x3D-a-b-与-a-x3D-b-的区别"><a href="#a-x3D-a-b-与-a-x3D-b-的区别" class="headerlink" title="a&#x3D;a+b 与 a+&#x3D;b 的区别"></a>a&#x3D;a+b 与 a+&#x3D;b 的区别</h3><ol>
+<li>前者，计算a+b，然后赋给a引用。</li>
+<li>后者，先用一个temp对象存储a，然后和b相加，相加结果赋给a引用。</li>
+<li>+&#x3D; 涉及到自动类型转换的问题。</li>
+</ol>
+<h3 id="int-在32位和64位机子占的内存大小"><a href="#int-在32位和64位机子占的内存大小" class="headerlink" title="int 在32位和64位机子占的内存大小"></a>int 在32位和64位机子占的内存大小</h3><p>都是4个字节。</p>
+<p>补充姿势：</p>
+<p>1字节 8 位：byte&#x2F;8</p>
+<p>2字节 CS（char 和 short）</p>
+<p>4 字节 IF（int 和 float）</p>
+<p>8 字节 LD（long 和 double）</p>
+<h3 id="32位和64位，java-内存的分配大小"><a href="#32位和64位，java-内存的分配大小" class="headerlink" title="32位和64位，java 内存的分配大小"></a>32位和64位，java 内存的分配大小</h3><p>堆内存大小受：32位&#x2F;64位限制，可用虚拟内存限制，可用物理内存限制。<br>32位下，堆最大在1.5G~2G之间。64位要高30%左右。</p>
+<h3 id="git-工作流、revert、fix-bugs"><a href="#git-工作流、revert、fix-bugs" class="headerlink" title="git 工作流、revert、fix bugs"></a>git 工作流、revert、fix bugs</h3><p>git revert 跟 git reset区别：</p>
+<ol>
+<li>git reset 恢复到之前提交的某个版本，之后提交的版本不要了。</li>
+<li>git revert 反向创建一个新版本，这个版本跟我们要回退的版本一致。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/yxlshk/article/details/79944535">Git恢复之前版本的两种方法reset、revert（图文详解）</a></p>
+<p>fixBugs：</p>
+<ul>
+<li>先在bug分支修改，</li>
+<li>然后branch验证通过后，才被允许合并到master中。</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="http://blog.jobbole.com/76867/">git flow 简介</a></p>
+<ol>
+<li>历史分支：master 和 develop；</li>
+<li>功能分支：feature；</li>
+<li>发布分支：release；</li>
+<li>维护分支：hotfix；</li>
+</ol>
+<h3 id="多线程传输的场景下，设计一个系统"><a href="#多线程传输的场景下，设计一个系统" class="headerlink" title="多线程传输的场景下，设计一个系统"></a>多线程传输的场景下，设计一个系统</h3><h3 id="分析多线程可能出现的问题，针对这些问题提出解决方案"><a href="#分析多线程可能出现的问题，针对这些问题提出解决方案" class="headerlink" title="分析多线程可能出现的问题，针对这些问题提出解决方案"></a>分析多线程可能出现的问题，针对这些问题提出解决方案</h3><ol>
+<li>原子性问题；使用Synchronized关键字；</li>
+<li>可见性问题；使用volatile关键字；</li>
+<li>指令重排问题；使用volatile禁止指令重排。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_31997407/article/details/79705767">原子性、内存可见性、重排序、顺序一致性、volatile、锁、final</a></p>
+<h3 id="ringbuffer"><a href="#ringbuffer" class="headerlink" title="ringbuffer"></a>ringbuffer</h3><h3 id="多线程竞争、原子性等"><a href="#多线程竞争、原子性等" class="headerlink" title="多线程竞争、原子性等"></a>多线程竞争、原子性等</h3><h3 id="算法实现：rand-产生1到7，怎么实现1到10？"><a href="#算法实现：rand-产生1到7，怎么实现1到10？" class="headerlink" title="算法实现：rand 产生1到7，怎么实现1到10？"></a>算法实现：rand 产生1到7，怎么实现1到10？</h3><p>个人思路（乱来）：</p>
+<figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rand</span>-<span class="number">1</span> 是<span class="number">0</span>到<span class="number">6</span>，</span><br><span class="line">（<span class="built_in">rand</span>-<span class="number">1</span>）*<span class="number">9</span>/<span class="number">6</span> 是<span class="number">0</span>到<span class="number">9</span></span><br><span class="line"><span class="number">1</span>+（<span class="built_in">rand</span> - <span class="number">1</span>）*<span class="number">9</span>/<span class="number">6</span> 就是<span class="number">1</span>到<span class="number">10</span>了吧</span><br></pre></td></tr></table></figure>
+
+<p>官方解法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">int</span> <span class="title function_">rand10</span><span class="params">()</span>&#123;</span><br><span class="line">  <span class="keyword">do</span>&#123;</span><br><span class="line">    <span class="type">int</span> <span class="variable">row</span> <span class="operator">=</span> rand7();</span><br><span class="line">    <span class="type">int</span> <span class="variable">col</span> <span class="operator">=</span> rand7();</span><br><span class="line">    <span class="type">int</span> <span class="variable">index</span> <span class="operator">=</span> col + (row - <span class="number">1</span>)*<span class="number">7</span>;</span><br><span class="line">  &#125;<span class="keyword">while</span>(index &gt; <span class="number">40</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span> + (index - <span class="number">1</span>)%<span class="number">10</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="java-util-concurrent-中-CountDownLatch、CyclicaBarrier、Semaphore"><a href="#java-util-concurrent-中-CountDownLatch、CyclicaBarrier、Semaphore" class="headerlink" title="java.util.concurrent 中 CountDownLatch、CyclicaBarrier、Semaphore"></a>java.util.concurrent 中 CountDownLatch、CyclicaBarrier、Semaphore</h3><h3 id="Http-协议-与-Https-协议的区别，增加的-s-层细节"><a href="#Http-协议-与-Https-协议的区别，增加的-s-层细节" class="headerlink" title="Http 协议 与 Https 协议的区别，增加的 s 层细节"></a>Http 协议 与 Https 协议的区别，增加的 s 层细节</h3><ol>
+<li>接收client访问时，server 返回数字证书，包括server的公钥；client使用预置的 CA 列表验证证书。</li>
+<li>client再生成一个随机的对称密钥，用server的公钥加密后发给server。server用自己的私钥解密，得到此对称密钥。</li>
+<li>之后可以相互访问。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="http://likehui.fun/2018/12/19/HTTP-1-1/">HTTP-1-1</a></p>
+<h3 id="有了-HTTP协议，为什么还需要-RPC-协议呢？"><a href="#有了-HTTP协议，为什么还需要-RPC-协议呢？" class="headerlink" title="有了 HTTP协议，为什么还需要 RPC 协议呢？"></a>有了 HTTP协议，为什么还需要 RPC 协议呢？</h3><p><img src="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/7.jpg" alt="RPC&amp;Http"></p>
+<p>Http跟 RPC 不是同一级别的概念，但它们都是解决应用调用另一个应用的备选方案。</p>
+<p>Http：可读性好、跨语言性、有防火墙支持等优势。最佳实践—— Restful 。</p>
+<p>RPC：不是网络七层、头部信息少，相比 HTTP 能携带更多信息，效率高。可基于私有协议传输。最佳实践——Dubbo、gRpc、thrift。</p>
+<h1 id="趣链-Java-一面之三"><a href="#趣链-Java-一面之三" class="headerlink" title="趣链 Java 一面之三"></a>趣链 Java 一面之三</h1><p>1）介绍下自己的项目</p>
+<p>2）JVM 垃圾回收算法</p>
+<ol>
+<li>标记清除；先标记阶段然后清除阶段。<ul>
+<li>适合老年代；</li>
+</ul>
+</li>
+<li>标记整理；先标记，然后存活对象向一端移动。<ul>
+<li>适合老年代；</li>
+</ul>
+</li>
+<li>复制；一半使用，一半备用。将活着的对象复制到备用块上，然后将原内存块一次性清理掉。<ul>
+<li>适合新生代。</li>
+</ul>
+</li>
+<li>分代回收。</li>
+</ol>
+<p>收集器：（记忆：3对+1）<br>左边新生代都是复制算法，右边老年代。ParNew 是 serial 的多线程版本。ParNew 跟 Parallel Scavenge 几乎一样。</p>
+<ul>
+<li><p>serial &amp; serial Old（整）</p>
+</li>
+<li><p>ParNew &amp; CMS（清）绝配。</p>
+</li>
+<li><p>Parallel Scavenge &amp; Paralled Old（整）</p>
+</li>
+<li><p>G1 </p>
+</li>
+<li><p>G1收集器的特点：用在服务器，在满足GC停顿时间要求的同时，还具备高吞吐量性能特征。</p>
+<ol>
+<li>通过并发的方式，让GC线程与Java程序同时运行。</li>
+<li>可以独立管理新生代和老年代。</li>
+<li>可预测的停顿，建立一个可预测的停顿时间模型，让使用者明确指明一个长度为M毫秒的时间片段内。</li>
+<li>具有一个优先列表，每次根据允许的收集时间，优先选择回收价值最大的部分进行回收。</li>
+</ol>
+</li>
+</ul>
+<p>3）synchronized 与ReentrantLock 区别</p>
+<ol>
+<li>都是可重入锁；</li>
+<li>前者依赖于JVM，程序员看不到，后者依赖于API，可以查看JDK中它的源码；</li>
+<li>后者有新功能：<ol>
+<li>等待可中断；</li>
+<li>可实现公平锁；</li>
+<li>ReentrantLock 结合 Condition 可以选择性地通知某些线程（这些线程在Condition对象中注册），而不是使用 notify&#x2F;notifyAll（效率低）。</li>
+</ol>
+</li>
+</ol>
+<p>4）java.util.concurrent 中 CountDownLatch、CyclicaBarrier、Semaphore</p>
+<p>5）创建线程的 3 中方法：Thread、Callable、Runnable，区别，你的使用习惯</p>
+<p>6）线程池</p>
+<p>10）Http 协议 与 TCP 的区别</p>
+<p>11）进程间通信：管程、Socket…</p>
+<p>12）进程与线程的区别，有没有做过多进程的项目</p>
+<p>13）MySql 索引</p>
+<ul>
+<li>聚簇索引：每张表主键构成B+树（存储顺序与索引顺序一致），叶子节点存放真实的数据行。<ul>
+<li>主要用在InnoDB引擎上。</li>
+</ul>
+</li>
+<li>非聚簇索引：数据行存储顺序与索引存储顺序不一致，叶子节点没有存放数据，存的是“键-指针对”，根据此指针再去其他索引树去查找。<ul>
+<li>主要用在MyISAM引擎上。</li>
+</ul>
+</li>
+</ul>
+<p>InnoDB 跟 MyISAM 的区别：</p>
+<p>14）注入攻击</p>
+<p>15）跨域请求</p>
+<p>16）项目中的拦截机制、Session</p>
+<p>17）项目中考虑到的安全问题</p>
+<p>18）Redis 缓存使用中当数据库中数据更新了，怎么实现缓存中的更新</p>
+<p>19）Redis 的用处啥的</p>
+<p>24）有没有使用过 git</p>
+<p>25）git 的基本操作</p>
+<p>26）git clone 与 git fork 的区别</p>
+<p>27）合作项目中 git 的使用，主要是 master 和分支啥的</p>
+<p>29）有没有使用过 rpc</p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/18/Redis%E4%B8%93%E9%A2%98/" rel="next" title="Redis专题">
+                <i class="fa fa-chevron-left"></i> Redis专题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/15/ARTS-1/" rel="prev" title="ARTS(1)">
+                ARTS(1) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B6%A3%E9%93%BEJava%E4%B8%80%E9%9D%A2%E4%B9%8Blh%E7%AF%87"><span class="nav-number">1.</span> <span class="nav-text">趣链Java一面之lh篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B%E3%80%82"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. 类加载的过程。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PriorityQueue-%E5%AE%9E%E7%8E%B0%E5%A4%A7%E6%A0%B9%E5%A0%86"><span class="nav-number">1.0.2.</span> <span class="nav-text">PriorityQueue 实现大根堆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%94%A8%E8%BF%87%E5%93%AA%E4%BA%9B%E9%9B%86%E5%90%88%E7%B1%BB%E3%80%82"><span class="nav-number">1.0.3.</span> <span class="nav-text">2. 用过哪些集合类。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-HashMap%E5%92%8CHashTable%E5%8C%BA%E5%88%AB%E3%80%82"><span class="nav-number">1.0.4.</span> <span class="nav-text">3. HashMap和HashTable区别。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%AE%B2%E4%B8%80%E4%B8%8BFutureTask%EF%BC%8C%E6%80%8E%E4%B9%88%E8%8E%B7%E5%8F%96%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%EF%BC%8C%E5%85%B6%E4%BB%96%E5%87%A0%E7%A7%8D%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%AF%94%E8%BE%83%E3%80%82"><span class="nav-number">1.0.5.</span> <span class="nav-text">4. 讲一下FutureTask，怎么获取返回值的，其他几种多线程的实现比较。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E8%B0%83%E7%94%A8-start-%E6%96%B9%E6%B3%95%E6%97%B6%E4%BC%9A%E6%89%A7%E8%A1%8C-run-%E6%96%B9%E6%B3%95%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E4%B8%8D%E8%83%BD%E7%9B%B4%E6%8E%A5%E8%B0%83%E7%94%A8-run-%E6%96%B9%E6%B3%95%EF%BC%9F"><span class="nav-number">1.0.5.1.</span> <span class="nav-text">为什么我们调用 start() 方法时会执行 run() 方法，为什么我们不能直接调用 run() 方法？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-MySQL%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E4%BA%8B%E5%8A%A1%E7%9A%84%EF%BC%8C%E5%9C%A8SSM%E6%A1%86%E6%9E%B6%E4%B8%AD%E4%BD%A0%E6%98%AF%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84%EF%BC%9F"><span class="nav-number">1.0.6.</span> <span class="nav-text">5. MySQL怎么实现事务的，在SSM框架中你是怎么做的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%94%A8%E8%BF%87%E5%93%AA%E4%BA%9B%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%8C%E8%AE%B2%E4%B8%80%E4%B8%AA%E4%BD%A0%E6%9C%80%E5%B8%B8%E7%94%A8%E7%9A%84%EF%BC%8C%E8%AE%B2%E4%B8%80%E4%B8%8B%E4%BD%A0%E5%AF%B9%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F%E7%9A%84%E7%90%86%E8%A7%A3%E3%80%82"><span class="nav-number">1.0.7.</span> <span class="nav-text">6. 用过哪些设计模式，讲一个你最常用的，讲一下你对代理模式的理解。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E6%89%8B%E5%86%99%E5%8F%8D%E8%BD%AC%E5%8D%95%E9%93%BE%E8%A1%A8%E3%80%82"><span class="nav-number">1.0.8.</span> <span class="nav-text">7. 手写反转单链表。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%AE%9E%E7%8E%B0%E4%BA%86%E5%93%AA%E4%BA%9B%E5%8A%9F%E8%83%BD%E3%80%82%E6%9C%89%E6%B2%A1%E6%9C%89%E6%96%87%E5%AD%97%E5%A4%84%E7%90%86%E7%9A%84%E5%8A%9F%E8%83%BD%E3%80%82"><span class="nav-number">1.0.9.</span> <span class="nav-text">8. 项目中实现了哪些功能。有没有文字处理的功能。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85-%EF%BC%9A%E5%AD%97%E8%8A%82%E7%A0%81%E4%B8%AD%E4%B8%8E%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E7%9B%B8%E5%85%B3%E7%9A%84%E6%8C%87%E4%BB%A4"><span class="nav-number">1.0.10.</span> <span class="nav-text">补充 ：字节码中与方法调用相关的指令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%9A%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E5%AF%B9%E6%80%A7%E8%83%BD%E5%BD%B1%E5%93%8D%E5%BE%88%E5%A4%A7"><span class="nav-number">1.0.10.1.</span> <span class="nav-text">虚方法调用对性能影响很大</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E7%9F%A5%E9%81%93JavaCompile%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%E5%90%97%EF%BC%8C%E5%85%B7%E4%BD%93%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84%EF%BC%9F%E4%B8%8D%E8%B0%83api%EF%BC%8C%E4%BD%A0%E4%BC%9A%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E8%BF%99%E4%B8%AA%E5%8A%9F%E8%83%BD%EF%BC%9F"><span class="nav-number">1.0.11.</span> <span class="nav-text">9. 知道JavaCompile的底层实现吗，具体怎么做的？不调api，你会怎么实现这个功能？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E8%AE%B2%E4%B8%80%E4%B8%8Bspring%E7%9A%84ioc%E5%8E%9F%E7%90%86%EF%BC%8C%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E4%BE%9D%E8%B5%96%E6%B3%A8%E5%85%A5%E7%9A%84%EF%BC%8C%E5%85%B7%E4%BD%93%E6%98%AF%E5%9C%A8%E5%93%AA%E4%B8%80%E4%B8%AA%E7%8E%AF%E8%8A%82%E6%B3%A8%E5%85%A5%E5%B1%9E%E6%80%A7%E7%9A%84%EF%BC%9F"><span class="nav-number">1.0.12.</span> <span class="nav-text">10. 讲一下spring的ioc原理，怎么实现依赖注入的，具体是在哪一个环节注入属性的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-aop%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%EF%BC%8C%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84%EF%BC%9F"><span class="nav-number">1.0.13.</span> <span class="nav-text">11. aop的实现原理，你的项目中怎么做的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-HTTP%E8%AF%B7%E6%B1%82%E6%B6%89%E5%8F%8A%E7%9A%84%E5%8D%8F%E8%AE%AE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%BE%9D%E6%AC%A1%E7%94%A8%E5%88%B0%E7%9A%84%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%85%88%E5%90%8E%E9%A1%BA%E5%BA%8F%E3%80%82"><span class="nav-number">1.0.14.</span> <span class="nav-text">12. HTTP请求涉及的协议，以及依次用到的协议的先后顺序。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-HTTPS%E8%AF%B7%E6%B1%82%E7%9A%84%E8%BF%87%E7%A8%8B%EF%BC%8C%E8%BF%99%E4%B8%AA%E8%BF%87%E7%A8%8B%E6%98%AF%E5%9C%A8TCP%E5%BB%BA%E7%AB%8B%E8%BF%9E%E6%8E%A5%E4%B9%8B%E5%89%8D%E8%BF%98%E6%98%AF%E4%B9%8B%E5%90%8E%EF%BC%9F"><span class="nav-number">1.0.15.</span> <span class="nav-text">13. HTTPS请求的过程，这个过程是在TCP建立连接之前还是之后？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-%E5%AE%89%E5%85%A8%E8%AF%81%E4%B9%A6%E5%92%8Cserver%E5%85%AC%E9%92%A5%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E3%80%82"><span class="nav-number">1.0.16.</span> <span class="nav-text">14. 安全证书和server公钥之间的关系。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-Redis%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%9C%BA%E5%88%B6%E3%80%82"><span class="nav-number">1.0.17.</span> <span class="nav-text">15. Redis的持久化机制。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-%E6%9C%89%E6%B2%A1%E6%9C%89%E5%81%9A%E8%BF%87Redis%E9%9B%86%E7%BE%A4%EF%BC%9F"><span class="nav-number">1.0.18.</span> <span class="nav-text">16. 有没有做过Redis集群？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-redis%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E6%98%AF%E6%80%8E%E4%B9%88%E4%B8%80%E4%B8%AA%E8%BF%87%E7%A8%8B%EF%BC%9F"><span class="nav-number">1.0.19.</span> <span class="nav-text">17. redis的主从复制是怎么一个过程？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-%E7%9F%A5%E9%81%93zookeeper%E5%90%97%EF%BC%9F%E8%AE%B2%E4%B8%80%E4%B8%8B"><span class="nav-number">1.0.20.</span> <span class="nav-text">18. 知道zookeeper吗？讲一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-%E7%9F%A5%E9%81%93git-flow%E5%90%97%EF%BC%9F%E8%AE%B2%E4%B8%80%E4%B8%8B"><span class="nav-number">1.0.21.</span> <span class="nav-text">19. 知道git flow吗？讲一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-JVM%E4%B8%AD%E7%9A%84%E5%A0%86%E6%9C%80%E5%A4%A7%E9%87%8F%E5%9C%A832%E4%BD%8D%EF%BC%8C64%E4%BD%8D%E6%9C%BA%E5%99%A8%E4%B8%8A%E7%9A%84%E5%8C%BA%E5%88%AB%E3%80%82"><span class="nav-number">1.0.22.</span> <span class="nav-text">20. JVM中的堆最大量在32位，64位机器上的区别。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#21-redis%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E8%BF%87%E6%9C%9F%E7%9A%84%EF%BC%9F"><span class="nav-number">1.0.23.</span> <span class="nav-text">21. redis怎么实现过期的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#22-redis-%E7%9A%84-lru%EF%BC%9F"><span class="nav-number">1.0.24.</span> <span class="nav-text">22. redis 的 lru？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#23-%E7%94%A8%E8%BF%87%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%90%97%EF%BC%9F"><span class="nav-number">1.0.25.</span> <span class="nav-text">23. 用过微服务吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#24-linux%E6%93%8D%E4%BD%9C%E7%86%9F%E6%82%89%E5%90%97%EF%BC%9F"><span class="nav-number">1.0.26.</span> <span class="nav-text">24. linux操作熟悉吗？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%98%91%E8%8F%87%E8%A1%97-Java-%E4%B8%80%E9%9D%A2"><span class="nav-number">2.</span> <span class="nav-text">蘑菇街 Java 一面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%81%9A%E8%AF%8D%E6%B3%95%E3%80%81%E8%AF%AD%E6%B3%95%E8%A7%A3%E6%9E%90%E4%BA%86%E5%90%97%EF%BC%9F"><span class="nav-number">2.0.1.</span> <span class="nav-text">1. 项目中做词法、语法解析了吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E6%97%A7%E7%9A%84%E5%AD%97%E8%8A%82%E7%A0%81%E6%9C%89%E6%B2%A1%E6%9C%89%E5%81%9A%E5%8D%B8%E8%BD%BD%EF%BC%9F"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. 项目中旧的字节码有没有做卸载？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%86%99%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%80%E8%88%AC%E7%94%A8%E5%88%B0%E5%93%AA%E4%BA%9B%E7%B1%BB%EF%BC%9F"><span class="nav-number">2.0.3.</span> <span class="nav-text">3. 写多线程一般用到哪些类？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8F%AF%E8%A7%81%E6%80%A7%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BC%9A%E6%9C%89%E8%BF%99%E4%B8%AA%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">2.0.4.</span> <span class="nav-text">4. 多线程的可见性问题，为什么会有这个问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-G1-%E5%8E%9F%E7%90%86%EF%BC%9F"><span class="nav-number">2.0.5.</span> <span class="nav-text">5. G1 原理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-maven-%E4%BD%BF%E7%94%A8%E7%9A%84%E4%B8%AD%E5%A4%AE%E4%BB%93%E5%BA%93%EF%BC%8C%E8%BF%98%E6%98%AF%E8%87%AA%E5%B7%B1%E5%81%9A%E4%BA%86-maven-%E9%95%9C%E5%83%8F%EF%BC%9F"><span class="nav-number">2.0.6.</span> <span class="nav-text">6. maven 使用的中央仓库，还是自己做了 maven 镜像？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-MySQL-%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6%E3%80%82"><span class="nav-number">2.0.7.</span> <span class="nav-text">7. MySQL 数据库的主从复制。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-TCP-%E7%9A%84%E6%8B%86%E5%8C%85%E3%80%81%E7%B2%98%E5%8C%85%E9%97%AE%E9%A2%98%E3%80%82"><span class="nav-number">2.0.8.</span> <span class="nav-text">8. TCP 的拆包、粘包问题。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%8B%86%E5%8C%85%E3%80%81%E7%B2%98%E5%8C%85"><span class="nav-number">2.0.8.1.</span> <span class="nav-text">什么是拆包、粘包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E7%94%9F%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="nav-number">2.0.8.2.</span> <span class="nav-text">发生的原因：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCP-%E9%87%87%E7%94%A8%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%EF%BC%9A"><span class="nav-number">2.0.8.3.</span> <span class="nav-text">TCP 采用的解决办法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E4%B8%80%E8%88%AC-Web-%E5%BC%80%E5%8F%91%E4%BC%9A%E5%88%86%E4%B8%BA%E5%87%A0%E5%B1%82%EF%BC%9F"><span class="nav-number">2.0.9.</span> <span class="nav-text">9. 一般 Web 开发会分为几层？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E5%A6%82%E6%9E%9C%E4%BD%BF%E7%94%A8%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F%E6%8B%BF%E5%88%B0%E7%9A%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%9C%A8-JVM-%E4%B8%AD%E5%8F%AA%E8%83%BD%E6%9C%89%E4%B8%80%E4%B8%AA%E5%90%97%EF%BC%9F"><span class="nav-number">2.0.10.</span> <span class="nav-text">10. 如果使用单例模式拿到的对象，在 JVM 中只能有一个吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E4%B8%80%E4%B8%AATomcat-%E5%8F%AF%E4%BB%A5%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AA%E9%A1%B9%E7%9B%AE%E5%90%97%EF%BC%9F"><span class="nav-number">2.0.11.</span> <span class="nav-text">11. 一个Tomcat 可以部署多个项目吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E4%B8%80%E4%B8%AA-Tomcat-%E6%98%AF%E8%BF%90%E8%A1%8C%E5%9C%A8%E4%B8%80%E4%B8%AA-JVM-%E4%B8%8A%E7%9A%84%E5%90%97%EF%BC%9F%EF%BC%88%E5%85%B6%E5%AE%9E%E6%98%AF%E9%97%AE-Tomcat-%E8%B7%9F-JVM-%E7%9A%84%E5%85%B3%E7%B3%BB%EF%BC%89"><span class="nav-number">2.0.12.</span> <span class="nav-text">12. 一个 Tomcat 是运行在一个 JVM 上的吗？（其实是问 Tomcat 跟 JVM 的关系）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-%E4%B8%80%E4%B8%AA-JVM-%E4%B8%8A%E5%A4%9A%E4%B8%AA%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%EF%BC%8C%E4%BB%96%E4%BB%AC%E6%9C%89%E5%8F%AF%E8%83%BD%E5%8F%91%E7%94%9F%E7%B1%BB%E5%86%B2%E7%AA%81%E5%90%97%EF%BC%9Fjar-%E5%8C%85%E5%86%B2%E7%AA%81%E5%90%97%EF%BC%9F"><span class="nav-number">2.0.13.</span> <span class="nav-text">13. 一个 JVM 上多个应用程序，他们有可能发生类冲突吗？jar 包冲突吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-Tomcat-%E7%9A%84-classLoader-%E6%9E%B6%E6%9E%84%E5%9B%BE%EF%BC%9F"><span class="nav-number">2.0.14.</span> <span class="nav-text">14. Tomcat 的 classLoader 架构图？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9A%8F%E6%89%8B%E8%AE%B0-Java-%E4%B8%80%E9%9D%A2"><span class="nav-number">3.</span> <span class="nav-text">随手记 Java 一面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Redis-%E7%BC%93%E5%AD%98%E6%9C%89%E4%B8%AA%E8%BF%87%E6%9C%9F%E6%97%B6%E9%97%B4%EF%BC%8C%E8%BF%87%E6%9C%9F%E4%BA%86%E4%B9%9F%E5%B0%B1%E6%B2%A1%E4%BA%86%EF%BC%8C%E6%88%96%E8%80%85%E6%9C%89%E4%B8%80%E7%A7%8D%E6%AF%94%E8%BE%83%E5%AE%9E%E6%97%B6%E7%9A%84%EF%BC%8C%E4%BF%AE%E6%94%B9%E6%97%B6%E9%A9%AC%E4%B8%8A%E4%BF%AE%E6%94%B9%E8%BF%99%E4%B8%AA%E7%BC%93%E5%AD%98%E5%90%97%EF%BC%9F"><span class="nav-number">3.0.1.</span> <span class="nav-text">1. Redis 缓存有个过期时间，过期了也就没了，或者有一种比较实时的，修改时马上修改这个缓存吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%9B%B4%E6%96%B0%E8%AE%B0%E5%BD%95%E6%97%B6%EF%BC%8C%E4%BD%A0%E6%98%AF%E6%80%8E%E4%B9%88%E8%AE%A9Redis%E7%9F%A5%E9%81%93%E8%87%AA%E5%B7%B1%E7%9A%84%E7%BC%93%E5%AD%98%E5%A4%B1%E6%95%88%E7%9A%84%EF%BC%9F"><span class="nav-number">3.0.2.</span> <span class="nav-text">2. 更新记录时，你是怎么让Redis知道自己的缓存失效的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JVM%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E9%BB%98%E8%AE%A4%E5%8A%A0%E8%BD%BD%E5%85%88%E5%90%8E%E9%A1%BA%E5%BA%8F%E3%80%82"><span class="nav-number">3.0.3.</span> <span class="nav-text">3. JVM类加载的默认加载先后顺序。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%9B%9B%E7%A7%8DGC%E7%AE%97%E6%B3%95%E7%9A%84%E7%BB%86%E8%8A%82%EF%BC%8C%E4%BC%98%E7%BC%BA%E7%82%B9%E6%AF%94%E8%BE%83%E3%80%82"><span class="nav-number">3.0.4.</span> <span class="nav-text">4. 四种GC算法的细节，优缺点比较。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95%E4%B8%AD%EF%BC%8C%E6%96%B0%E7%94%9F%E4%BB%A3%E4%BD%BF%E7%94%A8%E4%BB%80%E4%B9%88%E7%AE%97%E6%B3%95%EF%BC%9F"><span class="nav-number">3.0.5.</span> <span class="nav-text">5. 分代收集算法中，新生代使用什么算法？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%96%B0%E7%94%9F%E4%BB%A3%E3%80%81%E8%80%81%E5%B9%B4%E4%BB%A3%E5%90%84%E9%87%87%E7%94%A8%E4%BB%80%E4%B9%88%E7%AE%97%E6%B3%95%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="nav-number">3.0.6.</span> <span class="nav-text">6. 新生代、老年代各采用什么算法？为什么用？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E4%BB%8E%E6%96%B0%E7%94%9F%E4%BB%A3%E5%8D%87%E7%BA%A7%E6%88%90%E8%80%81%E5%B9%B4%E4%BB%A3%EF%BC%9F"><span class="nav-number">3.0.7.</span> <span class="nav-text">7. 什么情况下会从新生代升级成老年代？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E5%88%86%E9%85%8D%E6%8B%85%E4%BF%9D%E6%9C%BA%E5%88%B6%E8%AE%B2%E4%B8%80%E4%B8%8B%E3%80%82"><span class="nav-number">3.0.8.</span> <span class="nav-text">8. 分配担保机制讲一下。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E5%81%8F%E5%90%91%E9%94%81%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%E4%BC%9A%E5%8F%96%E6%B6%88%E5%81%8F%E5%90%91%E9%94%81%EF%BC%9F"><span class="nav-number">3.0.9.</span> <span class="nav-text">9. 偏向锁是什么，什么情况下会取消偏向锁？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E9%94%81%E7%9A%84%E8%BD%BB%E9%87%8F%E7%BA%A7%E3%80%81%E9%87%8D%E9%87%8F%E7%BA%A7%E8%AE%B2%E4%B8%80%E4%B8%8B%E5%8C%BA%E5%88%86%E3%80%82"><span class="nav-number">3.0.10.</span> <span class="nav-text">10. 锁的轻量级、重量级讲一下区分。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E8%BD%BB%E9%87%8F%E9%94%81%E5%92%8C%E5%81%8F%E5%90%91%E9%94%81%E4%BC%9A%E5%9C%A8%E5%93%AA%E9%87%8C%E5%81%9A%E4%BB%80%E4%B9%88%E6%A0%87%E8%AE%B0%E5%90%97%EF%BC%9F"><span class="nav-number">3.0.11.</span> <span class="nav-text">11. 轻量锁和偏向锁会在哪里做什么标记吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-Spring%E6%98%AF%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E7%9A%84%EF%BC%9F%E8%AF%A6%E7%BB%86%E4%B8%80%E7%82%B9%E3%80%82"><span class="nav-number">3.0.12.</span> <span class="nav-text">12. Spring是怎么解决循环依赖的？详细一点。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-Spring-IOC-%E4%B8%BA%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E9%97%AE%E9%A2%98%E4%BD%BF%E7%94%A8%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6%E3%80%82"><span class="nav-number">3.0.13.</span> <span class="nav-text">13. Spring IOC 为解决循环依赖问题使用的缓存机制。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-ConcurrentHashMap%E6%80%8E%E4%B9%88%E4%BF%9D%E8%AF%81%E5%9C%A8%E6%89%A9%E5%AE%B9%E6%93%8D%E4%BD%9C%E6%97%B6%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%EF%BC%9F"><span class="nav-number">3.0.14.</span> <span class="nav-text">14 .ConcurrentHashMap怎么保证在扩容操作时的线程安全？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%85%88%E7%9C%8B-HashMap-%E6%9C%AC%E8%BA%AB%E7%9A%84%E6%89%A9%E5%AE%B9%E6%93%8D%E4%BD%9C"><span class="nav-number">3.0.14.1.</span> <span class="nav-text">1. 先看 HashMap 本身的扩容操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%86%8D%E7%9C%8B-ConcurrentHashMap-%E7%9A%84%E5%90%84%E7%A7%8D%E9%AA%9A%E6%93%8D%E4%BD%9C%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%EF%BC%9A"><span class="nav-number">3.0.14.2.</span> <span class="nav-text">2. 再看 ConcurrentHashMap 的各种骚操作的线程安全：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-%E4%BD%BF%E7%94%A8-Unsafe-%E7%9A%84%E6%96%B9%E6%B3%95%E6%89%A7%E8%A1%8C%E7%9A%84%E5%8E%9F%E5%AD%90%E6%80%A7%E6%93%8D%E4%BD%9C"><span class="nav-number">3.0.14.3.</span> <span class="nav-text">0. 使用 Unsafe 的方法执行的原子性操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#0-1-%E5%85%B3%E4%BA%8EsizeCtl-%E5%8F%98%E9%87%8F"><span class="nav-number">3.0.14.4.</span> <span class="nav-text">0.1 关于sizeCtl 变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C%EF%BC%9A"><span class="nav-number">3.0.14.5.</span> <span class="nav-text">1. 初始化操作：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-put-%E6%93%8D%E4%BD%9C"><span class="nav-number">3.0.14.6.</span> <span class="nav-text">2. put 操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-get%E6%93%8D%E4%BD%9C"><span class="nav-number">3.0.14.7.</span> <span class="nav-text">3. get操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E9%93%BE%E8%A1%A8%E8%BD%AC%E6%A0%91%E6%93%8D%E4%BD%9C"><span class="nav-number">3.0.14.8.</span> <span class="nav-text">4. 链表转树操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E6%89%A9%E5%AE%B9%E6%93%8D%E4%BD%9C"><span class="nav-number">3.0.14.9.</span> <span class="nav-text">5. 扩容操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-%E5%85%AC%E5%B9%B3%E9%94%81%E9%9D%9E%E5%85%AC%E5%B9%B3%E9%94%81%E8%AE%B2%E4%B8%80%E4%B8%8B%E3%80%82"><span class="nav-number">3.0.15.</span> <span class="nav-text">15. 公平锁非公平锁讲一下。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-CountDownLatch-%E5%92%8C-CyclicBarrier%E3%80%82"><span class="nav-number">3.0.16.</span> <span class="nav-text">16. CountDownLatch 和 CyclicBarrier。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E5%B0%86Redis%E9%85%8D%E7%BD%AE%E4%B8%BA%E7%BC%93%E5%AD%98%EF%BC%8C%E5%9C%A8Spring%E4%B8%AD%E6%98%AF%E6%80%8E%E4%B9%88%E5%81%9A%E7%9A%84%EF%BC%9F"><span class="nav-number">3.0.17.</span> <span class="nav-text">补充：将Redis配置为缓存，在Spring中是怎么做的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9ARedis%E4%B8%8D%E6%94%AF%E6%8C%81%E4%BA%8B%E5%8A%A1%E5%9B%9E%E6%BB%9A%EF%BC%8C%E9%82%A3%E4%B9%88%E4%BA%8B%E5%8A%A1%E4%B8%ADRedis%E5%B4%A9%E6%BA%83%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">3.0.18.</span> <span class="nav-text">补充：Redis不支持事务回滚，那么事务中Redis崩溃怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9AJava%E4%B8%AD%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E5%87%BA%E7%8E%B0%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%EF%BC%8C%E4%B8%BE%E4%B8%AA%E6%A0%97%E5%AD%90%EF%BC%9F"><span class="nav-number">3.0.19.</span> <span class="nav-text">补充：Java中什么时候会出现内存泄漏，举个栗子？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E9%9D%99%E6%80%81%E5%86%85%E9%83%A8%E7%B1%BB"><span class="nav-number">3.0.20.</span> <span class="nav-text">补充：静态内部类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E5%88%9D%E5%A7%8B%E5%8C%96%E9%A1%BA%E5%BA%8F"><span class="nav-number">3.0.21.</span> <span class="nav-text">补充：初始化顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9ARedis%E7%9A%84%E7%A6%81%E5%BF%8C%E6%93%8D%E4%BD%9C%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%8C%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%8C%E4%BC%98%E5%8C%96%E7%AD%96%E7%95%A5%EF%BC%9F"><span class="nav-number">3.0.22.</span> <span class="nav-text">补充：Redis的禁忌操作有哪些，注意事项，优化策略？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%94%AE%E5%80%BC%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.0.22.1.</span> <span class="nav-text">1. 键值设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%91%BD%E4%BB%A4%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.0.22.2.</span> <span class="nav-text">2. 命令设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AE%E4%BC%98%E5%8C%96"><span class="nav-number">3.0.22.3.</span> <span class="nav-text">3. 配置优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E9%9B%86%E7%BE%A4%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E7%9A%84%E4%BC%98%E5%8C%96"><span class="nav-number">3.0.22.4.</span> <span class="nav-text">4. 集群批量操作的优化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%85%B6%E4%BB%96%E4%BC%98%E5%8C%96"><span class="nav-number">3.0.22.5.</span> <span class="nav-text">5. 其他优化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9ARedis%E4%B8%AD%E7%9A%84Value%E5%80%BC%E5%A4%AA%E5%A4%A7%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">3.0.23.</span> <span class="nav-text">补充：Redis中的Value值太大怎么办？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E9%AB%98%E5%B9%B6%E5%8F%91%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81Redis%E7%BC%93%E5%AD%98%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%9F"><span class="nav-number">3.0.24.</span> <span class="nav-text">补充：高并发情况下，如何保证Redis缓存的一致性？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">3.0.25.</span> <span class="nav-text">补充：分布式锁的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Redis-%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">3.0.25.1.</span> <span class="nav-text">1. Redis 实现的分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-%E5%8E%9F%E7%94%9F-setnx-%E6%96%B9%E6%A1%88"><span class="nav-number">3.0.25.1.1.</span> <span class="nav-text">1.1 原生 setnx 方案</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-RedLock-%E6%96%B9%E6%A1%88"><span class="nav-number">3.0.25.1.2.</span> <span class="nav-text">1.2 RedLock 方案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-zk-%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">3.0.25.2.</span> <span class="nav-text">2. zk 实现的分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-%E4%B8%B4%E6%97%B6-znode-%E6%96%B9%E6%A1%88"><span class="nav-number">3.0.25.2.1.</span> <span class="nav-text">2.1 临时 znode 方案</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-%E4%B8%B4%E6%97%B6%E9%A1%BA%E5%BA%8F%E8%8A%82%E7%82%B9%E6%96%B9%E6%A1%88"><span class="nav-number">3.0.25.2.2.</span> <span class="nav-text">2.2 临时顺序节点方案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-etcd-%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">3.0.25.3.</span> <span class="nav-text">3. etcd 实现的分布式锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E6%96%B9%E5%BC%8F%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.0.25.4.</span> <span class="nav-text">三种实现分布式锁方式的区别</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E7%BD%91%E7%BB%9C%E5%B9%B6%E5%8F%91%E9%87%8F%E7%AA%81%E5%A2%9E%E6%97%B6%EF%BC%8C%E8%AF%A5%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86"><span class="nav-number">3.0.26.</span> <span class="nav-text">补充：网络并发量突增时，该怎么处理?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E7%A7%92%E6%9D%80%E5%9C%BA%E6%99%AF%E4%B8%8B%E4%BF%9D%E8%AF%81%E5%BA%93%E5%AD%98%E6%95%B0%E6%8D%AE%E7%9A%84%E6%AD%A3%E7%A1%AE%E6%80%A7"><span class="nav-number">3.0.27.</span> <span class="nav-text">补充：秒杀场景下保证库存数据的正确性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%B4%9F%E8%BD%BD%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E6%80%8E%E4%B9%88%E6%9F%A5%E7%9C%8B%EF%BC%9F"><span class="nav-number">3.0.28.</span> <span class="nav-text">补充：服务器负载历史记录怎么查看？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E6%AD%BB%E9%94%81%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">3.0.29.</span> <span class="nav-text">补充：数据库死锁的例子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E6%98%93-Lua-%E4%B8%80%E9%9D%A2"><span class="nav-number">4.</span> <span class="nav-text">网易 Lua 一面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Mybatis-%E5%9C%A8-SSM-%E6%A1%86%E6%9E%B6%E4%B8%AD%E5%85%85%E5%BD%93%E4%BB%80%E4%B9%88%E8%A7%92%E8%89%B2%EF%BC%9F"><span class="nav-number">4.0.1.</span> <span class="nav-text">1. Mybatis 在 SSM 框架中充当什么角色？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-JDBC-%E5%81%9A%E4%BA%86%E5%93%AA%E4%BA%9B%E4%BA%8B%E6%83%85%E5%91%A2%E3%80%81%E4%BB%A5%E5%8F%8A-JDBC-%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%EF%BC%9F"><span class="nav-number">4.0.2.</span> <span class="nav-text">2. JDBC 做了哪些事情呢、以及 JDBC 的设计模式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-IDE-%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%8F%A6%E5%A4%96%E8%B5%B7%E4%B8%80%E4%B8%AAJVM%E3%80%81%E8%BF%9B%E7%A8%8B%E6%9D%A5%E5%81%9A%EF%BC%8C%E6%9C%89%E4%BB%80%E4%B9%88%E6%80%9D%E8%B7%AF%E5%90%97%EF%BC%9F"><span class="nav-number">4.0.3.</span> <span class="nav-text">3. IDE 项目中另外起一个JVM、进程来做，有什么思路吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%B7%B3%E8%A1%A8%E7%9A%84%E5%BB%BA%E7%AB%8B%E8%A7%84%E5%88%99%EF%BC%8C%E5%AE%83%E6%80%8E%E4%B9%88%E5%86%B3%E5%AE%9A%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E8%A6%81%E4%B8%8D%E8%A6%81%E4%B8%8A%E5%8D%87%E5%88%B0%E4%B8%8A%E4%B8%80%E5%B1%82%E3%80%82"><span class="nav-number">4.0.4.</span> <span class="nav-text">5. 跳表的建立规则，它怎么决定一个数据要不要上升到上一层。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-CPU-%E7%BC%93%E5%AD%98%E7%9A%84%E6%9B%B4%E6%96%B0%E5%92%8C%E6%9B%BF%E6%8D%A2%E7%AD%96%E7%95%A5%E3%80%82"><span class="nav-number">4.0.5.</span> <span class="nav-text">6. CPU 缓存的更新和替换策略。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%86%85%E5%AD%98%E7%9A%84%E5%80%BC%E5%8F%91%E7%94%9F%E4%BA%86%E5%8F%98%E5%8C%96%E5%90%8E%EF%BC%8Ccache%E8%A6%81%E5%A6%82%E4%BD%95%E6%84%9F%E7%9F%A5%E5%91%A2%EF%BC%9F"><span class="nav-number">4.0.6.</span> <span class="nav-text">7. 内存的值发生了变化后，cache要如何感知呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-select%E3%80%81poll%E3%80%81epoll%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">4.0.7.</span> <span class="nav-text">8. select、poll、epoll的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%EF%BC%8C%E6%8B%A5%E6%9C%89%E6%A0%88%E7%9A%84pop%E5%92%8Cpush%EF%BC%8C%E5%90%8C%E6%97%B6%E6%8F%90%E4%BE%9B%E4%B8%80%E4%B8%AAmin%E5%87%BD%E6%95%B0%E5%8F%AF%E4%BB%A5%E5%8F%96%E6%9C%80%E5%B0%8F%E5%80%BC%EF%BC%8C%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="nav-number">4.0.8.</span> <span class="nav-text">9. 实现一个数据结构，拥有栈的pop和push，同时提供一个min函数可以取最小值，怎么实现？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E6%8E%A5%E4%B8%8A%E4%B8%80%E9%A2%98%EF%BC%8C%E5%A6%82%E6%9E%9C%E8%A6%81%E4%BD%A0%E6%8F%90%E4%BE%9B%E5%A4%9A%E4%B8%AA%E6%9C%80%E5%B0%8F%E5%80%BC%EF%BC%8C%E4%BD%A0%E8%A6%81%E6%80%8E%E4%B9%88%E5%81%9A%EF%BC%9F"><span class="nav-number">4.0.9.</span> <span class="nav-text">10. 接上一题，如果要你提供多个最小值，你要怎么做？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE%E7%9A%84%E5%B9%B6%E8%A1%8C%E5%8C%96%E5%A4%84%E7%90%86%E6%80%9D%E8%B7%AF"><span class="nav-number">4.0.10.</span> <span class="nav-text">11. 大量数据的并行化处理思路</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E6%98%93-Lua-%E4%BA%8C%E9%9D%A2"><span class="nav-number">5.</span> <span class="nav-text">网易 Lua 二面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%9B%E9%93%B6%E7%BD%91%E7%BB%9C-Java-%E4%B8%80%E9%9D%A2"><span class="nav-number">6.</span> <span class="nav-text">招银网络 Java 一面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BA%8B%E5%8A%A1%E4%B8%AD%E7%94%A8%E4%BA%86try-catch%E6%8D%95%E8%8E%B7%E4%BA%86%E5%BC%82%E5%B8%B8%EF%BC%8C%E9%82%A3%E4%B9%88%E4%BA%8B%E5%8A%A1%E8%BF%98%E4%BC%9A%E5%9B%9E%E6%BB%9A%E5%90%97%EF%BC%9F"><span class="nav-number">6.0.1.</span> <span class="nav-text">1. 事务中用了try-catch捕获了异常，那么事务还会回滚吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Servlet-%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">6.0.2.</span> <span class="nav-text">2. Servlet 的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BA%8B%E5%8A%A1A%EF%BC%8C%E5%8C%85%E5%90%AB%E8%AF%AD%E5%8F%A5B%EF%BC%8CB%E5%BC%82%E5%B8%B8%E6%97%B6%EF%BC%8C%E4%BA%8B%E5%8A%A1A%E4%BC%9A%E5%9B%9E%E6%BB%9A%E5%90%97%EF%BC%9F"><span class="nav-number">6.0.3.</span> <span class="nav-text">4. 事务A，包含语句B，B异常时，事务A会回滚吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-web-xml-%E8%83%BD%E9%85%8D%E7%BD%AE%E4%BB%80%E4%B9%88%E4%BF%A1%E6%81%AF"><span class="nav-number">6.0.4.</span> <span class="nav-text">5. web.xml 能配置什么信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-String-%E8%B7%9F-StringBuffer%E3%80%81StringBuilder%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">6.0.5.</span> <span class="nav-text">6. String 跟 StringBuffer、StringBuilder的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-wait-%E5%92%8C-sleep-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">6.0.6.</span> <span class="nav-text">7. wait 和 sleep 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E7%94%A8%E6%88%B7%E7%BA%A7%E7%BA%BF%E7%A8%8B%E4%B8%8E%E5%86%85%E6%A0%B8%E7%BA%A7%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="nav-number">6.0.7.</span> <span class="nav-text">补充：用户级线程与内核级线程的区别：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IBM-Java-%E4%BA%8C%E9%9D%A2"><span class="nav-number">7.</span> <span class="nav-text">IBM Java 二面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%A1%B9%E7%9B%AE%E4%B8%AD-MySQL-%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%9C%89%E9%81%B5%E5%BE%AA%E8%8C%83%E5%BC%8F%E5%90%97%EF%BC%9F%E7%AC%AC%E4%BA%8C%E8%8C%83%E5%BC%8F%E7%9A%84%E8%A6%81%E6%B1%82%EF%BC%9F"><span class="nav-number">7.0.1.</span> <span class="nav-text">1. 项目中 MySQL 数据表的设计有遵循范式吗？第二范式的要求？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%A2%B0%E5%88%B0%E6%80%A7%E8%83%BD%E6%96%B9%E9%9D%A2%E7%9A%84%E9%97%AE%E9%A2%98%E5%90%97%EF%BC%9F"><span class="nav-number">7.0.2.</span> <span class="nav-text">2. 查询过程中碰到性能方面的问题吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%88%86%E9%A1%B5%E6%98%AF%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F%E8%BF%99%E4%B8%AA%E5%B7%A5%E5%85%B7%E6%98%AF%E4%B8%80%E4%B8%AAJar%E5%8C%85%E5%90%97%EF%BC%9FSql%E8%AF%AD%E5%8F%A5%E4%B8%AD%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%EF%BC%9F"><span class="nav-number">7.0.3.</span> <span class="nav-text">3. 分页是怎么实现的？这个工具是一个Jar包吗？Sql语句中怎么实现？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%BD%A0%E7%9A%84Redis%E5%81%9A%E7%BC%93%E5%AD%98%EF%BC%8Ckey%E3%80%81value%E6%98%AF%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1%E7%9A%84%EF%BC%9F"><span class="nav-number">7.0.4.</span> <span class="nav-text">4. 你的Redis做缓存，key、value是怎么设计的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Spring-Schedule-%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0%EF%BC%9F%E6%89%A7%E8%A1%8C%E9%A2%91%E7%8E%87%EF%BC%9F%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%9F"><span class="nav-number">7.0.5.</span> <span class="nav-text">5. Spring Schedule 的底层实现？执行频率？表达式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%89%B9%E9%87%8F%E6%95%B0%E6%8D%AE%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%EF%BC%9F%E6%9C%89%E4%BB%80%E4%B9%88%E6%95%88%E6%9E%9C%EF%BC%9FeasyExcel%E6%9C%89%E4%BB%80%E4%B9%88%E7%AA%81%E5%87%BA%E7%9A%84%E4%BA%AE%E7%82%B9%EF%BC%9F"><span class="nav-number">7.0.6.</span> <span class="nav-text">6. 批量数据的导入导出？有什么效果？easyExcel有什么突出的亮点？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%A6%82%E6%9E%9C%E4%BD%A0%E7%9A%84API%E5%87%BA%E7%8E%B0%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98%EF%BC%8C%E4%BD%A0%E4%BC%9A%E6%80%8E%E4%B9%88%E8%80%83%E8%99%91%E5%8E%BB%E8%B0%83%E4%BC%98%E5%AE%83%EF%BC%9F"><span class="nav-number">7.0.7.</span> <span class="nav-text">7. 如果你的API出现性能问题，你会怎么考虑去调优它？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E4%BD%A0%E7%94%A8JVM%E8%83%BD%E5%81%9A%E5%93%AA%E4%BA%9B%E6%96%B9%E9%9D%A2%E7%9A%84%E8%B0%83%E4%BC%98%E5%91%A2%EF%BC%9F"><span class="nav-number">7.0.8.</span> <span class="nav-text">8. 你用JVM能做哪些方面的调优呢？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Major-GC-%E5%92%8C-Minor-GC-%E5%A4%AA%E9%A2%91%E7%B9%81"><span class="nav-number">7.0.8.1.</span> <span class="nav-text">1. Major GC 和 Minor GC 太频繁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E8%AF%B7%E6%B1%82%E9%AB%98%E5%B3%B0%E6%9C%9F%E5%8F%91%E7%94%9FGC-%EF%BC%8C%E5%AF%BC%E8%87%B4%E6%9C%8D%E5%8A%A1%E5%8F%AF%E7%94%A8%E6%80%A7%E4%B8%8B%E9%99%8D%E3%80%82"><span class="nav-number">7.0.8.2.</span> <span class="nav-text">2. 请求高峰期发生GC ，导致服务可用性下降。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%AF%94%E8%BE%83-CMS%E3%80%81G1%E3%80%81ZGC"><span class="nav-number">7.0.9.</span> <span class="nav-text">3. 比较 CMS、G1、ZGC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-Git-%E7%9A%84git-add-commit-%E5%92%8Cpush-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">7.0.10.</span> <span class="nav-text">9. Git 的git add commit 和push 的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9Agit%E9%9D%A2%E8%AF%95%E9%A2%98%E6%B1%87%E6%80%BB%EF%BC%9A"><span class="nav-number">7.0.11.</span> <span class="nav-text">补充：git面试题汇总：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9AMybatis%E7%9A%84%E9%80%86%E5%90%91%E5%B7%A5%E7%A8%8B"><span class="nav-number">7.0.12.</span> <span class="nav-text">补充：Mybatis的逆向工程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E5%B0%86Entity%E7%B1%BB%E5%AE%9E%E4%BE%8BNull-%E7%9A%84%E5%B1%9E%E6%80%A7%E5%AD%97%E6%AE%B5%E8%BF%87%E6%BB%A4%E6%8E%89%E7%9A%84%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5%E3%80%82%E9%80%9A%E5%B8%B8%E7%94%A8%E5%9C%A8-JPA-%E4%B8%AD"><span class="nav-number">7.0.13.</span> <span class="nav-text">补充：将Entity类实例Null 的属性字段过滤掉的最佳实践。通常用在 JPA 中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E9%85%8D%E7%BD%AESpring%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="nav-number">7.0.14.</span> <span class="nav-text">补充：配置Spring的方式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9ARestful-%E8%AF%B4%E4%B8%80%E4%B8%8B%EF%BC%9A"><span class="nav-number">7.0.15.</span> <span class="nav-text">补充：Restful 说一下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E5%8F%8D%E5%B0%84%E6%89%A7%E8%A1%8CJava%E4%BB%A3%E7%A0%81%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="nav-number">7.0.16.</span> <span class="nav-text">补充：反射执行Java代码的优缺点？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E4%B9%8B%E6%9C%AC%E5%9C%B0%E5%AE%9E%E7%8E%B0"><span class="nav-number">7.0.16.1.</span> <span class="nav-text">反射之本地实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E4%B9%8B%E5%8A%A8%E6%80%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">7.0.16.2.</span> <span class="nav-text">反射之动态实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E4%B8%BA%E4%BB%80%E4%B9%88%E6%95%88%E7%8E%87%E4%BD%8E"><span class="nav-number">7.0.16.3.</span> <span class="nav-text">反射为什么效率低</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E8%BF%90%E7%94%A8%E9%A2%86%E5%9F%9F%EF%BC%9F"><span class="nav-number">7.0.16.4.</span> <span class="nav-text">反射的运用领域？</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%BF%E9%87%8C-Java-%E4%B8%80%E9%9D%A2"><span class="nav-number">8.</span> <span class="nav-text">阿里 Java 一面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Spring-%E6%80%8E%E4%B9%88%E5%AF%B9-bean-%E8%BF%9B%E8%A1%8C%E5%A2%9E%E5%BC%BA%E6%88%96%E8%80%85%E4%BF%AE%E6%94%B9%E3%80%82"><span class="nav-number">8.0.1.</span> <span class="nav-text">1. Spring 怎么对 bean 进行增强或者修改。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CountDownLatch-%E7%BB%86%E8%8A%82"><span class="nav-number">8.0.2.</span> <span class="nav-text">2. CountDownLatch 细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-new-%E4%B8%80%E4%B8%AA%E5%BE%88%E5%A4%A7%E7%9A%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%AF%B9%E8%B1%A1%E6%98%AF%E6%80%8E%E4%B9%88%E5%88%86%E9%85%8D%E7%9A%84"><span class="nav-number">8.0.3.</span> <span class="nav-text">3. new 一个很大的对象，对象是怎么分配的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E6%9C%80%E6%96%B0%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6%E6%9C%89%E4%BA%86%E8%A7%A3%E8%BF%87%E5%90%97%EF%BC%9F"><span class="nav-number">8.0.4.</span> <span class="nav-text">4. 最新的垃圾回收机制有了解过吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%A1%B9%E7%9B%AE%E8%AE%BF%E9%97%AE%E9%87%8F%E5%AF%B9%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%BD%B1%E5%93%8D%EF%BC%9F"><span class="nav-number">8.0.5.</span> <span class="nav-text">5. 项目访问量对项目的影响？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Redis-%E7%9A%84key%E3%80%81value%E8%83%BD%E8%A3%85%E7%B1%BB%E5%90%97%EF%BC%9F"><span class="nav-number">8.0.6.</span> <span class="nav-text">6. Redis 的key、value能装类吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E6%80%8E%E4%B9%88%E5%BA%8F%E5%88%97%E5%8C%96%E7%B1%BB%E7%9A%84%EF%BC%9F"><span class="nav-number">8.0.7.</span> <span class="nav-text">7. 怎么序列化类的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Redis-%E6%95%B0%E6%8D%AE%E7%9A%84%E5%BA%8F%E5%88%97%E5%8C%96%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="nav-number">8.0.8.</span> <span class="nav-text">8. Redis 数据的序列化机制？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E5%BA%8F%E5%88%97%E5%8C%96%E6%88%90%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%84%B6%E5%90%8E%E5%AD%98%E5%88%B0Redis%E7%9A%84value-%E4%B8%AD%EF%BC%8C%E8%BF%99%E9%83%A8%E5%88%86%E5%B7%A5%E4%BD%9C%E8%83%BD%E5%90%A6%E8%AE%A9Redis-%E5%AE%8C%E6%88%90%EF%BC%9F%E6%95%88%E7%8E%87%E5%A6%82%E4%BD%95%EF%BC%9F"><span class="nav-number">8.0.9.</span> <span class="nav-text">9. 序列化成字符串然后存到Redis的value 中，这部分工作能否让Redis 完成？效率如何？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-ConcurrentHashMap-%E7%9A%84-put-%E6%96%B9%E6%B3%95"><span class="nav-number">8.0.10.</span> <span class="nav-text">10. ConcurrentHashMap 的 put 方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-MySQL-%E7%B4%A2%E5%BC%95%E7%9A%84%E4%BC%98%E5%85%88%E5%8E%9F%E5%88%99"><span class="nav-number">8.0.11.</span> <span class="nav-text">11. MySQL 索引的优先原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E6%88%91%E7%9A%84%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%8A%A8%E6%80%81%E7%BC%96%E8%AF%91%E3%80%81%E7%B1%BB%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%85%A8%E9%83%A8%E8%BF%87%E7%A8%8B"><span class="nav-number">8.0.12.</span> <span class="nav-text">12. 我的项目中动态编译、类加载的全部过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A-MySQL-%E7%9A%84%E8%A1%8C%E6%BA%A2%E5%87%BA"><span class="nav-number">8.0.13.</span> <span class="nav-text">补充： MySQL 的行溢出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E9%94%81%E7%9A%84-JVM-%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4%EF%BC%9A"><span class="nav-number">8.0.14.</span> <span class="nav-text">补充：锁的 JVM 相关命令：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9A%E5%AF%B9%E8%B1%A1%E5%A4%B4%E7%BB%86%E8%8A%82%EF%BC%9A"><span class="nav-number">8.0.15.</span> <span class="nav-text">补充：对象头细节：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9AAtomic-%E6%BA%90%E7%A0%81%E7%BB%86%E8%8A%82%EF%BC%9A"><span class="nav-number">8.0.16.</span> <span class="nav-text">补充：Atomic 源码细节：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9AUnsafe-%E7%B1%BB%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="nav-number">8.0.17.</span> <span class="nav-text">补充：Unsafe 类学习总结：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A5%E5%85%85%EF%BC%9AReentrantLock-%E6%BA%90%E7%A0%81%E7%BB%86%E8%8A%82%EF%BC%9A"><span class="nav-number">8.0.18.</span> <span class="nav-text">补充：ReentrantLock 源码细节：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B6%A3%E9%93%BE-Java-%E4%B8%80%E9%9D%A2%E4%B9%8B%E4%BA%8C"><span class="nav-number">9.</span> <span class="nav-text">趣链 Java 一面之二</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-%E9%AB%98%E6%95%88%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%8CIO-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8%E8%AE%B2%E4%B8%80%E4%B8%8B"><span class="nav-number">9.0.1.</span> <span class="nav-text">redis 高效的原因，IO 多路复用讲一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%8E-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E8%A7%92%E5%BA%A6%E8%AE%B2%E4%B8%80%E4%B8%8B-i-%E6%89%A7%E8%A1%8C%E6%AD%A5%E9%AA%A4"><span class="nav-number">9.0.2.</span> <span class="nav-text">从 Java 内存模型角度讲一下 i++ 执行步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#a-x3D-a-b-%E4%B8%8E-a-x3D-b-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">9.0.3.</span> <span class="nav-text">a&#x3D;a+b 与 a+&#x3D;b 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#int-%E5%9C%A832%E4%BD%8D%E5%92%8C64%E4%BD%8D%E6%9C%BA%E5%AD%90%E5%8D%A0%E7%9A%84%E5%86%85%E5%AD%98%E5%A4%A7%E5%B0%8F"><span class="nav-number">9.0.4.</span> <span class="nav-text">int 在32位和64位机子占的内存大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#32%E4%BD%8D%E5%92%8C64%E4%BD%8D%EF%BC%8Cjava-%E5%86%85%E5%AD%98%E7%9A%84%E5%88%86%E9%85%8D%E5%A4%A7%E5%B0%8F"><span class="nav-number">9.0.5.</span> <span class="nav-text">32位和64位，java 内存的分配大小</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#git-%E5%B7%A5%E4%BD%9C%E6%B5%81%E3%80%81revert%E3%80%81fix-bugs"><span class="nav-number">9.0.6.</span> <span class="nav-text">git 工作流、revert、fix bugs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%BC%A0%E8%BE%93%E7%9A%84%E5%9C%BA%E6%99%AF%E4%B8%8B%EF%BC%8C%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E7%B3%BB%E7%BB%9F"><span class="nav-number">9.0.7.</span> <span class="nav-text">多线程传输的场景下，设计一个系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E6%9E%90%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E9%92%88%E5%AF%B9%E8%BF%99%E4%BA%9B%E9%97%AE%E9%A2%98%E6%8F%90%E5%87%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">9.0.8.</span> <span class="nav-text">分析多线程可能出现的问题，针对这些问题提出解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ringbuffer"><span class="nav-number">9.0.9.</span> <span class="nav-text">ringbuffer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%AB%9E%E4%BA%89%E3%80%81%E5%8E%9F%E5%AD%90%E6%80%A7%E7%AD%89"><span class="nav-number">9.0.10.</span> <span class="nav-text">多线程竞争、原子性等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0%EF%BC%9Arand-%E4%BA%A7%E7%94%9F1%E5%88%B07%EF%BC%8C%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B01%E5%88%B010%EF%BC%9F"><span class="nav-number">9.0.11.</span> <span class="nav-text">算法实现：rand 产生1到7，怎么实现1到10？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java-util-concurrent-%E4%B8%AD-CountDownLatch%E3%80%81CyclicaBarrier%E3%80%81Semaphore"><span class="nav-number">9.0.12.</span> <span class="nav-text">java.util.concurrent 中 CountDownLatch、CyclicaBarrier、Semaphore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Http-%E5%8D%8F%E8%AE%AE-%E4%B8%8E-Https-%E5%8D%8F%E8%AE%AE%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8C%E5%A2%9E%E5%8A%A0%E7%9A%84-s-%E5%B1%82%E7%BB%86%E8%8A%82"><span class="nav-number">9.0.13.</span> <span class="nav-text">Http 协议 与 Https 协议的区别，增加的 s 层细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%89%E4%BA%86-HTTP%E5%8D%8F%E8%AE%AE%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%98%E9%9C%80%E8%A6%81-RPC-%E5%8D%8F%E8%AE%AE%E5%91%A2%EF%BC%9F"><span class="nav-number">9.0.14.</span> <span class="nav-text">有了 HTTP协议，为什么还需要 RPC 协议呢？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B6%A3%E9%93%BE-Java-%E4%B8%80%E9%9D%A2%E4%B9%8B%E4%B8%89"><span class="nav-number">10.</span> <span class="nav-text">趣链 Java 一面之三</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

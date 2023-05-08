@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="原文链接：https:&#x2F;&#x2F;www.nowcoder.com&#x2F;discuss&#x2F;368998?type&#x3D;0&amp;order&#x3D;0&amp;pos&#x3D;7&amp;page&#x3D;1 作者木子鱼皮，是（腾讯广告全栈毕业生）从零开始一周紧急上线百万高并发系统的相关经验、思路及感悟，在此记录分享。 写的比较复杂，今天修改一下~欢迎大家先🐴后看 花5分钟阅读本文，你将收获：  加深对实际工作环境、工作状态的了解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（转载）项目心得_ 一周爆肝上线百万高并发系统">
+<meta property="og:url" content="http://yoursite.com/2020/02/21/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E9%A1%B9%E7%9B%AE%E5%BF%83%E5%BE%97-%E4%B8%80%E5%91%A8%E7%88%86%E8%82%9D%E4%B8%8A%E7%BA%BF%E7%99%BE%E4%B8%87%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="原文链接：https:&#x2F;&#x2F;www.nowcoder.com&#x2F;discuss&#x2F;368998?type&#x3D;0&amp;order&#x3D;0&amp;pos&#x3D;7&amp;page&#x3D;1 作者木子鱼皮，是（腾讯广告全栈毕业生）从零开始一周紧急上线百万高并发系统的相关经验、思路及感悟，在此记录分享。 写的比较复杂，今天修改一下~欢迎大家先🐴后看 花5分钟阅读本文，你将收获：  加深对实际工作环境、工作状态的了解">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2020/02/21/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E9%A1%B9%E7%9B%AE%E5%BF%83%E5%BE%97-%E4%B8%80%E5%91%A8%E7%88%86%E8%82%9D%E4%B8%8A%E7%BA%BF%E7%99%BE%E4%B8%87%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/1.png">
+<meta property="og:image" content="http://yoursite.com/2020/02/21/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E9%A1%B9%E7%9B%AE%E5%BF%83%E5%BE%97-%E4%B8%80%E5%91%A8%E7%88%86%E8%82%9D%E4%B8%8A%E7%BA%BF%E7%99%BE%E4%B8%87%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/2.png">
+<meta property="article:published_time" content="2020-02-21T02:32:50.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.931Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="javaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/02/21/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E9%A1%B9%E7%9B%AE%E5%BF%83%E5%BE%97-%E4%B8%80%E5%91%A8%E7%88%86%E8%82%9D%E4%B8%8A%E7%BA%BF%E7%99%BE%E4%B8%87%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/02/21/（转载）项目心得-一周爆肝上线百万高并发系统/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>（转载）项目心得_ 一周爆肝上线百万高并发系统 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/21/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E9%A1%B9%E7%9B%AE%E5%BF%83%E5%BE%97-%E4%B8%80%E5%91%A8%E7%88%86%E8%82%9D%E4%B8%8A%E7%BA%BF%E7%99%BE%E4%B8%87%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">（转载）项目心得_ 一周爆肝上线百万高并发系统
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-02-21 10:32:50" itemprop="dateCreated datePublished" datetime="2020-02-21T10:32:50+08:00">2020-02-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Operation/" itemprop="url" rel="index"><span itemprop="name">Operation</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文链接：<a href="%E9%A1%B9%E7%9B%AE%E5%BF%83%E5%BE%97-%E4%B8%80%E5%91%A8%E7%88%86%E8%82%9D%E4%B8%8A%E7%BA%BF%E7%99%BE%E4%B8%87%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F.md"><a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/368998?type=0&amp;order=0&amp;pos=7&amp;page=1">https://www.nowcoder.com/discuss/368998?type=0&amp;order=0&amp;pos=7&amp;page=1</a></a></p>
+<p>作者<a target="_blank" rel="noopener" href="https://www.nowcoder.com/profile/5077378">木子鱼皮</a>，是（腾讯广告全栈毕业生）从零开始一周紧急上线百万高并发系统的相关经验、思路及感悟，在此记录分享。</p>
+<p><strong>写的比较复杂，今天修改一下~欢迎大家先🐴后看</strong></p>
+<p><strong>花5分钟阅读本文，你将收获：</strong></p>
+<ol>
+<li>加深对实际工作环境、工作状态的了解 </li>
+<li>学习高并发系统的设计思路、技术选型及理解 </li>
+<li>学习工作中对接多方的沟通技巧 </li>
+<li>学会与测试打配合的技巧 </li>
+<li>学习紧急事故的处理方式 </li>
+<li>事后如何进行归纳总结 </li>
+<li>感受笔者爆肝工作的痛苦与挣扎</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>从年前开始和导师二人接手了一个加紧项目，年前加班做完一期后效果显著，于是开工后加急开发二期，目标是7天上线（后来延长至9天）。由于项目难度大、工期紧、人手缺、对接方多，极具挑战性，因此和导师二人开始了007的爆肝工作。</p>
+<blockquote>
+<p>PS：007本意指一周七天随时灵活oncall。此处的007特指朝9晚0点后、无午休以及夜里做梦的时间都在工作的爆肝工作制。</p>
+</blockquote>
+<h2 id="项目介绍"><a href="#项目介绍" class="headerlink" title="项目介绍"></a>项目介绍</h2><p>首先要介绍下负责的项目及系统。项目背景、业务等信息自然不能透露，这里剥离业务，介绍一下抽象出的关键系统模型，如下图：</p>
+<p><img src="/2020/02/21/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E9%A1%B9%E7%9B%AE%E5%BF%83%E5%BE%97-%E4%B8%80%E5%91%A8%E7%88%86%E8%82%9D%E4%B8%8A%E7%BA%BF%E7%99%BE%E4%B8%87%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/1.png" alt="架构"></p>
+<p>如图，我负责的是一个状态流转系统和查询系统，以及它们依赖的DB服务。</p>
+<p>状态流转系统的作用主要是按照逻辑修改DB中的状态值，并在修改成功时依据状态向其他业务侧发送通知。</p>
+<p>查询系统，顾名思义就是查询我们负责的DB的值，包括最基础的鉴权、查询等功能。</p>
+<p><strong>先分析一下系统中一些难点：</strong></p>
+<ol>
+<li><p>明显，查询系统是一个<strong>高扇入服务</strong>，被各其他业务侧调用，必然会存在三个问题：</p>
+<ul>
+<li>高并发：各业务侧流量聚集，经评估，会产生百万量级的高并发流量</li>
+</ul>
+</li>
+</ol>
+<ul>
+<li>兼容性：如何设计一套API，兼容各业务侧的同时易被理解 <ul>
+<li>对接复杂：要同时与4个业务侧的同学沟通，想想就是一件很复杂的事情</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li><p>状态流转系统逻辑相当复杂（最后光逻辑就300多行代码） </p>
+</li>
+<li><p>状态流转系统与查询系统、其他业务侧存在交互（比如互相发送通知），对时延、一致性要求很高</p>
+</li>
+</ol>
+<p>分析出难点后，下面开始编写技术方案。</p>
+<h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><p>在实际工作中，编写好的、详细的技术方案是非常有必要的。优秀的工程师会在技术方案中考虑到各种场景、评估各种风险、工作量估时、记录各种问题等，不仅帮助自己梳理思路、归纳总结，同时也给其他人提供了参照以及说服力（比如你预期7天上线，没有方案谁信你？）。</p>
+<p>根据二八定理，复杂的系统中，可能编写技术方案、梳理设计思路的时间和实际敲代码开发的时间比例为8 : 2。</p>
+<p><strong>设计遵循的原则是”贴合业务“，没有最好的架构，只有最适合业务的架构。切忌过度设计！</strong></p>
+<p><strong>此外，还要考虑项目的紧急程度和人力成本，先保证可用，再追求极致。</strong></p>
+<p>一些简单的设计这里就略过了，下面针对系统难点和业务需求，列举几个重点设计及技术选型：</p>
+<h3 id="1-高并发"><a href="#1-高并发" class="headerlink" title="1. 高并发"></a>1. 高并发</h3><p>提到高并发，大家首先想到的是缓存和负载均衡，缺一不可。</p>
+<p>负载均衡说白了就是“砸钱，加机器！”，但是<strong>为公司省机器、省成本</strong>应该是每位后端工程师的基本理念，就要靠技术选型和架构设计来实现了，<strong>目标是保证每台机器能抗住最大的并发流量</strong>。</p>
+<p><strong>选型如下：</strong></p>
+<ol>
+<li>编程框架：选择轻量级的Restful框架Jersey，搭配轻量级依赖注入Guice（不用Spring，可以私信我问原因） </li>
+<li>Web服务器：选择性能最高的轻量级NIO服务器Grizzly（<a target="_blank" rel="noopener" href="https://blog.csdn.net/antony1776/article/details/78962535">各服务器性能对比</a>） </li>
+<li>缓存：CKV+ 腾讯自研海量分布式存储系统（支持Redis协议，已开源） </li>
+<li>DB分库分表：公司自研基础设施，不多说 </li>
+<li>负载均衡：轻量级反向代理服务器 Nginx，百万并发需要增加十余台机器 </li>
+<li>CDN及预热：保证高效的下载服务</li>
+</ol>
+<p>其中，缓存是抗住高并发流量的关键，须重点设计。</p>
+<h4 id="缓存方案"><a href="#缓存方案" class="headerlink" title="缓存方案"></a>缓存方案</h4><h5 id="1-数据结构设计"><a href="#1-数据结构设计" class="headerlink" title="1. 数据结构设计"></a>1. 数据结构设计</h5><p>用过缓存的同学都了解，关于缓存Key的设计是很重要的，根据业务来，保证隔离和易查找（便于缓存更新）就好，这里我选择请求参数+接口唯一id来拼接key。并且分页接口可复用全量list接口。</p>
+<p><strong>2. 缓存降级</strong></p>
+<p>找不到对应key&#x2F;redis连接失败时直接查库。</p>
+<p><strong>3. 缓存更新</strong></p>
+<p>当DB修改时，对缓存进行删除。由于存在非必填的请求参数，因此key可能是一个模糊值（比如有a、b两个请求参数，key可能为“a”，也可能为“ab”）。</p>
+<p>针对请求字段固定（均必填）的接口，更新缓存时，直接拼接出唯一的key进行删除即可。</p>
+<p>而针对请求字段不固定（存在非必填字段）的接口，可使用redis的scan命令范围扫描<strong>（千万别用keys命令！用了等着被优化吧）</strong></p>
+<p>要更新的接口、对应key及匹配规则可能如下表：</p>
+<table>
+<thead>
+<tr>
+<th align="center">接口</th>
+<th align="center">key</th>
+<th align="center">匹配规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Int1</td>
+<td align="center">[a:xx;]b:xxx;%s;</td>
+<td align="center">scan正则1：a:xxx;* scan正则2：<em>b:xxx;</em></td>
+</tr>
+<tr>
+<td align="center">Int2</td>
+<td align="center">a:xx;%s;</td>
+<td align="center">拼唯一键</td>
+</tr>
+</tbody></table>
+<p><strong>4. 缓存穿透</strong></p>
+<p>无论查询出的列表是否为空，都写入缓存。但在业务会返回多种错误码时，不建议采用这种方式，复杂度高，成本太大。</p>
+<h3 id="2-兼容性"><a href="#2-兼容性" class="headerlink" title="2. 兼容性"></a>2. 兼容性</h3><p>兼容性主要考察接口的设计，为兼容多个业务侧，需要将请求参数以及响应参数设置的尽可能灵活。在设计接口时，切忌一定要和所有的业务侧对齐，否则可能导致满盘皆输！</p>
+<p><strong>这里有三个技巧：</strong></p>
+<ol>
+<li>提供可访问链接的文档（一般公司都有知识库）。 </li>
+<li>请求参数不能过多，且要易于理解，不能为了强制兼容而设置过于复杂的参数，必要时可针对某一业务侧定制接口。 </li>
+<li>响应参数尽量多（多不是滥），要知道每次增加返回字段都要修改代码，而适当冗余的字段避免了此问题。</li>
+</ol>
+<h3 id="3-消息通知"><a href="#3-消息通知" class="headerlink" title="3. 消息通知"></a>3. 消息通知</h3><p>上面难点中提到：状态流转系统与查询系统、其他业务侧存在互相发送通知的交互，在查询系统收到通知后，要对缓存进行即时更新，因此对消息的<strong>实时性要求很高</strong>。</p>
+<p><strong>这里最初有两种方案：</strong></p>
+<ol>
+<li>各系统提供回调接口，用于接收通知。能保证实时性，但是各系统间紧耦合，不利于扩展。 </li>
+<li>使用消息队列，实现应用解耦及异步消息。</li>
+</ol>
+<p><strong>最后还是果断采取了第二种方案</strong>，并选用公司自研 <a target="_blank" rel="noopener" href="https://tubemq.apache.org/en-us/">TubeMQ 万亿级分布式消息中间件</a>（已开源Apache孵化），原因如下：</p>
+<ol>
+<li>状态流转系统的通知数据之后可能存在其他消费方，使用消息队列利于扩展，对代码侵入性也少 </li>
+<li>消息队队列可持久化消息 </li>
+<li>TubeMQ支持消费方负载均衡，性能高 </li>
+<li>TubeMQ容量大，可存放万亿数量级消息 </li>
+<li>支持公司自研组件，便于形成统一规范（类似现在的全业务上云）</li>
+</ol>
+<blockquote>
+<p>在技术选型和确定方案时，不仅要关注当前的业务需求，也要有一定的前沿视角。</p>
+</blockquote>
+<h3 id="风险评估"><a href="#风险评估" class="headerlink" title="风险评估"></a>风险评估</h3><p><strong>切忌，在使用中间件&#x2F;框架前，要尽可能多的进行了解可能带来的风险，一般公司内都有KM（知识库），可利用好内部资源或者google！</strong></p>
+<p>这里我主要评估了TubeMQ带来的风险，做一些分享，非技术的同学建议直接跳过！</p>
+<h4 id="TubeMQ风险"><a href="#TubeMQ风险" class="headerlink" title="TubeMQ风险"></a>TubeMQ风险</h4><h5 id="1-消息可靠性"><a href="#1-消息可靠性" class="headerlink" title="1. 消息可靠性"></a>1. 消息可靠性</h5><p>Tube性能高，但是<strong>不保证消息的绝对可靠</strong>！</p>
+<p>Tube系统主要在两个地方可能会有数据丢失：</p>
+<ol>
+<li>第一是Tube采取了Consumer信任模型，即数据一旦被Consumer拉取到本地，就默认会消费成功，如果Consumer在实际消费的过程中出现错误，则Tube并不负责恢复。 </li>
+<li>由于操作系统pagecache的利用，服务器断电或宕机而可能带来的数据丢失。</li>
+</ol>
+<p><strong>经评估，本业务需同时保障发送方及消费方的消息可靠性。</strong></p>
+<h5 id="2-消息顺序性"><a href="#2-消息顺序性" class="headerlink" title="2. 消息顺序性"></a>2. 消息顺序性</h5><p>Tube沿用了Kafka的分区设计思想，而分区的数据消费之间是没有先后顺序关系的，而且Tube支持消息的异步方式发送；在这种方式下，网络并不能保证先发送的消息就一定会先到达服务端，所以Tube一般<strong>不提供顺序性的保证</strong>。</p>
+<p><strong>经评估，本业务消息消费方允许消息非顺序。</strong></p>
+<h4 id="3-消息重复"><a href="#3-消息重复" class="headerlink" title="3. 消息重复"></a>3. 消息重复</h4><p>Tube集群中，Consumer的消费位置信息由Broker端进行管理，所以在某些异常情况下，Broker可能无准确获得Consumer的实际消费情况而<strong>导致数据重复</strong>；另外就是出于性能考虑， Consumer的消费位置信息在每次变化时，并不会实时更新到持久化存储中，而是暂存于内存，周期性更新，如果此时broker宕机即会导致<strong>少量的数据重复</strong>。</p>
+<p><strong>经评估，本业务消息消费方是相对幂等操作，可允许消息重复。</strong></p>
+<h4 id="4-监控告警"><a href="#4-监控告警" class="headerlink" title="4. 监控告警"></a>4. 监控告警</h4><ol>
+<li>公司内部提供监控平台，<strong>但数据有五分钟延迟，非实时监控</strong></li>
+<li>提供了对消费方单分区滞后的告警，可在公司内部平台直接修改消费配置</li>
+</ol>
+<p>那么，如何规避风险呢？设计了针对消息可靠性和数据一致性的解决方案。</p>
+<h4 id="消息可靠性方案"><a href="#消息可靠性方案" class="headerlink" title="消息可靠性方案"></a>消息可靠性方案</h4><h5 id="1-生产方消息可靠性"><a href="#1-生产方消息可靠性" class="headerlink" title="1. 生产方消息可靠性"></a>1. 生产方消息可靠性</h5><ol>
+<li>Tube可保证消息一定送达，发送失败时会自动重发。 </li>
+<li>发送消息结束时会触发回调，回调里可判断ACK状态，将发送失败的消息放入队列，下次发送优先从队列里取。</li>
+</ol>
+<h5 id="2-消费方消息可靠性"><a href="#2-消费方消息可靠性" class="headerlink" title="2. 消费方消息可靠性"></a>2. 消费方消息可靠性</h5><ol>
+<li>消费失败时记录日志，确保消息不丢失</li>
+</ol>
+<h4 id="数据一致性方案"><a href="#数据一致性方案" class="headerlink" title="数据一致性方案"></a>数据一致性方案</h4><h5 id="1-设计消息补偿接口"><a href="#1-设计消息补偿接口" class="headerlink" title="1. 设计消息补偿接口"></a>1. 设计消息补偿接口</h5><p>消息消费失败时，会记录日志，人工排查日志，调用补偿接口再次消费消息。（其实也可以存db消息表，写任务去轮询消费，成本太高）</p>
+<h2 id="开发过程"><a href="#开发过程" class="headerlink" title="开发过程"></a>开发过程</h2><p>其实开发过程没什么好说的，记住Git一定要给每个项目一个独立分支，合并的时候分批合并，否则别人CR你代码的时候可能你就要打喷嚏了！</p>
+<h2 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h2><p>问题主要在测试及线上被发现，问题解决的过程就像坐过山车，经常的状态是：测试 &#x3D;&gt; 开发 &#x3D;&gt; 测试 &#x3D;&gt; 上线 &#x3D;&gt; 开发 &#x3D;&gt; 测试，循环往复。。。</p>
+<p><strong>两个温馨小贴士：</strong></p>
+<ol>
+<li>遇到问题时，千万不要慌，可以先深呼吸几口气，因为问题一定是可以解决的，解决不了那么你可能要被解决了！ </li>
+<li>解决问题后，千万别激动，可以先深呼吸几口气，因为你还会产生新的问题，而且往往新问题更严重！</li>
+</ol>
+<p>这里分享一些印象深刻的问题。</p>
+<h3 id="1-事务提交时报错？"><a href="#1-事务提交时报错？" class="headerlink" title="1. 事务提交时报错？"></a>1. 事务提交时报错？</h3><p>原因：事务依赖的服务里也有事务，因此事务里套了事务，破坏了隔离性。</p>
+<p>解决：修改代码，保证事务隔离性。</p>
+<h3 id="2-依赖包存在，项目启动却报错？"><a href="#2-依赖包存在，项目启动却报错？" class="headerlink" title="2. 依赖包存在，项目启动却报错？"></a>2. 依赖包存在，项目启动却报错？</h3><p>原因：存在多版本jar包，导致Java代码使用反射机制动态生成类是不知道使用哪个版本的依赖的类。</p>
+<p>解决：删掉多余版本jar包。</p>
+<h3 id="3-缓存未即时更新"><a href="#3-缓存未即时更新" class="headerlink" title="3. 缓存未即时更新"></a>3. 缓存未即时更新</h3><p>原因：经排查，是由于实际的key数量可达千万级，导致更新缓存前对要删除的keys的scan扫描效率过低，长达20多秒！</p>
+<p>解决：修改更新缓存方案，不再使用scan扫描，而是拼凑出所有可能的keys，直接delete。</p>
+<p>以为这个问题这样就结束了？不要忘记上面的小贴士：</p>
+<p>“解决问题后，千万别激动，可以先深呼吸几口气，因为你还会产生新的问题，而且往往新问题更严重！”</p>
+<p>↓↓↓</p>
+<h3 id="4-缓存仍未即时更新？"><a href="#4-缓存仍未即时更新？" class="headerlink" title="4. 缓存仍未即时更新？"></a>4. 缓存仍未即时更新？</h3><p>原因：某业务侧要求数据强一致性，而缓存虽然是毫秒级更新，但无法做到真正的实时一致。</p>
+<p>解决：为其定制一个接口，该接口不查询缓存，直接查DB，保证查到的数据一定是最新值。</p>
+<h3 id="5-请求卡死"><a href="#5-请求卡死" class="headerlink" title="5. 请求卡死"></a>5. 请求卡死</h3><p>服务运行一段时间后，发现所有的请求都被阻塞了！心脏受不了。</p>
+<p>原因：jstack打印线程信息后分析thread_dump文件，发现是由于jedis未手动释放连接使资源耗尽，导致新的请求中会不断等待jedis连接资源释放，从而卡死。</p>
+<p>解决：补充释放资源代码即可。</p>
+<h3 id="6-线上环境分析日志时突然告警磁盘IO占用超过99-！？"><a href="#6-线上环境分析日志时突然告警磁盘IO占用超过99-！？" class="headerlink" title="6. 线上环境分析日志时突然告警磁盘IO占用超过99%！？"></a>6. 线上环境分析日志时突然告警磁盘IO占用超过99%！？</h3><p>原因：误用cat命令查看未分割的原始日志文件（31G！！！），导致磁盘IO直接刷爆！</p>
+<p>解决：使用less、tail、head等命令替换cat，并移除已备份的大日志文件</p>
+<h3 id="7-进程闪退"><a href="#7-进程闪退" class="headerlink" title="7. 进程闪退"></a>7. 进程闪退</h3><p>排查：通常jvm进程闪退是有错误日志的，但是并没有找到，排查陷入绝境。没办法，只能祈祷问题不再复现。后来问题真的没出现过了，谢谢谢谢！</p>
+<p>原因：最后，经询问，是有人手动kill掉了这个进程。。。好的，开启问候模式</p>
+<h3 id="8-线上环境的消息通知发送成功了，怎么没有预期的数据更新效果？"><a href="#8-线上环境的消息通知发送成功了，怎么没有预期的数据更新效果？" class="headerlink" title="8. 线上环境的消息通知发送成功了，怎么没有预期的数据更新效果？"></a>8. 线上环境的消息通知发送成功了，怎么没有预期的数据更新效果？</h3><p>定位思路：先看消息是否被消费，再看对消息的处理是否正确</p>
+<p>排查：查看线上日志，发现消息并未被消费；但是查看监控界面，发现消息被测试环境的机器消费了！！！</p>
+<p>原因：由于测试环境和线上环境属于同一个消费组，当消息到达时，同一个消费组只有一个消费者能够成功消费该消息，被测试环境消费掉了，导致线上环境数据没更新。</p>
+<p>发现这个问题的时候，已经是上线前一天的深夜。。。再申请一个消费组已经来不及了，情急之下，只能先下掉测试环境的服务。第二天申请好消费组后，根据环境去区分使用哪个消费组就可以了，这样每个消费组都会消费消息，成功避免了消息竞争。</p>
+<blockquote>
+<p>方法笨了点，有用就行！</p>
+</blockquote>
+<h3 id="9-报告！流量太大，撑不住啊！"><a href="#9-报告！流量太大，撑不住啊！" class="headerlink" title="9. 报告！流量太大，撑不住啊！"></a>9. 报告！流量太大，撑不住啊！</h3><p>原因：现有4台机器无法支撑百万并发，需进行紧急扩容</p>
+<p>解决：紧急新申请了10台机器，部署之后修改负载均衡服务配置，成功增大了并发度。</p>
+<h3 id="10-上线前一天你跟我说接口设计有问题？"><a href="#10-上线前一天你跟我说接口设计有问题？" class="headerlink" title="10. 上线前一天你跟我说接口设计有问题？"></a>10. 上线前一天你跟我说接口设计有问题？</h3><p>原因：沟通出现严重问题！</p>
+<p>其实工作中，很多同事因为自身业务繁忙，可能在核对接口设计方案的时候不说话，周知的消息不看，给文档也不看。等他们忙完了，会反复@你、私聊你询问。<strong>我们一定不要这样！</strong></p>
+<p>解决：紧急电话会议，拉群核对方案</p>
+<blockquote>
+<p>有时4个人能拉4个群。。。</p>
+</blockquote>
+<h3 id="11-线上出bug了！！！"><a href="#11-线上出bug了！！！" class="headerlink" title="11. 线上出bug了！！！"></a>11. 线上出bug了！！！</h3><p>线上出bug，是一件很大的事，必须紧急响应。在梦里也得给我爬起来！</p>
+<p>原因：测试环境和线上环境未必完全一致，且测试环境未必能测出所有问题。因此验证时通常需要预发布环境，数据使用线上数据，但却是独立的服务器，保证不影响线上。</p>
+<p>解决：紧急排查定位问题，三分钟成功修复！</p>
+<p>修复bug有一定的技巧，分享下个人的排错路径：</p>
+<p><strong>截图&#x2F;问题 &#x3D;&gt; 请求 &#x3D;&gt; bug是否可复现，和测试紧密配合 &#x3D;&gt; 数据 &#x3D;&gt; 数据源（真实数据与接口数据是否一致） &#x3D;&gt; 数据处理</strong></p>
+<p><strong>解释一下：</strong></p>
+<p>通常发现问题的是运维、用户或者测试，他们会抛出一个问题或者问题的相关的截图，这时，我们要快速想到这个问题对应的功能（即对应的请求&#x2F;接口），然后让问题描述者尽可能多的提供信息（比如请求参数、问题时间等）。</p>
+<p>如果问题时间较久，看日志及监控不易排查，可以询问是否可以造一个复现该问题的case，这样只需观察最新的日志即可，方便排错。</p>
+<p>定位到请求后，我们要分析请求及响应的哪些数据是异常的，即定位关键数据，然后定位数据来源（是从数据库查的，还是从缓存查的），并观察响应数据与真实数据源是否一致。如果不一致，可能是业务逻辑中对数据的处理出现了问题，再进一步去做分析。</p>
+<blockquote>
+<p>高效沟通建议：描述问题，尽量用数据说话，别光截图，要提供完整的数据信息，有助他人分析</p>
+</blockquote>
+<h2 id="血泪教训"><a href="#血泪教训" class="headerlink" title="血泪教训"></a>血泪教训</h2><ol>
+<li>有问题一定尽可能在测试环境去解决，否则线上出问题对心脏很不友好 </li>
+<li>不要盲目乐观，以为上线就没问题，要多验证，保持警惕。</li>
+</ol>
+<p>PS：上线后如果发现问题，会经历如下的流程，我称它为happy流程：</p>
+<p><strong>上线后的变更流程：</strong></p>
+<p><img src="/2020/02/21/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E9%A1%B9%E7%9B%AE%E5%BF%83%E5%BE%97-%E4%B8%80%E5%91%A8%E7%88%86%E8%82%9D%E4%B8%8A%E7%BA%BF%E7%99%BE%E4%B8%87%E9%AB%98%E5%B9%B6%E5%8F%91%E7%B3%BB%E7%BB%9F/2.png" alt="上线后的变更流程"></p>
+<p>当发现DB服务的bug后，<del>你只需要改DB服务的一行代码</del>。你需要重复如下流程：</p>
+<ol>
+<li>修改DB服务的一行代码 </li>
+<li>跑单元测试 </li>
+<li>DB服务打成依赖包 </li>
+<li>修改“状态流转系统”、“查询系统”对DB服务的依赖包（改动版本号&#x2F;更新本地缓存拉取最新包） </li>
+<li>重新发布“状态流转系统”、“查询系统”至测试环境 </li>
+<li>可能还要重新交给测试的同学进行回归测试 </li>
+<li>测试通过，再次提交“状态流转系统”、“查询系统”的代码，发起CR（代码审查） </li>
+<li>找同事&#x2F;Leader读代码，通过CR </li>
+<li>合并分支 </li>
+<li>发布“状态流转系统”、“查询系统”至线上环境，每发一台机器，都要进行一次验证（滚动部署） </li>
+<li><strong>再次发现新的bug</strong></li>
+</ol>
+<p>这是一件恶心到爆炸的事情，但是在这个过程中我们发现，2、6、8状态时，是存在空余时间的，这个时候我们可以<del>做做其他工作，记录一下工作内容、问题等</del> 刷刷抖音，看看牛客。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>首先总结一下这个项目各阶段的耗时：</strong></p>
+<ul>
+<li>理解需求：5% </li>
+<li>开发：15% </li>
+<li>沟通确认问题：30% </li>
+<li>测试及验证：30% </li>
+<li>上线及验证：20%</li>
+</ul>
+<p><strong>项目过程存在的问题：</strong></p>
+<ol>
+<li>前期未参与需求评审，了解的信息较少。 </li>
+<li>上线前一天晚上，竟然还在临时对齐接口？这是在沟通方案阶段应该确认好的。 </li>
+<li>大约80%的时间花在沟通、查询数据、提供数据及验证。 </li>
+<li>自己没测试完，就开始串测，导致同一个bug被多方发现，反复@，导致改bug效率低下。 </li>
+<li>对自研中间件的不熟悉，导致花费的时间成本较高。</li>
+</ol>
+<p><strong>自我感觉良好的地方：</strong></p>
+<ol>
+<li>和测试同学配合紧密，互相体谅，测试效率较高 </li>
+<li>最快3分钟紧急修复线上bug </li>
+<li>最快30分钟从接受需求到上线 </li>
+<li>在发现中间件问题时，即时和对接方沟通，设计出了对其无任何影响的低成本解决方案 </li>
+<li>积极帮助其他同学查询数据，排查问题 </li>
+<li>编写脚本高效解决部分错误数据</li>
+</ol>
+<p><strong>成长与收获：</strong></p>
+<ol>
+<li>抗压熬夜能力 ↑ </li>
+<li>设计思维能力 ↑ </li>
+<li>沟通能力 ↑ </li>
+<li>解决问题能力 ↑ </li>
+<li>高级命令熟悉度 ↑ </li>
+<li>中间件熟悉度 ↑ </li>
+<li>集群管理能力 ↑ </li>
+<li>拒绝需求能力 ↑ </li>
+<li>吐槽能力 ↑ </li>
+<li>吹🐂能力 ↑</li>
+</ol>
+<p><strong>工作简单而不简单，做着有意义的事就好~</strong></p>
+<h2 id="后续"><a href="#后续" class="headerlink" title="后续"></a>后续</h2><p>项目上线后，通过总结复盘，发现了项目中值得优化的地方，也思考到了一些更健全的机制，将逐渐去实现。</p>
+<p>如下：</p>
+<h3 id="1-两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步"><a href="#1-两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步" class="headerlink" title="1. 两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步"></a>1. 两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步</h3><p>这种方式的优点是比较简单，无需额外的操作。但缺点也很明显，如果一个系统的配置改了，而忘了修改另一个系统的配置，就会出现错误。</p>
+<p>事实上，可以引入一个<strong>配置中心</strong>，集中管理配置文件，并且支持手动修改、多环境、灰度等功能。</p>
+<p>公司内部做了调研，发现了一个不错的开源协同项目。当然也可以采用阿里的Nacos或携程的Apollo。</p>
+<h3 id="2-曾经的进程闪退问题，必须重视！"><a href="#2-曾经的进程闪退问题，必须重视！" class="headerlink" title="2. 曾经的进程闪退问题，必须重视！"></a>2. 曾经的进程闪退问题，必须重视！</h3><p>无法保证进程不闪退，但是可以采取对进程实时监控，并自动对闪退进程进行重启的策略。</p>
+<p>实现方式有两种：</p>
+<ol>
+<li>使用工具，例如supervisor或monit，可以对进程进行管理和闪退重启 </li>
+<li>编写shell脚本，再通过定时任务，实现周期性观察进程状态及重启。推荐将定时任务接入<strong>分布式任务调度平台</strong>，尤其当定时任务很多时，进行可视化的管理和方便的控制调度是必要的！</li>
+</ol>
+<p>由于公司内部的平台比较完善，我选择第二种方式。</p>
+<blockquote>
+<p>原来自己写过一个<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av47442014">分布式邮件调度平台</a>，参考了分布式任务调度平台的实现方式，大家有兴趣可以了解下原理，感觉对拓宽后端思路很有帮助。</p>
+</blockquote>
+<p><strong>工作简单而不简单，做着有意义的事就好~</strong></p>
+<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;<br>此处回答一些牛友们的问题，欢迎牛友们抛出疑问、指出不足、积极讨论。</p>
+<h2 id="问题讨论"><a href="#问题讨论" class="headerlink" title="问题讨论"></a>问题讨论</h2><p><strong>1. 事务依赖的服务也有事务，怎么处理？</strong></p>
+<p>答：同一个数据访问对象（dao）开启多个事务才会出现此问题，处理方式是不使用依赖服务中有事务的方法。比如可以用for循环单条删除来代替批量删除。</p>
+<p><strong>2. 为什么不用主流的Spring + SpringMVC，而是用Jersey + Guice框架？</strong></p>
+<p>的确，Spring是主流，生态好，一般大家都会选择SpringBoot + Tomcat。但主流不代表适用于所有的业务场景，还是要<strong>贴合业务去做技术选型</strong>。其实这里应该拿SpringMVC去对标Jersey、Spring对标Guice，但实际上SpringMVC也依赖Spring（一家人）。</p>
+<p>这里不用Spring有如下几个原因：</p>
+<ol>
+<li>系统较小型。Spring和SpringMVC功能虽大而全，但是相对于Jersey，显得有些重量级，需要做更多的工作（比如编写配置文件等等）。 </li>
+<li>系统仅提供查询服务。而Jersey框架专门提供Restful风格接口，完全可以满足需求。 </li>
+<li>由于Jersey轻量的特性，支持手动注册接口，相对Spring更为灵活，与其他框架搭配使用也很方便（比如Guice、Grizzly），不易出现版本冲突。 </li>
+<li>Guice可以在一个文件中手动注入管理所有依赖，便于查找。而用Spring的时候我们通常是在每个类上加注解扫包或者编写配置文件，虽然写起来爽的飞起，但非常不利于代码阅读（import *和lombok也是同理，最好不要用）！</li>
+</ol>
+<p><strong>这里也提一下用Grizzly服务器来替代Tomcat的好处，主要是：</strong></p>
+<ol>
+<li>性能更高，高并发场景表现更稳定。 </li>
+<li>操作管理方便，在代码中启动即可（虽然Tomcat也提供了embed版本）。</li>
+</ol>
+<p><strong>3. 负载均衡怎么实现？</strong></p>
+<p>企业负载均衡一般都是软硬结合（例如l5、Nginx）、四七层结合（例如lvs+keepalived、Nginx）。</p>
+<p>要提高负载，首先增加机器或扩容（以设置更大的jvm内存），给每个机器部署相同的服务，然后配置负载均衡器，增加到新机器的路由即可。当然完成上述操作后要去做验证，看是否有请求路由到了新机器。</p>
+<p>缓存和DB都是集群的，提供统一接口供查询服务调用，不用担心各机器的查询结果不一致。</p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/20/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E5%9C%A8linux%E4%B8%8B%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1/" rel="next" title="（转载）在linux下创建自定义服务">
+                <i class="fa fa-chevron-left"></i> （转载）在linux下创建自定义服务
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/04/19/%E6%9E%81%E5%AE%A2%E6%97%B6%E9%97%B4%E3%80%8AMySQL%E5%AE%9E%E6%88%9845%E8%AE%B2%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="极客时间《MySQL实战45讲》学习笔记">
+                极客时间《MySQL实战45讲》学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text">项目介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text">设计思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E9%AB%98%E5%B9%B6%E5%8F%91"><span class="nav-number">3.1.</span> <span class="nav-text">1. 高并发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%96%B9%E6%A1%88"><span class="nav-number">3.1.1.</span> <span class="nav-text">缓存方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.1.1.1.</span> <span class="nav-text">1. 数据结构设计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-number">3.2.</span> <span class="nav-text">2. 兼容性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%B6%88%E6%81%AF%E9%80%9A%E7%9F%A5"><span class="nav-number">3.3.</span> <span class="nav-text">3. 消息通知</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A3%8E%E9%99%A9%E8%AF%84%E4%BC%B0"><span class="nav-number">3.4.</span> <span class="nav-text">风险评估</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TubeMQ%E9%A3%8E%E9%99%A9"><span class="nav-number">3.4.1.</span> <span class="nav-text">TubeMQ风险</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">3.4.1.1.</span> <span class="nav-text">1. 消息可靠性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E6%B6%88%E6%81%AF%E9%A1%BA%E5%BA%8F%E6%80%A7"><span class="nav-number">3.4.1.2.</span> <span class="nav-text">2. 消息顺序性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%B6%88%E6%81%AF%E9%87%8D%E5%A4%8D"><span class="nav-number">3.4.2.</span> <span class="nav-text">3. 消息重复</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E7%9B%91%E6%8E%A7%E5%91%8A%E8%AD%A6"><span class="nav-number">3.4.3.</span> <span class="nav-text">4. 监控告警</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7%E6%96%B9%E6%A1%88"><span class="nav-number">3.4.4.</span> <span class="nav-text">消息可靠性方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E7%94%9F%E4%BA%A7%E6%96%B9%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">3.4.4.1.</span> <span class="nav-text">1. 生产方消息可靠性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E6%B6%88%E8%B4%B9%E6%96%B9%E6%B6%88%E6%81%AF%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">3.4.4.2.</span> <span class="nav-text">2. 消费方消息可靠性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4%E6%80%A7%E6%96%B9%E6%A1%88"><span class="nav-number">3.4.5.</span> <span class="nav-text">数据一致性方案</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E8%AE%BE%E8%AE%A1%E6%B6%88%E6%81%AF%E8%A1%A5%E5%81%BF%E6%8E%A5%E5%8F%A3"><span class="nav-number">3.4.5.1.</span> <span class="nav-text">1. 设计消息补偿接口</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E8%BF%87%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">开发过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3"><span class="nav-number">5.</span> <span class="nav-text">问题解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%BA%8B%E5%8A%A1%E6%8F%90%E4%BA%A4%E6%97%B6%E6%8A%A5%E9%94%99%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">1. 事务提交时报错？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BE%9D%E8%B5%96%E5%8C%85%E5%AD%98%E5%9C%A8%EF%BC%8C%E9%A1%B9%E7%9B%AE%E5%90%AF%E5%8A%A8%E5%8D%B4%E6%8A%A5%E9%94%99%EF%BC%9F"><span class="nav-number">5.2.</span> <span class="nav-text">2. 依赖包存在，项目启动却报错？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BC%93%E5%AD%98%E6%9C%AA%E5%8D%B3%E6%97%B6%E6%9B%B4%E6%96%B0"><span class="nav-number">5.3.</span> <span class="nav-text">3. 缓存未即时更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E7%BC%93%E5%AD%98%E4%BB%8D%E6%9C%AA%E5%8D%B3%E6%97%B6%E6%9B%B4%E6%96%B0%EF%BC%9F"><span class="nav-number">5.4.</span> <span class="nav-text">4. 缓存仍未即时更新？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%AF%B7%E6%B1%82%E5%8D%A1%E6%AD%BB"><span class="nav-number">5.5.</span> <span class="nav-text">5. 请求卡死</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E7%BA%BF%E4%B8%8A%E7%8E%AF%E5%A2%83%E5%88%86%E6%9E%90%E6%97%A5%E5%BF%97%E6%97%B6%E7%AA%81%E7%84%B6%E5%91%8A%E8%AD%A6%E7%A3%81%E7%9B%98IO%E5%8D%A0%E7%94%A8%E8%B6%85%E8%BF%8799-%EF%BC%81%EF%BC%9F"><span class="nav-number">5.6.</span> <span class="nav-text">6. 线上环境分析日志时突然告警磁盘IO占用超过99%！？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E8%BF%9B%E7%A8%8B%E9%97%AA%E9%80%80"><span class="nav-number">5.7.</span> <span class="nav-text">7. 进程闪退</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E7%BA%BF%E4%B8%8A%E7%8E%AF%E5%A2%83%E7%9A%84%E6%B6%88%E6%81%AF%E9%80%9A%E7%9F%A5%E5%8F%91%E9%80%81%E6%88%90%E5%8A%9F%E4%BA%86%EF%BC%8C%E6%80%8E%E4%B9%88%E6%B2%A1%E6%9C%89%E9%A2%84%E6%9C%9F%E7%9A%84%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0%E6%95%88%E6%9E%9C%EF%BC%9F"><span class="nav-number">5.8.</span> <span class="nav-text">8. 线上环境的消息通知发送成功了，怎么没有预期的数据更新效果？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E6%8A%A5%E5%91%8A%EF%BC%81%E6%B5%81%E9%87%8F%E5%A4%AA%E5%A4%A7%EF%BC%8C%E6%92%91%E4%B8%8D%E4%BD%8F%E5%95%8A%EF%BC%81"><span class="nav-number">5.9.</span> <span class="nav-text">9. 报告！流量太大，撑不住啊！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E4%B8%8A%E7%BA%BF%E5%89%8D%E4%B8%80%E5%A4%A9%E4%BD%A0%E8%B7%9F%E6%88%91%E8%AF%B4%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1%E6%9C%89%E9%97%AE%E9%A2%98%EF%BC%9F"><span class="nav-number">5.10.</span> <span class="nav-text">10. 上线前一天你跟我说接口设计有问题？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E7%BA%BF%E4%B8%8A%E5%87%BAbug%E4%BA%86%EF%BC%81%EF%BC%81%EF%BC%81"><span class="nav-number">5.11.</span> <span class="nav-text">11. 线上出bug了！！！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%80%E6%B3%AA%E6%95%99%E8%AE%AD"><span class="nav-number">6.</span> <span class="nav-text">血泪教训</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8E%E7%BB%AD"><span class="nav-number">8.</span> <span class="nav-text">后续</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E4%B8%A4%E4%B8%AA%E7%B3%BB%E7%BB%9F%E4%B8%AD%E6%9C%89%E9%83%A8%E5%88%86%E7%9B%B8%E5%90%8C%E7%9A%84%E9%85%8D%E7%BD%AE%EF%BC%8C%E7%9B%AE%E5%89%8D%E9%87%87%E7%94%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E7%9A%84%E6%96%B9%E5%BC%8F%E5%8E%BB%E5%90%8C%E6%AD%A5"><span class="nav-number">8.1.</span> <span class="nav-text">1. 两个系统中有部分相同的配置，目前采用复制粘贴的方式去同步</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%9B%BE%E7%BB%8F%E7%9A%84%E8%BF%9B%E7%A8%8B%E9%97%AA%E9%80%80%E9%97%AE%E9%A2%98%EF%BC%8C%E5%BF%85%E9%A1%BB%E9%87%8D%E8%A7%86%EF%BC%81"><span class="nav-number">8.2.</span> <span class="nav-text">2. 曾经的进程闪退问题，必须重视！</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%AE%A8%E8%AE%BA"><span class="nav-number">9.</span> <span class="nav-text">问题讨论</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

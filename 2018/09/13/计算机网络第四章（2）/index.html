@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="计算机网络——网络层（2）IPv6 从根源上解决了IPv4地址耗尽的问题。 特点： IPv4的32位增大到了128位，共16字节 IPv6不允许分片，只有在包的源结点才能分片，是端到端的 扩展阅读：闲谈IPv6-尴尬的IPv4。大意是解析IPv4的痛点，精华部分理解： 原本的arp协议其实是没有使用IP协议进行封包，导致每一种链路层都需要一个arp协议。使用IPv6后，arp的功能由ICMPv6来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络第四章（2）">
+<meta property="og:url" content="http://yoursite.com/2018/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%882%EF%BC%89/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="计算机网络——网络层（2）IPv6 从根源上解决了IPv4地址耗尽的问题。 特点： IPv4的32位增大到了128位，共16字节 IPv6不允许分片，只有在包的源结点才能分片，是端到端的 扩展阅读：闲谈IPv6-尴尬的IPv4。大意是解析IPv4的痛点，精华部分理解： 原本的arp协议其实是没有使用IP协议进行封包，导致每一种链路层都需要一个arp协议。使用IPv6后，arp的功能由ICMPv6来">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%882%EF%BC%89/1.png">
+<meta property="article:published_time" content="2018-09-13T12:47:04.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.908Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="computer network">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%882%EF%BC%89/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/13/计算机网络第四章（2）/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>计算机网络第四章（2） | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%882%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络第四章（2）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-09-13 20:47:04" itemprop="dateCreated datePublished" datetime="2018-09-13T20:47:04+08:00">2018-09-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="计算机网络——网络层（2）"><a href="#计算机网络——网络层（2）" class="headerlink" title="计算机网络——网络层（2）"></a>计算机网络——网络层（2）</h1><h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><ul>
+<li>从根源上解决了IPv4地址耗尽的问题。</li>
+<li>特点：<ul>
+<li>IPv4的32位增大到了128位，共16字节</li>
+<li>IPv6不允许分片，只有在包的源结点才能分片，是端到端的</li>
+<li>扩展阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/dog250/article/details/8169953">闲谈IPv6-尴尬的IPv4</a>。大意是解析IPv4的痛点，精华部分理解：<ul>
+<li>原本的arp协议其实是没有使用IP协议进行封包，导致每一种链路层都需要一个arp协议。使用IPv6后，arp的功能由ICMPv6来替代，是使用IP承载的；</li>
+<li>IPv6自动完成：电脑接入网络后，网口按照规则生成一个链路本地地址，使用此地址和本链路的其他节点通信；</li>
+<li>IPv6不再需要NAT；</li>
+<li>原来IPv4的分类地址使美国占据大量A类地址，IPv6使得地区分布更加均匀；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">IPv4</th>
+<th align="center">IPv6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">同一链路的通信</td>
+<td align="center">必须使用DHCP或者手工指定同一网段的IP地址</td>
+<td align="center">可以直接使用自动配置的链路本地地址</td>
+</tr>
+<tr>
+<td align="center">同一机构内通信</td>
+<td align="center">人工配置IP地址，如果使用全局的公网地址，时刻注意着不能有地址冲突。</td>
+<td align="center">使用本地唯一地址</td>
+</tr>
+<tr>
+<td align="center">互联网通信</td>
+<td align="center">需要在出口路由器或者防火墙上配置多条策略，防止私有地址的外泄。</td>
+<td align="center">私有的链路本地地址和机构地址跑不出出口路由器</td>
+</tr>
+<tr>
+<td align="center">关于私有地址</td>
+<td align="center">针对ABC类的每一类地址都有一个私有段，私有段不连续。私有段和地址分类有交集，必须显式进行区分</td>
+<td align="center">直接针对限域来规定是否私有，私有段连续。可以直接解析地址本身得到地址的限域</td>
+</tr>
+</tbody></table>
+<h3 id="IPv6的地址结构"><a href="#IPv6的地址结构" class="headerlink" title="IPv6的地址结构"></a>IPv6的地址结构</h3><ul>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011784495/article/details/71693296">IPv6数据报头部格式</a></li>
+<li>目的地址：<ul>
+<li>单播：</li>
+<li>多播：一个交给多个</li>
+<li>任播：一个交给多个中的某一个</li>
+</ul>
+</li>
+<li>地址表示法：（紧凑型）每4位用一个十六进制数表示，并且用冒号分隔，例，4B5F:AA12:0216:FEBC:BA5F:039A:BE9A:2170（8部分×4个×进制代表的4位&#x3D;128位）；以及为0时的::省略办法。</li>
+<li>首部40B，地址长度16B</li>
+<li>分级概念：<ul>
+<li>顶级：指明全球都知道的公共拓扑；</li>
+<li>二级：指明单个场点；</li>
+<li>三级：指明单个的网络接口。</li>
+</ul>
+</li>
+<li>IPv6要能够向后兼容；</li>
+<li>两种协议的选择问题上，可以采用双协议栈和隧道技术两种策略：<ul>
+<li>双协议栈：一部分主机或路由器装有两个协议栈，来回切换；</li>
+<li>隧道技术：将整个IPv6数据报封装到IPv4数据报的数据部分，这样使得IPV6的数据报能载IPv4网络的隧道中传输。</li>
+</ul>
+</li>
+</ul>
+<h2 id="IGP、EGP"><a href="#IGP、EGP" class="headerlink" title="IGP、EGP"></a>IGP、EGP</h2><ul>
+<li>有关概念可以参考上一篇博客：<a target="_blank" rel="noopener" href="http://likehui.fun/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/#more">计算机网络——网络层（1）</a>的层次路由段。简单来说，IGP是域内的内部使用路由协议，主要有RIP协议和OSPF协议；EGP是域间使用的外部网关协议，如BGP-4等。</li>
+</ul>
+<h3 id="RIP路由信息协议"><a href="#RIP路由信息协议" class="headerlink" title="RIP路由信息协议"></a>RIP路由信息协议</h3><ul>
+<li>RIP：Routing Information Protocol，是根据最少跳数进行路径选择的协议。使用距离向量路由算法。</li>
+<li>规定：<ul>
+<li>每个路由器都要维护它自己到其他每一个目的网络的距离记录（即跳数）；</li>
+<li>RIP允许一条路径最多只能包含15跳，距离等于16时被视为不可达；</li>
+<li>默认在任意两个使用RIP协议的路由器之间每30秒（固定时间间隔）广播一次RIP路由更新信息，以便自动建立并维护路由表（动态维护，仅发生在相邻路由器，而且交换的是全部信息）；</li>
+<li>不支持子网掩码的RIP广播，所以每个网络的子网掩码必须相同。但在新的RIP2中，支持变长子网掩码和CIDR。</li>
+</ul>
+</li>
+<li>一般，第一次广播后，每一路由器知道自己相邻路由器的路由表信息；第二次广播后，就知道了距离自己2跳的路由表信息；若干次后，在一个小型互联网中，所有路由器就知道了整个IP网络的路由表，称为RIP协议最终是收敛的。收敛之后，每个路由器到每个目标网络的路由都是距离最短的。</li>
+<li>优点：实现简单，开销小，收敛过程快；</li>
+<li>缺点：<ul>
+<li>RIP限制了网络的规模；</li>
+<li>路由器之间交换的是完整的路由表，因此网络规模越大，开销也越大；</li>
+<li>当出现网络故障时，会出现慢收敛现象（即需要较长时间才能将此消息传送到所有路由器），称为“好消息传得快，坏消息传的慢”，使更新过程的收敛时间长。</li>
+</ul>
+</li>
+<li>RIP是应用层协议，它在传输层使用UDP传送数据。</li>
+</ul>
+<h3 id="OSPF开放最短路径优先协议"><a href="#OSPF开放最短路径优先协议" class="headerlink" title="OSPF开放最短路径优先协议"></a>OSPF开放最短路径优先协议</h3><ul>
+<li>使用分布式链路状态路由算法。</li>
+<li>与RIP对比的区别：<ol>
+<li>向<strong>所有路由器</strong>发送<strong>部分</strong>信息（只有本路由相邻的所有路由器的链路状态而已，并非整个路由表）；</li>
+<li>只有当链路状态发生变化时，才会使用洪泛法发送消息，而RIP是定期发送；</li>
+<li>OSPF是网络层协议，不使用UDP或TCP而是直接IP数据报发送。</li>
+</ol>
+</li>
+<li>更多特点：<ol>
+<li>可对于不同类型的业务灵活计算出不同的路由（根据IP分组的不同服务类型将链路设置为不同的代价）；</li>
+<li>如果同一个目的网络有多条相同代价的路径，可使用<strong>负载均衡</strong>分配给这几条路径；</li>
+<li>路由器之间交换的分组具有鉴别功能，可以保证只在可信赖的路由器之间交换信息；</li>
+<li>支持可变长度的子网划分和CIDR；</li>
+<li>每一个链路状态都带上一个32位的序号，序号越大，状态就越新；</li>
+<li>30分钟刷新一次数据库中的链路状态。</li>
+</ol>
+</li>
+<li>OSPF原理：交换链路状态信息后，建立一个全网的拓扑结构图，使用Dijkstra最短路径算法计算自己到各网络最短路径，以及构建自己的路由表。（路由表不会存储完整路径，只会存储下一跳去哪）。</li>
+<li>OSPF应用在规模很大的网络时，会将一个自治系统划分为若干个更小的范围（区域），使用洪泛法时，交换信息的范围局限在区域内，而不是整个网络拓扑。这些区域也有层次之分，上层的叫主干区域，负责连通下层的区域和其他自治域。 连接主干区域和其他下层区域的路由器称为区域边界路由器。主干区域中的路由器都叫主干路由器。</li>
+<li>OSPF的五种分组类型<ul>
+<li>问候分组：检测可达性，通常10秒一次；</li>
+<li>数据库描述分组：向邻站发送自己的链路状态数据库中的摘要信息；</li>
+<li>链路状态请求分组：向对方请求某些链路的信息；</li>
+<li>链路状态更新分组，使用洪泛法对全网更新链路状态；</li>
+<li>链路状态确认分组：对链路更新分组的确认。</li>
+</ul>
+</li>
+</ul>
+<h3 id="BGP边界网关协议"><a href="#BGP边界网关协议" class="headerlink" title="BGP边界网关协议"></a>BGP边界网关协议</h3><ul>
+<li>BGP，Border Gateway Protocol。是一种外部网关协议。</li>
+<li>扩展阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/pgl608/article/details/80260725">BGP协议基本原理</a></li>
+<li>BGP是自治系统外部路由协议，用来在AS之间传递路由信息；</li>
+<li>路径矢量路由协议，从设计上避免了环路的发生；</li>
+<li>支持CIDR和路由聚合；</li>
+<li>只发送增量路由更新。在建立邻居关系后，路由器会将自己的全部路由信息告知邻居，此后如果路由表发生了变化，只将增量&#x2F;更新部分发送给邻居。</li>
+<li>路由表包括：	<ul>
+<li>已知路由器的列表；</li>
+<li>路由器能够达到的地址</li>
+<li>每个路由器的路径的跳数</li>
+</ul>
+</li>
+<li>BGP是应用层协议，基于TCP的。</li>
+<li>BGP发言者（BGP Speaker）：发送BGP消息的路由器称为BGP发言者，它接收或者产生新的路由信息，并发布给其他BGP发言者。</li>
+<li>使用四种报文：<ol>
+<li>打开报文：与相邻的发言人建立关系</li>
+<li>更新报文：发送更新信息</li>
+<li>保活报文：确认打开报文、周期性确认邻站关系</li>
+<li>通知报文：用来发送检测到的错误</li>
+</ol>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">协议</th>
+<th align="center">RIP</th>
+<th align="center">OSPF</th>
+<th align="center">BGP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">类型</td>
+<td align="center">内部</td>
+<td align="center">内部</td>
+<td align="center">外部</td>
+</tr>
+<tr>
+<td align="center">路由算法</td>
+<td align="center">距离-向量</td>
+<td align="center">链路状态</td>
+<td align="center">路径-向量</td>
+</tr>
+<tr>
+<td align="center">传递协议</td>
+<td align="center">UDP</td>
+<td align="center">IP</td>
+<td align="center">TCP</td>
+</tr>
+<tr>
+<td align="center">路径选择</td>
+<td align="center">跳数最少</td>
+<td align="center">代价最低</td>
+<td align="center">较好，非最佳</td>
+</tr>
+<tr>
+<td align="center">交换结点</td>
+<td align="center">和本结点相邻的路由器</td>
+<td align="center">网络中的所有路由器</td>
+<td align="center">和本结点相邻的路由器</td>
+</tr>
+<tr>
+<td align="center">交换内容</td>
+<td align="center">当前本路由器知道的全部信息</td>
+<td align="center">与本路由器相邻的所有路由器的链路状态</td>
+<td align="center">首次发整个路由表，非首次发有变化的部分</td>
+</tr>
+</tbody></table>
+<h2 id="IP组播"><a href="#IP组播" class="headerlink" title="IP组播"></a>IP组播</h2><ul>
+<li>组播机制：让源计算机一次发送的单个分组可以抵达用一个组地址标识的若干台目标主机，并被它们正确接收。是应用于UDP的（因为TCP是一对一的）。</li>
+<li>流程：源主机把单个分组发送给一个组播地址（标识一组地址），网络将分组给该组播地址内每一台主机投递一份拷贝。</li>
+<li>在IP组播中，组播地址在D类地址空间进行分配（IPv6中也有一部分地址空间交给了组播组）。</li>
+<li>主机可以选择加入或离开一个组，一台主机可以属于多个组。主机使用IGMP（因特网组管理协议）的协议加入组播组。它们使用该协议通知在本地网络上的路由器关于要接收发送给某个组播组的分组的愿望。</li>
+<li>IP组播地址：使用D类地址格式作为目的地址（不可作为组播组的源地址），每一个D类IP地址标志一个组播组。范围是224.0.0.0~239.255.255.255（并不是所有D类地址）。</li>
+<li>对组播数据报不产生ICMP差错报文，因此ping不通。</li>
+<li>IP组播分为两类，只在本局域网上进行硬件组播，在因特网范围内进行组播：<ul>
+<li>在因特网上进行组播的最后阶段，仍要把组播数据报放在局域网上用硬件组播交付给组播组的所有成员。</li>
+<li>IANA拥有的以太网组播地址范围是：01-00-5E-00-00-00到01-00-5E-7F-FF-FF。只有23位可作为组播。D类IP地址可供分配的也只有23位。1110+空5位+23位&#x3D;32位IP地址。举例：224.215.145.231映射到组播MAC地址： 01-00-5E-57-91-E6（后23位是87.145.231，转化为16进制就是57-91-E6）。</li>
+</ul>
+</li>
+</ul>
+<h2 id="移动IP"><a href="#移动IP" class="headerlink" title="移动IP"></a>移动IP</h2><ul>
+<li>移动IP技术：移动结点以固定的网络IP地址，实现跨越不同网段的漫游功能，并保证了基于网络IP的网络权限在漫游过程中不发生任何改变。是为了满足移动结点在移动时保持连接性而设计的。举例：出差到外地，也能使用公司内网或者共享的资料。</li>
+<li>移动IP技术使漫游的主机可以用多种方式连接到因特网，移动IP的核心网络功能仍然是基于在固定互联网中一直在使用的各种路由选择协议。移动IP技术不同于移动自组网络（此处不做延伸）。</li>
+<li>关键技术：代理搜索（判断自己是否处于漫游状态）；转交地址（移动节点来到外网时从外代理处得到的临时地址）；登录（移动节点到达外网时进行一系列认证、注册、建立隧道的过程）；隧道（家代理与外代理之间临时建立的双向数据通道）。</li>
+<li>通信流程：<ol>
+<li>移动结点在本地网时，按传统的TCP&#x2F;IP方式进行通信；</li>
+<li>漫游到外地网络时，仍使用固定IP通信。为了能够收到通信端发给它的IP分组，移动结点需要向本地代理注册当前的位置地址（即转交地址）；</li>
+<li>本地代理收到转交地址的注册后，会构建一条通向转交地址的隧道，将截获的发给移动结点的IP分组通过隧道送到转交地址处；</li>
+<li>在转交地址处解除隧道封装，恢复原始的IP分组，最后送到移动结点，这样移动结点就收到了这些发给它的IP分组；</li>
+<li>移动结点在外网通过外网的路由器或者外代理向通信对端发送IP数据包；</li>
+<li>当移动结点来到另一个外网时，向本地代理更新注册的转交地址；</li>
+<li>当移动结点回到本地网时，向本地代理注销转交地址，恢复TCP&#x2F;IP的方式进行通信。</li>
+</ol>
+</li>
+</ul>
+<h2 id="网络层设备——路由器"><a href="#网络层设备——路由器" class="headerlink" title="网络层设备——路由器"></a>网络层设备——路由器</h2><p><img src="/2018/09/13/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%882%EF%BC%89/1.png" alt="路由器"></p>
+<ul>
+<li>任务：连接不同的网络（连接异构网络）并完成路由转发（1.路由计算；2.分组转发）。在多个逻辑网络（即多个广播域）互联时必须使用路由器。</li>
+<li>路由器具有两个部分：分组转发部分（输入端口、输出端口、交换开关）和控制部分（路由处理器，任务是选择出路由表，并定期更新维护路由表）。</li>
+<li>路由器是面向协议的，能够完成不同线路、不同协议之间转换。网桥不行。</li>
+<li>路由表具有四个项目：目的网络IP地址、子网掩码、下一跳IP地址、接口。</li>
+<li>转发表由路由表得出：目的站、下一跳的MAC地址。</li>
+<li>路由表总是由软件实现，转发表可以用软件，可以用特殊的硬件实现。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%882%EF%BC%89/" rel="next" title="操作系统第三章（2）">
+                <i class="fa fa-chevron-left"></i> 操作系统第三章（2）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/17/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%94%E7%AB%A0/" rel="prev" title="计算机网络第五章">
+                计算机网络第五章 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E7%BD%91%E7%BB%9C%E5%B1%82%EF%BC%882%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">计算机网络——网络层（2）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6"><span class="nav-number">1.1.</span> <span class="nav-text">IPv6</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IPv6%E7%9A%84%E5%9C%B0%E5%9D%80%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.1.</span> <span class="nav-text">IPv6的地址结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IGP%E3%80%81EGP"><span class="nav-number">1.2.</span> <span class="nav-text">IGP、EGP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RIP%E8%B7%AF%E7%94%B1%E4%BF%A1%E6%81%AF%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.2.1.</span> <span class="nav-text">RIP路由信息协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSPF%E5%BC%80%E6%94%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E4%BC%98%E5%85%88%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.2.2.</span> <span class="nav-text">OSPF开放最短路径优先协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BGP%E8%BE%B9%E7%95%8C%E7%BD%91%E5%85%B3%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.2.3.</span> <span class="nav-text">BGP边界网关协议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E7%BB%84%E6%92%AD"><span class="nav-number">1.3.</span> <span class="nav-text">IP组播</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8IP"><span class="nav-number">1.4.</span> <span class="nav-text">移动IP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82%E8%AE%BE%E5%A4%87%E2%80%94%E2%80%94%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="nav-number">1.5.</span> <span class="nav-text">网络层设备——路由器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="计算机网络——数据链路层（3）    广域网 局域网    覆盖范围 很广，通常跨区域 较小，通常在一个区域内   连接方式 节点之间都是点对点连接，但为了提高网络的可靠性，一个结点交换机往往与多个结点交换机相连 普遍采用多点接入技术   OSI层次 三层：物理层、数据链路层，网络层 两层：物理层，数据链路层   联系和相似点 1.广域网和局域网都是互联网的重要组成构件，从互联网的角度上看，二者平">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络第三章-3">
+<meta property="og:url" content="http://yoursite.com/2018/08/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0-3/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="计算机网络——数据链路层（3）    广域网 局域网    覆盖范围 很广，通常跨区域 较小，通常在一个区域内   连接方式 节点之间都是点对点连接，但为了提高网络的可靠性，一个结点交换机往往与多个结点交换机相连 普遍采用多点接入技术   OSI层次 三层：物理层、数据链路层，网络层 两层：物理层，数据链路层   联系和相似点 1.广域网和局域网都是互联网的重要组成构件，从互联网的角度上看，二者平">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-08-31T10:27:28.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.906Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="computer network">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/31/计算机网络第三章-3/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>计算机网络第三章-3 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0-3/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络第三章-3
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-08-31 18:27:28" itemprop="dateCreated datePublished" datetime="2018-08-31T18:27:28+08:00">2018-08-31</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="计算机网络——数据链路层（3）"><a href="#计算机网络——数据链路层（3）" class="headerlink" title="计算机网络——数据链路层（3）"></a>计算机网络——数据链路层（3）</h1><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">广域网</th>
+<th align="center">局域网</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">覆盖范围</td>
+<td align="center">很广，通常跨区域</td>
+<td align="center">较小，通常在一个区域内</td>
+</tr>
+<tr>
+<td align="center">连接方式</td>
+<td align="center">节点之间都是点对点连接，但为了提高网络的可靠性，一个结点交换机往往与多个结点交换机相连</td>
+<td align="center">普遍采用多点接入技术</td>
+</tr>
+<tr>
+<td align="center">OSI层次</td>
+<td align="center">三层：物理层、数据链路层，网络层</td>
+<td align="center">两层：物理层，数据链路层</td>
+</tr>
+<tr>
+<td align="center">联系和相似点</td>
+<td align="center">1.广域网和局域网都是互联网的重要组成构件，从互联网的角度上看，二者平等（不是包含关系）；</td>
+<td align="center">2.连接在一个广域网或一个局域网上的主机在该网内进行通信时，只需要使用其网络的物理地址即可</td>
+</tr>
+<tr>
+<td align="center">着重点</td>
+<td align="center">强调资源共享</td>
+<td align="center">强调数据传输</td>
+</tr>
+</tbody></table>
+<ul>
+<li>局域网使用的协议主要在数据链路层（少量在物理层），即数据的控制信息主要是数据链路层协议的控制信息。广域网协议主要在网络层。</li>
+</ul>
+<h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>在一个较小的地理范围内，将各种计算机、外部设备和数据库系统等通过双绞线、同轴电缆等连接介质互相连接起来，组成资源和信息共享的的计算机互联网络。</p>
+<span id="more"></span>
+
+<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ol>
+<li>为一个单位所拥有（范围和站点数量有限）；</li>
+<li>所有站共享较高的总带宽（数据传输速率高）；</li>
+<li>较低的时延和较低的误码率；</li>
+<li>各站为平等关系；</li>
+<li>能进行广播和组播。</li>
+</ol>
+<p>特性由三个要素决定：</p>
+<ol>
+<li>拓扑结构（星型、环形、总线型、星形和总线复合型）</li>
+<li>传播介质（双绞线、铜缆、光纤等，双绞线为主）</li>
+<li>介质访问控制方式（决定性）（CSMA&#x2F;CD、令牌总线和令牌环，前两种用于总线型局域网，第三种用于环形局域网）</li>
+</ol>
+<p>三种特殊的局域网实现：以太网、令牌网、FDDI（光纤分布数字接口）</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">逻辑拓扑</th>
+<th align="center">物理拓扑</th>
+<th align="center">信息发送方式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">以太网</td>
+<td align="center">总线型</td>
+<td align="center">星型</td>
+<td align="center">广播式</td>
+</tr>
+<tr>
+<td align="center">令牌环（Token Ring,IEEE802.5）</td>
+<td align="center">环形</td>
+<td align="center">星型</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">FDDI（光纤分布数字接口，IEEE802.8）</td>
+<td align="center">环形</td>
+<td align="center">双环形</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<p>IEEE802标准将数据链路层分成两个子层：逻辑链路控制子层和介质访问控制子层：</p>
+<ul>
+<li>介质访问控制子层（MAC），向上层屏蔽对物理层访问的各种差异，提供对物理层的统一访问接口，功能：组帧和拆卸帧、比特传输差错检测、透明传输、寻址、竞争处理。</li>
+<li>逻辑链路控制子层（LLC），与传输媒体无关，向网络层提供无确认无连接、面向连接、带确认无连接、告诉传送4种不同的链接服务类型。LLC作用已不大，目前不少网卡仅有MAC协议而无LLC协议。功能：建立和释放数据链路层的逻辑连接、提供和高层的接口、差错控制、给帧加序号。</li>
+</ul>
+<h3 id="以太网与IEEE-802-3"><a href="#以太网与IEEE-802-3" class="headerlink" title="以太网与IEEE 802.3"></a>以太网与IEEE 802.3</h3><ul>
+<li>IEEE 802.3标准是一种<strong>基带总线型</strong>的局域网标准。采用CSMA&#x2F;CD方式。</li>
+<li>采用两项措施简化通信：<ul>
+<li>无连接的工作方式。不对发送的数据帧编号。</li>
+<li>不要求接收方发送确认，提供不可靠服务，对于差错的纠正则由高层完成。</li>
+</ul>
+</li>
+<li>常用传输介质由4种：粗缆、细缆、双绞线和光纤。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">10BASE5</th>
+<th align="center">10BASE2</th>
+<th align="center">10BASE-T</th>
+<th align="center">10BASE-FL</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">传输媒体</td>
+<td align="center">基带同轴电缆（粗缆）</td>
+<td align="center">基带同轴电缆（细缆）</td>
+<td align="center">非屏蔽双绞线</td>
+<td align="center">光纤对（850nm）</td>
+</tr>
+<tr>
+<td align="center">编码</td>
+<td align="center">曼彻斯特编码</td>
+<td align="center">曼彻斯特编码</td>
+<td align="center">曼彻斯特编码</td>
+<td align="center">曼彻斯特编码</td>
+</tr>
+<tr>
+<td align="center">拓扑结构</td>
+<td align="center">总线型</td>
+<td align="center">总线型</td>
+<td align="center">星型</td>
+<td align="center">点对点</td>
+</tr>
+<tr>
+<td align="center">最大段长</td>
+<td align="center">500m</td>
+<td align="center">185m</td>
+<td align="center">100m</td>
+<td align="center">2000m</td>
+</tr>
+<tr>
+<td align="center">最多结点数量</td>
+<td align="center">100</td>
+<td align="center">30</td>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+</tbody></table>
+<ul>
+<li><p>网卡具有唯一的MAC地址（即以太网地址）。功能：</p>
+<ul>
+<li>是局域网中连接计算机和传输介质的接口；</li>
+<li>不仅能实现与局域网传输介质之间的物理连接和电信号匹配；</li>
+<li>还涉及帧的发送与接收、帧的封装和拆装；</li>
+<li>介质访问控制、数据的编码与解码以及数据缓存的功能。</li>
+</ul>
+</li>
+<li><p>MAC帧格式有两种标准：DIX Ethernet V2标准和IEEE802.3标准，以前者为例：</p>
+<ul>
+<li>MAC帧格式&#x3D;前导码+MAC帧；</li>
+<li>前导码&#x3D;前同步码（7B，实现时钟同步）+帧开始定界符（1B）；</li>
+<li>MAC帧&#x3D;目的地址（6B）+原地址（6B）+类型（2B，指出data区的数据应交给哪个协议实体处理）+data区（46~1500B，包含高层协议消息，若不足46B则填充）+FCS（4B，校验码，除了前导码外，都属于娇艳的范围）；</li>
+<li>IEEE 802.3对比DIX不同之处：帧起始标志；长度域代替类型域。</li>
+</ul>
+</li>
+<li><p>高速以太网：速率超过100Mb&#x2F;s，并且可以从10Mb&#x2F;s向10Gb&#x2F;s演进，说明：可拓展、灵活、易于安装、稳健性好。常见的有：100BASE-T（可全双工，可半双工）、吉比特以太网（又名千兆以太网，可全双工可半双工）、10吉比特以太网（只全双工）。</p>
+</li>
+</ul>
+<h3 id="IEEE-802-11"><a href="#IEEE-802-11" class="headerlink" title="IEEE 802.11"></a>IEEE 802.11</h3><ul>
+<li>IEEE 802.11是无线局域网的一系列协议标准，包括802.11a和802.11b等</li>
+<li>除了基本的协调访问问题，还进行了以下控制：<ul>
+<li>错误控制。为了克服通道固有的不可靠性；</li>
+<li>适宜的寻址和关联规程。为了处理站点的可携带型和移动性；</li>
+<li>互联过程。为了扩展无线站的通信范围；</li>
+<li>允许用户在移动的同时可以通信。</li>
+</ul>
+</li>
+<li>采用CSMA&#x2F;CA协议进行介质访问控制。但在无线局域网中，即使在发送过程中发生了碰撞，也要把整个帧发送完毕。因此一旦出现碰撞，在这个帧的发送时间内信道资源都被浪费了。</li>
+<li>无线局域网分为两大类：有固定基础设施和无固定基础设施的<ul>
+<li>有固定基础设施：由基本服务集（BSS）作为最小构件，一般包括一个基站和若干个移动站，此基站也被称为接入点（AP，作用类似网桥）。若干个BSS可以通过分配系统（DS）连接成扩展的服务集（ESS）。ESS再通过门桥（Portal）为无线用户提供到非802.11无线局域网的接入。</li>
+<li>无固定基础设施的无线局域网自组织网络：无AP，这些结点地位平等，都具有路由器的功能。具有自己特定的路由选择协议，可以不和因特网连接，把移动性扩展到无线领域中的自治系统。区别于移动IP，移动IP技术使漫游的主机用多种方式连接到因特网，是基于固定互联网中的各种路由选择协议。</li>
+</ul>
+</li>
+</ul>
+<h3 id="令牌环网"><a href="#令牌环网" class="headerlink" title="令牌环网"></a>令牌环网</h3><ul>
+<li>TCU：令牌环网的每一站通过电缆与环接口干线耦合器TCU相连。多站之间通过TCU相连。TCU的作用是：传递所有经过的帧、为接入站发送和接收数据提供接口。TCU有两种状态：收听状态和发送状态。</li>
+<li>令牌环网的原理可查看上一篇博客——<a target="_blank" rel="noopener" href="http://likehui.fun/2018/08/30/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0-2/">数据链路层（2）</a></li>
+<li>令牌环网中令牌和数据传递过程：<ol>
+<li>当网络空闲时，环路中只有令牌帧在循环传递；</li>
+<li>令牌传递到有数据要发送的站点处，该站点就修改令牌中的一个标志位，并在令牌中附上自己需要传输的数据，这时令牌帧就变成了数据帧，然后将数据帧发送出去；</li>
+<li>数据帧沿着环路传输，接收到的站点一边转发数据，一边查看帧的目的地地址。如果目的地址跟自己匹配，接收站就复制该帧；</li>
+<li>数据帧沿着环路传输，知道到达该帧的源站点，源站点不再转发。同时发送方检验数据帧是否有错，若有错则重发；</li>
+<li>源站点发送完数据后，会重新产生一个令牌。</li>
+</ol>
+</li>
+</ul>
+<h2 id="广域网"><a href="#广域网" class="headerlink" title="广域网"></a>广域网</h2><ul>
+<li>定义：覆盖范围很广（远超一个城市）的长距离网络。</li>
+<li>任务：通过长距离运送主机所发送的数据。</li>
+<li>各结点交换机链路：都是高速链路，距离可以是几千公里的光缆线路，也可以是几万公里的点对点卫星链路。结点交换机执行分组存储转发的功能，结点之间都是点对点连接，但为了提高网络的可靠性，通常一个结点交换机与多个结点交换机连接。</li>
+<li>首要问题：通信容量必须足够大，以便支持日益增长的通信量。</li>
+</ul>
+<h3 id="结点交换机与路由器？"><a href="#结点交换机与路由器？" class="headerlink" title="结点交换机与路由器？"></a>结点交换机与路由器？</h3><ul>
+<li>共同点：两者都是用来转发分组；</li>
+<li>结点交换机：在单个网络中转发分组；</li>
+<li>路由器：在多个网络构成的互联网中转发分组</li>
+</ul>
+<h3 id="广域网与互联网？"><a href="#广域网与互联网？" class="headerlink" title="广域网与互联网？"></a>广域网与互联网？</h3><ul>
+<li>广域网不等同于互联网，互联网是可以通过路由器连接广域网和局域网的，</li>
+<li>局域网可以通过广域网与另一个相隔很远的局域网进行通信</li>
+</ul>
+<h3 id="路由选择和转发："><a href="#路由选择和转发：" class="headerlink" title="路由选择和转发："></a>路由选择和转发：</h3><ul>
+<li>路由选择：使用路由选择协议，负责搜索分组从某个结点到目的结点的最佳传输路由，以便构造路由表；</li>
+<li>转发：从路由表再构造出转发分组的转发表</li>
+<li>广域网的路由选择和转发是由结点交换机完成的，操作局限在在单个网络中。</li>
+<li>最常用的两种数据链路层控制协议：PPP协议和HDLC协议</li>
+</ul>
+<h3 id="PPP协议"><a href="#PPP协议" class="headerlink" title="PPP协议"></a>PPP协议</h3><ul>
+<li>Point-to-Point Protocol；</li>
+<li>定义：使用串行线路通信的<strong>面向字节</strong>（帧全长是整数个字节）的协议，应用在直接连接两个结点的链路上。</li>
+<li>设计目的：通过拨号或专线方式建立点对点连接发送数据，使其成为各种主机、网桥和路由器之间简单连接的一种共同的解决方案。</li>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011240016/article/details/52745628">广域网协议之PPP，HDLC</a></li>
+<li>组成部分：链路控制协议LCP、网络控制协议NCP、将IP数据报封装到串行链路的方法</li>
+<li>适用范围：异步线路&#x2F;同步线路，Modem链路，路由器到路由器等</li>
+<li>PPP帧的格式：7EF+FFA+03C+协议+data+FCS+7EF<ul>
+<li>7EF即7E（01111110）标志字段，帧前后各一个字节，若出现在信息字段则需要字节填充，控制转义字节是7D（01111101）</li>
+<li>FFA即地址字段，1个字节；</li>
+<li>03C即控制字段，1个字节；</li>
+<li>协议段，说明信息段运载的是什么分类的分组，2个字节；</li>
+<li>data，即信息段，长度0~1500字节，因不采用CSMA&#x2F;CD协议，所以无需限制长度下限；</li>
+<li>FCS即帧检验序列，对A+C+协议+信息进行检验；</li>
+<li>尾部7EF同首部相同功能。</li>
+</ul>
+</li>
+<li>注意：<ul>
+<li>PPP提供差错检验，但不提供纠错功能，是不可靠的传输协议，不使用序号和确认机制；</li>
+<li>不支持多点线路；</li>
+<li>只支持全双工链路；</li>
+<li>PPP两端可以运行不同的网络层协议；</li>
+<li>PPP面向字节，有两种实现透明传输的方法：异步线路采用字节填充法；同步线路利用硬件实现比特填充。</li>
+</ul>
+</li>
+</ul>
+<h3 id="HDLC协议"><a href="#HDLC协议" class="headerlink" title="HDLC协议"></a>HDLC协议</h3><ul>
+<li>定义：ISO制定的，<strong>面向比特</strong>的数据链路层协议。</li>
+<li>特点：不依赖于任何一种字符编码集；数据报文可透明传输，“0比特插入法”易于通过硬件实现；全双工通信，有较高的数据链路传输效率；帧采用CRC检验；对信息帧编号，可防止漏发或重发，传输可靠性高；传输控制功能和处理功能分离，具有较大的灵活性；</li>
+<li>两种配置：非平衡配置和平衡配置：<ul>
+<li>非平衡配置：由一个主站控制整个链路的工作；</li>
+<li>平衡配置：链路两端的两个站都是复合站，每个复合站都可以平等地发起数据传输，而不需要得到对方复合站的允许</li>
+</ul>
+</li>
+<li>三种站：主站、从站和复合站：<ul>
+<li>主站：主要功能是发送命令帧、接收响应帧，并负责对整个链路控制系统的初启、流程的控制、差错检测及恢复等；</li>
+<li>从站：接收从主站发来的命令帧、向主站发送响应帧，配合主站参与差错恢复等链路控制；</li>
+<li>复合站：既能发送、又能接收命令帧和响应帧，并且负责整个链路的控制。</li>
+</ul>
+</li>
+<li>数据操作方式：正常响应方式，异步平衡方式，异步响应方式<ul>
+<li>正常响应方式：非平衡结构操作方式，主站发送数据，从站响应传输（需要得到主站的许可）</li>
+<li>异步平衡方式：平衡结构操作方式，每一个复合站都可以进行对其他站的数据传输；</li>
+<li>异步响应方式：非平衡结构操作方式，从站在没有接到主站的允许下就可以传输。</li>
+</ul>
+</li>
+<li>HDLC帧的格式：F+A+C+data+FCS+F：<ul>
+<li>标志F，8bit，01111110；</li>
+<li>地址字段A，8bit；</li>
+<li>控制字段C，8bit，根据C中第1、2位的取值，可将HDLC分为3类：<ul>
+<li>信息帧（I），第1位是0，用来传输信息，或使用捎带技术对数据进行确认；</li>
+<li>监督帧（S），第1、2位分别是1、0，用于流量控制和差错控制，执行对信息帧的确认、请求重发和请求暂停发送等功能；</li>
+<li>无编号帧（U），第1、2位都是1，用于提供对链路的建立、拆除等多种控制功能；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="PPP和HDLC？"><a href="#PPP和HDLC？" class="headerlink" title="PPP和HDLC？"></a>PPP和HDLC？</h3><ul>
+<li>PPP面向字节、HDLC面向比特；</li>
+<li>PPP帧比HDLC多了2字节的协议字段。当协议字段值为0x0021时，表示信息段为IP数据报；</li>
+<li>PPP不使用序号和确认机制，只保证无差错接收，端到端的差错检验由高层协议负责。HDLC的信息帧使用了编号和确认机制，能够提供可靠地传输。</li>
+</ul>
+<h2 id="数据链路层的设备"><a href="#数据链路层的设备" class="headerlink" title="数据链路层的设备"></a>数据链路层的设备</h2><h3 id="网桥"><a href="#网桥" class="headerlink" title="网桥"></a>网桥</h3><ul>
+<li>网桥将两个或多个以太网连接起来，构成一个覆盖范围更大的以太网。原本的以太网就可称为一个网段。</li>
+<li>网桥工作在数据链路层的MAC层，可以使以太网各网段成为隔离开的碰撞域。</li>
+<li>功能：<ul>
+<li>具备寻址和路径选择能力；</li>
+<li>从源网络接收帧，以目的网络的介质访问控制协议向目的网络转发该帧；</li>
+<li>在不同或相同类型的LAN之间存储或转发帧，必要时进行链路层上的协议转换（一般的存储转发设备都可以进行协议转换）</li>
+<li>对接收到的帧不做任何修改，只对帧的封装格式进行很少的修改；</li>
+<li>可以通过帧翻译互联不同类型的局域网，即把原协议的信息段内容作为另一个协议的信息部分封装在帧中；</li>
+<li>具有足够大的缓冲区</li>
+</ul>
+</li>
+<li>优点：过滤通信量、扩大了物理范围、可使用不同的物理层、可互联不同类型的局域网、提高了可靠性、性能得到改善</li>
+<li>缺点： 增加时延；MAC子层没有流量控制功能；不同MAC子层的网段桥接在一起时，需要进行帧格式的转换；可能出现广播风暴</li>
+<li>两种不同的路径选择算法：透明网桥和源路由网桥</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">特点</th>
+<th align="center">透明网桥</th>
+<th align="center">源路由网桥</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">面向</td>
+<td align="center">无连接</td>
+<td align="center">连接</td>
+</tr>
+<tr>
+<td align="center">透明性</td>
+<td align="center">完全透明</td>
+<td align="center">不透明</td>
+</tr>
+<tr>
+<td align="center">配置方式</td>
+<td align="center">自动</td>
+<td align="center">手动</td>
+</tr>
+<tr>
+<td align="center">路由</td>
+<td align="center">次优化</td>
+<td align="center">优化</td>
+</tr>
+<tr>
+<td align="center">定位</td>
+<td align="center">逆向学习</td>
+<td align="center">发查找帧</td>
+</tr>
+<tr>
+<td align="center">失效处理</td>
+<td align="center">网桥处理</td>
+<td align="center">主机处理</td>
+</tr>
+<tr>
+<td align="center">复杂性</td>
+<td align="center">在网桥中</td>
+<td align="center">在主机中</td>
+</tr>
+</tbody></table>
+<h4 id="透明网桥"><a href="#透明网桥" class="headerlink" title="透明网桥"></a>透明网桥</h4><ul>
+<li>混杂方式工作，它接收与之连接的所有LAN传送的每一帧；<ul>
+<li>若源LAN和目的LAN相同，丢弃该帧；</li>
+<li>若源LAN和目的LAN不同，转发该帧；</li>
+<li>若目的LAN未知，扩散该帧；</li>
+</ul>
+</li>
+<li>网桥刚连接时，转发表是空的，网桥采用自学习算法处理收到的帧；</li>
+<li>自学习算法：网桥每收到一个帧A，都会记下源地址和进入网桥时选择的端口，写入转发表中。如果有更新就及时更新。</li>
+</ul>
+<h4 id="源路由网桥"><a href="#源路由网桥" class="headerlink" title="源路由网桥"></a>源路由网桥</h4><ul>
+<li>路由选择由发送数据帧的源站负责，网桥只根据数据</li>
+<li>工作原理：<ul>
+<li>源路由(source route)网桥在发送帧时将详细的路由信息放在帧的首部中。</li>
+<li>源站以广播方式向欲通信的目的站发送一个发现帧（Discovery Frame），每个发现帧都记录所经过的路由。</li>
+<li>发现帧到达目的站时就沿各自的路由返回源站。</li>
+<li>源站在得知这些路由后，从所有可能的路由中选择出一个最佳路由。</li>
+<li>凡从该源站向该目的站发送的帧的首部，都必须携带源站所确定的这一路由信息。</li>
+</ul>
+</li>
+</ul>
+<h3 id="局域网交换机"><a href="#局域网交换机" class="headerlink" title="局域网交换机"></a>局域网交换机</h3><ul>
+<li><p>局域网交换机又称以太网交换机。类似于多端口的网桥，工作在数据链路层，能经济地将网络分成小的冲突域，为每个工作站提供更高的带宽。</p>
+</li>
+<li><p>可以很方便的实现虚拟局域网（VLAN），VLAN可以隔离冲突域，也可以隔离广播域；</p>
+</li>
+<li><p>原理：检测从以太端口来的数据帧的源和目的地的MAC地址，然后与系统内部的动态查找表对比，若数据帧的MAC地址不在查找表中，则将该地址加入查找表中，并将数据帧发送给响应的目的端口。</p>
+</li>
+<li><p>特点：</p>
+<ol>
+<li>交换机的每个端口直接与单个主机相连，一般工作在全双工；</li>
+<li>能同时连通很多对的端口，使每一对相互通信的主机都能够像独占通信媒体那样，无碰撞地传输数据；</li>
+<li>即插即用，帧的转发表也是通过自学习算法自动建立起来的；</li>
+<li>使用了专用的交换结构芯片，交换效率高；</li>
+<li>交换机独占传输媒体的带宽；</li>
+</ol>
+</li>
+<li><p>两种交换方式：直通式交换机、存储转法式交换机:</p>
+<ul>
+<li>直通式交换机：只检查帧的目的地址；</li>
+<li>存储转发式交换机：先将接收到的帧缓存到高速缓存器中，并检查数据是否正确，检查无误后通过查找表转换成输出端口将该帧发送出去；如果发现帧有误，则将帧丢弃。优点：可靠性高，并能支持不同速度端口间的转换；缺点是延迟较大。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/30/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%90%AF%E5%8A%A8uwsgi%E5%92%8CRedis/" rel="next" title="Linux服务器设置自启动uwsgi和Redis">
+                <i class="fa fa-chevron-left"></i> Linux服务器设置自启动uwsgi和Redis
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/01/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%882%EF%BC%89/" rel="prev" title="操作系统第二章（2）">
+                操作系统第二章（2） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E2%80%94%E2%80%94%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%EF%BC%883%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">计算机网络——数据链路层（3）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91"><span class="nav-number">1.1.</span> <span class="nav-text">局域网</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">特点</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E5%A4%AA%E7%BD%91%E4%B8%8EIEEE-802-3"><span class="nav-number">1.1.1.</span> <span class="nav-text">以太网与IEEE 802.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IEEE-802-11"><span class="nav-number">1.1.2.</span> <span class="nav-text">IEEE 802.11</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A4%E7%89%8C%E7%8E%AF%E7%BD%91"><span class="nav-number">1.1.3.</span> <span class="nav-text">令牌环网</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%BF%E5%9F%9F%E7%BD%91"><span class="nav-number">1.2.</span> <span class="nav-text">广域网</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E7%82%B9%E4%BA%A4%E6%8D%A2%E6%9C%BA%E4%B8%8E%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%9F"><span class="nav-number">1.2.1.</span> <span class="nav-text">结点交换机与路由器？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%BF%E5%9F%9F%E7%BD%91%E4%B8%8E%E4%BA%92%E8%81%94%E7%BD%91%EF%BC%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text">广域网与互联网？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E9%80%89%E6%8B%A9%E5%92%8C%E8%BD%AC%E5%8F%91%EF%BC%9A"><span class="nav-number">1.2.3.</span> <span class="nav-text">路由选择和转发：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PPP%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.2.4.</span> <span class="nav-text">PPP协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HDLC%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.2.5.</span> <span class="nav-text">HDLC协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PPP%E5%92%8CHDLC%EF%BC%9F"><span class="nav-number">1.2.6.</span> <span class="nav-text">PPP和HDLC？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E8%AE%BE%E5%A4%87"><span class="nav-number">1.3.</span> <span class="nav-text">数据链路层的设备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E6%A1%A5"><span class="nav-number">1.3.1.</span> <span class="nav-text">网桥</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%8F%E6%98%8E%E7%BD%91%E6%A1%A5"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">透明网桥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%BA%90%E8%B7%AF%E7%94%B1%E7%BD%91%E6%A1%A5"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">源路由网桥</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">1.3.2.</span> <span class="nav-text">局域网交换机</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="注：此书偏公式理论，本文仅对部分章节进行记录，标*表示跳过不读，文中使用 P54，表示《分布式机器学习算法、理论与实践_刘铁岩》中对应页码 54 页有详细解释。  绪论 机器学习基础* 分布式机器学习框架 单机优化之确定性算法* 单机优化之随机算法* 数据与模型并行*  通信机制  数据与模型聚合  分布式机器学习算法  分布式机器学习理论  分布式机器学习系统 结语">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《分布式机器学习算法、理论与实践_刘铁岩》读书记录">
+<meta property="og:url" content="http://yoursite.com/2019/11/10/%E3%80%8A%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E3%80%81%E7%90%86%E8%AE%BA%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%88%98%E9%93%81%E5%B2%A9%E3%80%8B%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="注：此书偏公式理论，本文仅对部分章节进行记录，标*表示跳过不读，文中使用 P54，表示《分布式机器学习算法、理论与实践_刘铁岩》中对应页码 54 页有详细解释。  绪论 机器学习基础* 分布式机器学习框架 单机优化之确定性算法* 单机优化之随机算法* 数据与模型并行*  通信机制  数据与模型聚合  分布式机器学习算法  分布式机器学习理论  分布式机器学习系统 结语">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-11-10T08:40:02.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.888Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="DL">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/10/《分布式机器学习算法、理论与实践-刘铁岩》读书记录/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>《分布式机器学习算法、理论与实践_刘铁岩》读书记录 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/10/%E3%80%8A%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E3%80%81%E7%90%86%E8%AE%BA%E4%B8%8E%E5%AE%9E%E8%B7%B5-%E5%88%98%E9%93%81%E5%B2%A9%E3%80%8B%E8%AF%BB%E4%B9%A6%E8%AE%B0%E5%BD%95/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《分布式机器学习算法、理论与实践_刘铁岩》读书记录
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-11-10 16:40:02" itemprop="dateCreated datePublished" datetime="2019-11-10T16:40:02+08:00">2019-11-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ML/" itemprop="url" rel="index"><span itemprop="name">ML</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>注：此书偏公式理论，本文仅对部分章节进行记录，标*表示跳过不读，文中使用 P54，表示《分布式机器学习算法、理论与实践_刘铁岩》中对应页码 54 页有详细解释。</p>
+<ol>
+<li>绪论</li>
+<li>机器学习基础*</li>
+<li>分布式机器学习框架</li>
+<li>单机优化之确定性算法*</li>
+<li>单机优化之随机算法*</li>
+<li>数据与模型并行* </li>
+<li>通信机制 </li>
+<li>数据与模型聚合 </li>
+<li>分布式机器学习算法 </li>
+<li>分布式机器学习理论 </li>
+<li>分布式机器学习系统</li>
+<li>结语</li>
+</ol>
+<span id="more"></span>
+
+
+<h1 id="1-why-分布式机器学习？"><a href="#1-why-分布式机器学习？" class="headerlink" title="1. why 分布式机器学习？"></a>1. why 分布式机器学习？</h1><blockquote>
+<p>业界的大规模机器学习任务往往涉及如何充分地利用“大数据 ” 、如何有效地训练 “大模型” 。 使用价格昂贵的高性能设备， 例如TB级内存的计算服务器未尝不可 ， 但硬件能力的增长速度显然比不上机器学习所面对数据的增长速度，因此目前业界更主流的解决方案是分布式机器学习 。 </p>
+</blockquote>
+<p>分布式机器学习并非分布式处理技术与机器学习的简单结合 。 一方面，它 必须考虑机器学习模型构成与算法流程本身的特点，否则分布式处理的结果可 能失之毫厘、谬以千里 ; 另一方面，机器学习内含的算法随机性、参数冗余性 等 ， 又会带来一般分布式处理过程所不具备的、宜于专门利用的便利 。 </p>
+<h1 id="2-分布式系统的鲁棒性："><a href="#2-分布式系统的鲁棒性：" class="headerlink" title="2. 分布式系统的鲁棒性："></a>2. 分布式系统的鲁棒性：</h1><ol>
+<li><p>允许不同实现，但需要（跟单机）基本一致的模型和规律。 </p>
+</li>
+<li><p>为了泛化，允许一定噪音。</p>
+</li>
+</ol>
+<h1 id="3-分布式器学基本流程-P45："><a href="#3-分布式器学基本流程-P45：" class="headerlink" title="3. 分布式器学基本流程 P45："></a>3. 分布式器学基本流程 P45：</h1><p>分布式机器学习的三种情形：计算量太大、训练数据太多、模型规模太大。</p>
+<ol>
+<li>计算量太大：多线程、多机计算。 </li>
+<li>训练数据太多（key problem）：划分数据，分配多工作结点训练。 <ul>
+<li>拿到子模型，然后按照一定的规律和其他工作结点进行通信，将子模型及参数进行更新等，最后整合得到全局学习模型。</li>
+</ul>
+</li>
+<li>模型规模太大：划分模型，分配多个工作结点进行训练。 <ul>
+<li>此处拿到的子模型间 maybe 相互依赖。 </li>
+<li>对通信要求高。 </li>
+<li>四大模块：数据与模型划分、单机优化模块、通信模块、数据与模型聚合模块。 </li>
+<li>因为四大模型存在不同的组合方法，产生出了多种多样的分布式机器学习算法（每个模块都有各自的设计准则，可按需选取并组合 ）。</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-1-数据与模型划分模块"><a href="#3-1-数据与模型划分模块" class="headerlink" title="3.1. 数据与模型划分模块"></a>3.1. 数据与模型划分模块</h2><ol>
+<li><p>数据划分。有随机采样、置乱切分（训练时可以定期打乱局部数据）这两种常用做法。还可以在特征维度的切分，P47 。</p>
+</li>
+<li><p>模型划分。一个机器学习的模型对应多个子模型，一个子模型对应多个模型参数，每个子模型放在一个 worker 上进行计算。</p>
+</li>
+</ol>
+<h2 id="3-2-单机优化模块"><a href="#3-2-单机优化模块" class="headerlink" title="3.2. 单机优化模块"></a>3.2. 单机优化模块</h2><ul>
+<li><p>传统的单机机器学习任务。 </p>
+</li>
+<li><p>训练数据、计算经验风险、利用优化算法通过最小化经验风险来学习模型的参数。 </p>
+</li>
+<li><p>在分布式环境下，单机算法的收敛、泛化能力都可能发生变化。</p>
+</li>
+</ul>
+<h2 id="3-3-通信模块"><a href="#3-3-通信模块" class="headerlink" title="3.3. 通信模块"></a>3.3. 通信模块</h2><ol>
+<li><p>通信内容：子模型或者子模型的更新（如梯度）、甚至重要样本（如支持向量）、计算的中间结果等。 </p>
+</li>
+<li><p>拓扑结构：基于<code>迭代式MapReduce</code>的通信拓扑、基于参数服务器的通信拓扑、基于数据流的通信拓扑。 </p>
+<ol>
+<li><p>（早期做法）基于<code>迭代式MapReduce</code>的通信拓扑：如 Spark MLlib。在继承 MR 基础上增加了迭代式，具备了内存运行、持久化等优点。但仍需要完成全部 Mapper 后，进入 Reduce 过程中。单机的优化算法需要较大改动后才能完全符合 Map 和 Reduce 的编程接口。 </p>
+</li>
+<li><p>基于参数服务器（数据并行）的通信拓扑：如 CMU 的 Parameter Server，微软的 <strong>Multiverso</strong>。把工作结点和模型存储结点在逻辑上区分开来。（lee 理解：一个做计算，一个保存模型参数）P50。worker 只与 ps 交互，各个 worker 之间不需要交互，因此快 worker 不需要等待慢 worker。全局参数拆分到多个 ps 上，可以平衡负载提高通信效率，而且对稀疏模型访问的情况比较友好（达到模型并行的效果）。 </p>
+</li>
+<li><p>基于数据流（模型并行）的通信拓扑：如 <strong>TensorFlow</strong>。数据流，也就是 dag。每个节点有两个通信通道：控制信息流和计算数据流。 </p>
+<ol>
+<li><p>控制信息流：input[data、参数],calculate,output[interval data, 参数update] </p>
+</li>
+<li><p>控制信息流：worker 应该接受什么 data、data 是否完整，计算是否完成，是否可以开始下游等。lee理解[一些配置信息，以及状态维持等]。 </p>
+</li>
+<li><p>通信步调：同步 or 异步？ </p>
+<ol>
+<li><p>同步：应用于早期，逻辑清晰，但上千结点同时工作情况下等待时间过长。 </p>
+<ol>
+<li>基于同步的通信算法：例BSP 的随机下降算法、模型平均法、ADMM 法、弹性平均随机梯度下降法等。</li>
+</ol>
+</li>
+<li><p>异步：每个 worker 在完成本地一定量训练后，不等待其他 worker，而将自己的 output 推送到 ps 上，随即继续本地的模型训练 P52。 </p>
+<ol>
+<li><p>基于异步的通信算法：例异步随机梯度下降法ASGD、HogWild！、Cyclades 等。 </p>
+</li>
+<li><p>优化：对延迟不敏感的算法：AdaptiveRevision、AdaDelay; 补偿延迟算法，DC-ASGD。 </p>
+</li>
+<li><p>分为有锁、无锁两种。是指局部模型并入全局模型时是否加锁。</p>
+</li>
+</ol>
+</li>
+<li><p>半同步：例SSP。当检测到延迟过大时，会要求最快的结点停下工作等待较慢的结点。 </p>
+</li>
+<li><p>混合同步：工作结点分组，组内同步通信，组间异步通信。</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="3-4-数据与模型聚合模块"><a href="#3-4-数据与模型聚合模块" class="headerlink" title="3.4. 数据与模型聚合模块"></a>3.4. 数据与模型聚合模块</h2><ul>
+<li>其实就是将来自不同 worker 的data、模型进行聚合的过程。以下以 ps 为例：</li>
+</ul>
+<ol>
+<li><p>ps 拿到多个局部模型后，可以进行 ①模型参数的简单平均；②做一致性优化（如 ADMM、BMUF）； ③模型集成。但各有利弊。模型参数的简单平均和一致性优化：不适合非凸函数（例如深度学习）。模型集成会增加模型的规模，严重时导致模型爆炸，解决办法：模型集成+压缩；考虑子模型的延迟生成，模型集成可能需要异步聚合。 </p>
+</li>
+<li><p>当 ps 将全局模型推送到 worker 上时，worker 可以无条件信任全局模型，也可以部分信任并概率更新本地模型。 </p>
+</li>
+<li><p>典型分布式机器学习系统的比较，P56</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">MapReduce</th>
+<th align="center">Multiverso</th>
+<th align="center">TensorFlow</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">通信拓扑</td>
+<td align="center">迭代式 MR</td>
+<td align="center">ps</td>
+<td align="center">dag</td>
+</tr>
+<tr>
+<td align="center">灵活性</td>
+<td align="center">低，需要遵从 Map+Reduce 步骤</td>
+<td align="center">高，它只是提供了全局存储的服务器和 访问全局存储的 API，对分布式程序自身执行的流程以及具体的运算都没有作要求</td>
+<td align="center">中等，任务需要描述成 dag</td>
+</tr>
+<tr>
+<td align="center">运行效率</td>
+<td align="center">低，同步逻辑</td>
+<td align="center">较高，异步</td>
+<td align="center">较高，异步</td>
+</tr>
+<tr>
+<td align="center">学习任务</td>
+<td align="center">浅层任务，如 LR 等</td>
+<td align="center">无限制，但需要用户自己实现器学算法</td>
+<td align="center">提供一些算子和优化器，用户可自由搭建类深度学习的模型等</td>
+</tr>
+<tr>
+<td align="center">用户使用</td>
+<td align="center">较多现成算子</td>
+<td align="center">生态系统较薄弱</td>
+<td align="center">较多现成算子</td>
+</tr>
+</tbody></table>
+<h1 id="4-数据和模型切分类型"><a href="#4-数据和模型切分类型" class="headerlink" title="4.数据和模型切分类型"></a>4.数据和模型切分类型</h1><ol>
+<li>计算并行模式<ul>
+<li>data 和 model 都在同一块内存中，所有 worker 结点共享，可以并行计算。如单机多线程环境。</li>
+</ul>
+</li>
+<li>数据并行模式<ul>
+<li>训练数据量很大，但本地内存容量受限，所以要切分数据。</li>
+<li>数据会被分配到各个 worker 上，worker 依据局部数据训练模型。</li>
+</ul>
+</li>
+<li>模型并行模式<ul>
+<li>模型规模比较大，但本地内存容量受限，所以要切分模型。</li>
+<li>模型切分跟模型的结构特点有关。线性模型可以按照特征维度进行划分；深层 NN 划分时，可以考虑逐层横向划分（接口清晰，但并行度可能不高）或者跨层纵向划分（子模型间依赖关系复杂、通信代价高）。</li>
+</ul>
+</li>
+</ol>
+<p>#5.通信机制</p>
+<ul>
+<li><p>分布式机器学习的通信特点：通信频率高、通信数据量大，但数值优化算法的容错性较好。</p>
+</li>
+<li><p>通信的内容：参数(或参数的更新)、计算的中间结果。</p>
+<ol>
+<li>参数(或参数的更新)：基于<strong>数据并行</strong>的机器学习（不同 worker 用的同一份 model，参数的重叠度高，所以采用参数进行通信）。稀疏更新，而且随着模型趋于收敛，参数的更新会越来越少，相应通信量会降低。</li>
+<li>计算的中间结果：基于<strong>模型并行</strong>的机器学习（不同 worker 的 model 不同，参数重叠度低，所以通信传递的不是参数，而是相互依赖的中间计算结果）。</li>
+</ol>
+</li>
+<li><p>通信的拓扑：参考上文第 3 节内容</p>
+<ul>
+<li>发展历史：&gt;通信拓扑结构的演化与分布式机器学习的发展历史有关 。 早期，当人 们用 于训练模型的数据量还不够大，预测模型还不够复杂时，分布式机器学习常常利用已有的分布式计算框架来实现通信，如消息通信接口( MPI)或者 MapReduce 计算框架 。 这类通用的<br>计算框架，有利于快速实现分布式机器学习任务，但也有本身的局限性，例如，使用MPI 的方式，各个节点之间仅支持同步计算 。 随着数据量增大，模型变得越来越复杂，人们设计了参数服务器这样的分布式机器 学习系统。通过采 用 二部图的网络拓扑结构,参数服务器可以支持基于异步通信的并行训练 。 后来，随着深度学习的普及，机器学习系统将计算和通信统一抽象为一个数据图模型，通信可以在任意两个相连的图节点之间产生。</li>
+</ul>
+</li>
+</ul>
+<!--后注：Spark MLlib 在 P140、以及 11 章-->
+
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DL/" rel="tag"><i class="fa fa-tag"></i> DL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/05/akka-%E6%A0%B8%E5%BF%83%E7%9F%A5%E8%AF%86%E6%A2%B3%E7%90%86/" rel="next" title="akka 核心知识梳理">
+                <i class="fa fa-chevron-left"></i> akka 核心知识梳理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/20/%EF%BC%88%E8%BD%AC%E8%BD%BD%EF%BC%89%E5%9C%A8linux%E4%B8%8B%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1/" rel="prev" title="（转载）在linux下创建自定义服务">
+                （转载）在linux下创建自定义服务 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-why-%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">1. why 分布式机器学习？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%B2%81%E6%A3%92%E6%80%A7%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">2. 分布式系统的鲁棒性：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%88%86%E5%B8%83%E5%BC%8F%E5%99%A8%E5%AD%A6%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B-P45%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">3. 分布式器学基本流程 P45：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E6%95%B0%E6%8D%AE%E4%B8%8E%E6%A8%A1%E5%9E%8B%E5%88%92%E5%88%86%E6%A8%A1%E5%9D%97"><span class="nav-number">3.1.</span> <span class="nav-text">3.1. 数据与模型划分模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%8D%95%E6%9C%BA%E4%BC%98%E5%8C%96%E6%A8%A1%E5%9D%97"><span class="nav-number">3.2.</span> <span class="nav-text">3.2. 单机优化模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E9%80%9A%E4%BF%A1%E6%A8%A1%E5%9D%97"><span class="nav-number">3.3.</span> <span class="nav-text">3.3. 通信模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-%E6%95%B0%E6%8D%AE%E4%B8%8E%E6%A8%A1%E5%9E%8B%E8%81%9A%E5%90%88%E6%A8%A1%E5%9D%97"><span class="nav-number">3.4.</span> <span class="nav-text">3.4. 数据与模型聚合模块</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%95%B0%E6%8D%AE%E5%92%8C%E6%A8%A1%E5%9E%8B%E5%88%87%E5%88%86%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">4.数据和模型切分类型</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

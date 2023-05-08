@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="面向对象系统分析与设计（5） 为什么要对系统进行分析： 因为需求的特殊性； 用开发语言描述出来，更加正规且准确； 理解上的需要； 设计的需要。   系统分析的过程： 分析结构； 分析用例； 分析 classes； 分析 packages；">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UML（5）">
+<meta property="og:url" content="http://yoursite.com/2018/11/11/UML%EF%BC%885%EF%BC%89/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="面向对象系统分析与设计（5） 为什么要对系统进行分析： 因为需求的特殊性； 用开发语言描述出来，更加正规且准确； 理解上的需要； 设计的需要。   系统分析的过程： 分析结构； 分析用例； 分析 classes； 分析 packages；">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML%EF%BC%885%EF%BC%89/3.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML%EF%BC%885%EF%BC%89/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML%EF%BC%885%EF%BC%89/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML%EF%BC%885%EF%BC%89/4.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML%EF%BC%885%EF%BC%89/5.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/11/UML%EF%BC%885%EF%BC%89/6.png">
+<meta property="article:published_time" content="2018-11-11T14:02:11.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.857Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="UML">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/11/UML%EF%BC%885%EF%BC%89/3.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/11/UML（5）/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>UML（5） | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/11/UML%EF%BC%885%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UML（5）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-11 22:02:11" itemprop="dateCreated datePublished" datetime="2018-11-11T22:02:11+08:00">2018-11-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UML/" itemprop="url" rel="index"><span itemprop="name">UML</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="面向对象系统分析与设计（5）"><a href="#面向对象系统分析与设计（5）" class="headerlink" title="面向对象系统分析与设计（5）"></a>面向对象系统分析与设计（5）</h1><ul>
+<li>为什么要对系统进行分析：<ol>
+<li>因为需求的特殊性；</li>
+<li>用开发语言描述出来，更加正规且准确；</li>
+<li>理解上的需要；</li>
+<li>设计的需要。</li>
+</ol>
+</li>
+<li>系统分析的过程：<ol>
+<li>分析结构；</li>
+<li>分析用例；</li>
+<li>分析 classes；</li>
+<li>分析 packages；</li>
+</ol>
+</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="1-analyze-classes"><a href="#1-analyze-classes" class="headerlink" title="1. analyze classes"></a>1. analyze classes</h2><ul>
+<li>致力于解决功能性需求。</li>
+<li>对 class 的描述仍是概念上的，不涉及具体实现。</li>
+<li>分类：Boundary class、entity class、control class。</li>
+<li>理解：将一个 use-case 分为三类，相当于细节化这个 use-case。如下图：</li>
+</ul>
+<p><img src="/2018/11/11/UML%EF%BC%885%EF%BC%89/3.png"></p>
+<h3 id="1-1-boundary-class"><a href="#1-1-boundary-class" class="headerlink" title="1.1 boundary class"></a>1.1 boundary class</h3><ul>
+<li>边界类。</li>
+<li>定义：将 system 和 actors 之间的交互模型化，主要是界面。</li>
+<li>是对 UI 元素或者设备的抽象。举例：窗口、表格、控件、打印页面、传感器、终端等。不应太过细节，比如按钮、菜单项等是不合适的。</li>
+</ul>
+<p><img src="/2018/11/11/UML%EF%BC%885%EF%BC%89/1.png"></p>
+<h3 id="1-2-entity-class"><a href="#1-2-entity-class" class="headerlink" title="1.2 entity class"></a>1.2 entity class</h3><ul>
+<li>实体类。<br>太常见了，略</li>
+</ul>
+<h3 id="1-3-control-class"><a href="#1-3-control-class" class="headerlink" title="1.3 control class"></a>1.3 control class</h3><ul>
+<li>控制类。</li>
+<li>定义：体现应用程序的执行逻辑。</li>
+<li>举例：增加商品的行为，对应一个“增加商品类”。</li>
+<li>tips：一个 control class 最多与一个 actor 相关联。</li>
+</ul>
+<p>哪些可以直接相连：</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">actors</th>
+<th align="center">boundary class</th>
+<th align="center">entity class</th>
+<th align="center">control class</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">actors</td>
+<td align="center">×</td>
+<td align="center">✔️</td>
+<td align="center">×</td>
+<td align="center">×</td>
+</tr>
+<tr>
+<td align="center">boundary class</td>
+<td align="center">✔️</td>
+<td align="center">×</td>
+<td align="center">✔️</td>
+<td align="center">✔️</td>
+</tr>
+<tr>
+<td align="center">entity class</td>
+<td align="center">×</td>
+<td align="center">✔️</td>
+<td align="center">×</td>
+<td align="center">✔️</td>
+</tr>
+<tr>
+<td align="center">control class</td>
+<td align="center">×</td>
+<td align="center">✔️</td>
+<td align="center">✔️</td>
+<td align="center">✔️</td>
+</tr>
+</tbody></table>
+<p><img src="/2018/11/11/UML%EF%BC%885%EF%BC%89/2.png"></p>
+<h3 id="1-4-CRC-cards-概念模型"><a href="#1-4-CRC-cards-概念模型" class="headerlink" title="1.4 CRC cards 概念模型"></a>1.4 CRC cards 概念模型</h3><table>
+<thead>
+<tr>
+<th align="center">Class name</th>
+<th align="center">Class name</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">Responsibililities</td>
+<td align="center">Collaborators</td>
+</tr>
+<tr>
+<td align="center">this class knows or does</td>
+<td align="center">anothor class(this class interacts with) to fulfill its responsibilities</td>
+</tr>
+</tbody></table>
+<p>Tips: </p>
+<ol>
+<li>有助于理解“面向对象”</li>
+<li>如果 responsibilities 过多，会造成低内聚；</li>
+<li>如果collaborators 过多，会造成高耦合。</li>
+<li>以 3~5 个responsibilities 为宜。</li>
+</ol>
+<h2 id="2-statechart-diagram"><a href="#2-statechart-diagram" class="headerlink" title="2. statechart diagram"></a>2. statechart diagram</h2><ul>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="http://www.michael-richardson.com/processes/rup_for_sqa/core.base_rup/guidances/guidelines/statechart_diagram_640B5D0B.html">Guideline: Statechart Diagram</a></li>
+<li>定义：描述对象内部行为的图表，比如：当外界传来 message 时，这个对象内部会作出的反应。</li>
+<li>这个图表需要展示的信息：<ol>
+<li>以<strong>结点</strong>的形式，表示单个对象的<strong>状态</strong>；</li>
+<li>以<strong>连线</strong>的形式，表示造成改变的<strong>原因</strong>；</li>
+<li>如果 state 发生变化，会导致的 <strong>actions</strong> 要表现出来。</li>
+<li>展示出这个 object 收发的所有 messages；</li>
+<li>展示这个 object 生命周期内的所有 states；</li>
+</ol>
+</li>
+</ul>
+<p>什么是states？</p>
+<h3 id="2-1-states"><a href="#2-1-states" class="headerlink" title="2.1 states"></a>2.1 states</h3><ul>
+<li>定义：一个 object 在其生命周期的某一刻的状态，具有 duration 的特点（指一段时间）。</li>
+<li>判定 object 是否处于某个 state，可以根据 ① 这个类的某些 attribute（有时属性的改变会触发 state 的变化）、② 这个类与其他类的 link（有时 link 的改变会触发 state 的变化）。</li>
+</ul>
+<h3 id="2-2-start-state-和-stop-state"><a href="#2-2-start-state-和-stop-state" class="headerlink" title="2.2 start state 和 stop state"></a>2.2 start state 和 stop state</h3><ul>
+<li>start state：每个状态图，有且仅有一个 start state。在 UML 中用黑色实心圆表示。</li>
+<li>stop state：每个状态图，可以有多个 stop state。在 UML 中用同心圆表示（内圆黑色实心，外圆环空心）。</li>
+<li>注：states 必须命名，未命名的将被当作匿名状态。</li>
+</ul>
+<h3 id="2-3-transitions"><a href="#2-3-transitions" class="headerlink" title="2.3 transitions"></a>2.3 transitions</h3><blockquote>
+<p>A state machine consists of states, linked by transitions. </p>
+</blockquote>
+<ul>
+<li>过渡态，在 UML 中用带箭头的实线表示，通常从一个 state 指向另一个 state（也可以指回自己 self-transition）。</li>
+<li>特点：<ul>
+<li>过渡态通常在一瞬间完成，不会被打断。</li>
+<li>一个状态图中，某一时间点，只会有一个 transition 在发生。</li>
+</ul>
+</li>
+<li>transitions 的发生条件：<ol>
+<li>当一个 state activity 完成时，将会自动进入 transitions，进而进入下一个 state。关键词：自动。</li>
+<li>被某 event 触发。关键词：非自动。</li>
+</ol>
+</li>
+<li>transitions 的伴随现象（可选）：<ol>
+<li>event signature：[理解]transitions 一定程度上跟 event 是同一件事，所以要有自己的命名。</li>
+<li>guard condition：相当于先决条件</li>
+<li>action：当 transitions 发生时执行的一系列 actions</li>
+<li>message sending：给其他 objects 发消息</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-4-events"><a href="#2-4-events" class="headerlink" title="2.4 events"></a>2.4 events</h3><ul>
+<li>瞬时发生的事件。</li>
+<li>两个事件之间，可能无关，可能相关（比如有时间先后关系等）</li>
+<li>分类：<ol>
+<li>call event：做出某些操作，作为某 message 的回应；</li>
+<li>signal event：objects 之间的实时 signal；</li>
+<li>change event：判定事件，类似 if 语句。</li>
+<li>time event：定时&#x2F;周期性的事件。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-5-actions-amp-activities"><a href="#2-5-actions-amp-activities" class="headerlink" title="2.5 actions &amp; activities"></a>2.5 actions &amp; activities</h3><ul>
+<li>actions：瞬时、不会被中断；</li>
+<li>activities：花时间才能完成，具有时间段的特性，可以被打断。</li>
+</ul>
+<p>state 的五种 behavior：</p>
+<ol>
+<li>no behavior: 静等 event 发生后离开这个 state。</li>
+<li>event name[guard condition]&#x2F;action: 等某 event 发生后，满足设定的条件后，执行 action。</li>
+<li>do&#x2F;activity: 执行某个 operation。</li>
+<li>entry&#x2F;action: 进入此 state 时会发生的 atomic action。</li>
+<li>exit&#x2F;action: 离开此 state 时会发生的 atomic action。</li>
+</ol>
+<h2 id="3-composite-statechart-diagrams"><a href="#3-composite-statechart-diagrams" class="headerlink" title="3. composite statechart diagrams"></a>3. composite statechart diagrams</h2><ul>
+<li>定义：有一个或多个重叠 statecharts 的状态图。</li>
+</ul>
+<h3 id="3-1-sequential-composite-statechart-diagram"><a href="#3-1-sequential-composite-statechart-diagram" class="headerlink" title="3.1 sequential composite statechart diagram"></a>3.1 sequential composite statechart diagram</h3><p><img src="/2018/11/11/UML%EF%BC%885%EF%BC%89/4.png"></p>
+<p>[理解]：上图的 substate 明显具有时序性。主要体现：abstract&#x2F;generalize states。</p>
+<h3 id="3-2-concurrent-composite-statechart-diagram"><a href="#3-2-concurrent-composite-statechart-diagram" class="headerlink" title="3.2 concurrent composite statechart diagram"></a>3.2 concurrent composite statechart diagram</h3><p><img src="/2018/11/11/UML%EF%BC%885%EF%BC%89/5.png"></p>
+<p>主要用来体现多线程的行为。</p>
+<h3 id="3-3-从-UML-上看-composite-状态图"><a href="#3-3-从-UML-上看-composite-状态图" class="headerlink" title="3.3 从 UML 上看 composite 状态图"></a>3.3 从 UML 上看 composite 状态图</h3><ol>
+<li>（从外界）指向状态图的边框，意味着进入 initial state。</li>
+<li>自状态图的边框指向（外界），意味着触发 exit actions。</li>
+</ol>
+<p><strong>上面是状态图，下面是活动图</strong></p>
+<h2 id="4-activity-diagram"><a href="#4-activity-diagram" class="headerlink" title="4. activity diagram"></a>4. activity diagram</h2><p>与状态图的区别：推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u013201439/article/details/49821467">状态图与活动图的联系和区别</a></p>
+<blockquote>
+<p>状态图是描述某一对象的状态转化的，它主要展示的是对象的状态。描述的是一个对象的事情。从状态图中我们可以看出，对象在接受了事件刺激后，会做出什么样的反应。</p>
+</blockquote>
+<blockquote>
+<p>活动图是描述系统在执行某一用例时的具体步骤的，它主要表现的是系统的动作，描述的是整个系统的事情。</p>
+</blockquote>
+<h3 id="4-0-活动图的应用场景"><a href="#4-0-活动图的应用场景" class="headerlink" title="4.0 活动图的应用场景"></a>4.0 活动图的应用场景</h3><ol>
+<li>需要展示系统活动规律的场景。</li>
+<li>并行工作流的建模中。</li>
+</ol>
+<h3 id="4-1-activity-x2F-action"><a href="#4-1-activity-x2F-action" class="headerlink" title="4.1 activity&#x2F;action"></a>4.1 activity&#x2F;action</h3><p>与状态图中 activities&#x2F;actions 的概念类似。</p>
+<h3 id="4-2-transitions"><a href="#4-2-transitions" class="headerlink" title="4.2 transitions"></a>4.2 transitions</h3><ol>
+<li>与状态图的 transitions 概念类似。</li>
+<li>没有 internal transitions；</li>
+<li>没有事件驱动的 actions；</li>
+</ol>
+<h3 id="4-3-一些特殊的-activities"><a href="#4-3-一些特殊的-activities" class="headerlink" title="4.3 一些特殊的 activities"></a>4.3 一些特殊的 activities</h3><ol>
+<li>decision：多分支，每条分支都有自己的 guard condition；而且必须进入子分支中。</li>
+<li>dead end activity：允许 non-terminating 的活动图。</li>
+</ol>
+<h3 id="4-4-synchronization-bar"><a href="#4-4-synchronization-bar" class="headerlink" title="4.4 synchronization bar"></a>4.4 synchronization bar</h3><blockquote>
+<p>Combines two concurrent activities and re-introduces them to a flow where only one activity occurs at a time. Represented with a thick vertical or horizontal line.</p>
+</blockquote>
+<p><img src="/2018/11/11/UML%EF%BC%885%EF%BC%89/6.png"></p>
+<ul>
+<li>不指定同步条件时，默认要等所有进入的 transitions 发生后，才能进入。</li>
+</ul>
+<h2 id="5-package"><a href="#5-package" class="headerlink" title="5. package"></a>5. package</h2><ul>
+<li>为了使用的方便，将 analysis classes 等打包的一种机制。</li>
+<li>可以包含：<ol>
+<li>analysis classes；</li>
+<li>use-case realizations；</li>
+<li>其他 package，建议 2~3 层即可。</li>
+</ol>
+</li>
+<li>包依赖：简单、不解释。</li>
+<li>shared classes：将此 classes 独立打包，让其他 package 依赖它。</li>
+<li>命名空间：一个 package 对应一个命名空间。包内元素命名唯一。跨包访问时，要带上路径，举例：Package1::classname。</li>
+<li>使用 <code>&lt;&lt;access&gt;&gt;</code>和<code>&lt;&lt;import&gt;&gt;</code>标记。</li>
+<li>包可视化，同类，不赘述。</li>
+<li>包的设计原则：高内聚、低耦合。</li>
+<li>按照用途分类（分层或分区）：<ol>
+<li>application-specific：不被其他包使用。</li>
+<li>application-general：能被其他包共享。</li>
+</ol>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/UML/" rel="tag"><i class="fa fa-tag"></i> UML</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/10/UML%EF%BC%884%EF%BC%89/" rel="next" title="UML（4）">
+                <i class="fa fa-chevron-left"></i> UML（4）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/12/UML%EF%BC%886%EF%BC%89/" rel="prev" title="UML（6）">
+                UML（6） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1%EF%BC%885%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">面向对象系统分析与设计（5）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-analyze-classes"><span class="nav-number">1.1.</span> <span class="nav-text">1. analyze classes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-boundary-class"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 boundary class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-entity-class"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 entity class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-control-class"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 control class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-CRC-cards-%E6%A6%82%E5%BF%B5%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 CRC cards 概念模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-statechart-diagram"><span class="nav-number">1.2.</span> <span class="nav-text">2. statechart diagram</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-states"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 states</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-start-state-%E5%92%8C-stop-state"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 start state 和 stop state</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-transitions"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 transitions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-events"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 events</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-actions-amp-activities"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 actions &amp; activities</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-composite-statechart-diagrams"><span class="nav-number">1.3.</span> <span class="nav-text">3. composite statechart diagrams</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-sequential-composite-statechart-diagram"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 sequential composite statechart diagram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-concurrent-composite-statechart-diagram"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 concurrent composite statechart diagram</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-%E4%BB%8E-UML-%E4%B8%8A%E7%9C%8B-composite-%E7%8A%B6%E6%80%81%E5%9B%BE"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 从 UML 上看 composite 状态图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-activity-diagram"><span class="nav-number">1.4.</span> <span class="nav-text">4. activity diagram</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-0-%E6%B4%BB%E5%8A%A8%E5%9B%BE%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.4.1.</span> <span class="nav-text">4.0 活动图的应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-activity-x2F-action"><span class="nav-number">1.4.2.</span> <span class="nav-text">4.1 activity&#x2F;action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-transitions"><span class="nav-number">1.4.3.</span> <span class="nav-text">4.2 transitions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-%E4%B8%80%E4%BA%9B%E7%89%B9%E6%AE%8A%E7%9A%84-activities"><span class="nav-number">1.4.4.</span> <span class="nav-text">4.3 一些特殊的 activities</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-synchronization-bar"><span class="nav-number">1.4.5.</span> <span class="nav-text">4.4 synchronization bar</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-package"><span class="nav-number">1.5.</span> <span class="nav-text">5. package</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Spring 源码学习之 IOC一、源码说明说明：本文分析的是 SpringFrameWork（5.0.5.RELEASE）IOC 部分的源码。 IOC：inversion of control，控制反转。应用程序将对象的控制权移交给第三方容器，并通过容器来管理这些被依赖的对象，完成了应用程序与被依赖对象的解耦。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring IOC">
+<meta property="og:url" content="http://yoursite.com/2018/11/06/Spring-IOC/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="Spring 源码学习之 IOC一、源码说明说明：本文分析的是 SpringFrameWork（5.0.5.RELEASE）IOC 部分的源码。 IOC：inversion of control，控制反转。应用程序将对象的控制权移交给第三方容器，并通过容器来管理这些被依赖的对象，完成了应用程序与被依赖对象的解耦。">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/11/06/Spring-IOC/Resource.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/06/Spring-IOC/ApplicationContext.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/06/Spring-IOC/DefaultListableBeanFactory.png">
+<meta property="article:published_time" content="2018-11-06T00:54:56.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.853Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="IOC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/06/Spring-IOC/Resource.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/06/Spring-IOC/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring IOC | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/06/Spring-IOC/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Spring IOC
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-06 08:54:56" itemprop="dateCreated datePublished" datetime="2018-11-06T08:54:56+08:00">2018-11-06</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Spring-源码学习之-IOC"><a href="#Spring-源码学习之-IOC" class="headerlink" title="Spring 源码学习之 IOC"></a>Spring 源码学习之 IOC</h1><h2 id="一、源码说明"><a href="#一、源码说明" class="headerlink" title="一、源码说明"></a>一、源码说明</h2><p>说明：本文分析的是 SpringFrameWork（5.0.5.RELEASE）IOC 部分的源码。</p>
+<p>IOC：inversion of control，控制反转。应用程序将对象的控制权移交给第三方容器，并通过容器来管理这些被依赖的对象，完成了应用程序与被依赖对象的解耦。</p>
+<span id="more"></span>
+
+<p>以下就是使用 Spring 进行控制反转的经典案例：</p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="type">static</span> <span class="type">void</span> <span class="title">main</span><span class="params">(<span class="type">String</span>[] args)</span> </span>&#123;</span><br><span class="line">	ApplicationContext context = <span class="keyword">new</span> <span class="built_in">ClassPathXmlApplicationContext</span>(<span class="string">&quot;classpath:applicationfile.xml&quot;</span>);</span><br><span class="line">	MessageService messageService = context.<span class="built_in">getBean</span>(MessageService.<span class="keyword">class</span>);</span><br><span class="line">	messageService.<span class="built_in">getMessage</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、设计模式"><a href="#二、设计模式" class="headerlink" title="二、设计模式"></a>二、设计模式</h2><p>Spring IOC 主要用到了三种设计模式：</p>
+<ol>
+<li><p>工厂模式：<code>ApplicationContext</code>构建的<code>DefaultListableBeanFactory</code>类型的 BeanFactory，范例参见下文步骤拆解。</p>
+</li>
+<li><p>单例模式：如果是单例 bean，将在<code>AbstractBeanFactory.java</code>的<br><code>doGetBean()</code>方法中进行实例化，见下代码：</p>
+ <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//仅展示部分代码</span></span><br><span class="line"><span class="keyword">if</span> (mbd.is<span class="constructor">Singleton()</span>) &#123;</span><br><span class="line">    sharedInstance = get<span class="constructor">Singleton(<span class="params">beanName</span>, ()</span> -&gt; &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            return create<span class="constructor">Bean(<span class="params">beanName</span>, <span class="params">mbd</span>, <span class="params">args</span>)</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        catch (BeansException ex) &#123;</span><br><span class="line">            destroy<span class="constructor">Singleton(<span class="params">beanName</span>)</span>;</span><br><span class="line">            throw ex;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    bean = get<span class="constructor">ObjectForBeanInstance(<span class="params">sharedInstance</span>, <span class="params">name</span>, <span class="params">beanName</span>, <span class="params">mbd</span>)</span>;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>将<code>beanName</code>和<code>RootBeanDefinition</code>拿到创建 bean 并初始化 bean。</p>
+<ol start="3">
+<li>策略模式：Spring 会调用 ApplicationContext 来获取 Resource 的实例，但 Resource 接口封装了多种资源类型，见下图：</li>
+</ol>
+<p><img src="/2018/11/06/Spring-IOC/Resource.png" alt="ApplicationContext"></p>
+<p>Spring 采用策略模式，选择恰当的资源访问方式，用以适应不同的资源类型。本文的 xml 配置文件，就是由 Spring 调用<code>ClassPathXmlApplicationContext </code>类来读取的。</p>
+<h2 id="三、步骤拆解"><a href="#三、步骤拆解" class="headerlink" title="三、步骤拆解"></a>三、步骤拆解</h2><p>首先<code>ApplicationContext </code>的继承关系如下图：</p>
+<p><img src="/2018/11/06/Spring-IOC/ApplicationContext.png" alt="ApplicationContext"></p>
+<p>其中<code>ClassPathXmlApplicationContext</code>是通过读取 xml 文件来构建<code>ApplicationContext</code>。另外一种通过注解实现的方式，本文暂不涉及。</p>
+<h3 id="（1）创建beanFactory"><a href="#（1）创建beanFactory" class="headerlink" title="（1）创建beanFactory"></a>（1）创建<code>beanFactory</code></h3><h4 id="1-处理路径信息"><a href="#1-处理路径信息" class="headerlink" title="1. 处理路径信息"></a>1. 处理路径信息</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Class: ClassPathXmlApplicationContext</span></span><br><span class="line"><span class="comment">*  Method: ClassPathXmlApplicationContext</span></span><br><span class="line"><span class="comment">*  Line: 142、144</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">		<span class="built_in">setConfigLocations</span>(configLocations);<span class="comment">// 处理路径信息</span></span><br><span class="line">		...</span><br><span class="line">		<span class="built_in">refresh</span>(); <span class="comment">// （1）、（2）节内容都在此方法栈之上</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>refresh()</code>执行的是初始化<code>ApplicationContext</code>的工作</p>
+<h4 id="2-创建BeanFactory"><a href="#2-创建BeanFactory" class="headerlink" title="2. 创建BeanFactory"></a>2. 创建<code>BeanFactory</code></h4><ul>
+<li>创建<code>DefaultListableBeanFactory</code>类型的 <code>BeanFactory </code></li>
+</ul>
+<p><img src="/2018/11/06/Spring-IOC/DefaultListableBeanFactory.png" alt="DefaultListableBeanFactory"></p>
+<p>上图为<code>DefaultListableBeanFactory</code>的继承关系图，它继承了<code>BeanDefinitionRegistry</code>和<code>ListableBeanFactory</code>，是绝佳的<code>BeanFactory</code>。</p>
+<figure class="highlight nestedtext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">/* Class</span><span class="punctuation">:</span> <span class="string">AbstractApplicationContext</span></span><br><span class="line"><span class="attribute">*  Method</span><span class="punctuation">:</span> <span class="string">obtainFreshBeanFactory()</span></span><br><span class="line"><span class="attribute">*  Line</span><span class="punctuation">:</span> <span class="string">522</span></span><br><span class="line"><span class="attribute">*/</span></span><br><span class="line"><span class="attribute">ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();// 以下开始到步骤4末都在此方法栈之上</span></span><br><span class="line"><span class="attribute"></span></span><br><span class="line"><span class="attribute">/* Class</span><span class="punctuation">:</span> <span class="string">AbstractApplicationContext</span></span><br><span class="line"><span class="attribute">*  Method</span><span class="punctuation">:</span> <span class="string">obtainFreshBeanFactory()</span></span><br><span class="line"><span class="attribute">*  Line</span><span class="punctuation">:</span> <span class="string">621</span></span><br><span class="line"><span class="attribute">*/</span></span><br><span class="line"><span class="attribute">refreshBeanFactory(); </span></span><br><span class="line"><span class="attribute"></span></span><br><span class="line"><span class="attribute">/* Class</span><span class="punctuation">:</span> <span class="string">AbstractRefreshableApplicationContext</span></span><br><span class="line"><span class="attribute">*  Method</span><span class="punctuation">:</span> <span class="string">refreshBeanFactory()</span></span><br><span class="line"><span class="attribute">*  Line</span><span class="punctuation">:</span> <span class="string">130</span></span><br><span class="line"><span class="attribute">*/</span></span><br><span class="line"><span class="attribute">DefaultListableBeanFactory beanFactory = createBeanFactory();</span></span><br><span class="line"><span class="attribute"></span></span><br><span class="line"><span class="attribute">/* Class</span><span class="punctuation">:</span> <span class="string">AbstractRefreshableApplicationContext</span></span><br><span class="line"><span class="attribute">*  Method</span><span class="punctuation">:</span> <span class="string">createBeanFactory()</span></span><br><span class="line"><span class="attribute">*  Line</span><span class="punctuation">:</span> <span class="string">206</span></span><br><span class="line">*/</span><br><span class="line">return new DefaultListableBeanFactory(getInternalParentBeanFactory());</span><br></pre></td></tr></table></figure>
+
+<h3 id="（2）bean-的配置、加载、注册"><a href="#（2）bean-的配置、加载、注册" class="headerlink" title="（2）bean 的配置、加载、注册"></a>（2）bean 的配置、加载、注册</h3><h4 id="3-配置是否允许循环依赖和是否允许-Bean-定义的覆盖"><a href="#3-配置是否允许循环依赖和是否允许-Bean-定义的覆盖" class="headerlink" title="3. 配置是否允许循环依赖和是否允许 Bean 定义的覆盖"></a>3. 配置是否允许循环依赖和是否允许 Bean 定义的覆盖</h4><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Class: AbstractRefreshableApplicationContext</span></span><br><span class="line"><span class="comment">*  Method: refreshBeanFactory()</span></span><br><span class="line"><span class="comment">*  Line: 132</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">customizeBeanFactory(beanFactory);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* Class: AbstractRefreshableApplicationContext</span></span><br><span class="line"><span class="comment">*  Method: customizeBeanFactory()</span></span><br><span class="line"><span class="comment">*  Line: 224 ~ 228</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.allowBeanDefinitionOverriding != <span class="literal">null</span>) &#123;</span><br><span class="line">	beanFactory.setAllowBeanDefinitionOverriding(<span class="keyword">this</span>.allowBeanDefinitionOverriding);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">this</span>.allowCircularReferences != <span class="literal">null</span>) &#123;</span><br><span class="line">	beanFactory.setAllowCircularReferences(<span class="keyword">this</span>.allowCircularReferences);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-根据配置信息加载-Bean，并放入-BeanFactory-中"><a href="#4-根据配置信息加载-Bean，并放入-BeanFactory-中" class="headerlink" title="4. 根据配置信息加载 Bean，并放入 BeanFactory 中"></a>4. 根据配置信息加载 Bean，并放入 BeanFactory 中</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Class: AbstractRefreshableApplicationContext</span></span><br><span class="line"><span class="comment">*  Method: refreshBeanFactory()</span></span><br><span class="line"><span class="comment">*  Line: 133</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">load<span class="constructor">BeanDefinitions(<span class="params">beanFactory</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Class: AbstractXmlApplicationContext</span></span><br><span class="line"><span class="comment">*  Method: loadBeanDefinitions()</span></span><br><span class="line"><span class="comment">*  Line: 83、94</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">XmlBeanDefinitionReader beanDefinitionReader = <span class="keyword">new</span> <span class="constructor">XmlBeanDefinitionReader(<span class="params">beanFactory</span>)</span>; </span><br><span class="line">load<span class="constructor">BeanDefinitions(<span class="params">beanDefinitionReader</span>)</span>; </span><br></pre></td></tr></table></figure>
+
+<p>由<code>XmlBeanDefinitionReader</code>对象完成 xml 文件的读取，如果有多个 xml 文件，会一并获取。</p>
+<h4 id="5-将配置信息中的资源（非懒加载的-bean）注册入-beanFactory-中。"><a href="#5-将配置信息中的资源（非懒加载的-bean）注册入-beanFactory-中。" class="headerlink" title="5. 将配置信息中的资源（非懒加载的 bean）注册入 beanFactory 中。"></a>5. 将配置信息中的资源（非懒加载的 bean）注册入 beanFactory 中。</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* Class: AbstractApplicationContext</span></span><br><span class="line"><span class="comment">*  Method: refresh()</span></span><br><span class="line"><span class="comment">*  Line: 550</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">finish<span class="constructor">BeanFactoryInitialization(<span class="params">beanFactory</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Class: AbstractApplicationContext</span></span><br><span class="line"><span class="comment">*  Method: finishBeanFactoryInitialization()</span></span><br><span class="line"><span class="comment">*  Line: 869</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">beanFactory.pre<span class="constructor">InstantiateSingletons()</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">/* Class: DefaultListableBeanFactory</span></span><br><span class="line"><span class="comment">*  Method: preInstantiateSingletons()</span></span><br><span class="line"><span class="comment">*  Line: 760</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">get<span class="constructor">Bean(<span class="params">beanName</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Class: AbstractBeanFactory</span></span><br><span class="line"><span class="comment">*  Method: doGetBean()</span></span><br><span class="line"><span class="comment">*  Line: 246、268、295、327、314~367</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Object sharedInstance = get<span class="constructor">Singleton(<span class="params">beanName</span>)</span>;</span><br><span class="line">BeanFactory parentBeanFactory = get<span class="constructor">ParentBeanFactory()</span>;</span><br><span class="line">final RootBeanDefinition mbd = get<span class="constructor">MergedLocalBeanDefinition(<span class="params">beanName</span>)</span>;</span><br><span class="line">String<span class="literal">[]</span> dependsOn = mbd.get<span class="constructor">DependsOn()</span>;</span><br><span class="line">bean = get<span class="constructor">ObjectForBeanInstance(<span class="params">sharedInstance</span>, <span class="params">name</span>, <span class="params">beanName</span>, <span class="params">mbd</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Class: AbstractBeanFactory</span></span><br><span class="line"><span class="comment">*  Method: getObjectForBeanInstance()</span></span><br><span class="line"><span class="comment">*  Line:1629~1631</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">if</span> (!(beanInstance instanceof FactoryBean)<span class="operator"> || </span><span class="module-access"><span class="module"><span class="identifier">BeanFactoryUtils</span>.</span></span>is<span class="constructor">FactoryDereference(<span class="params">name</span>)</span>) &#123;</span><br><span class="line">	return beanInstance;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>preInstantiateSingletons()</code>方法将所有 bean 标签属性取出，先判断非 abstract、非懒加载、单例模式，再判断非 FactoryBean 对象后，执行 <code>getBean(beanName)</code>方法。</li>
+<li>然后调用<code>getSingleton(beanName)</code>方法检查是否已创建，调用<code>getParentBeanFactory()</code>方法检查此 BeanDefinition 是否已经存在于容器中。</li>
+<li>调用<code>mbd.getDependsOn()</code>初始化所有依赖，并检查是否有依赖关系。<br>从 314 行到 367 行，是根据是否 singleton、Prototype等调用<code>getObjectForBeanInstance</code>方法创建出 bean instance。</li>
+</ol>
+<p>到此，所有非懒加载的 singleton beans 都已经完成初始化。</p>
+<h3 id="（3）getBean-拿到实例完成方法调用"><a href="#（3）getBean-拿到实例完成方法调用" class="headerlink" title="（3）getBean()拿到实例完成方法调用"></a>（3）<code>getBean()</code>拿到实例完成方法调用</h3><h4 id="6-拿到上面生成的-bean-instance"><a href="#6-拿到上面生成的-bean-instance" class="headerlink" title="6. 拿到上面生成的 bean instance"></a>6. 拿到上面生成的 bean instance</h4><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MessageService messageService = context.get<span class="constructor">Bean(MessageService.<span class="params">class</span>)</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* Class: AbstractBeanFactory</span></span><br><span class="line"><span class="comment">*  Method: doGetBean()</span></span><br><span class="line"><span class="comment">*  Line: 246</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">Object sharedInstance = get<span class="constructor">Singleton(<span class="params">beanName</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>调用<code>context.getBean()</code>方法后，会进入<code>AbstractBeanFactory</code>类中的<code>doGetBean()</code>方法中，在上一节步骤 5 中已经通过此方法创建了 bean 的实例，所以此处可以直接拿到此实例</li>
+<li>然后完成实例方法的调用</li>
+</ol>
+<!--## 四、质量代码的案例
+
+### 4.1 符合高质量代码的案例
+
+1. 覆盖 equals 时总要覆盖 hashCode。而且总是要覆盖 toString()。而且覆盖后的 equals 方法保持了对称、传递和一致性。
+
+    <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">/* package: org.springframework.beans.factory.config</span></span><br><span class="line"><span class="comment">*  class: BeanDefinitionHolder</span></span><br><span class="line"><span class="comment">*  Line: 165~190</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> String toString() &#123;</span><br><span class="line">	<span class="keyword">return</span> getLongDescription();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> boolean equals(Object other) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span> == other) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (!(other instanceof BeanDefinitionHolder)) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	BeanDefinitionHolder otherHolder = (BeanDefinitionHolder) other;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.beanDefinition.equals(otherHolder.beanDefinition) &amp;&amp;</span><br><span class="line">			<span class="keyword">this</span>.beanName.equals(otherHolder.beanName) &amp;&amp;</span><br><span class="line">			ObjectUtils.nullSafeEquals(<span class="keyword">this</span>.aliases, otherHolder.aliases);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> int hashCode() &#123;</span><br><span class="line">	int hashCode = <span class="keyword">this</span>.beanDefinition.hashCode();</span><br><span class="line">	hashCode = <span class="number">29</span> * hashCode + <span class="keyword">this</span>.beanName.hashCode();</span><br><span class="line">	hashCode = <span class="number">29</span> * hashCode + ObjectUtils.nullSafeHashCode(<span class="keyword">this</span>.aliases);</span><br><span class="line">	<span class="keyword">return</span> hashCode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p>优先创建列表，而且在预知长度时，设置默认长度。</p>
+ <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* package: org.springframework.beans.factory.annotation</span></span><br><span class="line"><span class="comment">*  class: AutowiredAnnotationBeanPostProcessor</span></span><br><span class="line"><span class="comment">*  Line: 283</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="type">List</span>&lt;<span class="type">Constructor</span>&lt;?&gt;&gt; candidates <span class="operator">=</span> new <span class="type">ArrayList</span>&lt;&gt;(rawCandidates.length);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在频繁增删的情况下，优先选择 LinkedList，而且使用 foreach 进行迭代。</p>
+ <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* package: org.springframework.beans.factory.serviceloader</span></span><br><span class="line"><span class="comment">*  class: ServiceListFactoryBean</span></span><br><span class="line"><span class="comment">*  Line: 37~43</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">protected</span> <span class="title class_">Object</span> <span class="title function_">getObjectToExpose</span>(<span class="params">ServiceLoader&lt;?&gt; serviceLoader</span>) &#123;</span><br><span class="line">	<span class="title class_">List</span>&lt;<span class="title class_">Object</span>&gt; result = <span class="keyword">new</span> <span class="title class_">LinkedList</span>&lt;&gt;();</span><br><span class="line">	<span class="keyword">for</span> (<span class="title class_">Object</span> loaderObject : serviceLoader) &#123;</span><br><span class="line">		result.<span class="title function_">add</span>(loaderObject);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>将 createBean 方法泛型化，避免需要代码进行类型转换的情况。</p>
+ <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment">/* package: org.springframework.beans.factory.support</span></span><br><span class="line"><span class="comment">	*  class: createBean</span></span><br><span class="line"><span class="comment">	*  Line: 296~304</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line">public &lt;T&gt; T create<span class="constructor">Bean(Class&lt;T&gt; <span class="params">beanClass</span>)</span> throws BeansException &#123;</span><br><span class="line">		RootBeanDefinition bd = <span class="keyword">new</span> <span class="constructor">RootBeanDefinition(<span class="params">beanClass</span>)</span>;</span><br><span class="line">		bd.set<span class="constructor">Scope(SCOPE_PROTOTYPE)</span>;</span><br><span class="line">		bd.allowCaching = <span class="module-access"><span class="module"><span class="identifier">ClassUtils</span>.</span></span>is<span class="constructor">CacheSafe(<span class="params">beanClass</span>, <span class="params">getBeanClassLoader</span>()</span>);</span><br><span class="line">		return (T) create<span class="constructor">Bean(<span class="params">beanClass</span>.<span class="params">getName</span>()</span>, bd, null);</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类型强转前，使用 instanceof 进行父类、子类判断。</p>
+ <figure class="highlight actionscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* package: org.springframework.beans.factory.config</span></span><br><span class="line"><span class="comment">*  class: ServiceLocatorFactoryBean</span></span><br><span class="line"><span class="comment">*  Line: 252~257</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">if</span> (!(beanFactory <span class="keyword">instanceof</span> ListableBeanFactory)) &#123;</span><br><span class="line">	<span class="keyword">throw</span> <span class="keyword">new</span> FatalBeanException(</span><br><span class="line">			<span class="string">&quot;ServiceLocatorFactoryBean needs to run in a BeanFactory that is a ListableBeanFactory&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">this</span>.beanFactory = (ListableBeanFactory) beanFactory;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>枚举类<code>Autowire</code>，为参数提供编译时安全。</p>
+ <figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">enum</span> <span class="title class_">Autowire</span> &#123;</span><br><span class="line">	<span class="built_in">NO</span>(AutowireCapableBeanFactory.AUTOWIRE_NO),</span><br><span class="line">	<span class="built_in">BY_NAME</span>(AutowireCapableBeanFactory.AUTOWIRE_BY_NAME),</span><br><span class="line">	<span class="built_in">BY_TYPE</span>(AutowireCapableBeanFactory.AUTOWIRE_BY_TYPE);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="type">int</span> value;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">Autowire</span>(<span class="type">int</span> value) &#123;</span><br><span class="line">		<span class="keyword">this</span>.value = value;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="type">int</span> <span class="title">value</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.value;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title">isAutowire</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> (<span class="keyword">this</span> == BY_NAME || <span class="keyword">this</span> == BY_TYPE);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="4-2-违反高质量代码的案例"><a href="#4-2-违反高质量代码的案例" class="headerlink" title="4.2 违反高质量代码的案例"></a>4.2 违反高质量代码的案例</h3><ol>
+<li><p>try-catch 捕获异常后，未作任何处理。</p>
+ <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* package: org.springframework.beans.factory.annotation</span></span><br><span class="line"><span class="comment">*  class: AutowiredAnnotationBeanPostProcessor</span></span><br><span class="line"><span class="comment">*  Line: 151~158</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="keyword">this</span>.autowiredAnnotationTypes.add((<span class="keyword">Class</span>&lt;? <span class="keyword">extends</span> Annotation&gt;)</span><br><span class="line">			ClassUtils.forName(<span class="string">&quot;javax.inject.Inject&quot;</span>, AutowiredAnnotationBeanPostProcessor.<span class="keyword">class</span>.getClassLoader()));</span><br><span class="line">	logger.info(<span class="string">&quot;JSR-330 &#x27;javax.inject.Inject&#x27; annotation found and supported for autowiring&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">catch</span> (ClassNotFoundException ex) &#123;</span><br><span class="line">	<span class="comment">// JSR-330 API not available - simply skip.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>因为此方法为构造方法，所以不可抛异常。此时考虑到“JSR-330 API not available”，所以将 try-catch 删去。改后代码</p>
+<pre><code><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">this</span>.autowiredAnnotationTypes.add((<span class="keyword">Class</span>&lt;? <span class="keyword">extends</span> Annotation&gt;)</span><br><span class="line">		ClassUtils.forName(<span class="string">&quot;javax.inject.Inject&quot;</span>, AutowiredAnnotationBeanPostProcessor.<span class="keyword">class</span>.getClassLoader()));</span><br><span class="line">logger.info(<span class="string">&quot;JSR-330 &#x27;javax.inject.Inject&#x27; annotation found and supported for autowiring&quot;</span>);</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ol start="2">
+<li><p>List 数组仍然使用 Iterate 进行迭代</p>
+ <figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">/* package: org.springframework.beans.factory.config</span><br><span class="line">*  <span class="built_in">class</span>: ConstructorArgumentValues</span><br><span class="line">*  Line: <span class="number">230</span></span><br><span class="line">*/</span><br><span class="line"><span class="keyword">for</span> (Iterator&lt;ValueHolder&gt; <span class="keyword">it</span> = this.genericArgumentValues.iterator(); <span class="keyword">it</span>.hasNext();)&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>在 JDK 1.5 之后，建议采用 for-each 取代迭代器，以减少出错的可能性。改后代码为：</p>
+<pre><code><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">for</span><span class="params">(ValueHolder holder : this.genericArgumentValues)</span></span>&#123;</span><br><span class="line">	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ol start="3">
+<li><p>在 com.sun.glass.ui 的 <code>GestureSupport</code>类中，第 94 行</p>
+ <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="built_in">double</span> <span class="title">multiplicativeDelta</span>(<span class="params"><span class="built_in">double</span> <span class="keyword">from</span>, <span class="built_in">double</span> to</span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">from</span> == <span class="number">0.0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> View.GESTURE_NO_DOUBLE_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (to / <span class="keyword">from</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>double 类型数据的比较不应该使用<code>==</code>。更改后的代码：</p>
+<pre><code><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private static <span class="type">double</span> multiplicativeDelta(<span class="type">double</span> <span class="keyword">from</span>, <span class="type">double</span> <span class="keyword">to</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="type">Double</span>.doubleToLongBits(<span class="keyword">from</span>) == <span class="type">Double</span>.doubleToLongBits(<span class="number">0.0</span>) ) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">View</span>.GESTURE_NO_DOUBLE_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> (<span class="keyword">to</span> / <span class="keyword">from</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ol start="4">
+<li><p>在 com.sun.java.swing.plaf.windows 的<code>WindowsIconFactory</code>类中，第 226 行</p>
+ <figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">if</span> (w % <span class="number">2</span> == <span class="number">1</span>) &#123; x++; w++; &#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>使用了奇判断，建议更换成偶判断。更改后的代码：</p>
+<pre><code><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">if</span> (w % <span class="number">2</span> != <span class="number">0</span>) &#123; x++; w++; &#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ol start="5">
+<li><p>在 com.sun.imageio.plugins.png 的 <code>PNGMetadata</code>类中，</p>
+ <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span> <span class="keyword">public</span> <span class="built_in">boolean</span> <span class="title function_">equals</span>(<span class="params"><span class="built_in">Object</span> o</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="variable language_">this</span> == o) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (o == <span class="literal">null</span> || <span class="title function_">getClass</span>() != o.<span class="title function_">getClass</span>()) </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>变量名应该避开“0”、“o”、“1”、“l”这些易混淆的字符。更改后的代码：</p>
+<pre><code><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span> <span class="keyword">public</span> <span class="built_in">boolean</span> <span class="title function_">equals</span>(<span class="params"><span class="built_in">Object</span> <span class="built_in">object</span></span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="variable language_">this</span> == <span class="built_in">object</span>) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">object</span> == <span class="literal">null</span> || <span class="title function_">getClass</span>() != <span class="built_in">object</span>.<span class="title function_">getClass</span>()) </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ol start="6">
+<li><p>在 com.sun.glass.ui.win 的<code>WinMenuItemDelegate</code>类中，第42行</p>
+ <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private int cmdID <span class="operator">=</span> -<span class="number">1</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>变量名没有遵循驼峰命名法。更改后的代码：</p>
+ <figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">private int cmdId <span class="operator">=</span> -<span class="number">1</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在 com.sun.glass.ui.win 的<code>WinMenuItemDelegate</code>类中，第84行</p>
+ <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span> <span class="keyword">public</span> <span class="built_in">boolean</span> <span class="title function_">setPixels</span>(<span class="params">Pixels pixels</span>) &#123;</span><br><span class="line">    <span class="comment">// <span class="doctag">TODO:</span> implement images in menuItem</span></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>无用的传参，以及不需要实现的功能及注释需要清理。更改后的代码：</p>
+<pre><code><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span> <span class="keyword">public</span> <span class="built_in">boolean</span> <span class="title function_">setPixels</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<p>–&gt;</p>
+-->
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/IOC/" rel="tag"><i class="fa fa-tag"></i> IOC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/02/tiny-spring%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89/" rel="next" title="tiny-spring分析笔记（2）">
+                <i class="fa fa-chevron-left"></i> tiny-spring分析笔记（2）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/10/UML%EF%BC%883%EF%BC%89/" rel="prev" title="UML（3）">
+                UML（3） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E4%B9%8B-IOC"><span class="nav-number">1.</span> <span class="nav-text">Spring 源码学习之 IOC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%BA%90%E7%A0%81%E8%AF%B4%E6%98%8E"><span class="nav-number">1.1.</span> <span class="nav-text">一、源码说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">二、设计模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%AD%A5%E9%AA%A4%E6%8B%86%E8%A7%A3"><span class="nav-number">1.3.</span> <span class="nav-text">三、步骤拆解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E5%88%9B%E5%BB%BAbeanFactory"><span class="nav-number">1.3.1.</span> <span class="nav-text">（1）创建beanFactory</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%A4%84%E7%90%86%E8%B7%AF%E5%BE%84%E4%BF%A1%E6%81%AF"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">1. 处理路径信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BABeanFactory"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">2. 创建BeanFactory</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%882%EF%BC%89bean-%E7%9A%84%E9%85%8D%E7%BD%AE%E3%80%81%E5%8A%A0%E8%BD%BD%E3%80%81%E6%B3%A8%E5%86%8C"><span class="nav-number">1.3.2.</span> <span class="nav-text">（2）bean 的配置、加载、注册</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E9%85%8D%E7%BD%AE%E6%98%AF%E5%90%A6%E5%85%81%E8%AE%B8%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E5%92%8C%E6%98%AF%E5%90%A6%E5%85%81%E8%AE%B8-Bean-%E5%AE%9A%E4%B9%89%E7%9A%84%E8%A6%86%E7%9B%96"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">3. 配置是否允许循环依赖和是否允许 Bean 定义的覆盖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%A0%B9%E6%8D%AE%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%E5%8A%A0%E8%BD%BD-Bean%EF%BC%8C%E5%B9%B6%E6%94%BE%E5%85%A5-BeanFactory-%E4%B8%AD"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">4. 根据配置信息加载 Bean，并放入 BeanFactory 中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E5%B0%86%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF%E4%B8%AD%E7%9A%84%E8%B5%84%E6%BA%90%EF%BC%88%E9%9D%9E%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84-bean%EF%BC%89%E6%B3%A8%E5%86%8C%E5%85%A5-beanFactory-%E4%B8%AD%E3%80%82"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">5. 将配置信息中的资源（非懒加载的 bean）注册入 beanFactory 中。</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%883%EF%BC%89getBean-%E6%8B%BF%E5%88%B0%E5%AE%9E%E4%BE%8B%E5%AE%8C%E6%88%90%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8"><span class="nav-number">1.3.3.</span> <span class="nav-text">（3）getBean()拿到实例完成方法调用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E6%8B%BF%E5%88%B0%E4%B8%8A%E9%9D%A2%E7%94%9F%E6%88%90%E7%9A%84-bean-instance"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">6. 拿到上面生成的 bean instance</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="ARTS 第一周分享 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARTS(1)">
+<meta property="og:url" content="http://yoursite.com/2019/03/15/ARTS-1/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="ARTS 第一周分享 每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）：   每周至少做一个 leetcode 的算法题 阅读并点评至少一篇英文技术文章 学习至少一个技术技巧 分享一篇有观点和思考的技术文章">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2019/03/15/ARTS-1/1.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/15/ARTS-1/2.png">
+<meta property="article:published_time" content="2019-03-15T08:44:52.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.823Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="ARTS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/15/ARTS-1/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/15/ARTS-1/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>ARTS(1) | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/15/ARTS-1/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ARTS(1)
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-15 16:44:52" itemprop="dateCreated datePublished" datetime="2019-03-15T16:44:52+08:00">2019-03-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ARTS/" itemprop="url" rel="index"><span itemprop="name">ARTS</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ARTS-第一周分享"><a href="#ARTS-第一周分享" class="headerlink" title="ARTS 第一周分享"></a>ARTS 第一周分享</h1><blockquote>
+<p>每周完成一个ARTS（也就是 Algorithm、Review、Tip、Share 简称ARTS）： </p>
+<ol>
+<li>每周至少做一个 leetcode 的算法题</li>
+<li>阅读并点评至少一篇英文技术文章</li>
+<li>学习至少一个技术技巧</li>
+<li>分享一篇有观点和思考的技术文章</li>
+</ol>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/majority-element-ii/">LeetCode 229. Majority Element II</a></p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Time complexity：O(n).</span></span><br><span class="line"><span class="comment">// Space complexity: O(1).</span></span><br><span class="line"><span class="keyword">public</span> List&lt;Integer&gt; majorityElement(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">	List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">	<span class="keyword">int</span> major1 = nums[<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">int</span> major2 = nums[<span class="number">0</span>];</span><br><span class="line">	<span class="keyword">int</span> count1 = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> count2 = <span class="number">0</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 因为1/3的要求，所以最多有两个主元素，找出来 major1 和 major2</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> n : nums) &#123;</span><br><span class="line">		<span class="keyword">if</span> (n == major1) &#123;</span><br><span class="line">			count1++;</span><br><span class="line">		&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> <span class="params">(n == major2)</span> </span>&#123;</span><br><span class="line">			count2++;</span><br><span class="line">		&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> <span class="params">(count1 == <span class="number">0</span>)</span> </span>&#123;</span><br><span class="line">			major1 = n;</span><br><span class="line">			count1++;</span><br><span class="line">		&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> <span class="params">(count2 == <span class="number">0</span>)</span> </span>&#123;</span><br><span class="line">			major2 = n;</span><br><span class="line">			count2++;</span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			count1--;</span><br><span class="line">			count2--;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	count1 = <span class="number">0</span>;</span><br><span class="line">	count2 = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> n : nums) &#123;</span><br><span class="line">		<span class="keyword">if</span> (n == major1) &#123;</span><br><span class="line">			count1++;</span><br><span class="line">		&#125; <span class="function"><span class="keyword">else</span> <span class="title">if</span> <span class="params">(n == major2)</span> </span>&#123;</span><br><span class="line">			count2++;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (count1 &gt; nums.length / <span class="number">3</span>) &#123;</span><br><span class="line">		list.add(major1);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (count2 &gt; nums.length / <span class="number">3</span>) &#123;</span><br><span class="line">		list.add(major2);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> list;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<hr>
+<p><a target="_blank" rel="noopener" href="https://leetcode.com/problems/keys-and-rooms/">LeetCode 841. Keys and Rooms</a></p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 邻接表版的图的 DFS</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span>[] vis;</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="keyword">count</span>;</span><br><span class="line"><span class="comment">// 是否能访问全部房间，返回true / false</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> canVisitAllRooms(List&lt;List&lt;Integer&gt;&gt; rooms) &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> n = rooms.<span class="keyword">size</span>();</span><br><span class="line">	vis = <span class="keyword">new</span> <span class="keyword">int</span>[n];</span><br><span class="line">	DFS(rooms, <span class="number">0</span>);</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">count</span> + <span class="number">1</span> == n) &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> DFS(List&lt;List&lt;Integer&gt;&gt; rooms, <span class="keyword">int</span> u) &#123;</span><br><span class="line">	List&lt;Integer&gt; room = rooms.get(u);</span><br><span class="line">	vis[u] = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span> (Integer v : room) &#123;</span><br><span class="line">		<span class="keyword">if</span> (vis[v] == <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">count</span>++;</span><br><span class="line">			DFS(rooms, v);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Review"><a href="#Review" class="headerlink" title="Review"></a>Review</h2><p>本周阅读的英文文章是：<a target="_blank" rel="noopener" href="https://medium.com/@KishoreKarunakaran/understanding-cpu-cache-friendliness-a970f142e889">Understanding CPU cache friendliness</a><br>文章主题：CPU 缓存的知识<br>主要内容：</p>
+<ol>
+<li>对于一个空序列，有一组乱序的数字要插入这个序列中，逐个插入时都要保证有序。满足上面情况的序列其实有两种实现：数组及链表。</li>
+<li>起初两种实现的耗时表现基本一致，但随着元素数量的增加，数组实现明显比链表实现完成地更快（即便插入删除数据会造成数组元素的大量移动，数组仍然更快），这种差异其实是由 CPU 缓存造成的。</li>
+<li>根据摩尔定律，我们知道处理器中晶体管的数量每 18 个月会翻一倍，但是最近的单核CPU表现却是十分平缓，为了增加处理速度只好增加更多的核。然而，RAM 的发展速度要远远地慢于CPU。</li>
+<li>从缓存中取一个line可能需要 100ns，但是这100ns里，CPU甚至可以执行1200条指令。</li>
+<li>回到上文数组和链表的问题。首先，数组存储一个整数需要4个字节，而链表需要16个字节，链表要访问更多的内存区域才能完成；其次，链表的物理存储位置分散，访问时相对“随机”，会导致 CPU 缓存失效（个人理解：CPU 会缓存物理区域相近的数据，随机访问时不容易命中缓存）。最后，硬件也更倾向于访问物理结构在一起的内存，例如数组结构。</li>
+<li>结论：<ol>
+<li>非必要时，不要存储数据；</li>
+<li>尽量有规律地访问数据；</li>
+<li>考虑算法复杂度时，也要考虑稳定性，众所周知，快排、归并、堆排的时间复杂度都是O(NlongN)，快排虽快，但它的稳定性最差。</li>
+</ol>
+</li>
+</ol>
+<h2 id="Tip"><a href="#Tip" class="headerlink" title="Tip"></a>Tip</h2><p> 本周介绍两个效率工具，都是 chrome 浏览器的插件—— Stylus 和 Octotree。</p>
+<ol>
+<li>先说第一个：Stylus 插件，是一种网页外观样式管理器。像 CSDN 这类热点网站的布局实在难看即可，旁边的广告、琐碎信息太多容易分散精力，使用此插件之后，可以选自己舒服的样式，比如把正文框加宽等， 效果如下：</li>
+</ol>
+<p> <img src="/2019/03/15/ARTS-1/1.png"></p>
+<ol start="2">
+<li>然后说第二个：Octotree 插件，是专门用在 GitHub 网站上的，可以在浏览器一侧显示目录结构，爽到起飞，效果如下：</li>
+</ol>
+<p> <img src="/2019/03/15/ARTS-1/2.png"></p>
+<h2 id="Share"><a href="#Share" class="headerlink" title="Share"></a>Share</h2><p>本周主要在准备 Java 实习生面试，Share 环节打算系统地整理一下有关 ConcurrentHashMap（JDK 1.8） 的面试知识点。<br>分为以下几个小节：</p>
+<ol start="0">
+<li>前置知识</li>
+<li>什么是 ConcurrentHashMap？</li>
+<li>它的线程安全的体现。</li>
+</ol>
+<h3 id="1-前置知识"><a href="#1-前置知识" class="headerlink" title="1. 前置知识"></a>1. 前置知识</h3><h4 id="1-首先我们需要知道-HashMap-这个基础类的存在。基础功能就不说了，直接看扩容操作："><a href="#1-首先我们需要知道-HashMap-这个基础类的存在。基础功能就不说了，直接看扩容操作：" class="headerlink" title="1. 首先我们需要知道 HashMap 这个基础类的存在。基础功能就不说了，直接看扩容操作："></a>1. 首先我们需要知道 HashMap 这个基础类的存在。基础功能就不说了，直接看扩容操作：</h4><ul>
+<li><p>HashMap 的扩容：</p>
+</li>
+<li><p>先涉及两个参数：newCap 和 newThreshold，newCap 通常是原来的2倍，阈值（Threshold）也变为原来的2倍。</p>
+</li>
+<li><p>扩容后要将键值对Hash的重新计算，然后移动到合适的位置上去，如下：</p>
+<ol>
+<li>在链表中，如果<code>e.hash &amp; oldCap == 0</code>，则保持在原本的位置上，并且相同计算结果的结点按原来的相对位置接在后面。</li>
+<li>如果<code>e.hash &amp; oldCap == 1</code>，则这些结点都要放在原位置j + oldCap 的位置上，这些结点相对位置不变。</li>
+<li>在红黑树中，如果需要扩容操作，红黑树也需要拆分后重新映射。研究拆分之前，建议先阅读下边的扩展内容——红黑树的树化步骤。现在说一下拆分过程：因为红黑树中保留了原链表结点的 next 指针，所以分组方式跟原链表完全相同，将分成两种不同的链表。</li>
+<li>红黑树拆分后变成两个链表，长度自然会变短，如果长度小于等于 6 ，那么此半个红黑树将保持链表状态；如果长度超过 6 ，那么将继续树化，成为一颗红黑树。</li>
+</ol>
+<p>  扩展：红黑树的树化步骤，如下：</p>
+</li>
+</ul>
+<ol>
+<li>将链表普通结点改造成 TreeNode 树形节点链表；</li>
+<li>将得到的链表转化成红黑树。<ol>
+<li>形成红黑树时需要比较结点间的大小：① 首先比较 hash 的大小；② 如果相等，则检查键类是否实现了 Comparable 接口，若是则调用 compareTo 方法进行比较；③ 若仍无法比较大小，则调用<code>tieBreakOrder()</code>方法进行仲裁，仲裁后就有大小的区别了。</li>
+<li>链表转红黑树后，原链表的连接顺序依旧被保留了下来（next 指针来实现）。</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-然后需要知道Unsafe-类"><a href="#2-然后需要知道Unsafe-类" class="headerlink" title="2. 然后需要知道Unsafe 类"></a>2. 然后需要知道Unsafe 类</h4><p>Unsafe 类能够对内存进行操作，详细功能如下：</p>
+<ol>
+<li><strong>内存的操作</strong>。以下主要讲解<strong>直接内存</strong>：通过Unsafe.allocateMemory分配内存、Unsafe.setMemory进行内存初始化，而后构建Cleaner对象用于跟踪DirectByteBuffer对象的垃圾回收。</li>
+<li><strong>CAS 操作</strong>。代码可参考上一题——Atomic 源码细节。其中调用的 <code>compareAndSwap*</code>才是真正的原子操作，<code>CAS#getAndAddInt()</code>是在原子操作的基础上增加了自旋的逻辑。</li>
+<li><strong>线程调度</strong>。<blockquote>
+<p>Java锁和同步器框架的核心类AbstractQueuedSynchronizer，就是通过调用LockSupport.park()和LockSupport.unpark()实现线程的阻塞和唤醒的，而LockSupport的park、unpark方法实际是调用Unsafe的park、unpark方式来实现。</p>
+</blockquote>
+</li>
+<li><strong>内存屏障</strong>。其实是 CPU 或者 IDE 对内存随机访问的一个安全点，使得此点之前的所有读写操作都执行后才可以开始执行此点之后的操作，避免代码重排序。体现在 Unsafe类中的<code>*Fence()</code>系列方法</li>
+<li>Class 操作。不展开，直接看<a target="_blank" rel="noopener" href="https://tech.meituan.com/2019/02/14/talk-about-java-magic-class-unsafe.html">原博客</a>。</li>
+<li>对象操作。主要应用场景是：非常规的对象实例化方式（比如绕过类构造器，绕过安全检查等）。</li>
+<li>数组相关。主要跟 AtomicIntegerArray中的数组操作中的元素定位有关。</li>
+<li>系统相关。系统指针大小（32位指针大小是4B，64位是8B）；内存页大小（作者主机上内存页大小是4096B）。</li>
+</ol>
+<p>在 ConcurrentHashMap 中主要涉及三个操作：</p>
+<ul>
+<li><code>tabAt()</code> 用来返回节点数组的指定位置的节点的原子操作。</li>
+<li><code>casTabAt()</code> cas原子操作，在指定位置设定值</li>
+<li><code>setTabAt()</code> 原子操作，在指定位置设定值</li>
+</ul>
+<h3 id="2-什么是-ConcurrentHashMap？"><a href="#2-什么是-ConcurrentHashMap？" class="headerlink" title="2. 什么是 ConcurrentHashMap？"></a>2. 什么是 ConcurrentHashMap？</h3><p>ConcurrentHashMap 基础功能的实现原理跟 HashMap 相近，但 ConcurrentHashMap 是 HashMap 的线程安全的实现，内部使用了大量的 CAS、volatile、Synchronized 等并发技术，在 Spring 框架中被广泛应用。</p>
+<h3 id="3-线程安全的操作"><a href="#3-线程安全的操作" class="headerlink" title="3. 线程安全的操作"></a>3. 线程安全的操作</h3><h4 id="3-0-关于sizeCtl-变量"><a href="#3-0-关于sizeCtl-变量" class="headerlink" title="3.0 关于sizeCtl 变量"></a>3.0 关于sizeCtl 变量</h4><p>sizeCtl 数值：</p>
+<ul>
+<li>-1 :代表table正在初始化,其他线程应该交出CPU时间片</li>
+<li>-N: 表示正有N-1个线程执行扩容操作（高 16 位是 length 生成的标识符，低 16 位是扩容的线程数，最大 65535）</li>
+<li>大于 0: 如果table已经初始化,代表table容量,默认为table大小的0.75,如果还未初始化,代表需要初始化的大小</li>
+</ul>
+<h4 id="3-1-初始化操作："><a href="#3-1-初始化操作：" class="headerlink" title="3.1. 初始化操作："></a>3.1. 初始化操作：</h4><p>首先有一个执行“初始化操作”的线程，然后观察 sizectl 参数，如果小于 0 ，此线程自旋等待；如果大于等于 0 ，则利用 CAS 操作将其设为 -1，此 CAS 操作保证以下操作的线程安全：① 为数组开辟内存，② 将 sizeCtl 设为数组长度的 3&#x2F;4（即sc &#x3D; n - (n &gt;&gt;&gt; 2)）。</p>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化完整源码：</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Initializes table, using the size recorded in sizeCtl.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">private final Node&lt;K,V&gt;[] initTable() &#123;</span><br><span class="line">    Node&lt;K,V&gt;[] <span class="keyword">tab</span>; int <span class="keyword">sc</span>;</span><br><span class="line">    <span class="keyword">while</span> ((<span class="keyword">tab</span> = <span class="keyword">table</span>) == null || <span class="keyword">tab</span>.length == 0) &#123;</span><br><span class="line">        <span class="keyword">if</span> ((<span class="keyword">sc</span> = sizeCtl) &lt; 0)</span><br><span class="line">            Thread.yield(); <span class="comment">// lost initialization race; just spin</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="keyword">U</span>.compareAndSwapInt(this, SIZECTL, <span class="keyword">sc</span>, -1)) &#123;</span><br><span class="line">            try &#123;</span><br><span class="line">                <span class="keyword">if</span> ((<span class="keyword">tab</span> = <span class="keyword">table</span>) == null || <span class="keyword">tab</span>.length == 0) &#123;</span><br><span class="line">                    int <span class="keyword">n</span> = (<span class="keyword">sc</span> &gt; 0) ? <span class="keyword">sc</span> : DEFAULT_CAPACITY;</span><br><span class="line">                    @SuppressWarnings(<span class="string">&quot;unchecked&quot;</span>)</span><br><span class="line">                    Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])new Node&lt;?,?&gt;[<span class="keyword">n</span>];</span><br><span class="line">                    <span class="keyword">table</span> = <span class="keyword">tab</span> = nt;</span><br><span class="line">                    <span class="keyword">sc</span> = <span class="keyword">n</span> - (<span class="keyword">n</span> &gt;&gt;&gt; 2);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; finally &#123;</span><br><span class="line">                sizeCtl = <span class="keyword">sc</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">tab</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-put-操作"><a href="#3-2-put-操作" class="headerlink" title="3.2. put 操作"></a>3.2. put 操作</h4><ol>
+<li>先拿到欲添加的 key 的 hash（执行<code>(h ^ (h &gt;&gt;&gt; 16)) &amp; HASH_BITS;</code>）。</li>
+<li>若 table 还没有申请到内存，则先执行初始化操作，即本题上一节。</li>
+<li>若将要放置的位置没有元素，会执行<code>casTabAt()</code>方法尝试添加。</li>
+<li>若检测到当前元素的hash为moved状态（说明正在执行<code>transfer()</code>操作，此操作会调用<code>ForwardingNode()</code>方法，此方法会将元素的hash设置为moved）。说明正处于数组扩张的数据复制阶段，则此线程也会参与去复制即<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/39b747c99d32">helpTransfer</a>，通过允许多线程复制的功能，以此来减少数组的复制所带来的性能损失。</li>
+<li>若当前位置有元素，则使用 Synchronized 的方式加锁，对以下操作进行线程安全控制：① 若是链表，遍历链表，若同hash同key，则替换该value；不然，新建node加到链表末尾。② 若是红黑树，则添加到红黑树中。</li>
+</ol>
+<h4 id="3-3-get操作"><a href="#3-3-get操作" class="headerlink" title="3.3. get操作"></a>3.3. get操作</h4><p>get 操作无锁，支持并发</p>
+<h4 id="3-4-链表转树操作"><a href="#3-4-链表转树操作" class="headerlink" title="3.4. 链表转树操作"></a>3.4. 链表转树操作</h4><ol>
+<li>在执行<code>treeifyBin()</code>转树方法时，若桶的数量小于 64 时，优先触发扩容操作，细节参考本题下一节：3.5 扩容操作。</li>
+<li>若桶数量多于 64 时，使用Synchronized 方式加锁，对以下操作进行线程安全控制：① 将普通结点转换为 TreeNode 结点；② 将 TreeNode 组成的链表构造出 Treebin 对象，在 Treebin 对象的构造方法中，链表被转换成了红黑树。</li>
+</ol>
+<h4 id="3-5-扩容操作"><a href="#3-5-扩容操作" class="headerlink" title="3.5. 扩容操作"></a>3.5. 扩容操作</h4><p>首先调用<code>tryPresize()</code>方法（支持并发），确定扩容的目标值（决定扩容的次数），以及根据<code>sizeCtl</code>参数选择进入不同的分支。<br>最终来到<code>transfer</code>方法处。</p>
+<ol>
+<li>首先如果多线程一起进行扩容操作，那么每个线程最少处理 16 个长度的数组元素，以避免此方法占用过多的 CPU 使用。</li>
+<li>第一个进入扩容的线程负责初始化一个新的table，长度是旧的两倍。</li>
+<li>然后分配一个区间的桶（一般是16 个）给此线程，完成下标的控制。<ol>
+<li>如果扩容结束，可以尝试领取新的区间；如果无法领取，那么 sizeCtl 减一，扩容的线程减少一个。</li>
+<li>如果数组i处桶是空的，就尝试用 CAS 占位，将占位符 fwd 插入。</li>
+<li>如果桶不是空，而且已经有了占位符，说明已有其他线程处理过此操作，那么当前线程将跳过这个桶。</li>
+<li>如果以上都不是，而且扩容操作没有完成，那么将开始同步处理这个桶。</li>
+</ol>
+</li>
+<li>处理每个桶的行为是同步的，使用Synchronized关键词修饰，剩下的操作与HashMap基本一致，不再赘述。</li>
+</ol>
+<p>That’s all,thank you!</p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ARTS/" rel="tag"><i class="fa fa-tag"></i> ARTS</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/23/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%866/" rel="next" title="面经整理6">
+                <i class="fa fa-chevron-left"></i> 面经整理6
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/22/%E4%B8%83%E7%A7%8D%E5%86%85%E9%83%A8%E6%8E%92%E5%BA%8F%E7%9A%84%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" rel="prev" title="七种内部排序的代码实现">
+                七种内部排序的代码实现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ARTS-%E7%AC%AC%E4%B8%80%E5%91%A8%E5%88%86%E4%BA%AB"><span class="nav-number">1.</span> <span class="nav-text">ARTS 第一周分享</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Algorithm"><span class="nav-number">1.1.</span> <span class="nav-text">Algorithm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Review"><span class="nav-number">1.2.</span> <span class="nav-text">Review</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tip"><span class="nav-number">1.3.</span> <span class="nav-text">Tip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Share"><span class="nav-number">1.4.</span> <span class="nav-text">Share</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 前置知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%A6%96%E5%85%88%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93-HashMap-%E8%BF%99%E4%B8%AA%E5%9F%BA%E7%A1%80%E7%B1%BB%E7%9A%84%E5%AD%98%E5%9C%A8%E3%80%82%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD%E5%B0%B1%E4%B8%8D%E8%AF%B4%E4%BA%86%EF%BC%8C%E7%9B%B4%E6%8E%A5%E7%9C%8B%E6%89%A9%E5%AE%B9%E6%93%8D%E4%BD%9C%EF%BC%9A"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">1. 首先我们需要知道 HashMap 这个基础类的存在。基础功能就不说了，直接看扩容操作：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E7%84%B6%E5%90%8E%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93Unsafe-%E7%B1%BB"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">2. 然后需要知道Unsafe 类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E4%BB%80%E4%B9%88%E6%98%AF-ConcurrentHashMap%EF%BC%9F"><span class="nav-number">1.4.2.</span> <span class="nav-text">2. 什么是 ConcurrentHashMap？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.3.</span> <span class="nav-text">3. 线程安全的操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-0-%E5%85%B3%E4%BA%8EsizeCtl-%E5%8F%98%E9%87%8F"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">3.0 关于sizeCtl 变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-%E5%88%9D%E5%A7%8B%E5%8C%96%E6%93%8D%E4%BD%9C%EF%BC%9A"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">3.1. 初始化操作：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-put-%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">3.2. put 操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3-get%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.3.4.</span> <span class="nav-text">3.3. get操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4-%E9%93%BE%E8%A1%A8%E8%BD%AC%E6%A0%91%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.3.5.</span> <span class="nav-text">3.4. 链表转树操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-%E6%89%A9%E5%AE%B9%E6%93%8D%E4%BD%9C"><span class="nav-number">1.4.3.6.</span> <span class="nav-text">3.5. 扩容操作</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

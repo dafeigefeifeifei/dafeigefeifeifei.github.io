@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文为 presto &amp; Alluxio &amp; 缓存白名单策略的技术综述，摘录自各处最佳实践。 链接：Alluxio 应用实践- 贝壳找房 基于Alluxio与HDFS支撑Presto和TPC-DS查询场景的性能测试 基于Presto+Alluxio的adhoc查询方案在网易游戏的实践 唯品会实践案例：基于Alluxio优化电商平台热点数据访问性能">
+<meta property="og:type" content="article">
+<meta property="og:title" content=" Presto &amp; Alluxio综述">
+<meta property="og:url" content="http://yoursite.com/2021/03/13/Presto-Alluxio%E7%BB%BC%E8%BF%B0/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="本文为 presto &amp; Alluxio &amp; 缓存白名单策略的技术综述，摘录自各处最佳实践。 链接：Alluxio 应用实践- 贝壳找房 基于Alluxio与HDFS支撑Presto和TPC-DS查询场景的性能测试 基于Presto+Alluxio的adhoc查询方案在网易游戏的实践 唯品会实践案例：基于Alluxio优化电商平台热点数据访问性能">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2021/03/13/Presto-Alluxio%E7%BB%BC%E8%BF%B0/%E5%8F%96%E6%95%B0%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1.png">
+<meta property="article:published_time" content="2021-03-13T02:28:41.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.850Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="bigData">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2021/03/13/Presto-Alluxio%E7%BB%BC%E8%BF%B0/%E5%8F%96%E6%95%B0%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/03/13/Presto-Alluxio综述/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title> Presto & Alluxio综述 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/13/Presto-Alluxio%E7%BB%BC%E8%BF%B0/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"> Presto & Alluxio综述
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2021-03-13 10:28:41" itemprop="dateCreated datePublished" datetime="2021-03-13T10:28:41+08:00">2021-03-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/review/" itemprop="url" rel="index"><span itemprop="name">review</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文为 <strong>presto &amp; Alluxio &amp; 缓存白名单策略</strong>的技术综述，摘录自各处最佳实践。</p>
+<p>链接：<a target="_blank" rel="noopener" href="https://www.infoq.cn/article/ryyocgqgr4voq5jjeemt">Alluxio 应用实践- 贝壳找房</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/55939711">基于Alluxio与HDFS支撑Presto和TPC-DS查询场景的性能测试</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/51638076">基于Presto+Alluxio的adhoc查询方案在网易游戏的实践</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/201518612">唯品会实践案例：基于Alluxio优化电商平台热点数据访问性能</a></p>
+<span id="more"></span>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/100070360">网易严选：基于Alluxio+Impala深度融合架构的BI系统性能优化实践</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/80066121">探秘Presto+Alluxio高效云端SQL查询</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/57873784">百度案例：使用Alluxio提速数据查询30倍</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/DolphinScheduler/article/details/109882480">Presto在滴滴的探索与实践</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/wypblog/article/details/111399181">Presto在车好多的实践</a></p>
+<p>别的文章：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/DolphinScheduler/article/details/112386876">即席查询（Ad Hoc）如何做到又快又稳？</a></p>
+<p> <a target="_blank" rel="noopener" href="https://my.oschina.net/dataclub/blog/4983931">网易云音乐数仓建模案例—声波APP</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.databanker.cn/project/77058.html">大数据展现——即席查询</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.sohu.com/a/284946736_99916561">教育大数据智能分析平台研究与实践</a>  架构图有趣，文字价值一般</p>
+<h2 id="贝壳找房"><a href="#贝壳找房" class="headerlink" title="贝壳找房"></a>贝壳找房</h2><h3 id="为什么使用-Alluxio"><a href="#为什么使用-Alluxio" class="headerlink" title="为什么使用 Alluxio"></a>为什么使用 Alluxio</h3><p>QueryEngine 底层目前使用三种查询引擎：MR、Tez 和 Spark SQL，根据用户的选择及查询的代价来智能的选择执行引擎。为了降低对 Spark SQL 的影响，Spark SQL 引擎使用的是独有的 Yarn 集群。原始架构有如下问题：</p>
+<p>1）数据量大，而且请求量变大，查询性能变差；</p>
+<p>2）Spark SQL 计算与存储分离，每次查询都需要远程加载数据，数据本地行查，性能差；</p>
+<p>3）目前的分析基本都是 T+1 的数据，数据基本不变，每次查询都要远程拉取数据，对大数据存储集群和网络 IO 压力很大；</p>
+<p>4）对相同的数据会有多次的访问查询。</p>
+<p>基于上面 Alluxio 的特性分析，alluxio 非常适合我们的业务场景，可以用于加速 QueryEngine 的查询分析。</p>
+<h3 id="缓存白名单做法"><a href="#缓存白名单做法" class="headerlink" title="缓存白名单做法"></a>缓存白名单做法</h3><p>考虑到成本问题，SSD 的存储有限，而 adhoc 查询的数据量却非常庞大，高达数百 TB。因此我们基于过去 30 天内的 adhoc 查询记录，分析出表的访问频率和分区范围以及表的大小等三个维度的信息，只对中小表、高频访问的热表以及每个表的高频分区进行 Alluxio 缓存加速，针对进入 Spark SQL 的非白名单查询，则访问 HDFS 中的数据。</p>
+<p>针对 Spark SQL 的查询，我们使用的是 Spark ThriftServer。<strong>为了使进入白名单的数据查询 Alluxio 中的数据，而不是 HDFS 中的数据，我们修改了 HiveMetaStore 的相关源码，使数据地址指向 alluxio 中的数据地址，而非 HDFS 中数据的地址</strong>。这样进入白名单表的查询，使用修改源码的 HiveMetaStore，而非白名单表的查询使用原始的 HiveMetaStore，从 HDFS 读取数据。</p>
+<p>考虑到 Alluxio 冷读较直接访问 HDFS 有性能损失，因此我们每天都会定期提前加载新白名单中的数据，缓存到 Alluxio 中，并且淘汰旧的不需要的分区中的数据。</p>
+<h2 id="基于Alluxio与HDFS支撑Presto和TPC-DS查询场景的性能测试"><a href="#基于Alluxio与HDFS支撑Presto和TPC-DS查询场景的性能测试" class="headerlink" title="基于Alluxio与HDFS支撑Presto和TPC-DS查询场景的性能测试"></a>基于Alluxio与HDFS支撑Presto和TPC-DS查询场景的性能测试</h2><h3 id="为什么要引入-Alluxio"><a href="#为什么要引入-Alluxio" class="headerlink" title="为什么要引入 Alluxio"></a>为什么要引入 Alluxio</h3><ol>
+<li>通过监控发现计算节点的物理内存有富余，不需要增加额外机器成本</li>
+<li>机器网卡较为空闲，瓶颈主要存在于磁盘IO</li>
+<li>HDFS所在磁盘存在多种不同类型负载，数据读取速度不稳定</li>
+<li>热数据读取加速</li>
+<li>存储计算分离，在计算节点提高数据本地性</li>
+<li>统一命名空间，虚拟数据湖</li>
+</ol>
+<h3 id="场景依赖"><a href="#场景依赖" class="headerlink" title="场景依赖"></a>场景依赖</h3><p>Alluxio 的落地非常依赖场景，否则优化效果并不明显（无法发挥内存读取的优势）。</p>
+<ol>
+<li>存储计算分离</li>
+<li>有明显热表&#x2F;热数据</li>
+<li>多数据中心访问加速</li>
+<li>相同数据被单应用多次访问</li>
+<li>数据并发访问</li>
+</ol>
+<h2 id="基于Presto-Alluxio的adhoc查询方案在网易游戏的实践"><a href="#基于Presto-Alluxio的adhoc查询方案在网易游戏的实践" class="headerlink" title="基于Presto+Alluxio的adhoc查询方案在网易游戏的实践"></a>基于Presto+Alluxio的adhoc查询方案在网易游戏的实践</h2><p>数据分析人员通常会经两种途径来访问这些海量的原始或表格数据:</p>
+<ol>
+<li><p>常规的业务指标会经由成熟的报表系统落到到数仓存储系统；</p>
+</li>
+<li><p>除此外还存在着另外一种类型的adhoc(即席)报表查询需求，其业务特点为:</p>
+</li>
+</ol>
+<blockquote>
+<ol>
+<li>查询条件灵活，无法事先确定查询的表名和SQL语法</li>
+<li>查询的数据量相比于离线ETL一般比较少</li>
+<li>能够提供查询过程的进度百分比(经过与业务同学的沟通，发现对这个的需求出奇的高)</li>
+<li>查询实效性要求高，以满足业务人员数据探索的需求。根据数据量的不同，查询平均时延要求在2-15s左右</li>
+</ol>
+</blockquote>
+<h3 id="SparkSQL的-adhoc-缺点"><a href="#SparkSQL的-adhoc-缺点" class="headerlink" title="SparkSQL的 adhoc 缺点"></a>SparkSQL的 adhoc 缺点</h3><ol>
+<li><p>SparkSQL在进行查询的时候，一般都需要先向YARN申请一定量的资源，在集群比较繁忙的时候，申请资源的时间往往都是秒到分钟级别，会极大程度影响查询速度;</p>
+</li>
+<li><p>SparkSQL存在大量的HDFS IO: 源数据在HDFS上;另外，SparkSQL的默认的shuffle配置会导致超过executor内存大小的中间数据落到HDFS IO。但是从我们线上环境来看，datanode的磁盘IO延迟和吞吐极不稳定—特别是在离线作业高峰期的时候更加明显—导致查询的性能存在比较严重的波动。</p>
+</li>
+</ol>
+<h2 id="唯品会实践案例：基于Alluxio优化电商平台热点数据访问性能"><a href="#唯品会实践案例：基于Alluxio优化电商平台热点数据访问性能" class="headerlink" title="唯品会实践案例：基于Alluxio优化电商平台热点数据访问性能"></a>唯品会实践案例：基于Alluxio优化电商平台热点数据访问性能</h2><h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>在互联网电商平台上，广告是提升成交总额（GrossMerchandise Volume）和拉取新客的常见途经。在广告系统或广告运营中都需要<strong>基于人群数据分析进行定向的用户广告投放</strong>。在第三方平台进行广告投放，同样需要使用人群数据分析计算。根据计算分析方的不同，可以分为两类，第一类是基础数据全部发送给第三方广告平台，如抖音，腾讯等，由第三方在投放人群时候进行人群计算并作选择；第二类是<strong>人群计算工作在电商平台内部完成</strong>，推送给第三方的只是单个的人群包数据（设备数据）。在唯品会，我们目前采用第二类方式进行人群计算投放。我们<strong>每天需要完成数万的人群包计算，这些计算都是基于几张位于HDFS的之上的Hive表完成，这些表每天通常都行需要被访问上万次</strong>。</p>
+<p>引申：人群包一般是怎么计算的？</p>
+<blockquote>
+<p>人群包就是将用户进行分类。一般根据用户的设备号、手机号等，将用户分为几个类别，当然类别之间可以重复。例如常用的人群包种类包括：电商人群包、学生人群包、美容人群包等等。广告主可以选某种人群进行定向投放。</p>
+<p>一般就是聚类算法，他们通过聚类算法等分析这批样本客户在自己媒体中的行为数据及注册数据，比如爱看什么视频啦、什么时间上网啦等等之类的。不断优化算法并对样本客户进行训练，看看自己的算法和购买来的特征数据差异有多大，如此一直优化到准确率可接受为止。当算法准确率到达可接受程度了，就可以让算法发挥作用了，在广告投放过程中使用这套算法猜测访问者的特征，然后对符合特征的访问者投放指定的广告。</p>
+</blockquote>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>在集群相对稳定的情况下，一个人群计算任务的执行时间约3分钟。在集群不稳定的情况下，执行时间的变化会比较大，具体部分运行时间如下图2所示。在这种情况下，计算任务的资源消耗比正常情况大很多，大约能达到30&#x2F;3&#x3D;10倍左右，同时人群计算也难以达到业务时间要求(20:00前运行完成)。我们将运行不稳定的原因总结为以下几个方面：</p>
+<ul>
+<li>人群计算任务的数据本地性不好。</li>
+<li>在单个节点计算热点数据，交换机80G上下行带宽也常常打满（DN节点双万兆网络）。</li>
+<li>HDFS读写本身存在长尾现象。</li>
+</ul>
+<h3 id="新的目标"><a href="#新的目标" class="headerlink" title="新的目标"></a>新的目标</h3><p>为了更好地满足热点数据的计算需求，我们需要取得较好的数据本地性。因此，我们希望能够达到以下目标：</p>
+<ol>
+<li><p>计算与存储同置，这样数据就不需通过网络反复读取，造成网络流量浪费。</p>
+</li>
+<li><p>减少HDFS读写长尾对人群计算造成的额外影响，同时减少人群计算对于HDFS稳定性的影响。</p>
+</li>
+<li><p>广告人群计算介于线上生产任务跟离线任务之间的任务类型。这里我们希望能保证这类应用的可靠性和稳定性，从而更好地为公司业务赋能。</p>
+</li>
+</ol>
+<h3 id="结果评价"><a href="#结果评价" class="headerlink" title="结果评价"></a>结果评价</h3><p>基于Alluxio的新架构解决了HDFS热点数据的读取问题，从而使得广告人群计算这类准生产应用也能得以保障，实现了技术赋能业务。另外，计算效率的提升也对带来了可观的资源的节约，额外支撑的硬件只是少量SSD盘。</p>
+<h2 id="网易严选：基于Alluxio-Impala深度融合架构的BI系统性能优化实践"><a href="#网易严选：基于Alluxio-Impala深度融合架构的BI系统性能优化实践" class="headerlink" title="网易严选：基于Alluxio+Impala深度融合架构的BI系统性能优化实践"></a>网易严选：基于Alluxio+Impala深度融合架构的BI系统性能优化实践</h2><h3 id="Alluxio在网易严选BI场景的挑战分析"><a href="#Alluxio在网易严选BI场景的挑战分析" class="headerlink" title="Alluxio在网易严选BI场景的挑战分析"></a>Alluxio在网易严选BI场景的挑战分析</h3><p>Alluxio的部署和使用方式非常简单，然而在大规模数据的BI场景中不经调优地直接使用Alluxio，性能结果与预想的存在一定差距。具体原因分析如下：</p>
+<ol>
+<li>Alluxio并不像我们最初设想的那样，只是一个单纯的缓存服务。Alluxio首先是一个分布式的虚拟文件系统，有完整的元数据管理、块数据管理、UFS管理（底层文件系统的简称）以及健康检查机制，尤其是它的元数据管理实现比很多底层文件系统更加强大。这些功能是Alluxio的优点和特色，但也意味着<strong>如果每次都完整地使用Alluxio的全部功能</strong>，完成整个读操作的<strong>链路额外开销</strong>要比从一个单纯的代理服务、或支持自动Load的缓存服务要高。</li>
+<li><strong>对于大数据场景，内存缓存容量相对于计算引擎需要读取的数据量之间的比例常常是很低的。</strong>以严选为例，计算引擎每天需要读取的数据量在30TB左右，对比之下我们提供的1TB内存盘就显得捉襟见肘。低缓存量会导致低命中率和频繁逐出（Cache Eviction）开销，此时无论使用LRU、LRFU还是其他缓存策略，都无法带来明显改善。</li>
+</ol>
+<p>在使用Alluxio之前，网易有数系统已经使用Redis开发了内部的图表缓存功能（即下图中的一级缓存），用于<strong>主动缓存相对稳定或相对重要的图表数据</strong>。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><ol>
+<li>由于我们的场景下缓存空间&#x2F;数据量比例很小且数据的热度普遍不高，因此直接使用LRU等缓存策略的效果和性能不理想。我们的解决思路是将需要缓存的数据量减少，高效利用缓存，具体方式是只缓存最有“缓存价值”的数据。<ul>
+<li>数据块的缓存价值&#x3D;节省的IO时间<br>&#x3D;(数据块大小 &#x2F; 平均IO速度+读取数据块的额外时间开销)*数据块的读取次数</li>
+<li>分区&#x2F;表的缓存价值 &#x3D; 该分区&#x2F;表中所有数据块的缓存价值之和</li>
+</ul>
+</li>
+<li>设计实现了<strong>缓存价值分析程序</strong>，根据每天的数据请求记录<strong>计算出被访问到的表或分区的缓存价值</strong>，然后按照缓存价值大小取其中排名靠前的表或分区加入缓存白名单，不在白名单中的数据将不使用Alluxio进行缓存。我们会将缓存空间&#x2F;数据量比例控制在30%-70%的区间，然后结合使用LRFU策略就可以得到较好的缓存命中率和性能提升。</li>
+<li>对于不在缓存白名单中的数据（较低缓存价值的数据），我们会使用Impala的数据路由功能，跳过Alluxio直连HDFS，从而避免从Alluxio读带来的开销。</li>
+</ol>
+<h2 id="探秘Presto-Alluxio高效云端SQL查询"><a href="#探秘Presto-Alluxio高效云端SQL查询" class="headerlink" title="探秘Presto+Alluxio高效云端SQL查询"></a>探秘Presto+Alluxio高效云端SQL查询</h2><p>当Alluxio的数据编排层和Presto一起部署时，可以优化整体的数据栈，使得数据栈在每个工作节点上具有更紧密的数据本地性。首先，用户可以使用Alluxio来对Presto缓存数据。这意味着计算驱动着数据需要从底层数据竖井和存储系统中取出。<strong>数据根据查询行为存储到缓冲区中，而查询行为又意味着最终用户行为，而最终用户行为又意味着最热的数据</strong>。I&#x2F;O的操作从底层的慢速存储系统交给了Alluxio中一个非常快的数据访问层来进行。</p>
+<h2 id="百度案例：使用Alluxio提速数据查询30倍"><a href="#百度案例：使用Alluxio提速数据查询30倍" class="headerlink" title="百度案例：使用Alluxio提速数据查询30倍"></a>百度案例：使用Alluxio提速数据查询30倍</h2><p>使用Alluxio<strong>将原先的批处理查询将转换为交互式查询</strong>，这使百度能够以交互方式分析数据，从而提升了生产力，并改善了用户体验。</p>
+<h3 id="场景描述"><a href="#场景描述" class="headerlink" title="场景描述"></a>场景描述</h3><p>由于PB级别的数据分布在多个数据中心，因此数据查询很可能需要将数据从远程数据中心传输到计算所在数据中心，这就是导致用户运行查询时出现很大延迟的原因。由于数据存储中心节点和数据计算中心节点具有不同的最优硬件规格，因此解决方案并不是将计算过程移动到存储数据中心那么简单。我们需要一个内存级的存储系统来存储常用的“热”数据，并且该系统能够位于计算节点上。</p>
+<h3 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h3><p>我们的系统包含以下组件：</p>
+<ul>
+<li>操作管理器：包装Spark SQL的持久化Spark应用程序。它接受来自查询UI的查询，并提供查询解析和查询优化功能。</li>
+<li>视图管理器：管理缓存元数据并处理来自操作管理器的查询请求。</li>
+<li>Alluxio：用作存储常用数据内存级存储系统，提供计算本地性。</li>
+<li>数据仓库：基于HDFS系统的远程数据中心，用于存储数据。</li>
+</ul>
+<h2 id="Presto在滴滴的探索与实践"><a href="#Presto在滴滴的探索与实践" class="headerlink" title="Presto在滴滴的探索与实践"></a>Presto在滴滴的探索与实践</h2><p>presto 在滴滴的业务场景：</p>
+<p><strong>业务场景</strong></p>
+<ul>
+<li>Hive SQL查询加速</li>
+<li>数据平台Ad-Hoc查询</li>
+<li>报表（BI报表、自定义报表）</li>
+<li>活动营销</li>
+<li>数据质量检测</li>
+<li>资产管理</li>
+<li>固定数据产品</li>
+</ul>
+<p>使用 Presto + HDFS 有一些痛点：</p>
+<ul>
+<li>latency高，QPS较低 </li>
+<li>不能查实时数据，如果有实时数据需求，需要再构建一条实时数据链路，增加了系统的复杂性</li>
+<li>要想获得极限性能，必须与HDFS DataNode 混部，且DataNode使用高级硬件，有自建HDFS的需求，增加了运维的负担</li>
+</ul>
+<p><strong>特性增强</strong></p>
+<ul>
+<li><p>insert数据时，将插入数据的总行数写入HMS，为业务方提供毫秒级的元数据感知能力</p>
+</li>
+<li><p>支持查询进度滚动更新，提升了用户体验</p>
+</li>
+<li><p><strong>支持查询可以指定优先级，为用户不同等级的业务提供了优先级控制的能力</strong></p>
+</li>
+<li><p>修改通信协议，支持业务方可以传达自定义信息，满足了用户的日志审计需要等</p>
+</li>
+<li><p>支持DeprecatedLzoTextInputFormat格式</p>
+</li>
+<li><p>支持读HDFS Parquet文件路径</p>
+</li>
+</ul>
+<p><strong>稳定性建设</strong>：Presto在使用过程中会遇到很多稳定性问题，比如Coordinator OOM，Worker Full GC等，为了解决和方便定位这些问题，首先我们做了监控体系建设，主要包括：</p>
+<ul>
+<li><strong>通过Presto Plugin实现日志审计功能</strong></li>
+<li>通过JMX获取引擎指标将监控信息写入Ganglia</li>
+<li>将日志审计采集到HDFS和ES；统一接入运维监控体系，将所有指标发到 Kafka；</li>
+<li>Presto UI改进：可以查看Worker信息，可以查看Worker死活信息</li>
+</ul>
+<p><strong>引擎优化及调研</strong>：作为一个Ad-Hoc引擎，Presto查询性能越快，用户体验越好，为了提高Presto的查询性能，在Presto on Hive场景，我们做了很多引擎优化工作，主要工作：</p>
+<ul>
+<li>某业务集群进行了JVM调优，将Ref Proc由单线程改为并行执行，普通查询由30S~1分钟降低为3-4S，性能提升10倍+</li>
+<li>ORC数据优化，<strong>将指定string字段添加了布隆过滤器，查询性能提升20-30%，针对一些业务做了调优</strong></li>
+<li>数据治理和小文件合并，某业务方查询性能由20S降低为10S，性能提升一倍，且查询性能稳定</li>
+<li>ORC格式性能优化，查询耗时减少5%</li>
+<li>分区裁剪优化，解决指定分区但获取所有分区元信息问题，减少了HMS的压力</li>
+<li>下推优化，实现了Limit、Filter、Project、Agg下推到存储层</li>
+</ul>
+<p>18年我们为了提高Presto查询性能，也调研了一些技术方案，包括Presto on Alluxio和Presto on Carbondata，但是这2种方案最后都被舍弃了，原因是：</p>
+<ul>
+<li><strong>Presto on Alluxio查询性能提升35%，但是内存占用和性能提升不成正比</strong>，所以我们放弃了Presto on Alluxio，后续可能会对一些性能要求敏感的业务使用。</li>
+<li>Presto on Carbondata是在18年8月份测试的，当时的版本，Carbondata稳定性较差，性能没有明显优势，一些场景ORC更快，所以我们没有再继续跟踪调研Presto on Carbondata。因为滴滴有专门维护Druid的团队，所以我们对接了Presto on Druid，一些场景性能提升4~5倍，后续我们会更多关注Presto on Clickhouse及Presto on Elasticsearch。</li>
+</ul>
+<h2 id="Presto在车好多的实践"><a href="#Presto在车好多的实践" class="headerlink" title="Presto在车好多的实践"></a>Presto在车好多的实践</h2><p>优化：</p>
+<p>客户端和服务端之间加一层代理</p>
+<ul>
+<li>代理层的作用不仅隐藏了 Coordinator 真实地址，而且可以根据需求设置一些客户端接入规范，以便能区分接入方式&#x2F;类型等。我们还在代理层附加了下面两个主要功能：在每一个 Query 结束时，会记录其所有信息并发送到 Kafka，最终落入到 Hive，即日志审计，方便管理员后续分析&#x2F;治理；监控一些 Query 指标，在超出阈值时主动 kill Query，提高集群稳定性。</li>
+</ul>
+<p>服务经常 OOM，很不稳定。经过调研，我们采取以下措施来优化 OOM 问题：</p>
+<ul>
+<li>设置堆外内存最大使用量 MaxDirectMemorySize</li>
+<li>设置 glibc 的参数 export MALLOC_ARENA_MAX&#x3D;1</li>
+</ul>
+<h3 id="2-3-棘手的排队问题出现"><a href="#2-3-棘手的排队问题出现" class="headerlink" title="2.3 棘手的排队问题出现"></a>2.3 棘手的排队问题出现</h3><p>背景</p>
+<blockquote>
+<p>经过了一年多的迭代，Presto 在车好多集团内部成为了提供 Adhoc 查询的核心组件，数十个业务线的数百名用户都重度依赖 Presto 来实现他们的分析需求或者报表结果，基本上集群每天有 600+用户（数据分析师、运营、市场、产品等），高峰期每秒提交数目最大能达到百级别。在这样的一个情况下，高峰期任务排队的情况就会出现并且越来越严重，严重影响了用户的使用体验。</p>
+</blockquote>
+<p>解决方案&amp;效果</p>
+<p>首先的想到的是任务治理</p>
+<p>•  大查询限制：导致集群排队的主要原因是大查询（耗费计算资源多的 Query）长时间占用集群资源不释放，集群最大运行 Query 数目被打满，后续提交的 Query 只能排队。为了限制大查询，我们下调单个 Query 的最大运行时间、最大扫描分区数目、内存使用最大值、stage 数目等，让集群资源快速流转起来；</p>
+<p>•  单个用户 Query 数目限制：我们下调单个用户的最大运行数目以及最大排队数目，防止单个用户提交过多查询占满集群资源，其他用户没有机会提交；</p>
+<p>•  优化 SQL：我们根据一些规则，给出 SQL 优化的建议，比如：避免笛卡尔积、distinct 滥用、非等值 join 等情况，并推动用户优化 SQL；</p>
+<p>•  推动上层 BI 工具缓存结果：为了方便用户使用，有一些 BI 工具来对接 Presto，有多个用户会查看同一张报表，基于这样的情况，没有必要每次查看都要发起一次查询，工具层缓存这个结果，对底层 Presto 的压力会大大缓解；</p>
+<p>•  推动中间表的建设，优化查源表的情况，减少计算资源的浪费；</p>
+<p>•  每周统计出各个部门的资源使用账单&amp;资源消耗排名 Top N 的用户，并通知，这是推动用户优化任务重要的数据来源；</p>
+<p>其次，增加资源，这也是必然要尝试的一个方法。然而由于一些客观原因，比如：成本、机房初始容量规划等，无法给集群进行提供充足的资源，只能小规模有限扩容。</p>
+<p>通过以上两个方面的优化，尤其是任务治理，排队情况得到缓解，然而总会有一些新用户会提交一些不合理的任务，因此任务治理是一项长期持续的工作。资源方面，没有条件新增，那么就只能在存量资源上想办法。</p>
+<hr>
+<h2 id="即席查询（Ad-Hoc）如何做到又快又稳？"><a href="#即席查询（Ad-Hoc）如何做到又快又稳？" class="headerlink" title="即席查询（Ad Hoc）如何做到又快又稳？"></a>即席查询（Ad Hoc）如何做到又快又稳？</h2><p>以下的这四种问题虽然都是在即席查询场景中相对常见的问题，但解决起来却并不容易。</p>
+<ul>
+<li>只查询单个总 PV 和总 UV，但是却读取了上百 G 数据；</li>
+<li>虽然 CPU 还没跑满，但是内存一直不够，各种 OOM；</li>
+<li>CPU、内存、磁盘 IO 都空闲，但是查询性能就是慢；</li>
+<li>晚上跑 ETL 集群资源足够，白天分析师互相杀 SQL。</li>
+</ul>
+<p>“<strong>减 IO、控内存、降带宽、优调度</strong>“这四个手段</p>
+<ol>
+<li>减 IO 是一个统称，是指在查询的每个环节中，都需尽量去减少向上一步传输的数据量。<ol>
+<li>场景1、只读取相关数据</li>
+<li>场景 2、建立稀疏索引</li>
+<li>场景 3、使用转换漏斗模型（用户分群、商品价格稀疏索引、事件名称分桶）</li>
+</ol>
+</li>
+<li>经常会需要在有限的资源下满足客户多种的数据分析需求的挑战，所以需要控内存。<ol>
+<li>场景 1、分桶执行策略。<strong>Bucket Execution：优化后的内存占用&#x3D;原内存占用&#x2F;数据分桶个数</strong></li>
+<li>场景2、流量洪峰时的策略执行（<strong>Dynamic Bucekt Execution</strong>，即动态分桶执行策略：优化后的内存占用&#x3D;原内存占用&#x2F;数据分桶个数&#x2F;用户 ID 分片数。）在动态分桶的基础上，优先保证每个桶的主键全局有序，再按照主键进一步进行范围切割。</li>
+</ol>
+</li>
+<li>​	但是在大数据场景中，影响效率的并非只有上文所提到的这两个因素，集群之间的网络带宽情况经常也会成为导致查询性能降低的诱因之一。<ol>
+<li>因此这部分的重点是<strong>降低带宽</strong>。通过把用户数据进行 hash 并分成多片，使每台机器只处理特定数据，这样就不会涉及到计算中间结果的再次 shuffle。</li>
+</ol>
+</li>
+<li>即便通过上述『减 IO、控内存、降带宽』这3个环节的性能优化后，在实际数据处理的过程中往往还是会遇到集群压力负载大、多用户同时查询等场景下的不可用情况。<ol>
+<li>此时就需要进一步梳理客户场景对 ad-hoc 查询的需求是什么，一般来说，有以下三点：<ul>
+<li>查询结果确定可以出结果，而不是直接报错和多次人工重试；</li>
+<li>在多人使用的场景下，分析师希望自己先提交的查询一定能先出结果，而不是被后面的查询抢占资源；</li>
+<li>日常数据分析过程中，有一些紧急查询需要提前，不能等待其它任务完成。</li>
+</ul>
+</li>
+<li>通过以上一些场景需求，从而可以针对性定义了3个优化目标，分别为：<strong>查询结果可保证、查询速度可预期以及查询队列可控制。</strong></li>
+</ol>
+</li>
+</ol>
+<h2 id="网易云音乐数仓建模案例—声波APP"><a href="#网易云音乐数仓建模案例—声波APP" class="headerlink" title="网易云音乐数仓建模案例—声波APP"></a>网易云音乐数仓建模案例—声波APP</h2><p><strong>3.1现有设计</strong></p>
+<p>快速便捷获取高质量数据是业务侧的希冀，同时为减少ad-hoc式的查询也是我们的希冀。因此构建声波olap模型，目标是帮助业务人员快速使用数据，获取结果并用于业务生产。</p>
+<p>取数模型设计：</p>
+<p><img src="/2021/03/13/Presto-Alluxio%E7%BB%BC%E8%BF%B0/%E5%8F%96%E6%95%B0%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1.png"></p>
+<p>目前模型建设流程：</p>
+<ol>
+<li>业务侧&#x2F;已有报表中归纳常用指标</li>
+<li>模型设计（常分析的业务过程（交易、互动）的明细、用户、房间、用户+房间的汇总表）</li>
+<li>模型评审</li>
+<li>配置模型（使用场景的说明、字段业务口径、技术口径、添加自定义维度、自定义度量）</li>
+<li>测试使用</li>
+</ol>
+<p>流量自动化的解决方案：</p>
+<ol>
+<li>策划梳理坑位信息-〉与策划勾兑坑位信息-〉设计埋点scm信息-〉上传埋点到埋点平台-〉与开发勾兑埋点内容–〉下载最终版坑位信息制作坑位码表。</li>
+<li>设计流量自动化的聚合表模型：uid+os+appver+mspm+source（+房间id+房间模版类型id）的粒度统计对应的(曝光、点击、进房)次数、人数和时长等信息。构建流量自动化模型，最终可由取数展示，<strong>该模型可以查看日常曝光点击的坑位PV、UV，同时可以查看核心（曝光-点击-进房）漏斗数据</strong>。</li>
+</ol>
+<p><strong>3.2思考</strong></p>
+<p>目前存在的难点，这些都是后期会优化的内容。</p>
+<ul>
+<li>数据侧：a.模型设计(聚合、解耦)  b.模型迭代回跑</li>
+<li>平台侧：a.平台开发进度无法满足模型使用  b.问题响应速度依赖其他部门</li>
+<li>业务侧：a.对数据的维度、度量、聚合、日期分区的理解困难 b.自主分析数据的习惯尚未建立</li>
+</ul>
+<h2 id="大数据展现——即席查询"><a href="#大数据展现——即席查询" class="headerlink" title="大数据展现——即席查询"></a>大数据展现——即席查询</h2><p><strong>产品定位</strong></p>
+<p>　　即席查询（BONC Intelligent Query）是北京东方国信科技股份有限公司针对商业智能应用领域、面向公司内部开发人员和行业最终用户使用的快速查询、取数的应用工具。即席查询能有效地减少取数环节、实现快速取数响应，并能够有效缓解支撑人员的工作压力、能够防止各级人员理解差异或偏差，低成本、高效地保证统计口径一致。通过即席查询以“IT系统”替代“IT部门”实现取数支撑，能够促进IT支撑的转型，把更多的精力投入到数据保障和数据分析领域。</p>
+<h3 id="1-统一的语义管理体系"><a href="#1-统一的语义管理体系" class="headerlink" title="1. 统一的语义管理体系"></a>1. 统一的语义管理体系</h3><p>　　由元数据平台提供<strong>统一的指标与维度语义管理体系</strong>，避免重复定义维度和指标，独立、业务语义管理与物理数据层的管理各自独立且通过映射关联，具备更强的灵活性和可扩展性，关注业务、查询。业务人员不需要了解数据物理上是如何存放、如何理解、如何获取，只需要知道自已在业务上想要什么数据。</p>
+<h3 id="2-智能化查询取数"><a href="#2-智能化查询取数" class="headerlink" title="2. 智能化查询取数"></a>2. 智能化查询取数</h3><p>　　后台可以根据立方体配置信息，自动选择表及表关联进行查询。保证找到数据量最小，运算量最小的数据进行取数。系统可进行自动优化，对于汇总级较快的查询，直接展示，<strong>对于明细级较慢的查询，自动生成后台任务</strong>；并且可以根据系统的使用情况进行<strong>自组织管理，自动优化数据存储、优化数据查询语句、优化数据索引、自动重复利用数据缓存</strong>等。</p>
+<h3 id="3-多样化取数方式"><a href="#3-多样化取数方式" class="headerlink" title="3. 多样化取数方式"></a>3. 多样化取数方式</h3><p>　　包括规则定义取数、模版取数、预约任务取数、文件上传取数、SQL模版取数等取数方式。</p>
+<ul>
+<li><strong>规则定义取数</strong>：用户可以根据实际需求通过页面自定义取数规则。通过设定描述性的维度约束、设定查询特定的指标数值范围来实现。</li>
+<li>模板取数：针对在一定时期内存在需要重复多次但约束条件变更不大的需求。在规则定义取数基础之上，将按一定规则配置的取数查询，保存为共享的模版，通过定制好的模版提供查询，为快速查询提供了良好的解决方式。</li>
+<li>预约任务取数：在规则定义取数时，如果是明细查询，查询数据时会自动转为任务执行，任务在一定的时间段内才会被执行，出于系统的性能考虑，需要对系统的任务执行情况作相应的调度和控制。</li>
+<li>文件上传取数：主要用于小规模小范围，而且需求比较明确的快速查询，可以省去通过自己构建维度来查询，大大的方便了操作人员的使用。</li>
+<li><strong>SQL模板取数</strong>：（也就是自助 SQL）通常情况下，专业IT人员如果想要操作数据库，必须使用数据库客户端工具连接到数据库服务器上进行操作，SQL模板取数提供了一个WEB版的SQL客户端工具，用户通过使用浏览器即可对数据库进行数据操作、查询。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/bigData/" rel="tag"><i class="fa fa-tag"></i> bigData</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/01/14/%E9%AB%98%E5%B9%B6%E5%8F%91%E9%A1%B9%E7%9B%AE%E6%8C%87%E5%8D%97%E4%B9%A6/" rel="next" title="高并发项目指南书">
+                <i class="fa fa-chevron-left"></i> 高并发项目指南书
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/03/18/%E5%9C%A8%E7%BA%BF%E5%AD%A6%E4%B9%A0%E9%98%B2%E4%BD%9C%E5%BC%8A%E7%BB%BC%E8%BF%B0/" rel="prev" title="在线学习防作弊综述">
+                在线学习防作弊综述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B4%9D%E5%A3%B3%E6%89%BE%E6%88%BF"><span class="nav-number">1.</span> <span class="nav-text">贝壳找房</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-Alluxio"><span class="nav-number">1.1.</span> <span class="nav-text">为什么使用 Alluxio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E7%99%BD%E5%90%8D%E5%8D%95%E5%81%9A%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">缓存白名单做法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EAlluxio%E4%B8%8EHDFS%E6%94%AF%E6%92%91Presto%E5%92%8CTPC-DS%E6%9F%A5%E8%AF%A2%E5%9C%BA%E6%99%AF%E7%9A%84%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95"><span class="nav-number">2.</span> <span class="nav-text">基于Alluxio与HDFS支撑Presto和TPC-DS查询场景的性能测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%BC%95%E5%85%A5-Alluxio"><span class="nav-number">2.1.</span> <span class="nav-text">为什么要引入 Alluxio</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E4%BE%9D%E8%B5%96"><span class="nav-number">2.2.</span> <span class="nav-text">场景依赖</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EPresto-Alluxio%E7%9A%84adhoc%E6%9F%A5%E8%AF%A2%E6%96%B9%E6%A1%88%E5%9C%A8%E7%BD%91%E6%98%93%E6%B8%B8%E6%88%8F%E7%9A%84%E5%AE%9E%E8%B7%B5"><span class="nav-number">3.</span> <span class="nav-text">基于Presto+Alluxio的adhoc查询方案在网易游戏的实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SparkSQL%E7%9A%84-adhoc-%E7%BC%BA%E7%82%B9"><span class="nav-number">3.1.</span> <span class="nav-text">SparkSQL的 adhoc 缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%94%AF%E5%93%81%E4%BC%9A%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B%EF%BC%9A%E5%9F%BA%E4%BA%8EAlluxio%E4%BC%98%E5%8C%96%E7%94%B5%E5%95%86%E5%B9%B3%E5%8F%B0%E7%83%AD%E7%82%B9%E6%95%B0%E6%8D%AE%E8%AE%BF%E9%97%AE%E6%80%A7%E8%83%BD"><span class="nav-number">4.</span> <span class="nav-text">唯品会实践案例：基于Alluxio优化电商平台热点数据访问性能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">4.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.2.</span> <span class="nav-text">问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E7%9A%84%E7%9B%AE%E6%A0%87"><span class="nav-number">4.3.</span> <span class="nav-text">新的目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E8%AF%84%E4%BB%B7"><span class="nav-number">4.4.</span> <span class="nav-text">结果评价</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E6%98%93%E4%B8%A5%E9%80%89%EF%BC%9A%E5%9F%BA%E4%BA%8EAlluxio-Impala%E6%B7%B1%E5%BA%A6%E8%9E%8D%E5%90%88%E6%9E%B6%E6%9E%84%E7%9A%84BI%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E5%AE%9E%E8%B7%B5"><span class="nav-number">5.</span> <span class="nav-text">网易严选：基于Alluxio+Impala深度融合架构的BI系统性能优化实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Alluxio%E5%9C%A8%E7%BD%91%E6%98%93%E4%B8%A5%E9%80%89BI%E5%9C%BA%E6%99%AF%E7%9A%84%E6%8C%91%E6%88%98%E5%88%86%E6%9E%90"><span class="nav-number">5.1.</span> <span class="nav-text">Alluxio在网易严选BI场景的挑战分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">5.2.</span> <span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%A2%E7%A7%98Presto-Alluxio%E9%AB%98%E6%95%88%E4%BA%91%E7%AB%AFSQL%E6%9F%A5%E8%AF%A2"><span class="nav-number">6.</span> <span class="nav-text">探秘Presto+Alluxio高效云端SQL查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%99%BE%E5%BA%A6%E6%A1%88%E4%BE%8B%EF%BC%9A%E4%BD%BF%E7%94%A8Alluxio%E6%8F%90%E9%80%9F%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A230%E5%80%8D"><span class="nav-number">7.</span> <span class="nav-text">百度案例：使用Alluxio提速数据查询30倍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%BA%E6%99%AF%E6%8F%8F%E8%BF%B0"><span class="nav-number">7.1.</span> <span class="nav-text">场景描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E4%BB%B6"><span class="nav-number">7.2.</span> <span class="nav-text">组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presto%E5%9C%A8%E6%BB%B4%E6%BB%B4%E7%9A%84%E6%8E%A2%E7%B4%A2%E4%B8%8E%E5%AE%9E%E8%B7%B5"><span class="nav-number">8.</span> <span class="nav-text">Presto在滴滴的探索与实践</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Presto%E5%9C%A8%E8%BD%A6%E5%A5%BD%E5%A4%9A%E7%9A%84%E5%AE%9E%E8%B7%B5"><span class="nav-number">9.</span> <span class="nav-text">Presto在车好多的实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E6%A3%98%E6%89%8B%E7%9A%84%E6%8E%92%E9%98%9F%E9%97%AE%E9%A2%98%E5%87%BA%E7%8E%B0"><span class="nav-number">9.1.</span> <span class="nav-text">2.3 棘手的排队问题出现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B3%E5%B8%AD%E6%9F%A5%E8%AF%A2%EF%BC%88Ad-Hoc%EF%BC%89%E5%A6%82%E4%BD%95%E5%81%9A%E5%88%B0%E5%8F%88%E5%BF%AB%E5%8F%88%E7%A8%B3%EF%BC%9F"><span class="nav-number">10.</span> <span class="nav-text">即席查询（Ad Hoc）如何做到又快又稳？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E6%95%B0%E4%BB%93%E5%BB%BA%E6%A8%A1%E6%A1%88%E4%BE%8B%E2%80%94%E5%A3%B0%E6%B3%A2APP"><span class="nav-number">11.</span> <span class="nav-text">网易云音乐数仓建模案例—声波APP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E6%95%B0%E6%8D%AE%E5%B1%95%E7%8E%B0%E2%80%94%E2%80%94%E5%8D%B3%E5%B8%AD%E6%9F%A5%E8%AF%A2"><span class="nav-number">12.</span> <span class="nav-text">大数据展现——即席查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%BB%9F%E4%B8%80%E7%9A%84%E8%AF%AD%E4%B9%89%E7%AE%A1%E7%90%86%E4%BD%93%E7%B3%BB"><span class="nav-number">12.1.</span> <span class="nav-text">1. 统一的语义管理体系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%99%BA%E8%83%BD%E5%8C%96%E6%9F%A5%E8%AF%A2%E5%8F%96%E6%95%B0"><span class="nav-number">12.2.</span> <span class="nav-text">2. 智能化查询取数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%A4%9A%E6%A0%B7%E5%8C%96%E5%8F%96%E6%95%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">12.3.</span> <span class="nav-text">3. 多样化取数方式</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

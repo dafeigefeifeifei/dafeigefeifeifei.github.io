@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. Spring是怎么避免循环依赖的循环依赖的问题：在DI时，如果有两个 class 类，都在 xml 文件中配置，但是如果 classA 是 classB 的属性，classB 同时也是 classA 的属性，那么该怎么处理呢？究竟先注入哪一个呢？ Spring是如何避免循环依赖的？  答：Spring基于Java的引用传递，我们获取到对象的引用时，对象的field或者属性是可以延后设置的。但">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面经整理4">
+<meta property="og:url" content="http://yoursite.com/2019/01/05/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%864/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="1. Spring是怎么避免循环依赖的循环依赖的问题：在DI时，如果有两个 class 类，都在 xml 文件中配置，但是如果 classA 是 classB 的属性，classB 同时也是 classA 的属性，那么该怎么处理呢？究竟先注入哪一个呢？ Spring是如何避免循环依赖的？  答：Spring基于Java的引用传递，我们获取到对象的引用时，对象的field或者属性是可以延后设置的。但">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2019/01/05/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%864/1.png">
+<meta property="article:published_time" content="2019-01-05T06:27:11.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.914Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="javaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/05/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%864/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/05/面经整理4/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>面经整理4 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/05/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%864/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面经整理4
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-05 14:27:11" itemprop="dateCreated datePublished" datetime="2019-01-05T14:27:11+08:00">2019-01-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-Spring是怎么避免循环依赖的"><a href="#1-Spring是怎么避免循环依赖的" class="headerlink" title="1. Spring是怎么避免循环依赖的"></a>1. Spring是怎么避免循环依赖的</h3><p><strong>循环依赖的问题</strong>：在DI时，如果有两个 class 类，都在 xml 文件中配置，但是如果 classA 是 classB 的属性，classB 同时也是 classA 的属性，那么该怎么处理呢？究竟先注入哪一个呢？</p>
+<p>Spring是如何避免循环依赖的？</p>
+<ul>
+<li>答：Spring基于Java的引用传递，我们获取到对象的引用时，对象的field或者属性是可以延后设置的。但Spring避免循环依赖有一个前提：那就是循环依赖不能发生在构造器中。</li>
+</ul>
+<p>Spring 的单例对象的初始化主要分为三步：</p>
+<ol>
+<li>createBeanInstance实例化；</li>
+<li>populateBean填充属性；</li>
+<li>InitializeBean初始化。</li>
+</ol>
+<p>循环依赖就是两个对象（设为A，B）在①②步时发生冲突的。</p>
+<p>Spring使用了一个叫<code>singletonFactories</code>的三级cache机制，让本该发生A-B-A循环依赖中的B走到第①步时，可以拿到A（虽然A此时并不完整，仅走了①②两步），但足以让B能够走完剩下的②③步。B完成后，A可以继续完成自己的第③步。</p>
+<span id="more"></span>
+
+<p>推荐阅读：</p>
+<p><a target="_blank" rel="noopener" href="https://my.oschina.net/yibuliushen/blog/737640">从spring源码角度分析循环依赖bean的组装</a></p>
+<p><a target="_blank" rel="noopener" href="https://my.oschina.net/jack19910921/blog/1802290">Spring是怎么解决循环依赖的</a></p>
+<h3 id="2-说说数据库的三大范式"><a href="#2-说说数据库的三大范式" class="headerlink" title="2. 说说数据库的三大范式"></a>2. 说说数据库的三大范式</h3><p>第一范式：</p>
+<ul>
+<li>无重复的列，数据库每一列都是不可分割的基本数据项。下面这种情况违反1NF：</li>
+</ul>
+<p><img src="/2019/01/05/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%864/1.png"></p>
+<p>第二范式：</p>
+<ul>
+<li>属性完全依赖于主键。每一列都与主键相关，而不能只与主键（联合主键）的某一部分相关。下面这种情况违反2NF：<ul>
+<li>存在关系：选课（学号，课程名，姓名，成绩）。其中主键为（学号，课程名），但是姓名仅与学号相关。违反2NF。</li>
+</ul>
+</li>
+</ul>
+<p>第三范式：</p>
+<ul>
+<li>数据表中的每一列都和主键直接相关，而不是间接相关。下面这种情况违反3NF：<ul>
+<li>存在关系：学生（姓名，院系，学院主任）。其中姓名是主键，但学院主任与姓名是间接相关，违反3NF。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-MyBatis中-和-区别"><a href="#3-MyBatis中-和-区别" class="headerlink" title="3. MyBatis中#{}和${}区别"></a>3. MyBatis中#{}和${}区别</h3><p><code>$&#123;&#125;</code>：sql拼接符号。<br><code>#&#123;&#125;</code>：占位符号，好处防止sql注入。</p>
+<ul>
+<li>sql 预编译指的是数据库驱动在发送 sql 语句和参数给 DBMS 之前对 sql 语句进行编译，这样 DBMS 执行 sql 时，就不需要重新编译。</li>
+<li>${ } 变量的替换阶段是在动态 SQL 解析阶段，而 #{ }变量的替换是在 DBMS 中。</li>
+<li>先发生<code>$&#123; &#125; </code>，后发生<code>#&#123; &#125;</code></li>
+</ul>
+<h4 id><a href="#" class="headerlink" title="${}"></a><code>$&#123;&#125;</code></h4><ul>
+<li><p>仅为纯粹的String替换，在动态SQL解析阶段将进行变量替换（接受传参）<br>比如将Mapper.xml 下的：</p>
+<p>  <code>select * from user where name = $&#123;name&#125;;</code></p>
+</li>
+<li><p>如果传参为“Tom”，那么SQL解析后：</p>
+<p>  <code>select * from user where name = &quot;Tom&quot;;</code></p>
+</li>
+</ul>
+<h4 id="-1"><a href="#-1" class="headerlink" title="#{}"></a><code>#&#123;&#125;</code></h4><ul>
+<li><p>解析为一个 JDBC 预编译语句（prepared statement）的参数标记符。<br>比如将Mapper.xml 下的：</p>
+<p>  <code>select * from user where name = #&#123;name&#125;;</code></p>
+</li>
+<li><p>动态解析为：</p>
+<p>  <code>select * from user where name = ?;  // 一个#&#123;&#125;被解析为？</code></p>
+</li>
+</ul>
+<p>用法：</p>
+<ol>
+<li>能使用 #{ } 的地方就用 #{ }</li>
+<li>表名作为变量时，必须使用 ${}</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/sunny3096/p/8590901.html">MyBatis中#和$的区别</a></p>
+<h3 id="4-建一个索引的SQL语句"><a href="#4-建一个索引的SQL语句" class="headerlink" title="4. 建一个索引的SQL语句"></a>4. 建一个索引的SQL语句</h3><p>方法一：ALTER TABLE，下面分别是创建普通索引、UNIQUE索引或PRIMARY KEY索引。</p>
+<ol>
+<li>   ALTER TABLE table_name ADD INDEX index_name (column_list)</li>
+<li>   ALTER TABLE table_name ADD UNIQUE (column_list)</li>
+<li>   ALTER TABLE table_name ADD PRIMARY KEY (column_list)</li>
+</ol>
+<p>方法二：CREATE INDEX，可对表增加普通索引或UNIQUE索引（不能增加主键索引）。</p>
+<ol>
+<li>   CREATE INDEX index_name ON table_name (column_list)</li>
+<li>   CREATE UNIQUE INDEX index_name ON table_name (column_list)</li>
+</ol>
+<p>PS：column_list指出对哪些列进行索引，多列时各列之间用逗号分隔。</p>
+<h4 id="两种方法的区别："><a href="#两种方法的区别：" class="headerlink" title="两种方法的区别："></a>两种方法的区别：</h4><ul>
+<li>用方法1时，索引名index_name可选，缺省时，MySQL将根据第一个索引列赋一个名称。一个语句可以建立多个索引。</li>
+<li>使用方法二时，必须提供index_name，不能缺省。而且，一个语句只能建立一个索引。</li>
+</ul>
+<p>推荐阅读：</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e109aea6eb7c">MySQL索引的查看创建和删除</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/timxgb/p/5844880.html">mysql 添加索引，ALTER TABLE和CREATE INDEX的区别</a></p>
+<h3 id="5-面试中的红黑树"><a href="#5-面试中的红黑树" class="headerlink" title="5. 面试中的红黑树"></a>5. 面试中的红黑树</h3><p>推荐阅读：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34173549/article/details/79636764">java面试-彻底搞懂红黑树</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wuchanming/p/4444961.html">面试题——轻松搞定面试中的红黑树问题</a></p>
+<h3 id="6-JDBC-的预编译语句"><a href="#6-JDBC-的预编译语句" class="headerlink" title="6. JDBC 的预编译语句"></a>6. JDBC 的预编译语句</h3><ul>
+<li>没有预编译时，直接执行 Statement的情况（数据库引擎对 SQL 语句进行编译）。<ul>
+<li>Statement 的 execute 系列方法直接将 SQL 语句作为参数传入并提交给数据库。每提交一次，都需要先编译再执行。</li>
+<li>问题出现了：如果有需要重复执行的 SQL 语句，每次都要经过编译这样效率太低。</li>
+<li>存在 SQL 注入隐患。</li>
+</ul>
+</li>
+<li>使用预编译语句的情况，使用 PreparedStatement 语句句柄，同时传入 SQL 语句。这里使用的预编译机制，如下：<ul>
+<li>支持占位符<code>?</code>，可以等到后期再决定这些占位符具体的值（占位符只能站位普通值，不能站位表名、列名、SQL 关键字等）。</li>
+<li>利用缓存机制（调用 getCachePreparedStatements()方法实现），将预编译语句语法与缓存中匹配，在有些时候可以不需再次编译即可直接执行。缓存的选择涉及到了使用频度等因素。</li>
+<li>使用了预编译语句，传入的任何内容都不会和原来的语句发生任何匹配关系。</li>
+</ul>
+</li>
+</ul>
+<p>推荐阅读：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zhangw1236/article/details/59113941">jdbc中预编译语句PreparedStatement的深层分析</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Lirx_Tech/article/details/51148853">JDBC：PreparedStatement预编译执行SQL语句</a></p>
+<h3 id="7-Linux进程管理的相关命令"><a href="#7-Linux进程管理的相关命令" class="headerlink" title="7. Linux进程管理的相关命令"></a>7. Linux进程管理的相关命令</h3><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">##显示所有进程详细信息</span><br><span class="line">ps aux</span><br><span class="line"></span><br><span class="line">## -C 通过名字或者命令搜索进程</span><br><span class="line">ps -C apache2</span><br><span class="line"></span><br><span class="line">##显示一个进程的所有线程  -L 参数</span><br><span class="line">ps -p <span class="number">3150</span> -L</span><br><span class="line"></span><br><span class="line">##发送指定的信号到相应进程。不指定型号将发送SIGTERM（<span class="number">15</span>）终止指定进程。 关闭进程号<span class="number">12</span>的进程</span><br><span class="line">kill <span class="number">12</span></span><br><span class="line"></span><br><span class="line">##如果任无法终止该程序可用“-KILL” 参数，其发送的信号为SIGKILL(<span class="number">9</span>) ，将强制结束进程  </span><br><span class="line">kill <span class="number">-9</span> <span class="number">123</span></span><br><span class="line"></span><br><span class="line">##pstree命令：列出当前的进程，以及它们的树状结构  格式：pstree [选项] [pid|user]</span><br><span class="line">pstree</span><br><span class="line"></span><br><span class="line">##nice命令：改变程序执行的优先权等级 应用程序优先权值的范围从<span class="number">-20</span>～<span class="number">19</span>，数字越小，优先权就越高。一般情况下，普通应用程序的优先权值（CPU使用权值）都是<span class="number">0</span>，如果让常用程序拥有较高的优先权等级，自然启动和运行速度都会快些。需要注意的是普通用户只能在<span class="number">0</span>～<span class="number">19</span>之间调整应用程序的优先权值，只有超级用户有权调整更高的优先权值（从<span class="number">-20</span>～<span class="number">19</span>）。</span><br><span class="line">nice [-n &lt;优先等级&gt;][--help][--version][命令]</span><br><span class="line">nice -n <span class="number">5</span> ls</span><br><span class="line"></span><br><span class="line">##top 动态查看进程的变化。</span><br><span class="line">top</span><br></pre></td></tr></table></figure>
+
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhongweijian/article/details/46468627">linux 进程管理相关命令汇总</a></p>
+<h3 id="8-多线程的使用场景"><a href="#8-多线程的使用场景" class="headerlink" title="8. 多线程的使用场景"></a>8. 多线程的使用场景</h3><ol>
+<li>常见的浏览器应用。</li>
+<li>Servlet多线程。（Servlet采用的是单实例多线程，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/hello5orld/article/details/19207053%EF%BC%89%E3%80%82">https://blog.csdn.net/hello5orld/article/details/19207053）。</a></li>
+<li>FTP下载，多线程操作文件。</li>
+<li>数据库用到的多线程。</li>
+<li>分布式计算。</li>
+<li>Tomcat 内部的多线程。</li>
+<li>后台任务：比如后台批量发送邮件、监控任务等。</li>
+<li>自动作业处理：比如定期备份日志，定期备份数据库。</li>
+<li>异步处理：比如发微博、记录日志。</li>
+<li>页面异步处理：比如大批量数据的核对工作（有10万个手机号码，核对哪些是已有用户）。</li>
+<li>数据库的大量数据分析、数据迁移。</li>
+<li>多步骤的任务处理，多任务分割。</li>
+<li>Desktop应用开发，前台进度条显示。</li>
+<li>Swing 编程。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/hll814/article/details/50816268">多线程的应用场景</a></p>
+<h3 id="9-代码实现提取URL中传的参数和值，保存键值对"><a href="#9-代码实现提取URL中传的参数和值，保存键值对" class="headerlink" title="9. 代码实现提取URL中传的参数和值，保存键值对"></a>9. 代码实现提取URL中传的参数和值，保存键值对</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.net.MalformedURLException;</span><br><span class="line"><span class="keyword">import</span> java.net.URL;</span><br><span class="line"><span class="keyword">import</span> java.util.HashMap;</span><br><span class="line"><span class="keyword">import</span> java.util.Map;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">demo</span> &#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> Map&lt;String,String&gt; map;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">		map = <span class="keyword">new</span> <span class="title class_">HashMap</span>&lt;&gt;();</span><br><span class="line">		<span class="type">URL</span> <span class="variable">url</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">		<span class="keyword">try</span> &#123;</span><br><span class="line">			url = <span class="keyword">new</span> <span class="title class_">URL</span>(<span class="string">&quot;http://test.com?name=abcd&amp;id=1&amp;age=18&quot;</span>);</span><br><span class="line">		&#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(getParamByUrl(url, <span class="string">&quot;age&quot;</span>));</span><br><span class="line">		System.out.println(<span class="string">&quot;=========&quot;</span>);</span><br><span class="line">		System.out.println(map);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> String <span class="title function_">getParamByUrl</span><span class="params">(URL url,String name)</span>&#123;</span><br><span class="line">		String result=<span class="string">&quot;&quot;</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">// URL 类的 getQuery()方法可以获取 URL 中的参数</span></span><br><span class="line">		<span class="type">String</span> <span class="variable">Query</span> <span class="operator">=</span> url.getQuery();</span><br><span class="line">		String[] queries = Query.split(<span class="string">&quot;&amp;&quot;</span>);</span><br><span class="line">		<span class="keyword">for</span>(String query : queries)&#123;</span><br><span class="line">			<span class="type">String</span> <span class="variable">key</span> <span class="operator">=</span> query.substring(<span class="number">0</span>,query.indexOf(<span class="string">&quot;=&quot;</span>));</span><br><span class="line">			<span class="type">String</span> <span class="variable">value</span> <span class="operator">=</span> query.substring(query.indexOf(<span class="string">&quot;=&quot;</span>)+<span class="number">1</span>,query.length());</span><br><span class="line">			map.put(key,value);</span><br><span class="line">			<span class="keyword">if</span>(name.equals(key))&#123;</span><br><span class="line">				result = value;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> result;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出结果是：</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">18</span></span><br><span class="line"><span class="section">=========</span></span><br><span class="line">&#123;name=abcd, id=1, age=18&#125;</span><br></pre></td></tr></table></figure>
+
+<p>PS：本题有多种实现方式，此处借助了java.net.URL 类的方法。</p>
+<h3 id="10-代码实现N的平方根，不考虑四舍五入取平方根"><a href="#10-代码实现N的平方根，不考虑四舍五入取平方根" class="headerlink" title="10. 代码实现N的平方根，不考虑四舍五入取平方根"></a>10. 代码实现N的平方根，不考虑四舍五入取平方根</h3><p>使用<a target="_blank" rel="noopener" href="https://www.matongxue.com/madocs/205.html#/madoc">牛顿迭代法</a>获取 N 的平方根:<br>令f(x) &#x3D; x^2 - N。方程的零根，就是所求的平方根。<br>步骤：</p>
+<ol>
+<li>取一点<code>（Xn，f(Xn)）</code>，切线方程：<code>f(x) = 2Xn*x - Xn^2 - P</code>，切线与X轴交点<code>（(Xn + N/Xn)/2，0）</code>（设为(Xn+1，0)）。</li>
+<li>根据牛顿迭代定理，Xn+1 是越来越接近目标值的，此处我们使用误差控制，来近似计算平方根。推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/dawnbreak/article/details/3308413">牛顿迭代法计算平方根</a></li>
+</ol>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">float</span> sqrtRoot(<span class="keyword">float</span> m ,<span class="keyword">float</span> precise)&#123;</span><br><span class="line">	<span class="keyword">if</span>(m == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">float</span> err = precise != <span class="keyword">null</span> ? precise : <span class="number">1</span>e-<span class="number">7</span>;</span><br><span class="line">	<span class="keyword">float</span> i = <span class="number">0</span>,x;</span><br><span class="line">	<span class="keyword">while</span>((i*i) &lt;= m)&#123;</span><br><span class="line">		i+=<span class="number">0.1</span>;  <span class="comment">// 求出比平方根略大的一个数当作初始值</span></span><br><span class="line">	&#125;</span><br><span class="line">	x = i;</span><br><span class="line">	<span class="keyword">while</span>(<span class="keyword">abs</span>(x1*x1-m)&gt;err)&#123;</span><br><span class="line">		x = (x+ m<span class="regexp">/x)/</span><span class="number">2</span>; <span class="comment">// 迭代出结果</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> x;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用牛顿迭代法的常见限制条件：</p>
+<ol>
+<li>函数在定义域最好是二阶可导的；</li>
+<li>起始点对求根计算影响较大，可以增加一些别的判断手段先试错。</li>
+</ol>
+<h3 id="11-P2P-下载"><a href="#11-P2P-下载" class="headerlink" title="11. P2P 下载"></a>11. P2P 下载</h3><p>BT种子有什么信息？</p>
+<ul>
+<li>文件分块信息、分块哈希值（目的是下载时进行校验，防止恶意数据攻击）。此部分占空间大头。</li>
+<li>中央服务器（问询服务器，tracker）的地址。<ul>
+<li>中央服务器的作用：记录节点服务器。</li>
+</ul>
+</li>
+<li>文件或者文件夹内每个文件的名字。</li>
+<li>其他辅助信息。</li>
+</ul>
+<p>读取 BT 种子下载的流程：</p>
+<ol>
+<li>读取 BT 种子信息并载入内存。</li>
+<li>告知问询服务器自己要下载，问询服务器会记录该客户端的公网IP。同时告知该客户端还有多少人也在下载这个文件（告知客户端有哪些 IP）。在下载过程中，需要 5 分钟跟 tracker 通信一次，如果太久不通信，tracker 会把这个客户端从节点列表中删除。</li>
+<li>客户端拿到一堆 IP 后，会挨个尝试连接，连上了就开始互相通讯。<ul>
+<li>通讯内容告诉对方，比如我有哪些块、缺哪些块。</li>
+<li>然后你来我往开始了下载。</li>
+</ul>
+</li>
+</ol>
+<p>辅助技术：</p>
+<ul>
+<li>DHT技术。如果 tracker 服务器连不上了，可以通过分布式哈希表 DHT 技术，在 DHT 网络中慢慢寻找志同道合的邻居节点。</li>
+<li>与运营商的相爱相杀。</li>
+<li>BT 对磁盘的调度、缓存的机制、文件分块的调度算法、服务器对百万千万级别用户量的性能提升等。</li>
+</ul>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/49829233">BT种子的原理是什么？</a></p>
+<h3 id="12-MySQL中有哪几种日志"><a href="#12-MySQL中有哪几种日志" class="headerlink" title="12. MySQL中有哪几种日志"></a>12. MySQL中有哪几种日志</h3><p>MySQL中有以下几种日志文件：</p>
+<ol>
+<li>重做日志 redo log</li>
+<li>回滚日志 undo log</li>
+<li>二进制日志 binlog（用于主从同步）</li>
+<li>错误日志 errorlog</li>
+<li>慢查询日志 slow query log</li>
+<li>一般查询日志 general log</li>
+<li>中继日志 relay log</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="http://database.51cto.com/art/201806/576300.htm">MySQL到底有多少种日志类型</a></p>
+<h3 id="13-LVS-的几种模型"><a href="#13-LVS-的几种模型" class="headerlink" title="13. LVS 的几种模型"></a>13. LVS 的几种模型</h3><p>&#x2F;&#x2F; todo</p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/05/%E5%90%84%E4%B8%AA%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/" rel="next" title="各个设计模式间的区别和联系">
+                <i class="fa fa-chevron-left"></i> 各个设计模式间的区别和联系
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/" rel="prev" title="面经整理5">
+                面经整理5 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Spring%E6%98%AF%E6%80%8E%E4%B9%88%E9%81%BF%E5%85%8D%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E7%9A%84"><span class="nav-number">1.</span> <span class="nav-text">1. Spring是怎么避免循环依赖的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%AF%B4%E8%AF%B4%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%89%E5%A4%A7%E8%8C%83%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">2. 说说数据库的三大范式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-MyBatis%E4%B8%AD-%E5%92%8C-%E5%8C%BA%E5%88%AB"><span class="nav-number">3.</span> <span class="nav-text">3. MyBatis中#{}和${}区别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">3.1.</span> <span class="nav-text">${}</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#-1"><span class="nav-number">3.2.</span> <span class="nav-text">#{}</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%BB%BA%E4%B8%80%E4%B8%AA%E7%B4%A2%E5%BC%95%E7%9A%84SQL%E8%AF%AD%E5%8F%A5"><span class="nav-number">4.</span> <span class="nav-text">4. 建一个索引的SQL语句</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9A"><span class="nav-number">4.1.</span> <span class="nav-text">两种方法的区别：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E9%9D%A2%E8%AF%95%E4%B8%AD%E7%9A%84%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="nav-number">5.</span> <span class="nav-text">5. 面试中的红黑树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-JDBC-%E7%9A%84%E9%A2%84%E7%BC%96%E8%AF%91%E8%AF%AD%E5%8F%A5"><span class="nav-number">6.</span> <span class="nav-text">6. JDBC 的预编译语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Linux%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86%E7%9A%84%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">7.</span> <span class="nav-text">7. Linux进程管理的相关命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">8.</span> <span class="nav-text">8. 多线程的使用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E6%8F%90%E5%8F%96URL%E4%B8%AD%E4%BC%A0%E7%9A%84%E5%8F%82%E6%95%B0%E5%92%8C%E5%80%BC%EF%BC%8C%E4%BF%9D%E5%AD%98%E9%94%AE%E5%80%BC%E5%AF%B9"><span class="nav-number">9.</span> <span class="nav-text">9. 代码实现提取URL中传的参数和值，保存键值对</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0N%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9%EF%BC%8C%E4%B8%8D%E8%80%83%E8%99%91%E5%9B%9B%E8%88%8D%E4%BA%94%E5%85%A5%E5%8F%96%E5%B9%B3%E6%96%B9%E6%A0%B9"><span class="nav-number">10.</span> <span class="nav-text">10. 代码实现N的平方根，不考虑四舍五入取平方根</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-P2P-%E4%B8%8B%E8%BD%BD"><span class="nav-number">11.</span> <span class="nav-text">11. P2P 下载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-MySQL%E4%B8%AD%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E6%97%A5%E5%BF%97"><span class="nav-number">12.</span> <span class="nav-text">12. MySQL中有哪几种日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-LVS-%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%9E%8B"><span class="nav-number">13.</span> <span class="nav-text">13. LVS 的几种模型</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

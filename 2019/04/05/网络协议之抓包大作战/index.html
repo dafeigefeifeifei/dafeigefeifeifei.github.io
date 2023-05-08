@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="网络协议之抓包大作战使用 Wireshark工具抓包，学习网络协议  ping测试 -&gt; 拆解 IPv4、ICMP 协议 Http测试 -&gt; 拆解 TCP、HTTP协议  为避免过早陷入网络协议的细节，建议提前阅读各种协议头部结构体中的插图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络协议之抓包大作战">
+<meta property="og:url" content="http://yoursite.com/2019/04/05/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E4%B9%8B%E6%8A%93%E5%8C%85%E5%A4%A7%E4%BD%9C%E6%88%98/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="网络协议之抓包大作战使用 Wireshark工具抓包，学习网络协议  ping测试 -&gt; 拆解 IPv4、ICMP 协议 Http测试 -&gt; 拆解 TCP、HTTP协议  为避免过早陷入网络协议的细节，建议提前阅读各种协议头部结构体中的插图">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-04-05T10:05:48.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.906Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="computer network">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/05/网络协议之抓包大作战/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>网络协议之抓包大作战 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/05/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E4%B9%8B%E6%8A%93%E5%8C%85%E5%A4%A7%E4%BD%9C%E6%88%98/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">网络协议之抓包大作战
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-04-05 18:05:48" itemprop="dateCreated datePublished" datetime="2019-04-05T18:05:48+08:00">2019-04-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Operation/" itemprop="url" rel="index"><span itemprop="name">Operation</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="网络协议之抓包大作战"><a href="#网络协议之抓包大作战" class="headerlink" title="网络协议之抓包大作战"></a>网络协议之抓包大作战</h1><p>使用 Wireshark工具抓包，学习网络协议</p>
+<ol>
+<li>ping测试 -&gt; 拆解 IPv4、ICMP 协议</li>
+<li>Http测试 -&gt; 拆解 TCP、HTTP协议</li>
+</ol>
+<p>为避免过早陷入网络协议的细节，建议提前阅读<a target="_blank" rel="noopener" href="https://blog.csdn.net/xiexievv/article/details/45225921">各种协议头部结构体</a>中的插图</p>
+<span id="more"></span>
+
+<h2 id="1-Ping-gt-拆解-IPv4、ICMP-协议"><a href="#1-Ping-gt-拆解-IPv4、ICMP-协议" class="headerlink" title="1. Ping -&gt; 拆解 IPv4、ICMP 协议"></a>1. Ping -&gt; 拆解 IPv4、ICMP 协议</h2><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">【终端】<span class="comment"></span></span><br><span class="line"><span class="comment">// 终端执行 Ping 命令：</span></span><br><span class="line"> lee@localhost  ~  ping baidu.com</span><br><span class="line">PING baidu.com (<span class="number">220.181</span><span class="number">.57</span><span class="number">.216</span>): <span class="number">56</span> data <span class="keyword">bytes</span></span><br><span class="line"><span class="number">64</span> <span class="keyword">bytes</span> <span class="built_in">from</span> <span class="number">220.181</span><span class="number">.57</span><span class="number">.216</span>: icmp_seq=<span class="number">0</span> ttl=<span class="number">49</span> <span class="built_in">time</span>=<span class="number">32.353</span> ms</span><br><span class="line"><span class="number">64</span> <span class="keyword">bytes</span> <span class="built_in">from</span> <span class="number">220.181</span><span class="number">.57</span><span class="number">.216</span>: icmp_seq=<span class="number">1</span> ttl=<span class="number">49</span> <span class="built_in">time</span>=<span class="number">31.132</span> ms</span><br><span class="line"><span class="number">64</span> <span class="keyword">bytes</span> <span class="built_in">from</span> <span class="number">220.181</span><span class="number">.57</span><span class="number">.216</span>: icmp_seq=<span class="number">2</span> ttl=<span class="number">49</span> <span class="built_in">time</span>=<span class="number">31.420</span> ms</span><br><span class="line"><span class="number">64</span> <span class="keyword">bytes</span> <span class="built_in">from</span> <span class="number">220.181</span><span class="number">.57</span><span class="number">.216</span>: icmp_seq=<span class="number">3</span> ttl=<span class="number">49</span> <span class="built_in">time</span>=<span class="number">36.666</span> ms</span><br><span class="line">^C</span><br><span class="line"><span class="comment">--- baidu.com ping statistics ---</span></span><br><span class="line"><span class="number">4</span> packets transmitted, <span class="number">4</span> packets received, <span class="number">0.0</span>% packet loss</span><br><span class="line"><span class="built_in">round</span>-trip <span class="built_in">min</span>/<span class="built_in">avg</span>/<span class="built_in">max</span>/stddev = <span class="number">31.132</span>/<span class="number">32.893</span>/<span class="number">36.666</span>/<span class="number">2.225</span> ms</span><br></pre></td></tr></table></figure>
+
+
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">【抓包流水】</span><br><span class="line"><span class="regexp">//</span> 抓包查看分组列表：</span><br><span class="line"><span class="regexp">//</span> 注：本机 IP：[本机 IP 和谐和谐]</span><br><span class="line"><span class="string">&quot;No.&quot;</span>,<span class="string">&quot;Time&quot;</span>,<span class="string">&quot;Source&quot;</span>,<span class="string">&quot;Destination&quot;</span>,<span class="string">&quot;Protocol&quot;</span>,<span class="string">&quot;Length&quot;</span>,<span class="string">&quot;Info&quot;</span></span><br><span class="line"><span class="string">&quot;8&quot;</span>,<span class="string">&quot;6.484284&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;221.12.33.227&quot;</span>,<span class="string">&quot;DNS&quot;</span>,<span class="string">&quot;69&quot;</span>,<span class="string">&quot;Standard query 0x624f A baidu.com&quot;</span></span><br><span class="line"><span class="string">&quot;9&quot;</span>,<span class="string">&quot;6.489842&quot;</span>,<span class="string">&quot;221.12.33.227&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;DNS&quot;</span>,<span class="string">&quot;271&quot;</span>,<span class="string">&quot;Standard query response 0x624f A baidu.com A 220.181.57.216 ... ...&quot;</span></span><br><span class="line"><span class="string">&quot;10&quot;</span>,<span class="string">&quot;6.490159&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;220.181.57.216&quot;</span>,<span class="string">&quot;ICMP&quot;</span>,<span class="string">&quot;98&quot;</span>,<span class="string">&quot;Echo (ping) request  id=0x7853, seq=0/0, ttl=64 (reply in 11)&quot;</span></span><br><span class="line"><span class="string">&quot;11&quot;</span>,<span class="string">&quot;6.522460&quot;</span>,<span class="string">&quot;220.181.57.216&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;ICMP&quot;</span>,<span class="string">&quot;98&quot;</span>,<span class="string">&quot;Echo (ping) reply    id=0x7853, seq=0/0, ttl=49 (request in 10)&quot;</span></span><br><span class="line"><span class="string">&quot;13&quot;</span>,<span class="string">&quot;7.492527&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;220.181.57.216&quot;</span>,<span class="string">&quot;ICMP&quot;</span>,<span class="string">&quot;98&quot;</span>,<span class="string">&quot;Echo (ping) request  id=0x7853, seq=1/256, ttl=64 (reply in 14)&quot;</span></span><br><span class="line"><span class="string">&quot;14&quot;</span>,<span class="string">&quot;7.523576&quot;</span>,<span class="string">&quot;220.181.57.216&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;ICMP&quot;</span>,<span class="string">&quot;98&quot;</span>,<span class="string">&quot;Echo (ping) reply    id=0x7853, seq=1/256, ttl=49 (request in 13)&quot;</span></span><br><span class="line"><span class="string">&quot;27&quot;</span>,<span class="string">&quot;8.494129&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;220.181.57.216&quot;</span>,<span class="string">&quot;ICMP&quot;</span>,<span class="string">&quot;98&quot;</span>,<span class="string">&quot;Echo (ping) request  id=0x7853, seq=2/512, ttl=64 (reply in 28)&quot;</span></span><br><span class="line"><span class="string">&quot;28&quot;</span>,<span class="string">&quot;8.525455&quot;</span>,<span class="string">&quot;220.181.57.216&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;ICMP&quot;</span>,<span class="string">&quot;98&quot;</span>,<span class="string">&quot;Echo (ping) reply    id=0x7853, seq=2/512, ttl=49 (request in 27)&quot;</span></span><br><span class="line"><span class="string">&quot;50&quot;</span>,<span class="string">&quot;9.495770&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;220.181.57.216&quot;</span>,<span class="string">&quot;ICMP&quot;</span>,<span class="string">&quot;98&quot;</span>,<span class="string">&quot;Echo (ping) request  id=0x7853, seq=3/768, ttl=64 (reply in 51)&quot;</span></span><br><span class="line"><span class="string">&quot;51&quot;</span>,<span class="string">&quot;9.532351&quot;</span>,<span class="string">&quot;220.181.57.216&quot;</span>,<span class="string">&quot;[本机 IP 和谐和谐]&quot;</span>,<span class="string">&quot;ICMP&quot;</span>,<span class="string">&quot;98&quot;</span>,<span class="string">&quot;Echo (ping) reply    id=0x7853, seq=3/768, ttl=49 (request in 50)&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>分析：</p>
+<ol>
+<li>在 Ping baidu.com 时，首先进行 DNS 查询 IP 地址，</li>
+<li>然后获取到若干个包，都是基于 <a target="_blank" rel="noopener" href="https://blog.csdn.net/u011784495/article/details/71743516">ICMP 协议</a> 的。<ul>
+<li><strong>ICMP消息是以未确认的IPv4数据报传送的，它们自己也不可靠。</strong></li>
+<li>按以太网首部、IPv4、ICMP 顺序拆解，如下：</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">【协议详情】</span></span><br><span class="line"><span class="string">//（以上面的</span> <span class="string">No.11</span> <span class="string">ICMP</span> <span class="string">的</span> <span class="string">reply</span> <span class="string">为例）</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">算是信息总览吧（包括</span> <span class="string">Wireshark</span> <span class="string">的着色标记等），没有体现在字节上（即不占物理空间）</span></span><br><span class="line"><span class="attr">Frame 10:</span> <span class="number">98</span> <span class="string">bytes</span> <span class="string">on</span> <span class="string">wire</span> <span class="string">(784</span> <span class="string">bits),</span> <span class="number">98</span> <span class="string">bytes</span> <span class="string">captured</span> <span class="string">(784</span> <span class="string">bits)</span> <span class="string">on</span> <span class="string">interface</span> <span class="number">0</span></span><br><span class="line"><span class="attr">Interface id:</span> <span class="number">0</span> <span class="string">(en0)</span></span><br><span class="line">	<span class="attr">Interface name:</span> <span class="string">en0</span></span><br><span class="line">	<span class="attr">Interface description:</span> <span class="string">Wi-Fi</span></span><br><span class="line"><span class="attr">Encapsulation type:</span> <span class="string">Ethernet</span> <span class="string">(1)</span></span><br><span class="line"><span class="attr">Arrival Time:</span> <span class="string">Apr</span>  <span class="number">5</span><span class="string">,</span> <span class="number">2019 18:03:13.866956000 </span><span class="string">CST</span></span><br><span class="line">[<span class="attr">Time shift for this packet:</span> <span class="number">0.000000000</span> <span class="string">seconds</span>]</span><br><span class="line"><span class="attr">Epoch Time:</span> <span class="number">1554458593.866956000</span> <span class="string">seconds</span></span><br><span class="line">[<span class="attr">Time delta from previous captured frame:</span> <span class="number">0.000317000</span> <span class="string">seconds</span>]</span><br><span class="line">[<span class="attr">Time delta from previous displayed frame:</span> <span class="number">0.000317000</span> <span class="string">seconds</span>]</span><br><span class="line">[<span class="attr">Time since reference or first frame:</span> <span class="number">6.490159000</span> <span class="string">seconds</span>]</span><br><span class="line"><span class="attr">Frame Number:</span> <span class="number">10</span></span><br><span class="line"><span class="attr">Frame Length:</span> <span class="number">98</span> <span class="string">bytes</span> <span class="string">(784</span> <span class="string">bits)</span></span><br><span class="line"><span class="attr">Capture Length:</span> <span class="number">98</span> <span class="string">bytes</span> <span class="string">(784</span> <span class="string">bits)</span></span><br><span class="line">[<span class="attr">Frame is marked:</span> <span class="literal">False</span>]</span><br><span class="line">[<span class="attr">Frame is ignored:</span> <span class="literal">False</span>]</span><br><span class="line">[<span class="attr">Protocols in frame:</span> <span class="string">eth:ethertype:ip:icmp:data</span>] <span class="string">//</span> <span class="string">说明本数据帧中涉及到的哪些协议</span></span><br><span class="line">[<span class="attr">Coloring Rule Name:</span> <span class="string">ICMP</span>]</span><br><span class="line">[<span class="attr">Coloring Rule String:</span> <span class="string">icmp</span> <span class="string">||</span> <span class="string">icmpv6</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">以太网首部</span></span><br><span class="line"><span class="string">Ethernet</span> <span class="string">II,</span> <span class="attr">Src:</span> <span class="string">Apple_ec:6d:8d</span> <span class="string">([本机</span> <span class="string">mac</span> <span class="string">和谐和谐]),</span> <span class="attr">Dst:</span> <span class="string">Cisco_28:dc:80</span> <span class="string">(10:8c:cf:28:dc:80)</span></span><br><span class="line">	<span class="attr">Destination:</span> <span class="string">Cisco_28:dc:80</span> <span class="string">(10:8c:cf:28:dc:80)</span> <span class="string">//</span> <span class="number">6</span><span class="string">个字节，代表目的地</span> <span class="string">mac</span> <span class="string">地址</span></span><br><span class="line">		<span class="attr">Address:</span> <span class="string">Cisco_28:dc:80</span> <span class="string">(10:8c:cf:28:dc:80)</span></span><br><span class="line">		<span class="string">....</span> <span class="string">..0.</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">LG bit:</span> <span class="string">Globally</span> <span class="string">unique</span> <span class="string">address</span> <span class="string">(factory</span> <span class="string">default)</span></span><br><span class="line">		<span class="string">....</span> <span class="string">...0</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">IG bit:</span> <span class="string">Individual</span> <span class="string">address</span> <span class="string">(unicast)</span></span><br><span class="line">	<span class="attr">Source:</span> <span class="string">Apple_ec:6d:8d</span> <span class="string">([本机</span> <span class="string">mac</span> <span class="string">和谐和谐])</span>  <span class="string">//</span> <span class="number">6</span><span class="string">个字节，代表源</span> <span class="string">mac</span> <span class="string">地址</span></span><br><span class="line">		<span class="attr">Address:</span> <span class="string">Apple_ec:6d:8d</span> <span class="string">([本机</span> <span class="string">mac</span> <span class="string">和谐和谐])</span></span><br><span class="line">		<span class="string">....</span> <span class="string">..0.</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">LG bit:</span> <span class="string">Globally</span> <span class="string">unique</span> <span class="string">address</span> <span class="string">(factory</span> <span class="string">default)</span></span><br><span class="line">		<span class="string">....</span> <span class="string">...0</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">IG bit:</span> <span class="string">Individual</span> <span class="string">address</span> <span class="string">(unicast)</span></span><br><span class="line">	<span class="attr">Type:</span> <span class="string">IPv4</span> <span class="string">(0x0800)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">IPv4</span> <span class="string">协议</span>  <span class="string">可以参考本站另一篇博客:</span> </span><br><span class="line">[<span class="string">IPv4数据报格式</span>]<span class="string">(http://likehui.fun/2018/09/05/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%9B%9B%E7%AB%A0-1/)</span> </span><br><span class="line"></span><br><span class="line"><span class="string">Internet</span> <span class="string">Protocol</span> <span class="string">Version</span> <span class="number">4</span><span class="string">,</span> <span class="attr">Src:</span> [<span class="string">本机</span> <span class="string">IP</span> <span class="string">和谐和谐</span>]<span class="string">,</span> <span class="attr">Dst:</span> <span class="number">220.181</span><span class="number">.57</span><span class="number">.216</span></span><br><span class="line"><span class="number">0100</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">Version:</span> <span class="number">4</span></span><br><span class="line"><span class="string">....</span> <span class="number">0101</span> <span class="string">=</span> <span class="attr">Header Length:</span> <span class="number">20</span> <span class="string">bytes</span> <span class="string">(5)</span></span><br><span class="line"><span class="attr">Differentiated Services Field:</span> <span class="number">0x00</span> <span class="string">(DSCP:</span> <span class="string">CS0,</span> <span class="attr">ECN:</span> <span class="string">Not-ECT)</span> <span class="string">//</span> <span class="string">服务类型（定义优先级、低延时、高吞吐量等等）</span></span><br><span class="line">	<span class="number">0000 </span><span class="number">00</span><span class="string">..</span> <span class="string">=</span> <span class="attr">Differentiated Services Codepoint:</span> <span class="string">Default</span> <span class="string">(0)</span></span><br><span class="line">	<span class="string">....</span> <span class="string">..00</span> <span class="string">=</span> <span class="attr">Explicit Congestion Notification:</span> <span class="string">Not</span> <span class="string">ECN-Capable</span> <span class="string">Transport</span> <span class="string">(0)</span></span><br><span class="line"><span class="attr">Total Length:</span> <span class="number">84</span></span><br><span class="line"><span class="attr">Identification:</span> <span class="number">0xe203</span> <span class="string">(57859)</span>  <span class="string">//</span> <span class="string">同一个原始数据报的唯一编号（因为分片，多个</span> <span class="string">IP</span> <span class="string">报可以归属于同一个原始数据报）</span></span><br><span class="line"><span class="attr">Flags:</span> <span class="number">0x0000</span></span><br><span class="line">	<span class="number">0</span><span class="string">...</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">Reserved bit:</span> <span class="string">Not</span> <span class="string">set</span> <span class="string">//</span> <span class="string">未投入使用</span></span><br><span class="line">	<span class="number">.0</span><span class="string">..</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">=</span> <span class="string">Don&#x27;t</span> <span class="attr">fragment:</span> <span class="string">Not</span> <span class="string">set</span> <span class="string">//</span> <span class="string">不对数据分片</span></span><br><span class="line">	<span class="string">..0.</span> <span class="string">....</span> <span class="string">....</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">More fragments:</span> <span class="string">Not</span> <span class="string">set</span> <span class="string">//</span> <span class="number">1</span><span class="string">表示还有分片，0表再无分片</span></span><br><span class="line">	<span class="string">...0</span> <span class="number">0000 </span><span class="number">0000 </span><span class="number">0000</span> <span class="string">=</span> <span class="attr">Fragment offset:</span> <span class="number">0</span> <span class="string">//</span> <span class="string">分片偏移，相对于原始数据报</span></span><br><span class="line"><span class="attr">Time to live:</span> <span class="number">64</span> <span class="string">//</span> <span class="string">经过一个路由器此数字减一，若发现为0，路由器将丢弃此包</span></span><br><span class="line"><span class="attr">Protocol:</span> <span class="string">ICMP</span> <span class="string">(1)</span> <span class="string">//</span> <span class="number">1</span><span class="string">表示ICMP，2表示IGMP，6表示TCP，17表示UDP，89表示OSPF</span></span><br><span class="line"><span class="attr">Header checksum:</span> <span class="number">0xb2f0</span> [<span class="string">validation</span> <span class="string">disabled</span>]</span><br><span class="line">[<span class="attr">Header checksum status:</span> <span class="string">Unverified</span>]</span><br><span class="line"><span class="attr">Source:</span> [<span class="string">本机</span> <span class="string">IP</span> <span class="string">和谐和谐</span>]</span><br><span class="line"><span class="attr">Destination:</span> <span class="number">220.181</span><span class="number">.57</span><span class="number">.216</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">ICMP</span> <span class="string">协议</span></span><br><span class="line"><span class="string">//</span> <span class="string">Internet</span> <span class="string">Control</span> <span class="string">Message</span> <span class="string">Protocol</span> </span><br><span class="line"><span class="attr">Type:</span> <span class="number">0</span> <span class="string">(Echo</span> <span class="string">(ping)</span> <span class="string">reply)</span> <span class="string">//</span> <span class="string">如果是</span> <span class="string">ping</span> <span class="string">的</span> <span class="string">request，此处</span> <span class="string">Type</span> <span class="string">是8，占1byte，1~127</span> <span class="string">差错报文，128</span> <span class="string">以上信息报文</span></span><br><span class="line"><span class="attr">Code:</span> <span class="number">0</span> <span class="string">//</span> <span class="string">占1byte，它与类型字段一起共同标识了ICMP报文的详细类型</span></span><br><span class="line"><span class="attr">Checksum:</span> <span class="number">0xdda4</span> [<span class="string">correct</span>]</span><br><span class="line">[<span class="attr">Checksum Status:</span> <span class="string">Good</span>]</span><br><span class="line"><span class="string">Identifier</span> <span class="string">(BE):</span> <span class="number">30803</span> <span class="string">(0x7853)</span> <span class="string">//</span> <span class="string">BE、LE</span> <span class="string">是</span> <span class="string">wireshark</span> <span class="string">软件</span> <span class="string">对</span> <span class="string">linux</span> <span class="string">和</span> <span class="string">window</span> <span class="string">系统的做出的标识（区别大端、小端），可以不予理会。</span></span><br><span class="line"><span class="string">Identifier</span> <span class="string">(LE):</span> <span class="number">21368</span> <span class="string">(0x5378)</span></span><br><span class="line"><span class="string">Sequence</span> <span class="string">number</span> <span class="string">(BE):</span> <span class="number">0</span> <span class="string">(0x0000)</span></span><br><span class="line"><span class="string">Sequence</span> <span class="string">number</span> <span class="string">(LE):</span> <span class="number">0</span> <span class="string">(0x0000)</span></span><br><span class="line">[<span class="attr">Request frame:</span> <span class="number">10</span>]</span><br><span class="line">[<span class="attr">Response time:</span> <span class="number">32.301</span> <span class="string">ms</span>] <span class="string">//</span> <span class="string">如果是</span> <span class="string">ping</span> <span class="string">的</span> <span class="string">request，则无此</span> <span class="string">response</span> <span class="string">time</span> <span class="string">参数</span></span><br><span class="line"><span class="attr">Timestamp from icmp data:</span> <span class="string">Apr</span>  <span class="number">5</span><span class="string">,</span> <span class="number">2019 18:03:13.866927000 </span><span class="string">CST</span></span><br><span class="line">[<span class="string">Timestamp</span> <span class="string">from</span> <span class="string">icmp</span> <span class="string">data</span> <span class="string">(relative):</span> <span class="number">0.032330000</span> <span class="string">seconds</span>]</span><br><span class="line"><span class="string">Data</span> <span class="string">(48</span> <span class="string">bytes)</span></span><br><span class="line">	<span class="attr">Data:</span> <span class="string">08090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f…</span></span><br><span class="line">	[<span class="attr">Length:</span> <span class="number">48</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-访问Http-gt-拆解-TCP、HTTP协议"><a href="#2-访问Http-gt-拆解-TCP、HTTP协议" class="headerlink" title="2. 访问Http -&gt; 拆解 TCP、HTTP协议"></a>2. 访问Http -&gt; 拆解 TCP、HTTP协议</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">【抓包流水】</span><br><span class="line"><span class="regexp">//</span> 访问 http:<span class="regexp">//</span>www.cst.zju.edu.cn/网站</span><br><span class="line"><span class="string">&quot;No.&quot;</span>,<span class="string">&quot;Time&quot;</span>,<span class="string">&quot;Source&quot;</span>,<span class="string">&quot;Destination&quot;</span>,<span class="string">&quot;Protocol&quot;</span>,<span class="string">&quot;Length&quot;</span>,<span class="string">&quot;Info&quot;</span></span><br><span class="line"><span class="string">&quot;1008&quot;</span>,<span class="string">&quot;149.200741&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;78&quot;</span>,<span class="string">&quot;57206 → 80 [SYN] Seq=0 Win=65535 Len=0 MSS=1460 WS=32 TSval=980646922 TSecr=0 SACK_PERM=1&quot;</span></span><br><span class="line"><span class="string">&quot;1009&quot;</span>,<span class="string">&quot;149.249935&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;74&quot;</span>,<span class="string">&quot;80 → 57206 [SYN, ACK] Seq=0 Ack=1 Win=14480 Len=0 MSS=1460 SACK_PERM=1 TSval=4012697143 TSecr=980646922 WS=128&quot;</span></span><br><span class="line"><span class="string">&quot;1010&quot;</span>,<span class="string">&quot;149.250013&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;66&quot;</span>,<span class="string">&quot;57206 → 80 [ACK] Seq=1 Ack=1 Win=131744 Len=0 TSval=980646971 TSecr=4012697143&quot;</span></span><br><span class="line"><span class="string">&quot;1011&quot;</span>,<span class="string">&quot;149.250191&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;HTTP&quot;</span>,<span class="string">&quot;468&quot;</span>,<span class="string">&quot;GET / HTTP/1.1 &quot;</span></span><br><span class="line"><span class="string">&quot;1013&quot;</span>,<span class="string">&quot;149.305859&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;66&quot;</span>,<span class="string">&quot;80 → 57206 [ACK] Seq=1 Ack=403 Win=15616 Len=0 TSval=4012697199 TSecr=980646971&quot;</span></span><br><span class="line"><span class="string">&quot;1014&quot;</span>,<span class="string">&quot;149.371354&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;1514&quot;</span>,<span class="string">&quot;80 → 57206 [ACK] Seq=1 Ack=403 Win=15616 Len=1448 TSval=4012697262 TSecr=980646971 [TCP segment of a reassembled PDU]&quot;</span></span><br><span class="line"><span class="string">&quot;1015&quot;</span>,<span class="string">&quot;149.371367&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;1514&quot;</span>,<span class="string">&quot;80 → 57206 [ACK] Seq=1449 Ack=403 Win=15616 Len=1448 TSval=4012697262 TSecr=980646971 [TCP segment of a reassembled PDU]&quot;</span></span><br><span class="line"><span class="string">&quot;1016&quot;</span>,<span class="string">&quot;149.371458&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;1514&quot;</span>,<span class="string">&quot;80 → 57206 [ACK] Seq=2897 Ack=403 Win=15616 Len=1448 TSval=4012697262 TSecr=980646971 [TCP segment of a reassembled PDU]&quot;</span></span><br><span class="line"><span class="string">&quot;1017&quot;</span>,<span class="string">&quot;149.371524&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;66&quot;</span>,<span class="string">&quot;57206 → 80 [ACK] Seq=403 Ack=2897 Win=128864 Len=0 TSval=980647090 TSecr=4012697262&quot;</span></span><br><span class="line"><span class="string">&quot;1018&quot;</span>,<span class="string">&quot;149.371568&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;66&quot;</span>,<span class="string">&quot;57206 → 80 [ACK] Seq=403 Ack=4345 Win=130816 Len=0 TSval=980647090 TSecr=4012697262&quot;</span></span><br><span class="line"><span class="string">&quot;1019&quot;</span>,<span class="string">&quot;149.371969&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;HTTP&quot;</span>,<span class="string">&quot;950&quot;</span>,<span class="string">&quot;[TCP Previous segment not captured] Continuation&quot;</span></span><br><span class="line"><span class="string">&quot;1020&quot;</span>,<span class="string">&quot;149.372023&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;78&quot;</span>,<span class="string">&quot;[TCP Dup ACK 1018#1] 57206 → 80 [ACK] Seq=403 Ack=4345 Win=130816 Len=0 TSval=980647090 TSecr=4012697262 SLE=8689 SRE=9573&quot;</span></span><br><span class="line"><span class="string">&quot;1021&quot;</span>,<span class="string">&quot;149.372272&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;1514&quot;</span>,<span class="string">&quot;[TCP Out-Of-Order] 80 → 57206 [ACK] Seq=4345 Ack=403 Win=15616 Len=1448 TSval=4012697262 TSecr=980646971&quot;</span></span><br><span class="line"><span class="string">&quot;1022&quot;</span>,<span class="string">&quot;149.372278&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;1514&quot;</span>,<span class="string">&quot;[TCP Out-Of-Order] 80 → 57206 [ACK] Seq=5793 Ack=403 Win=15616 Len=1448 TSval=4012697262 TSecr=980646971&quot;</span></span><br><span class="line"><span class="string">&quot;1023&quot;</span>,<span class="string">&quot;149.372335&quot;</span>,<span class="string">&quot;[本机 ip 和谐和谐]&quot;</span>,<span class="string">&quot;210.32.0.218&quot;</span>,<span class="string">&quot;TCP&quot;</span>,<span class="string">&quot;78&quot;</span>,<span class="string">&quot;57206 → 80 [ACK] Seq=403 Ack=5793 Win=129376 Len=0 TSval=980647090 TSecr=4012697262 SLE=8689 SRE=9573&quot;</span></span><br><span class="line">。。。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>按编号分别解释：</p>
+<ul>
+<li>1008：Client -&gt; Server三次握手之一</li>
+<li>1009：Server -&gt; Client 三次握手之二</li>
+<li>1010：Client -&gt; Server 三次握手之三</li>
+<li>1011：三次握手结束，Client -&gt; Server 发送 Http 的 Get 请求，从 IP 请求头我们知道此 Http 不分片，此协议见下方代码。</li>
+<li>1013：Server -&gt; Client ，回应 Get 请求，即回应 1011。</li>
+<li>1014、1015、1016，Server -&gt; Client 发送常规数据，长度都是 1514。</li>
+<li>1017：Client -&gt; Server ，Ack 2897，同时回应了1014、1015.</li>
+<li>1018：Client -&gt; Server, Ack 4345,作为 1016 的回应。</li>
+<li>1019：Server -&gt; Client，但是中途出现丢包（5793<del>8689 的数据包丢了），此1019包数据seq为 8689</del>9573，缓存在 Client 端的窗口中。</li>
+<li>1020：Client -&gt; Server ，重复包，相当于又发了一次1018。</li>
+<li>1021：Server -&gt; Client，因为网络问题，导致包抵达时间不同，延时长、包丢失等。这里可以明显看到 Ack&#x3D;403 有问题，因为 Client 发来的 403 早就到达 Server 了。</li>
+<li>1022：Sever -&gt; Client，乱序，理由同上。</li>
+<li>1023：Client -&gt; Server，告知需要5793的数据，结合 SLE&#x3D;8689 SRE&#x3D;9573 说明：我等你的5793后面的数据，但是 8689~9573 之间的数据我已经缓存了，用不着再发。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">【协议详情】</span></span><br><span class="line"><span class="string">...</span> <span class="string">编号1011，即</span> <span class="string">Http</span> <span class="string">的</span> <span class="string">Get</span> <span class="string">请求，client</span> <span class="string">发往</span> <span class="string">server，下面的以太网头和</span> <span class="string">IPv4</span> <span class="string">省略</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">TCP</span></span><br><span class="line"><span class="string">Transmission</span> <span class="string">Control</span> <span class="string">Protocol,</span> <span class="attr">Src Port:</span> <span class="number">57206</span><span class="string">,</span> <span class="attr">Dst Port:</span> <span class="number">80</span><span class="string">,</span> <span class="attr">Seq:</span> <span class="number">1</span><span class="string">,</span> <span class="attr">Ack:</span> <span class="number">1</span><span class="string">,</span> <span class="attr">Len:</span> <span class="number">402</span></span><br><span class="line"><span class="attr">Source Port:</span> <span class="number">57206</span> <span class="string">//占</span> <span class="number">2</span> <span class="string">bytes</span></span><br><span class="line"><span class="attr">Destination Port:</span> <span class="number">80</span>  <span class="string">//占</span> <span class="number">2</span> <span class="string">bytes</span></span><br><span class="line">[<span class="attr">Stream index:</span> <span class="number">56</span>]</span><br><span class="line">[<span class="attr">TCP Segment Len:</span> <span class="number">402</span>]</span><br><span class="line"><span class="attr">Sequence number:</span> <span class="number">1</span>    <span class="string">(relative</span> <span class="string">sequence</span> <span class="string">number)</span> <span class="string">//占</span> <span class="number">4</span> <span class="string">bytes</span></span><br><span class="line">[<span class="attr">Next sequence number:</span> <span class="number">403</span>    <span class="string">(relative</span> <span class="string">sequence</span> <span class="string">number)</span>]</span><br><span class="line"><span class="attr">Acknowledgment number:</span> <span class="number">1</span>    <span class="string">(relative</span> <span class="string">ack</span> <span class="string">number)</span> <span class="string">//占</span> <span class="number">4</span> <span class="string">bytes</span></span><br><span class="line"><span class="number">1000</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">Header Length:</span> <span class="number">32</span> <span class="string">bytes</span> <span class="string">(8)</span> <span class="string">//</span> <span class="string">占</span> <span class="number">4</span> <span class="string">bits，此处的</span> <span class="number">8</span> <span class="string">表示长度</span> <span class="number">32</span> <span class="string">bytes</span></span><br><span class="line"><span class="attr">Flags:</span> <span class="number">0x018</span> <span class="string">(PSH,</span> <span class="string">ACK)</span></span><br><span class="line">	<span class="number">000</span><span class="string">.</span> <span class="string">....</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">Reserved:</span> <span class="string">Not</span> <span class="string">set</span>  <span class="string">//</span> <span class="string">保留字符</span></span><br><span class="line">	<span class="string">...0</span> <span class="string">....</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">Nonce:</span> <span class="string">Not</span> <span class="string">set</span>  <span class="string">//</span> <span class="string">保留字符</span></span><br><span class="line">	<span class="string">....</span> <span class="number">0</span><span class="string">...</span> <span class="string">....</span> <span class="string">=</span> <span class="string">Congestion</span> <span class="string">Window</span> <span class="string">Reduced</span> <span class="string">(CWR):</span> <span class="string">Not</span> <span class="string">set</span>  <span class="string">//</span> <span class="string">保留字符，CWR，拥塞窗口减少，接收者如果发现此处为1，可能就会缩小窗口的大小</span></span><br><span class="line">	<span class="string">....</span> <span class="number">.0</span><span class="string">..</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">ECN-Echo:</span> <span class="string">Not</span> <span class="string">set</span> <span class="string">//</span> <span class="string">保留字符，ECE，若被设置为1，在路由过程中，可能被不支持</span> <span class="string">ECN</span> <span class="string">的</span> <span class="string">router</span> <span class="string">给丢掉了</span></span><br><span class="line">	<span class="string">....</span> <span class="string">..0.</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">Urgent:</span> <span class="string">Not</span> <span class="string">set</span> <span class="string">//</span> <span class="string">紧急标志，此报文时紧急报文优先发送，不再按序发送。激活紧急指针，与后面的紧急指针（Urgent</span> <span class="string">pointer）配合，向后偏移至此报文处，发送此报文。</span></span><br><span class="line">	<span class="string">....</span> <span class="string">...1</span> <span class="string">....</span> <span class="string">=</span> <span class="attr">Acknowledgment:</span> <span class="string">Set</span> <span class="string">//</span> <span class="string">确认标志</span></span><br><span class="line">	<span class="string">....</span> <span class="string">....</span> <span class="number">1</span><span class="string">...</span> <span class="string">=</span> <span class="attr">Push:</span> <span class="string">Set</span> <span class="string">//</span> <span class="string">推，表示发送方通知接收方传输层应该尽快的将这个报文段交给应用层，而不是等缓冲区满了才交付。</span></span><br><span class="line">	<span class="string">....</span> <span class="string">....</span> <span class="number">.0</span><span class="string">..</span> <span class="string">=</span> <span class="attr">Reset:</span> <span class="string">Not</span> <span class="string">set</span>  <span class="string">//</span> <span class="string">重置连接</span></span><br><span class="line">	<span class="string">....</span> <span class="string">....</span> <span class="string">..0.</span> <span class="string">=</span> <span class="attr">Syn:</span> <span class="string">Not</span> <span class="string">set</span> <span class="string">//</span> <span class="string">同步标志</span></span><br><span class="line">	<span class="string">....</span> <span class="string">....</span> <span class="string">...0</span> <span class="string">=</span> <span class="attr">Fin:</span> <span class="string">Not</span> <span class="string">set</span> <span class="string">//</span> <span class="string">完成标志</span></span><br><span class="line">	[<span class="attr">TCP Flags:</span> <span class="string">·······AP···</span>]</span><br><span class="line"><span class="attr">Window size value:</span> <span class="number">4117</span> <span class="string">//</span> <span class="string">占</span> <span class="number">2</span> <span class="string">bytes</span></span><br><span class="line">[<span class="attr">Calculated window size:</span> <span class="number">131744</span>]</span><br><span class="line">[<span class="attr">Window size scaling factor:</span> <span class="number">32</span>]</span><br><span class="line"><span class="attr">Checksum:</span> <span class="number">0x2eb2</span> [<span class="string">unverified</span>] <span class="string">//</span> <span class="string">占</span> <span class="number">2</span> <span class="string">bytes</span></span><br><span class="line">[<span class="attr">Checksum Status:</span> <span class="string">Unverified</span>]</span><br><span class="line"><span class="attr">Urgent pointer:</span> <span class="number">0</span> <span class="string">//</span> <span class="string">占</span> <span class="number">2</span> <span class="string">bytes</span></span><br><span class="line"><span class="attr">Options:</span> <span class="string">(12</span> <span class="string">bytes),</span> <span class="literal">No</span><span class="string">-Operation</span> <span class="string">(NOP),</span> <span class="literal">No</span><span class="string">-Operation</span> <span class="string">(NOP),</span> <span class="string">Timestamps</span></span><br><span class="line">	<span class="string">TCP</span> <span class="string">Option</span> <span class="bullet">-</span> <span class="literal">No</span><span class="string">-Operation</span> <span class="string">(NOP)</span>  <span class="string">//</span> <span class="number">0</span><span class="string">.</span> <span class="string">代表选项表结束;</span> <span class="number">1</span><span class="string">.代表无操作;</span> <span class="number">2</span><span class="string">.代表MSS;</span> <span class="number">3</span><span class="string">.代表窗口扩大因子;</span> <span class="number">8</span><span class="string">.代表时间戳</span></span><br><span class="line">		<span class="attr">Kind:</span> <span class="literal">No</span><span class="string">-Operation</span> <span class="string">(1)</span></span><br><span class="line">	<span class="string">TCP</span> <span class="string">Option</span> <span class="bullet">-</span> <span class="literal">No</span><span class="string">-Operation</span> <span class="string">(NOP)</span></span><br><span class="line">		<span class="attr">Kind:</span> <span class="literal">No</span><span class="string">-Operation</span> <span class="string">(1)</span></span><br><span class="line">	<span class="attr">TCP Option - Timestamps:</span> <span class="string">TSval</span> <span class="number">980646971</span><span class="string">,</span> <span class="string">TSecr</span> <span class="number">4012697143</span></span><br><span class="line">		<span class="attr">Kind:</span> <span class="string">Time</span> <span class="string">Stamp</span> <span class="string">Option</span> <span class="string">(8)</span></span><br><span class="line">		<span class="attr">Length:</span> <span class="number">10</span></span><br><span class="line">		<span class="attr">Timestamp value:</span> <span class="number">980646971</span></span><br><span class="line">		<span class="attr">Timestamp echo reply:</span> <span class="number">4012697143</span></span><br><span class="line">[<span class="string">SEQ/ACK</span> <span class="string">analysis</span>]  <span class="string">//</span> <span class="string">相当于wireshark</span> <span class="string">的状态解读，不占物理空间</span></span><br><span class="line">	[<span class="attr">iRTT:</span> <span class="number">0.049272000</span> <span class="string">seconds</span>]</span><br><span class="line">	[<span class="attr">Bytes in flight:</span> <span class="number">402</span>]</span><br><span class="line">	[<span class="attr">Bytes sent since last PSH flag:</span> <span class="number">402</span>]</span><br><span class="line">[<span class="string">Timestamps</span>]</span><br><span class="line">	[<span class="attr">Time since first frame in this TCP stream:</span> <span class="number">0.049450000</span> <span class="string">seconds</span>]</span><br><span class="line">	[<span class="attr">Time since previous frame in this TCP stream:</span> <span class="number">0.000178000</span> <span class="string">seconds</span>]</span><br><span class="line"><span class="string">TCP</span> <span class="string">payload</span> <span class="string">(402</span> <span class="string">bytes)</span></span><br><span class="line"></span><br><span class="line"><span class="string">//</span> <span class="string">HTTP</span></span><br><span class="line"><span class="string">Hypertext</span> <span class="string">Transfer</span> <span class="string">Protocol</span></span><br><span class="line"><span class="string">GET</span> <span class="string">/</span> <span class="string">HTTP/1.1\r\n</span></span><br><span class="line">	[<span class="string">Expert</span> <span class="string">Info</span> <span class="string">(Chat/Sequence):</span> <span class="string">GET</span> <span class="string">/</span> <span class="string">HTTP/1.1\r\n</span>]</span><br><span class="line">		[<span class="string">GET</span> <span class="string">/</span> <span class="string">HTTP/1.1\r\n</span>]</span><br><span class="line">		[<span class="attr">Severity level:</span> <span class="string">Chat</span>]</span><br><span class="line">		[<span class="attr">Group:</span> <span class="string">Sequence</span>]</span><br><span class="line">	<span class="attr">Request Method:</span> <span class="string">GET</span></span><br><span class="line">	<span class="attr">Request URI:</span> <span class="string">/</span></span><br><span class="line">	<span class="attr">Request Version:</span> <span class="string">HTTP/1.1</span></span><br><span class="line"><span class="attr">Host:</span> <span class="string">www.cst.zju.edu.cn\r\n</span></span><br><span class="line"><span class="attr">Connection:</span> <span class="string">keep-alive\r\n</span></span><br><span class="line"><span class="attr">Upgrade-Insecure-Requests:</span> <span class="number">1</span><span class="string">\r\n</span></span><br><span class="line"><span class="attr">User-Agent:</span> [<span class="string">本机信息</span> <span class="string">和谐和谐</span>]</span><br><span class="line"><span class="attr">Accept:</span> <span class="string">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8\r\n</span></span><br><span class="line"><span class="attr">Accept-Encoding:</span> <span class="string">gzip,</span> <span class="string">deflate\r\n</span></span><br><span class="line"><span class="attr">Accept-Language:</span> <span class="string">en,zh-CN;q=0.9,zh;q=0.8\r\n</span></span><br><span class="line"><span class="string">\r\n</span></span><br><span class="line">[<span class="attr">Full request URI:</span> <span class="string">http://www.cst.zju.edu.cn/</span>]</span><br><span class="line">[<span class="string">HTTP</span> <span class="string">request</span> <span class="number">1</span><span class="string">/8</span>]</span><br><span class="line">[<span class="attr">Next request in frame:</span> <span class="number">1028</span>]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/javajiawei/article/details/81987949">聊一聊TCP协议中的push标志位</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/wang7dao/article/details/16805337">Wireshark 抓包工具–TCP 数据包解读</a></p>
+<ul>
+<li><p>由于 SYN包是用来初始化连接的, 它不可能和 FIN和RST标记一起出现。</p>
+</li>
+<li><p>为什么正常包的长度是1514？	</p>
+<ol>
+<li>首先最大帧的长度应该是1526字节，1526 bytes &#x3D; 前同步码（7 bytes）+ 帧开始定界符（1 byte）+ MTU + FCS（4 bytes） 。</li>
+<li>但是抓包拿到的包是已经去掉了前导同步码和帧开始定界符，已经经过CRC 验证后的了，所以只能拿到1514字节。</li>
+<li>1514 bytes &#x3D; 源 mac （6  bytes）+ 目的 mac （6  bytes） + 长度 （2  bytes） + MTU （1500  bytes）</li>
+<li>MTU 是最大传输单元，MTU &#x3D; IP 头（20 Bytes）+ Data。</li>
+<li>以1015包为例，Data 占1448bytes，TCP 头部32bytes，IP 头部20bytes，汇总就是1500字节。</li>
+</ol>
+</li>
+</ul>
+<p>参考解答：<a target="_blank" rel="noopener" href="https://blog.csdn.net/wangcg123/article/details/70347680">MTU问题，为何抓包到1514</a></p>
+<p>超 np 的 TCP 协议解读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Adoryn/p/4134981.html">TCP协议解析</a></p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/04/%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" rel="next" title="自定义一个类加载器代码实现">
+                <i class="fa fa-chevron-left"></i> 自定义一个类加载器代码实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/10/Redis-%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB-1/" rel="prev" title="Redis 源码解读(1)">
+                Redis 源码解读(1) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E4%B9%8B%E6%8A%93%E5%8C%85%E5%A4%A7%E4%BD%9C%E6%88%98"><span class="nav-number">1.</span> <span class="nav-text">网络协议之抓包大作战</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Ping-gt-%E6%8B%86%E8%A7%A3-IPv4%E3%80%81ICMP-%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.1.</span> <span class="nav-text">1. Ping -&gt; 拆解 IPv4、ICMP 协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E8%AE%BF%E9%97%AEHttp-gt-%E6%8B%86%E8%A7%A3-TCP%E3%80%81HTTP%E5%8D%8F%E8%AE%AE"><span class="nav-number">1.2.</span> <span class="nav-text">2. 访问Http -&gt; 拆解 TCP、HTTP协议</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

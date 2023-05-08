@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="1. spring事务写在哪一部分，为什么不写在DAO,Controller层事务写在Service层。  为什么不在DAO层？  在数据库中,所谓事务是指一组逻辑操作单元即一组sql语句。当这个单元中的一部分操作失败,整个事务回滚，只有全部正确才完成提交。 如果放在了DAO层，每一次增删改查都将提交一次事务，那么事务的一致性就会被破坏。 一般在Service的一处可以调用DAO层的多处，所以只要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面经整理5">
+<meta property="og:url" content="http://yoursite.com/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="1. spring事务写在哪一部分，为什么不写在DAO,Controller层事务写在Service层。  为什么不在DAO层？  在数据库中,所谓事务是指一组逻辑操作单元即一组sql语句。当这个单元中的一部分操作失败,整个事务回滚，只有全部正确才完成提交。 如果放在了DAO层，每一次增删改查都将提交一次事务，那么事务的一致性就会被破坏。 一般在Service的一处可以调用DAO层的多处，所以只要">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/bean2.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/bean.png">
+<meta property="article:published_time" content="2019-01-11T10:11:57.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.914Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="javaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/bean2.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/11/面经整理5/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>面经整理5 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面经整理5
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-01-11 18:11:57" itemprop="dateCreated datePublished" datetime="2019-01-11T18:11:57+08:00">2019-01-11</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1-spring事务写在哪一部分，为什么不写在DAO-Controller层"><a href="#1-spring事务写在哪一部分，为什么不写在DAO-Controller层" class="headerlink" title="1. spring事务写在哪一部分，为什么不写在DAO,Controller层"></a>1. spring事务写在哪一部分，为什么不写在DAO,Controller层</h3><p><strong>事务写在Service层</strong>。</p>
+<ol>
+<li><p>为什么不在DAO层？</p>
+<ul>
+<li>在数据库中,所谓事务是指一组逻辑操作单元即一组sql语句。当这个单元中的一部分操作失败,整个事务回滚，只有全部正确才完成提交。</li>
+<li>如果放在了DAO层，每一次增删改查都将提交一次事务，那么事务的一致性就会被破坏。</li>
+<li>一般在Service的一处可以调用DAO层的多处，所以只要添加一处事务注解@Transactional，这样才能体现事务的特性。</li>
+</ul>
+</li>
+<li><p>为什么不在Controller层？</p>
+<ul>
+<li>不推荐，但是事实上可以实现把事务放在Controller层。</li>
+<li>一般不会将事务放在Controller层，而且直接放是会报404错误的（因为SpringMVC和Spring是两个不同的容器）。application.xml中应该负责扫描除@Controller的注解如@Service，而SpringMVC的配置文件应该只负责扫描@Controller，否则会产生重复扫描导致Spring容器中配置的事务失效。</li>
+</ul>
+</li>
+</ol>
+<span id="more"></span>
+
+<p>推荐阅读：<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/PanYangxu/article/details/77431873">事务为什么加在service层而不加在dao层</a></p>
+<p><a target="_blank" rel="noopener" href="https://ask.csdn.net/questions/670086">@transactional可以注解到controller上吗？</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/mmm333zzz/article/details/45288061">在Spring MVC中，事务可以加在Controller层</a></p>
+<p>【严重推荐！】<a target="_blank" rel="noopener" href="http://www.importnew.com/28465.html">Transaction 在 Controller 层的探索</a></p>
+<h3 id="2-数据库驱动为什么使用反射调用不直接new"><a href="#2-数据库驱动为什么使用反射调用不直接new" class="headerlink" title="2. 数据库驱动为什么使用反射调用不直接new"></a>2. 数据库驱动为什么使用反射调用不直接new</h3><p>使用<code>Class.forName(&quot;com.mysql.jdbc.Driver&quot;)</code> 去加载驱动的目的：</p>
+<ol>
+<li>   用反射检查JDBC驱动的主类<code>com.mysql.jdbc.Driver</code>是否存在，若不存在则表示运行环境中没有这个驱动，并进入catch段。用反射来加载的好处是，当驱动jar包不存在时，我们可以做更多的操作。</li>
+<li>   实现解耦。JDBC其实是JDK的一系列接口，对于不同数据库软件有不同的实现。使用反射后，代码中就不存在任何与实现相关的东西。如果直接用new，那么可能会引入<code>com.mysql.*</code>或者<code>com.oracle.*</code>等，与代码耦合性高。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/bed585ae1b34">JDBC为什么使用反射加载驱动</a></p>
+<h3 id="3-观察者模式讲一下"><a href="#3-观察者模式讲一下" class="headerlink" title="3. 观察者模式讲一下"></a>3. 观察者模式讲一下</h3><ol>
+<li>是一对多关系的体现。</li>
+<li>每个观察者Observer需要被保存到被观察者的集合中，并且被观察者提供添加和删除的方式。</li>
+<li>被观察者把自己传给观察者（使用Observer自身的构造方法），当状态改变后，通过遍历和循环的方式逐个通知列表中的观察者。</li>
+<li>虽然解耦了观察者和被观察者的依赖，让各自的变化不大影响另一方的变化，但是这种解耦并不是很彻底，没有完全解除两者之间的耦合。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="http://blog.jobbole.com/109845/">观察者模式</a></p>
+<h3 id="4-多线程之Monitor"><a href="#4-多线程之Monitor" class="headerlink" title="4. 多线程之Monitor"></a>4. 多线程之Monitor</h3><ul>
+<li><p>Synchronized关键字包括monitor enter和monitor exit两个JVM指令。</p>
+</li>
+<li><p>Monitor是一种同步机制。使用synchronized关键字时，同一时刻只能有一个线程访问同步资源，视为“加锁”。但实际上，是该线程获取了与mutex（互斥对象，即monitor object）相关联的monitor锁。</p>
+</li>
+<li><p>在JVM中，每一个对象都与一个monitor相关联，一个monitor的lock锁只能被一个线程在同一时间获得，在一个线程尝试获得与对象关联monitor的所有权时会发生如下的情况：</p>
+<ol>
+<li>如果monitor的计数器为0，意味着该monitor的lock还没有被获得，某个线程获得之后将立即对该计数器加一，从此该线程就是这个monitor的所有者了。</li>
+<li>如果一个已经拥有该monitor所有权的线程重入，则monitor计数器再次累加。</li>
+<li>如果monitor已经被其他线程所拥有，那么某个线程尝试获取该monitor的所有权时，会被陷入阻塞状态知道monitor计数器变为0，才能再次尝试获取对monitor的所有权。</li>
+</ol>
+</li>
+<li><p>Wait()&#x2F;notify()&#x2F;notifyAll()方法构成监视条件（Monitor Condition）。</p>
+</li>
+<li><p>拥有monitor锁的线程可以调用wait()进入等待队列（Wait Set），同时释放监视锁，进入等待状态。</p>
+</li>
+<li><p>其他线程（有monitor锁的线程才有资格）调用notify()&#x2F;notifyAll()方法唤醒等待队列中的线程，被唤醒的线程需要重新争取monitor锁。</p>
+</li>
+</ul>
+<p>推荐阅读：《Java高并发编程详解》P69 - P70<br>    以及：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6fe4bc3374a2">Java 多线程（二）－Monitor</a></p>
+<h3 id="5-如何使浏览器加载请求可以稳定到达后台而不使用浏览器缓存"><a href="#5-如何使浏览器加载请求可以稳定到达后台而不使用浏览器缓存" class="headerlink" title="5. 如何使浏览器加载请求可以稳定到达后台而不使用浏览器缓存"></a>5. 如何使浏览器加载请求可以稳定到达后台而不使用浏览器缓存</h3><ol>
+<li><p><code>Cache-Control/Pragma</code>这个HTTP Head字段中进行缓存禁用：</p>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">Cache-Control:</span> <span class="literal">no</span><span class="string">-store</span></span><br><span class="line"><span class="attr">Cache-Control:</span> <span class="literal">no</span><span class="string">-cache,</span> <span class="literal">no</span><span class="string">-store,</span> <span class="string">must-revalidate</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Expires</code>字段，后面设置过期的日期和时间。</p>
+</li>
+<li><p><code>Last-Modified/EtagLast-Modified</code>字段，一般服务端在响应头中返回一个Last-Modified字段，告诉浏览器这个页面的最后修改时间，如Last-Modified:Sat,25Feb201212:55:04GMT，浏览器再次请求时在请求头中增加一个If-Modified-Since:Sat,25Feb 201212:55:04GMT字段，询问当前缓存的页面是否是最新的，如果是最新的就返回304状态码，告诉浏览器是最新的，服务器也不会传输新的数据。</p>
+</li>
+<li><p><code>Etag</code>字段，与Last-Modified字段类似。这个字段的作用是让服务端给每个页面分配一个唯一的编号，然后通过这个编号来区分当前这个页面是否是最新的。这种方式比使用Last-Modified更加灵活，但是在后端的Web服务器有多台时比较难处理，因为每个Web服务器都要记住网站的所有资源，否则浏览器返回这个编号就没有意义了。</p>
+</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Caching_FAQ">HTTP 缓存</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u014034854/article/details/50374709">防止浏览器缓存的几种方法</a></p>
+<h3 id="6-eclipse、IJ开发快捷键及使用技巧讲几个"><a href="#6-eclipse、IJ开发快捷键及使用技巧讲几个" class="headerlink" title="6. eclipse、IJ开发快捷键及使用技巧讲几个"></a>6. eclipse、IJ开发快捷键及使用技巧讲几个</h3><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Eclipse</th>
+<th align="center">Idea</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">格式化当前代码</td>
+<td align="center">Ctrl+Shift+F</td>
+<td align="center">Ctrl+Alt+L</td>
+</tr>
+<tr>
+<td align="center">注释当前行，再按取消注释</td>
+<td align="center">Ctrl+&#x2F;</td>
+<td align="center">Ctrl+&#x2F;</td>
+</tr>
+<tr>
+<td align="center">删除当前行</td>
+<td align="center">Ctrl+D</td>
+<td align="center">Ctrl+X</td>
+</tr>
+<tr>
+<td align="center">自动补全代码或者提示代码</td>
+<td align="center">Alt+&#x2F;</td>
+<td align="center">Ctrl+空格</td>
+</tr>
+<tr>
+<td align="center">组织类的import导入</td>
+<td align="center">Ctrl+Shift+O</td>
+<td align="center">Alt+空格</td>
+</tr>
+</tbody></table>
+<p>Eclipse使用技巧：</p>
+<ol>
+<li>   在Eclipse里文档生成是件简单的事情，只要键入“&#x2F;**”，在一个声明上按enter键。</li>
+<li>   查看某个类的继承关系：选中该类，ctrl+t。</li>
+<li>   快捷键添加set、get方法，重写或实现接口的某个方法：shift+alt+s</li>
+</ol>
+<p>Idea使用技巧：</p>
+<ol>
+<li>   Ctrl+H 查看类的继承层次。</li>
+<li>   Ctrl+Alt+B 可以跳转到抽象方法的实现。</li>
+<li>   Ctrl-Shift-Backspace 让你调转到代码中所做改变的最后一个地方，多按几次 Ctrl-Shift-Backspace 查看更深的修改历史。</li>
+<li>   使用 Ctrl-Shift-V 快捷键可以将最近使用的剪贴板内容选择插入到文本。使用时系统会弹出一个含有剪贴内容的对话框，从中你可以选择你要粘贴的部分。</li>
+<li>   Ctrl-D 可以复制选择的块或者没有所选块是的当前行。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/childhooders/article/details/4319679">IntelliJ Idea 常用快捷键列表</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.imooc.com/article/1009">eclipse使用技巧心得分享</a></p>
+<h3 id="7-classPath-与path的区别"><a href="#7-classPath-与path的区别" class="headerlink" title="7. classPath 与path的区别"></a>7. classPath 与path的区别</h3><ol>
+<li>Path环境变量，作用是指定<strong>命令搜索路径</strong>。<ul>
+<li>比如，在命令行下 javac  helloWorld.java，那么将从Path路径下找这个java文件。</li>
+<li>如何来做：把jdk安装目录下的bin目录增加到现有的PATH变量中（bin目录下有常用的javac&#x2F;java&#x2F;javadoc等命令）。</li>
+</ul>
+</li>
+<li>ClassPath环境变量，作用是指定<strong>类搜索路径</strong>。<ul>
+<li>JVM就是通过CLASSPTH来寻找类的。</li>
+<li>如何来做：需要把jdk安装目录下的lib子目录中的dt.jar和tools.jar，以及当前目录“.”一并设置到CLASSPATH中。</li>
+</ul>
+</li>
+<li>JAVA_HOME环境变量，指向<strong>jdk的安装目录</strong>。<ul>
+<li>Eclipse&#x2F;NetBeans&#x2F;Tomcat等软件就是通过搜索JAVA_HOME变量来找到并使用安装好的jdk。</li>
+</ul>
+</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/fb281906011/article/details/8057672">环境变量path和classpath的作用是什么?</a></p>
+<h3 id="8-Linux-的软链接、硬连接"><a href="#8-Linux-的软链接、硬连接" class="headerlink" title="8. Linux 的软链接、硬连接"></a>8. Linux 的软链接、硬连接</h3><p>先看三个概念，文件数据块、元数据、inode号，解释如下：</p>
+<ol>
+<li>文件数据块（data block），也称为用户数据（user data），是记录文件真实内容的地方。</li>
+<li>元数据（metadata），属于文件的附加属性，记录着“文件大小、创建时间、所有者”等信息。也包括了inode号。</li>
+<li>inode号，是文件的唯一标识（文件名不是唯一标识），使用inode号来查找正确的文件数据块。（流程：filename -&gt; inode -&gt; data blocks）。<ul>
+<li>在 linux 中，可以使用命令 <code>ls -i</code>查看 inode。</li>
+<li>移动命令<code>mv</code>和重命名，并不会改变文件的“文件数据块”和 inode 号。</li>
+</ul>
+</li>
+</ol>
+<p>重点来了，硬链接与软链接，如下：</p>
+<ol>
+<li>硬链接 hard link：同一个文件使用的多个别名。此时的多个 link 有着共同的 inode 及 data block，<strong>仅文件名不相同</strong>。<ul>
+<li>可以用命令<code>link</code>或<code>ln</code>创建，后跟<code>-d</code>。</li>
+<li>只能对已存在的文件进行创建；</li>
+<li>不能交叉文件系统创建硬链接；</li>
+<li>只能对文件创建，不能对目录进行创建；</li>
+<li>删除硬链时，不会影响其他有相同 inode 号的文件。</li>
+</ul>
+</li>
+<li>软链接 soft link 或者 symbolic link：若文件的文件数据块中存放的内容是另一个文件的路径名的指向时，这个文件就是软链接。软链接就是一个普通文件，只是数据块内容有点特殊，它有自己独有的 inode 号以及文件数据块。<ul>
+<li>可以用命令<code>ln -s</code>来创建；</li>
+<li>有自己的文件属性及权限；</li>
+<li>可对不存在的文件或目录创建软链；</li>
+<li>可交叉文件系统；</li>
+<li>创建软链时，链接计数<code>i_nlink</code>不会增加；<ul>
+<li>简单来说，<code>i_nlink</code>是一个inode中统计 hard link 数量的计数器</li>
+</ul>
+</li>
+<li>删除软链不会影响被指向的文件，但如果被指向的原文件被删，则相关软链被称为死链。</li>
+</ul>
+</li>
+</ol>
+<p>软链接举例：</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># ln -s 目标地址 快捷方式地址（放在 <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span> 目录下可以直接启动）</span><br><span class="line">ln -s <span class="regexp">/usr/</span>redis-<span class="number">5.0</span>.<span class="number">3</span><span class="regexp">/src/</span>redis-cli <span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>redis-cli</span><br></pre></td></tr></table></figure>
+
+
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://www.ibm.com/developerworks/cn/linux/l-cn-hardandsymb-links/index.html">理解 Linux 的硬链接与软链接</a></p>
+<h3 id="9-Spring-中-bean-的生命周期"><a href="#9-Spring-中-bean-的生命周期" class="headerlink" title="9. Spring 中 bean 的生命周期"></a>9. Spring 中 bean 的生命周期</h3><p>在 Spring 中，bean 的生命周期完全由<strong>容器</strong>控制。</p>
+<p><img src="/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/bean2.jpg"></p>
+<p><img src="/2019/01/11/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%865/bean.png"></p>
+<p>最简理解（阉割版）：</p>
+<ol>
+<li>实例化bean；</li>
+<li>DI；</li>
+<li>前置、后置处理；</li>
+<li>使用；</li>
+<li>销毁。</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/38597960">Spring中Bean的生命周期是怎样的？</a></p>
+<h3 id="10-Mybatis批量查询手写sql"><a href="#10-Mybatis批量查询手写sql" class="headerlink" title="10.Mybatis批量查询手写sql"></a>10.Mybatis批量查询手写sql</h3><ol>
+<li>情况1，传入是一个集合时（如一个装着 id 的 List ）如下：</li>
+</ol>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// Mapper.java</span><br><span class="line"> 	<span class="built_in">public</span> List&lt;<span class="keyword">User</span>&gt; findUserListById(@Param(&quot;Ids&quot;) List&lt;<span class="type">Integer</span>&gt; Ids);</span><br><span class="line">	</span><br><span class="line">// mapper.xml</span><br><span class="line">	&lt;<span class="keyword">select</span> id = &quot;findUserListById&quot; resultType=&quot;com.glory.api.jog.pojo.User&quot;&gt;</span><br><span class="line">		<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> users</span><br><span class="line">		<span class="keyword">WHERE</span> id <span class="keyword">IN</span></span><br><span class="line">		&lt;<span class="keyword">foreach</span> collection = &quot;Ids&quot; item = &quot;id&quot; <span class="keyword">open</span> = &quot;(&quot; <span class="keyword">close</span> = &quot;)&quot; separator = &quot;,&quot;&gt;</span><br><span class="line">			#&#123;id&#125;</span><br><span class="line">		&lt;/<span class="keyword">foreach</span>&gt;</span><br><span class="line">	&lt;/<span class="keyword">select</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>情况2，传入的是一个 Map时（Map 有一个&lt;String,List&gt;的键值对）如下：</li>
+</ol>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// Service</span><br><span class="line">	HashMap&lt;String,<span class="keyword">Object</span>&gt;params = <span class="built_in">new</span> HashMap&lt;&gt;();</span><br><span class="line">	params.put(&quot;mapList&quot;,list); // list中装着id</span><br><span class="line">	TestDao.findUserListByList(params);</span><br><span class="line"></span><br><span class="line">// Mapper.java</span><br><span class="line">	<span class="built_in">public</span> List&lt;<span class="keyword">User</span>&gt; findUserListByList(HashMap&lt;String,<span class="keyword">Object</span>&gt; params);</span><br><span class="line"></span><br><span class="line">// mapper.xml</span><br><span class="line">	&lt;<span class="keyword">select</span> id=&quot;findUserListByList&quot; resultType = &quot;User&quot;&gt;</span><br><span class="line">		<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> users</span><br><span class="line">		<span class="keyword">WHERE</span> id <span class="keyword">IN</span></span><br><span class="line">		&lt;<span class="keyword">foreach</span> item = &quot;item&quot; <span class="keyword">index</span> = &quot;index&quot; collection=&quot;mapList&quot;</span><br><span class="line">					<span class="keyword">open</span> = &quot;(&quot; <span class="keyword">close</span> = &quot;)&quot; separator = &quot;,&quot;&gt;</span><br><span class="line">				#&#123;item&#125;</span><br><span class="line">		&lt;/<span class="keyword">foreach</span>&gt;</span><br><span class="line">	&lt;/<span class="keyword">select</span>&gt;</span><br><span class="line">&lt;!<span class="comment">--重点关注 collection 中的内容，传的是 map 中的一个 key--&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>情况3，传入的是一个对象时（比如对象中有一个 list 集合及 getter、setter 方法）如下：</li>
+</ol>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">// Service</span><br><span class="line">	<span class="built_in">public</span> <span class="keyword">class</span> TestModel&#123;</span><br><span class="line">		private List&lt;<span class="type">Integer</span>&gt; listDemo;</span><br><span class="line">		// getter setter 方法略</span><br><span class="line">	&#125;</span><br><span class="line">	TestModel tm = <span class="built_in">new</span> TestModel();</span><br><span class="line">	tm.setter(listDemo); // listDemo 中装着id</span><br><span class="line">	TestDao.getListByObject(tm);</span><br><span class="line"></span><br><span class="line">// Mapper.java</span><br><span class="line">	<span class="built_in">public</span> List&lt;<span class="keyword">User</span>&gt; getListByObject(TestModel tm);</span><br><span class="line">	</span><br><span class="line">// mapper.xml</span><br><span class="line">	&lt;<span class="keyword">select</span> id = &quot;getListByObject&quot; resultType = &quot;User&quot;&gt;</span><br><span class="line">		<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> users</span><br><span class="line">		<span class="keyword">WHERE</span> id <span class="keyword">IN</span></span><br><span class="line">		&lt;<span class="keyword">foreach</span> item = &quot;item&quot; <span class="keyword">index</span> = &quot;index&quot; collection = &quot;listDemo&quot;</span><br><span class="line">				<span class="keyword">open</span> = &quot;(&quot; <span class="keyword">close</span> = &quot;)&quot; separator = &quot;,&quot;&gt;</span><br><span class="line">			#&#123;item&#125;</span><br><span class="line">		&lt;/<span class="keyword">foreach</span>&gt;</span><br><span class="line">	&lt;/<span class="keyword">select</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!<span class="comment">--重点关注 collection 中的内容，传的是对象中的一个属性--&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+<p>ps ：Mybatis 中的 resultType 与 resultMap的区分：</p>
+<ol>
+<li><p>resultType 是直接表示<strong>返回类型</strong>的 ，resultMap 则是对外部 ResultMap 的引用（旁边一定有个 ResultMap 的元素）。resultType 与resultMap 不能共存。</p>
+</li>
+<li><p>当提供的返回类型属性是<code>resultType</code>时，MyBatis会将Map里面的键值对取出赋给resultType所指定的对象对应的属性。所以其实MyBatis的每一个查询映射的返回类型都是ResultMap，只是当提供的返回类型属性是resultType的时候，MyBatis对自动的给把对应的值赋给resultType所指定对象的属性。</p>
+</li>
+<li><p>当提供的返回类型是<code>resultMap</code>时，因为Map不能很好表示领域模型，就需要自己再进一步的把它转化为对应的对象，这常常在复杂查询中很有作用。使用 resultMap 的简单查询与复杂查询：</p>
+ <figure class="highlight dust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="language-xml"><span class="comment">&lt;!--简单查询--&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="comment">&lt;!--通过“BlogResult”进行映射--&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">type</span>=<span class="string">&quot;Blog&quot;</span> <span class="attr">id</span>=<span class="string">&quot;BlogResult&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">&quot;id&quot;</span> <span class="attr">property</span>=<span class="string">&quot;id&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;title&quot;</span> <span class="attr">property</span>=<span class="string">&quot;title&quot;</span>/&gt;</span> <span class="comment">&lt;!--如果不写这些映射，Mybatis也会自动帮封装--&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;content&quot;</span> <span class="attr">property</span>=<span class="string">&quot;content&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">&quot;owner&quot;</span> <span class="attr">property</span>=<span class="string">&quot;owner&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">&quot;selectBlog&quot;</span> <span class="attr">parameterType</span>=<span class="string">&quot;int&quot;</span> <span class="attr">resultMap</span>=<span class="string">&quot;BlogResult&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">select * from t_blog where id = #</span><span class="template-variable">&#123;id&#125;</span><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">select</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<ul>
+<li>复杂查询就不写代码了，可能涉及到子节点、关联查询等，太复杂，建议直接看下面的链接。</li>
+</ul>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/canot/article/details/50988550">Mybatis中的resultType和resultMap</a></p>
+<h3 id="11-JVM、Tomcat与进程之间你需要知道的事情"><a href="#11-JVM、Tomcat与进程之间你需要知道的事情" class="headerlink" title="11. JVM、Tomcat与进程之间你需要知道的事情"></a>11. JVM、Tomcat与进程之间你需要知道的事情</h3><ol>
+<li>一个 JVM 就相当于一个操作系统（实质是一个进程）。<ul>
+<li>JVM 的生命周期：一个 Java 程序开始执行时，JVM 才运行；程序结束时它停止执行。</li>
+</ul>
+</li>
+<li>一个 Java 应用程序会开启一个 JVM 进程，如果运行了三个程序，那么会有三个运行中的 JVM 进程。</li>
+<li>JVM 运行 Java 程序有两种方式：jar 包和 Class：<ol>
+<li>运行 jar 时，先拿 JNIEnv 实例，然后拿 Manifest 对象，最后拿 jar 中的文件（拿主类），然后装载该主类。</li>
+<li>运行 Class 时，main 函数直接调用 Java.c 中的 LoadClass 方法装载该类。</li>
+</ol>
+</li>
+<li>Tomcat 是一个 Java  程序，是一个用 Java 语言开发的免费开源的 Web 服务器。<ul>
+<li>Tomcat 与 Java 应用程序（webapps 目录下的 war 包）是运行在同一个 JVM 中，但是分工不同，Tomcat 相当于调度员，Java 程序相当于工人。Tomcat 处理请求的步骤如下：<ol>
+<li>Tomcat 监听8080端口（假设），一个 http 请求从主机的 8080 端口发送过来，Tomcat 最先获悉；</li>
+<li>Tomcat 将该请求放入一个队列中，JVM 中有若干工作者线程会从此队列中获取任务；</li>
+<li>假设线程 A 取得此任务，A 会分析请求的 url，并检查已加载的 Web.xml 配置，来判断要将此请求交给应用的哪个 servlet 来处理（假设应用由 servlet 来实现的）；</li>
+<li>此时应用开始干活，解析请求参数，处理业务流程，生成响应；</li>
+<li>线程 A 把 response 回送给请求的发送端。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/25713880">Java JVM 运行机制及基本原理</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/cuisha_/article/details/83016518">tomcat 和 jvm 的关系</a></p>
+<h3 id="12-通过-Class-对象获取方法集合的三种方法的区分"><a href="#12-通过-Class-对象获取方法集合的三种方法的区分" class="headerlink" title="12. 通过 Class 对象获取方法集合的三种方法的区分"></a>12. 通过 Class 对象获取方法集合的三种方法的区分</h3><ol>
+<li>getDeclaredMethods： 获得声明的所有方法（protected、private、default、public，但不包含继承的方法）。</li>
+<li>getMethods：获得所有 public 方法，包括继承类的 public 方法（即父类的 public 方法）。</li>
+<li>getMethod：传入方法名（以及参数表对应的多个 class，比如 int.class），获取该方法</li>
+</ol>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://www.sczyh30.com/posts/Java/java-reflection-1/">深入解析Java反射（1） - 基础</a></p>
+<h3 id="13-如果排序-10G-的元素"><a href="#13-如果排序-10G-的元素" class="headerlink" title="13. 如果排序 10G 的元素"></a>13. 如果排序 10G 的元素</h3><p>问题：不能一次性放入内存中，所以需要引入外部排序。</p>
+<ol>
+<li>数据源读一批数据到缓冲区；</li>
+<li>缓冲区中读取一批数据到内存； </li>
+<li>内存进行堆排序（或使用Priority Queue）。</li>
+</ol>
+<p>Iterable <T> merge(List&lt;Iterable<T>&gt; sortedData);</T></T></p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/05/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%864/" rel="next" title="面经整理4">
+                <i class="fa fa-chevron-left"></i> 面经整理4
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/15/%E7%AC%94%E7%BB%8F%E6%95%B4%E7%90%861/" rel="prev" title="笔经整理1">
+                笔经整理1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-spring%E4%BA%8B%E5%8A%A1%E5%86%99%E5%9C%A8%E5%93%AA%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E5%86%99%E5%9C%A8DAO-Controller%E5%B1%82"><span class="nav-number">1.</span> <span class="nav-text">1. spring事务写在哪一部分，为什么不写在DAO,Controller层</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E5%BA%93%E9%A9%B1%E5%8A%A8%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8%E5%8F%8D%E5%B0%84%E8%B0%83%E7%94%A8%E4%B8%8D%E7%9B%B4%E6%8E%A5new"><span class="nav-number">2.</span> <span class="nav-text">2. 数据库驱动为什么使用反射调用不直接new</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E8%AE%B2%E4%B8%80%E4%B8%8B"><span class="nav-number">3.</span> <span class="nav-text">3. 观察者模式讲一下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B9%8BMonitor"><span class="nav-number">4.</span> <span class="nav-text">4. 多线程之Monitor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A6%82%E4%BD%95%E4%BD%BF%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8A%A0%E8%BD%BD%E8%AF%B7%E6%B1%82%E5%8F%AF%E4%BB%A5%E7%A8%B3%E5%AE%9A%E5%88%B0%E8%BE%BE%E5%90%8E%E5%8F%B0%E8%80%8C%E4%B8%8D%E4%BD%BF%E7%94%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98"><span class="nav-number">5.</span> <span class="nav-text">5. 如何使浏览器加载请求可以稳定到达后台而不使用浏览器缓存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-eclipse%E3%80%81IJ%E5%BC%80%E5%8F%91%E5%BF%AB%E6%8D%B7%E9%94%AE%E5%8F%8A%E4%BD%BF%E7%94%A8%E6%8A%80%E5%B7%A7%E8%AE%B2%E5%87%A0%E4%B8%AA"><span class="nav-number">6.</span> <span class="nav-text">6. eclipse、IJ开发快捷键及使用技巧讲几个</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-classPath-%E4%B8%8Epath%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">7.</span> <span class="nav-text">7. classPath 与path的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Linux-%E7%9A%84%E8%BD%AF%E9%93%BE%E6%8E%A5%E3%80%81%E7%A1%AC%E8%BF%9E%E6%8E%A5"><span class="nav-number">8.</span> <span class="nav-text">8. Linux 的软链接、硬连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-Spring-%E4%B8%AD-bean-%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">9.</span> <span class="nav-text">9. Spring 中 bean 的生命周期</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-Mybatis%E6%89%B9%E9%87%8F%E6%9F%A5%E8%AF%A2%E6%89%8B%E5%86%99sql"><span class="nav-number">10.</span> <span class="nav-text">10.Mybatis批量查询手写sql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-JVM%E3%80%81Tomcat%E4%B8%8E%E8%BF%9B%E7%A8%8B%E4%B9%8B%E9%97%B4%E4%BD%A0%E9%9C%80%E8%A6%81%E7%9F%A5%E9%81%93%E7%9A%84%E4%BA%8B%E6%83%85"><span class="nav-number">11.</span> <span class="nav-text">11. JVM、Tomcat与进程之间你需要知道的事情</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E9%80%9A%E8%BF%87-Class-%E5%AF%B9%E8%B1%A1%E8%8E%B7%E5%8F%96%E6%96%B9%E6%B3%95%E9%9B%86%E5%90%88%E7%9A%84%E4%B8%89%E7%A7%8D%E6%96%B9%E6%B3%95%E7%9A%84%E5%8C%BA%E5%88%86"><span class="nav-number">12.</span> <span class="nav-text">12. 通过 Class 对象获取方法集合的三种方法的区分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-%E5%A6%82%E6%9E%9C%E6%8E%92%E5%BA%8F-10G-%E7%9A%84%E5%85%83%E7%B4%A0"><span class="nav-number">13.</span> <span class="nav-text">13. 如果排序 10G 的元素</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

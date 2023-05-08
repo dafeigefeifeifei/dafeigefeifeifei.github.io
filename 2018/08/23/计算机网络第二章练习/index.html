@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="计算机网络第二章——物理层1. 什么是奈氏准则，什么是香农定理? 推荐阅读：奈氏准则和香农公式 奈氏准则： 在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。 比特率bps（bit pe">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络第二章练习">
+<meta property="og:url" content="http://yoursite.com/2018/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BB%83%E4%B9%A0/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="计算机网络第二章——物理层1. 什么是奈氏准则，什么是香农定理? 推荐阅读：奈氏准则和香农公式 奈氏准则： 在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。 比特率bps（bit pe">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-08-23T02:04:22.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.907Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="computer network">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/23/计算机网络第二章练习/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>计算机网络第二章练习 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BB%83%E4%B9%A0/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">计算机网络第二章练习
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-08-23 10:04:22" itemprop="dateCreated datePublished" datetime="2018-08-23T10:04:22+08:00">2018-08-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="计算机网络第二章——物理层"><a href="#计算机网络第二章——物理层" class="headerlink" title="计算机网络第二章——物理层"></a>计算机网络第二章——物理层</h1><h4 id="1-什么是奈氏准则，什么是香农定理"><a href="#1-什么是奈氏准则，什么是香农定理" class="headerlink" title="1. 什么是奈氏准则，什么是香农定理?"></a>1. 什么是奈氏准则，什么是香农定理?</h4><ul>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Dallin0408/article/details/59510405">奈氏准则和香农公式</a></li>
+<li>奈氏准则：<ul>
+<li>在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。</li>
+<li>比特率bps（bit per second），每秒传输数据的位数。</li>
+<li>比特率&#x3D;log(2)V×波特率</li>
+<li>极限数据传输率为2Wlog(2)V。一秒一个码元等价于一秒log(2)V个单位的数据，其中V是指每个码元离散电平的数量。</li>
+</ul>
+</li>
+<li>信道容量：<ul>
+<li>数据在信道中传输中，最高的比特率就叫做这个信道的容量，单位是bps</li>
+<li>口语中也会把信道容量叫做“带宽”的，比如“带宽10M的网络”，“网络带宽是10M”等等。所以这两个概念也很容易混淆：我们平常所说的“带宽”不是带宽，而是信道容量。</li>
+</ul>
+</li>
+<li>香农定理：<ul>
+<li>信道的极限数据传输速率&#x3D;Wlog(2)[1+S&#x2F;N]，单位b&#x2F;s。其中，W是信道的带宽，S为信道所传输信号的平均功率，N为信道内部的高斯噪声功率。S&#x2F;N表示信噪比，即信号的平均功率和噪声的平均功率之比，常用分贝dB来表示，信噪比&#x3D;10log(10)(S&#x2F;N)，当S&#x2F;N为10时，信噪比为10dB，当S&#x2F;N为1000时，信噪比为30dB。</li>
+<li>香农公式表明，信道的带宽或信道中的信噪比越大，信息的极限传输速率就越高。</li>
+<li>香农公式是用来估测，一个信道中能传输的数据的速度的上限</li>
+<li>香农定理可以解释现代各种无线制式由于带宽不同，所支持的单载波最大吞吐量的不同。</li>
+</ul>
+</li>
+</ul>
+<span id="more"></span>
+
+
+<hr>
+<h4 id="2-数据变成信号的四种情况："><a href="#2-数据变成信号的四种情况：" class="headerlink" title="2. 数据变成信号的四种情况："></a>2. 数据变成信号的四种情况：</h4><pre><code>数字数据/模拟数据 -&gt; 数字信号/模拟信号
+</code></pre>
+<ol>
+<li>数字数据编码为数字信号。<ul>
+<li>通常有非归零码(简单的高低位)、曼彻斯特编码(高低位与时钟信号异或，<strong>应用于以太网</strong>，一个数据两个电平，波特率是数据率的两倍，差分曼彻斯特也是如此  )、差分曼彻斯特编码（与前一个码元比较）、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/laojie4321/archive/2012/04/09/2439470.html">4B&#x2F;5B编码</a>（用5bit表示4bit）</li>
+<li><strong>属于基带传输，是原始的电脉冲信号，不经过调制解调，信号以脉冲的形式在信道上传输，设备花费少，适用于较小范围的数据传输。</strong></li>
+</ul>
+</li>
+<li>数字数据调制为模拟信号<ul>
+<li>对应调制解调器，走模拟通信信道</li>
+<li>基本调制方法有：幅移键控（振幅，抗干扰能力差），频移键控（频率，应用较多），相移键控（相位，分绝对调相和相对调相），正交振幅调制（振幅和相位的结合叠加信号）</li>
+<li><strong>属于频带传输，对数字信号进行某种变换，将代表数据的二进制“1”和“0”，变换成具有一定频带范围的模拟信号，以适应在模拟信道上传输。长途信道是无法传输原始电脉冲信号的</strong></li>
+<li>最后还有一类叫做宽带传输，指比音频（4KHZ）带宽还要宽的频带，包括了大部分电磁波频谱的频带。使用这种宽频带进行传输的系统就称为宽带传输系统，它可以容纳所有的广播，并且还可以进行高速率的数据传输。</li>
+</ul>
+</li>
+<li>模拟数据编码为数字信号<ul>
+<li>常用的是对音频信号进行编码的脉码调制（PCM），应用采样定理</li>
+<li>脉冲编码调制PCM就是把一个时间连续，取值连续的模拟信号变换成时间离散，取值离散的数字信号后在信道中传输。脉冲编码调制就是对模拟信号先抽样，再对样值幅度量化，编码的过程。</li>
+<li>抽样，就是对模拟信号进行周期性扫描，把时间上连续的信号变成时间上离散的信号，抽样必须遵循奈奎斯特抽样定理（也叫采样定理）。该模拟信号经过抽样后还应当包含原信号中所有信息，也就是说能无失真的恢复原模拟信号。</li>
+<li>量化，就是把经过抽样得到的瞬时值将其幅度离散，即用一组规定的电平，把瞬时抽样值用最接近的电平值来表示,通常是用二进制表示。</li>
+<li>量化误差：量化后的信号和抽样信号的差值。量化误差在接收端表现为噪声，称为量化噪声。 量化级数越多误差越小，相应的二进制码位数越多，要求传输速率越高，频带越宽。 </li>
+<li>一个模拟信号经过抽样量化后，得到已量化的脉冲幅度调制信号，它仅为有限个数值。	</li>
+<li>编码，就是用一组二进制码组来表示每一个有固定电平的量化值。然而，实际上量化是在编码过程中同时完成的，故编码过程也称为模&#x2F;数变换，可记作A&#x2F;D。</li>
+</ul>
+</li>
+<li>模拟数据调制为模拟信号<ul>
+<li>频分（FDM）复用技术，电话机与本地交换机所传输的信号就是采用模拟信号传输模拟数据的编码方式。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="3-比较电路交换、报文交换、分组交换"><a href="#3-比较电路交换、报文交换、分组交换" class="headerlink" title="3. 比较电路交换、报文交换、分组交换"></a>3. 比较电路交换、报文交换、分组交换</h4><ul>
+<li>电路交换。要先建立一条专用（双方独占）的物理通信路径，<strong>用户始终占用端到端的固定传输带宽</strong>，分为三个阶段：连接建立、数据传输、连接释放。<ul>
+<li>优点：通信时延小，有序传输，没有冲突，使用范围广（既适合模拟信号，又适合数字信号），实时性强，控制简单。</li>
+<li>缺点：建立连接时间长，线路独占使用效率低，灵活性差（出现故障必须重新拨号等），难以规格化难以进行差错控制（无法纠正传输过程中发生的数据差错，如为保证数据无差错地传送，不建议采用电路交换）。</li>
+<li>不采用存储转发的方式，任何中间结点都采用“直通式”收发数据。</li>
+</ul>
+</li>
+<li>报文交换。报文携带目标地址、源地址等信息，在各交换节点采用存储转发的机制。<ul>
+<li>优点：无需建立连接，动态分配线路，提高线路可靠性（故障时可更换线路），提高线路利用率，提供多目标服务（电路交换中很难做到）。不适合实时通信应用环境（如语音、视频等）。</li>
+<li>缺点：由于采用存储转发机制，所以存在转发时延（包括接受报文，检验正确性、排队、发送时间等），报文交换对报文大小没有限制，需要网络结点有较大的缓存空间。</li>
+</ul>
+</li>
+<li>分组交换。正在报文交换的基础上，解决了报文交换中大报文传输的问题。分组交换限制了每次传送的数据块大小的上限，把大的数据块分成合理大小的小数据块，并加上必要的控制信息。<ul>
+<li>优点：在报文交换的基础上，简化了存储管理，交换结点的缓冲区大小固定，管理简化。加速传输，后一个分组的存储操作与前一个分组的转发操作并行，这种流水线的方式减少了报文的传输时间，因缓冲区不足等待发送的几率和时间也必然小很多。减少了出错几率和重发数据量。</li>
+<li>缺点：传输时延比报文交换略短，但仍存在，而且结点交换机必须具有较强的处理能力。需要传输额外的信息量，总信息量多了5%~10%。当分组交换采用<strong>数据报</strong>的服务时，可能出现失序、丢失或重复分组，分组到达目的结点时，要对分组按编号进行排序等工作。若采用<strong>虚电报</strong>的服务，虽无失序问题，但有呼叫建立、数据传输和虚电路释放三个过程。</li>
+</ul>
+</li>
+<li>若传送数据量很大，且传送时间远大于呼叫时间，可以采用电路交换；当端到端的通路由很多段的链路组成时，采用分组交换较合适。针对计算机之间的突发式的数据通信，分组交换则更为合适。</li>
+</ul>
+<hr>
+<h4 id="4-比较数据报和虚电路"><a href="#4-比较数据报和虚电路" class="headerlink" title="4. 比较数据报和虚电路"></a>4. 比较数据报和虚电路</h4><ul>
+<li>这两个服务都属于分组交换，虚电路结合了部分电路交换的特色。</li>
+<li>数据报服务：派出一堆小兵，每个带着双方地址，让他们独立送信。</li>
+<li>虚电路：先修路到目的地，让一堆骡子每个带着路号，无脑沿路送信。</li>
+<li>数据报中网络具有冗余路径，当故障时，可以相应地更新转发表。</li>
+<li>虚电路的通信分为三个阶段：虚电路建立（时间开销）、数据传输、虚电路释放（时间开销）。虚电路每个结点维持一张虚电路表，包括了接收链路和发送链路上的虚电路号、前一个后一个结点的标识。</li>
+<li>虚电路不只是临时性的，它提供的服务包括永久性虚电路（PVC）和交换性虚电路（SVC）。前者是提前定义好的，基本不需要任何建立时间的端点之间的连接；而后者是端点之间的一种临时性的连接，这些连接只持续所需的时间，并且当会话结束时就取消这种连接。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">数据报服务</th>
+<th align="center">虚电路服务</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">连接的建立</td>
+<td align="center">不要</td>
+<td align="center">必须有</td>
+</tr>
+<tr>
+<td align="center">目的地址</td>
+<td align="center">每个分组都有完整的目的地址</td>
+<td align="center">仅在建立连接阶段使用，之后每个分组使用长度较短的虚电路号</td>
+</tr>
+<tr>
+<td align="center">路由选择</td>
+<td align="center">每个分组独立地进行路由选择和转发</td>
+<td align="center">属于同一条虚电路的分组按照同一路由转发</td>
+</tr>
+<tr>
+<td align="center">分组顺序</td>
+<td align="center">不保证分组的有序到达</td>
+<td align="center">保证分组的有序到达</td>
+</tr>
+<tr>
+<td align="center">可靠性</td>
+<td align="center">不保证可靠通信，可靠性由用户主机来保证</td>
+<td align="center">可靠性由网络保证</td>
+</tr>
+<tr>
+<td align="center">对网络故障的适应性</td>
+<td align="center">出故障的结点丢失分组，其他分组路径选择发生变化，可正常传输</td>
+<td align="center">所有经过故障结点的虚电路均不能正常工作</td>
+</tr>
+<tr>
+<td align="center">差错处理和流量控制</td>
+<td align="center">由用户主机进行流量控制，不保证数据报的可靠性</td>
+<td align="center">可由分组交换网负责，也可由用户主机负责</td>
+</tr>
+</tbody></table>
+<hr>
+<h4 id="5-主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms"><a href="#5-主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms" class="headerlink" title="5. 主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms"></a>5. 主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms</h4><ul>
+<li>对于报文交换，在结点处一次全文发送耗时为800ms，因为中间经过一次转发，所以总耗时为1600ms；</li>
+<li>对于分组交换，分组分成800份；每份在结点处发送一次耗时为1ms，虽然存在中间结点，但源结点的发送和中间结点的转发并行，所以经过800ms后，最后一个组从源结点发出，再经过1ms到达目标结点，所以总耗时为801ms。</li>
+</ul>
+<hr>
+<h4 id="6-物理层传输介质"><a href="#6-物理层传输介质" class="headerlink" title="6. 物理层传输介质"></a>6. 物理层传输介质</h4><ul>
+<li>导向传输介质：双绞线、同轴电缆、光纤。<ul>
+<li>双绞线分为含金属丝屏蔽层的屏蔽双绞线（STP），无屏蔽层的非屏蔽双绞线（UTP）。双绞线的带宽取决于铜线的粗细和传输的距离。模拟传输和数字传输都可以使用双绞线。</li>
+<li>同轴电缆因为有外导体屏蔽层，其抗干扰能力较好，被广泛应用于较高速率的数据（更高屏蔽性，抗噪性高）。分为50Ω的基带同轴电缆和75Ω的宽带同轴电缆，前者主要用在局域网，后者用在有线电视系统。利用一根同轴电缆互联主机构成以太网，主机间是以半双工的方式通信。</li>
+<li>光纤的宽带范围极大。如果有多条不同入射角的光纤在一条光纤中传输，这种光纤成为多模光纤，多模光纤只适用于近距离传输。如果光纤的直径减小到只有一个光的波长，就不会产生多次反射，这种叫做单模光纤，衰耗较小，适合远距离传输。要求其光源是定向性很好的激光二极管。</li>
+</ul>
+</li>
+<li>非导向传输介质：无线电波、微波、红外线、激光。<ul>
+<li>无线电波具有较强的穿透能力，信号向所有方向散播，被应用于通信领域，如无线手机通信、无线局域网WLAN。</li>
+<li>微波、红外线和激光都是沿直线传播，具有很强的方向性。</li>
+<li>卫星通信就是利用同步卫星作为中继转发微波信号，优点是通信容量大、距离远、覆盖广，缺点是端到端的传播延迟时间较长，而且受气候影响大、保密性差、误码率较高等</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="7-物理层接口的特性"><a href="#7-物理层接口的特性" class="headerlink" title="7. 物理层接口的特性"></a>7. 物理层接口的特性</h4><ul>
+<li>物理层要为数据链路层提供统一的服务，所以要尽可能屏蔽各种物理设备的差异，对于传输媒体的接口的特性进行相关的规定。</li>
+<li>机械特性：物理连接点，即接插设备。规定规格、引脚数量等。</li>
+<li>电气特定：规定电压高低、阻抗匹配、传输速率和距离限制等。</li>
+<li>功能特性：规定某一电平的电压表示何意义，接口部件的信号线的用途。</li>
+<li>规程特性：定义各条物理线路的工作规程和时序关系。</li>
+</ul>
+<h4 id="8-中继器和集线器"><a href="#8-中继器和集线器" class="headerlink" title="8. 中继器和集线器"></a>8. 中继器和集线器</h4><ul>
+<li>中继器，将从入口端进入的因噪声或其他原因造成失真和衰减的信号（数字信号，放大器处理的是模拟信号）进行信号再生，发送到出口端。中继器不能连接两个具有不同速率的局域网，中继器两端的网段一定是同一个协议（因为中继器没有存储转发功能）。中继器的个数遵守“5-4-3规则”：互相串联的中继器的个数不能超过4个，而且被4个中继器串联的5段通信介质中只有3个段可以挂接计算机，其余两个段只能用作扩展通信范围的链路段。</li>
+<li>集线器。多端口的中继器，将输入的信号，整形放大后转发到其他所有处于工作状态的端口上（没有寻址功能）。主要应用在使用双绞线组建的共享网络中，是解决从服务器连接到桌面最经济的方案。只能够在半双工下工作，网络吞吐量受限。集线器在物理层上扩大了物理网络的覆盖范围，无法解决冲突域（第二层交换机可解决）与广播域（第三层交换机可解决）的问题，而且使冲突的概率更大了。</li>
+<li>物理层设备还有转发器等</li>
+</ul>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BB%83%E4%B9%A0%E9%A2%98%E4%B9%8B%E4%B8%80/" rel="next" title="计算机网络练习题之一">
+                <i class="fa fa-chevron-left"></i> 计算机网络练习题之一
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/25/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BB%83%E4%B9%A0/" rel="prev" title="操作系统第一章练习">
+                操作系统第一章练习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E2%80%94%E2%80%94%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-number">1.</span> <span class="nav-text">计算机网络第二章——物理层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%A5%88%E6%B0%8F%E5%87%86%E5%88%99%EF%BC%8C%E4%BB%80%E4%B9%88%E6%98%AF%E9%A6%99%E5%86%9C%E5%AE%9A%E7%90%86"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1. 什么是奈氏准则，什么是香农定理?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E5%8F%98%E6%88%90%E4%BF%A1%E5%8F%B7%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%9A"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2. 数据变成信号的四种情况：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%AF%94%E8%BE%83%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2%E3%80%81%E6%8A%A5%E6%96%87%E4%BA%A4%E6%8D%A2%E3%80%81%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3. 比较电路交换、报文交换、分组交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%AF%94%E8%BE%83%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%92%8C%E8%99%9A%E7%94%B5%E8%B7%AF"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4. 比较数据报和虚电路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E4%B8%BB%E6%9C%BA%E7%94%B2%E9%80%9A%E8%BF%871%E4%B8%AA%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%88%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F%EF%BC%89%E4%B8%8E%E4%B8%BB%E6%9C%BA%E4%B9%99%E4%BA%92%E8%81%94%EF%BC%8C%E4%B8%A4%E6%AE%B5%E9%93%BE%E8%B7%AF%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87%E5%9D%87%E5%9C%A810Mbps%EF%BC%8C%E4%B8%BB%E6%9C%BA%E7%94%B2%E5%88%86%E5%88%AB%E9%87%87%E7%94%A8%E6%8A%A5%E6%96%87%E4%BA%A4%E6%8D%A2%E5%92%8C%E5%88%86%E7%BB%84%E5%A4%A7%E5%B0%8F%E4%B8%BA10kb%E7%9A%84%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2%E5%90%91%E4%B8%BB%E6%9C%BA%E4%B9%99%E5%8F%91%E9%80%811%E4%B8%AA%E5%A4%A7%E5%B0%8F%E4%B8%BA8Mb%E7%9A%84%E6%8A%A5%E6%96%87%E3%80%82%E8%8B%A5%E5%BF%BD%E7%95%A5%E9%93%BE%E8%B7%AF%E4%BC%A0%E6%92%AD%E5%BB%B6%E8%BF%9F%E3%80%81%E5%88%86%E7%BB%84%E5%A4%B4%E5%BC%80%E9%94%80%E5%92%8C%E5%88%86%E7%BB%84%E6%8B%86%E8%A3%85%E6%97%B6%E9%97%B4%EF%BC%8C%E5%88%99%E4%B8%A4%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F%E5%AE%8C%E6%88%90%E8%AF%A5%E6%8A%A5%E6%96%87%E4%BC%A0%E8%BE%93%E6%89%80%E9%9C%80%E7%9A%84%E6%80%BB%E6%97%B6%E9%97%B4%E5%88%86%E5%88%AB%E4%B8%BA%EF%BC%9A1600ms%E3%80%81801ms"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">5. 主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E7%89%A9%E7%90%86%E5%B1%82%E4%BC%A0%E8%BE%93%E4%BB%8B%E8%B4%A8"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">6. 物理层传输介质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E7%89%A9%E7%90%86%E5%B1%82%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">7. 物理层接口的特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-%E4%B8%AD%E7%BB%A7%E5%99%A8%E5%92%8C%E9%9B%86%E7%BA%BF%E5%99%A8"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">8. 中继器和集线器</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

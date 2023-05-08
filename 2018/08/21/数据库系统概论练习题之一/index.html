@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="数据库第一套卷一、选择题1. 关系代数的四个组合操作是：选择、投影、连接、除法理解：  选择是按照某条件，筛选出部分行，这些行具有所有列的属性； 投影是选取部分属性，形成新的表格，并去除重复记录； 连接是按照公共属性，将多表的属性列汇总在一张表里； 除法是A÷B时，A{X,Y},B{Y,Z},将A的X上各值看作一个整体{a1,a2,a3…}进行分组，如果某组，例如a1对应的A.Y能够包含所有的B.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库系统概论练习题之一">
+<meta property="og:url" content="http://yoursite.com/2018/08/21/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E7%BB%83%E4%B9%A0%E9%A2%98%E4%B9%8B%E4%B8%80/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="数据库第一套卷一、选择题1. 关系代数的四个组合操作是：选择、投影、连接、除法理解：  选择是按照某条件，筛选出部分行，这些行具有所有列的属性； 投影是选取部分属性，形成新的表格，并去除重复记录； 连接是按照公共属性，将多表的属性列汇总在一张表里； 除法是A÷B时，A{X,Y},B{Y,Z},将A的X上各值看作一个整体{a1,a2,a3…}进行分组，如果某组，例如a1对应的A.Y能够包含所有的B.">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-08-21T13:48:54.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.893Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="mySQL">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/21/数据库系统概论练习题之一/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>数据库系统概论练习题之一 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/21/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E6%A6%82%E8%AE%BA%E7%BB%83%E4%B9%A0%E9%A2%98%E4%B9%8B%E4%B8%80/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据库系统概论练习题之一
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-08-21 21:48:54" itemprop="dateCreated datePublished" datetime="2018-08-21T21:48:54+08:00">2018-08-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据库第一套卷"><a href="#数据库第一套卷" class="headerlink" title="数据库第一套卷"></a>数据库第一套卷</h1><h2 id="一、选择题"><a href="#一、选择题" class="headerlink" title="一、选择题"></a>一、选择题</h2><h3 id="1-关系代数的四个组合操作是：选择、投影、连接、除法"><a href="#1-关系代数的四个组合操作是：选择、投影、连接、除法" class="headerlink" title="1. 关系代数的四个组合操作是：选择、投影、连接、除法"></a>1. 关系代数的四个组合操作是：选择、投影、连接、除法</h3><p>理解：</p>
+<ul>
+<li>选择是按照某条件，筛选出部分行，这些行具有所有列的属性；</li>
+<li>投影是选取部分属性，形成新的表格，并去除重复记录；</li>
+<li>连接是按照公共属性，将多表的属性列汇总在一张表里；</li>
+<li>除法是A÷B时，A{X,Y},B{Y,Z},将A的X上各值看作一个整体{a1,a2,a3…}进行分组，如果某组，例如a1对应的A.Y能够包含所有的B.Y组合的情况，那么a1就是结果</li>
+</ul>
+<hr>
+<h3 id="2-SQL的DML操作有：排序插入修改等，但索引属于DDL操作"><a href="#2-SQL的DML操作有：排序插入修改等，但索引属于DDL操作" class="headerlink" title="2. SQL的DML操作有：排序插入修改等，但索引属于DDL操作"></a>2. SQL的DML操作有：排序插入修改等，但索引属于DDL操作</h3><ul>
+<li>DML即数据操作语言</li>
+<li>DDL包括模式定义、表定义、视图和索引的定义</li>
+</ul>
+<hr>
+<h3 id="3-关系数据模型的三个组成部分：数据结构、数据操作、完整性约束"><a href="#3-关系数据模型的三个组成部分：数据结构、数据操作、完整性约束" class="headerlink" title="3. 关系数据模型的三个组成部分：数据结构、数据操作、完整性约束"></a>3. 关系数据模型的三个组成部分：数据结构、数据操作、完整性约束</h3><ul>
+<li>数据结构。所描述对象类型的集合，是对系统静态特性的描述。通常可分为层次结构、网状结构和关系结构，并以此为模型命名（层次模型、网状模型、关系模型）</li>
+<li>数据操作。主要有查询和更新两大操作。是对系统动态特性的描述。</li>
+<li>完整性约束。是用来限定符合数据模型的数据库状态以及状态的变化，以保证数据的正确、有效、相容。</li>
+</ul>
+<span id="more"></span>
+
+
+<hr>
+<h3 id="4-关系数据库的规范化理论指出，关系数据库中的关系应满足一定的要求，最起码的要求是要达到1NF（第一范式），即满足：每一个分量必须是不可分的数据项。"><a href="#4-关系数据库的规范化理论指出，关系数据库中的关系应满足一定的要求，最起码的要求是要达到1NF（第一范式），即满足：每一个分量必须是不可分的数据项。" class="headerlink" title="4. 关系数据库的规范化理论指出，关系数据库中的关系应满足一定的要求，最起码的要求是要达到1NF（第一范式），即满足：每一个分量必须是不可分的数据项。"></a>4. 关系数据库的规范化理论指出，关系数据库中的关系应满足一定的要求，最起码的要求是要达到1NF（第一范式），即满足：每一个分量必须是不可分的数据项。</h3><ul>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/douunderstand/article/details/70159540">MySQL （4） 第一范式 第二范式 第三范式 BC范式</a></li>
+<li>[理解]1NF。表是平表，表中不能嵌套表。</li>
+<li>[扩展]2NF。首先属于1NF，然后每一个非主属性完全函数依赖于码。（去掉码的冗余，不依赖于码的某一部分的属性，而是依赖于码的全部属性）。同时得出结论：如果属于1NF且码只有一个单一字段时，它一定符合2NF。</li>
+<li>Y对X完全函数依赖 ：X的所有元素同时确定Y，缺一个都不行。</li>
+<li>3NF。首先属于2NF，然后每一个非主属性不传递依赖于码。任何非主属性不依赖于其他非主属性。</li>
+<li>传递依赖：在一个关系模式S-L中，Sno-&gt;Sdept,Sdept-&gt;Sloc，可得Sno-(传递)-&gt;Sloc，因此此S-L具有传递依赖，不属于3NF，改进：将S-L模式分解为S-D（Sno-&gt;Sdept）和D-L（Sdept-&gt;Sloc）两个模式。</li>
+<li>但3NF并不彻底，可能存在主属性对码的部分依赖和传递依赖。使用BCNF补漏。</li>
+<li>BCNF。首先属于<strong>1NF</strong>，若每一个函数依赖X-&gt;Y，若Y不属于X时X必含有候选码，则此关系模式属于BCNF。（每个决定因素必须包含键码）</li>
+<li>如果R属于BCNF，则R一定属于3NF；反之不一定成立。如果R属于3NF，且R只有一个候选码，则R属于BCNF。</li>
+<li>多值依赖。参见《数据库系统概论》第4版（王珊 萨师煊）P179页</li>
+<li>4NF。即使达到了BCNF，但如果存在多值依赖，仍然有大量数据冗余，所以可以用投影分解的方式来消去非平凡且非函数依赖的多值依赖。</li>
+<li>连续依赖、5NF等此处略去不谈。</li>
+</ul>
+<hr>
+<h3 id="5-子模式DDL用来描述：数据库的局部逻辑结构"><a href="#5-子模式DDL用来描述：数据库的局部逻辑结构" class="headerlink" title="5. 子模式DDL用来描述：数据库的局部逻辑结构"></a>5. 子模式DDL用来描述：数据库的局部逻辑结构</h3><ul>
+<li>子模式就是外模式，输入局部逻辑</li>
+</ul>
+<hr>
+<h3 id="6-设有关系R（S，D，M）-F-x3D-S-gt-D-D-gt-M-。则关系R最多满足：3NF"><a href="#6-设有关系R（S，D，M）-F-x3D-S-gt-D-D-gt-M-。则关系R最多满足：3NF" class="headerlink" title="6. 设有关系R（S，D，M） F&#x3D; {S-&gt;D,D-&gt;M}。则关系R最多满足：3NF"></a>6. 设有关系R（S，D，M） F&#x3D; {S-&gt;D,D-&gt;M}。则关系R最多满足：3NF</h3><ul>
+<li>明显存在传递依赖所以不可能是BCNF及以上，但D、M可能是主属性，所以可能可以满足3NF。若是非主属性，那就不符合3NF，最多是2NF。由以上分析知，关系R最多满足3NF</li>
+</ul>
+<hr>
+<h3 id="7-DBMS在运行过程中建立的日志文件，主要用于对数据库的：数据库恢复"><a href="#7-DBMS在运行过程中建立的日志文件，主要用于对数据库的：数据库恢复" class="headerlink" title="7. DBMS在运行过程中建立的日志文件，主要用于对数据库的：数据库恢复"></a>7. DBMS在运行过程中建立的日志文件，主要用于对数据库的：数据库恢复</h3><p>日志文件的具体作用：</p>
+<ol>
+<li>事务故障恢复和系统故障恢复必须用日志文件；</li>
+<li>在动态转储方式中必须建立日志文件，后备副本和日志文件结合起来才能有效地恢复数据库；</li>
+<li>在静态转储方式中，也可以建立日志文件。当数据库毁坏后可重新装入后援副本把数据可恢复到转储结束时刻的正确状态，然后利用日志文件，把已完成的事务进行重做处理，对故障发生时尚未完成的事务进行撤销处理。</li>
+</ol>
+<ul>
+<li>转储：DBA将整个数据库复制到磁带或另一个磁盘上保存起来的过程。</li>
+<li>静态转储：在系统中无运行事务时进行转储，转储开始时数据库处于一致性状态。降低了数据库的可用性，转储必须等待用户事务结束，新的事务必须等待转储结束。</li>
+<li>动态转储：转储操作与用户事务并发进行，转储期间允许对数据库进行存取或修改，提高了可用性，但转储结束时后援副本的数据并不能保证正确有效，为此，必须把转储期间各事务对数据库的修改活动记录下来建立日志文件。</li>
+<li>海量转储：每次转储全部数据库。</li>
+<li>增量转储：每次只转储上一次转储后更新的数据。</li>
+</ul>
+<hr>
+<h3 id="8-设R-U-是一个关系模式，X-gt-Y是一个FD，如果对任何W属于X，W-gt-Y都不成立，则称X-gt-Y是：完全依赖"><a href="#8-设R-U-是一个关系模式，X-gt-Y是一个FD，如果对任何W属于X，W-gt-Y都不成立，则称X-gt-Y是：完全依赖" class="headerlink" title="8. 设R(U)是一个关系模式，X-&gt;Y是一个FD，如果对任何W属于X，W-&gt;Y都不成立，则称X-&gt;Y是：完全依赖"></a>8. 设R(U)是一个关系模式，X-&gt;Y是一个FD，如果对任何W属于X，W-&gt;Y都不成立，则称X-&gt;Y是：完全依赖</h3><ul>
+<li>FD：Functional Dependency，函数依赖</li>
+</ul>
+<hr>
+<h3 id="9-若事务T1已经给数据A加上了共享锁，则事务T2-只能对A加共享锁"><a href="#9-若事务T1已经给数据A加上了共享锁，则事务T2-只能对A加共享锁" class="headerlink" title="9. 若事务T1已经给数据A加上了共享锁，则事务T2:只能对A加共享锁"></a>9. 若事务T1已经给数据A加上了共享锁，则事务T2:只能对A加共享锁</h3><ul>
+<li>若事务T1对数据A加上了S锁，那么T1可以读A但不能修改A；其他事务只能对A加S锁不能加X锁，直到T1释放S锁。这就保证了其他事务可以读A，但在T释放A上的S锁之前不能对A做任何修改。</li>
+</ul>
+<hr>
+<h3 id="10-公司中有多个部门和多名职员，每个职员只能属于一个部门，一个部门可以有多名职员，从职员到部门的联系类型是：一对多"><a href="#10-公司中有多个部门和多名职员，每个职员只能属于一个部门，一个部门可以有多名职员，从职员到部门的联系类型是：一对多" class="headerlink" title="10. 公司中有多个部门和多名职员，每个职员只能属于一个部门，一个部门可以有多名职员，从职员到部门的联系类型是：一对多"></a>10. 公司中有多个部门和多名职员，每个职员只能属于一个部门，一个部门可以有多名职员，从职员到部门的联系类型是：一对多</h3><ul>
+<li>两个实体型之间的联系只有三种：一对一、一对多、多对多</li>
+</ul>
+<hr>
+<h3 id="11-在下面的两个关系中，职工号和部门号分别为职工关系和部门关系的主码。在这两个关系的属性中，只有一个属性是外码，它是：职工关系的部门号"><a href="#11-在下面的两个关系中，职工号和部门号分别为职工关系和部门关系的主码。在这两个关系的属性中，只有一个属性是外码，它是：职工关系的部门号" class="headerlink" title="11. 在下面的两个关系中，职工号和部门号分别为职工关系和部门关系的主码。在这两个关系的属性中，只有一个属性是外码，它是：职工关系的部门号"></a>11. 在下面的两个关系中，职工号和部门号分别为职工关系和部门关系的主码。在这两个关系的属性中，只有一个属性是外码，它是：职工关系的部门号</h3><blockquote>
+<p>职工（职工号、职工名、部门号、职务、工资）<br>部门（部门号、部门名、部门人数、工资总额）</p>
+</blockquote>
+<hr>
+<h3 id="12-将查询SC表的权限授予用户U，并允许这个用户有转授权，其SQL语句是：GRANT-SELECT-ON-SC-TO-U-WITH-GRANT-OPTION"><a href="#12-将查询SC表的权限授予用户U，并允许这个用户有转授权，其SQL语句是：GRANT-SELECT-ON-SC-TO-U-WITH-GRANT-OPTION" class="headerlink" title="12. 将查询SC表的权限授予用户U，并允许这个用户有转授权，其SQL语句是：GRANT SELECT ON SC TO U WITH GRANT OPTION"></a>12. 将查询SC表的权限授予用户U，并允许这个用户有转授权，其SQL语句是：<code>GRANT SELECT ON SC TO U WITH GRANT OPTION</code></h3><hr>
+<h3 id="13-要保证数据库的逻辑独立性，需要修改的是：模式与外模式之间的映射"><a href="#13-要保证数据库的逻辑独立性，需要修改的是：模式与外模式之间的映射" class="headerlink" title="13. 要保证数据库的逻辑独立性，需要修改的是：模式与外模式之间的映射"></a>13. 要保证数据库的逻辑独立性，需要修改的是：模式与外模式之间的映射</h3><ul>
+<li>分析详见问答题2</li>
+</ul>
+<hr>
+<h3 id="14-在DBS中，DBMS和OS之间的关系是：DBMS调用OS"><a href="#14-在DBS中，DBMS和OS之间的关系是：DBMS调用OS" class="headerlink" title="14. 在DBS中，DBMS和OS之间的关系是：DBMS调用OS"></a>14. 在DBS中，DBMS和OS之间的关系是：DBMS调用OS</h3><ul>
+<li>DBMS是位于用户与操作系统之间的一层数据管理软件，安装在OS之上的，必须调用OS才能将命令送入裸机执行；</li>
+<li>DBMS的数据管理可以用OS的文件管理，也可以向OS申请空间自己管理；</li>
+<li>两者都是系统软件，不过OS更底层</li>
+</ul>
+<hr>
+<h3 id="15-如果关系R中有4个属性和3个元组，关系S中有3个属性和5个元组，则R×S的属性个数和元组个数分别是：7和15"><a href="#15-如果关系R中有4个属性和3个元组，关系S中有3个属性和5个元组，则R×S的属性个数和元组个数分别是：7和15" class="headerlink" title="15. 如果关系R中有4个属性和3个元组，关系S中有3个属性和5个元组，则R×S的属性个数和元组个数分别是：7和15"></a>15. 如果关系R中有4个属性和3个元组，关系S中有3个属性和5个元组，则R×S的属性个数和元组个数分别是：7和15</h3><ul>
+<li>笛卡尔积的列数为m+n，本题中为4+3&#x3D;7；</li>
+<li>笛卡尔积的元组数为k1×k2，本题中为3×5&#x3D;15</li>
+</ul>
+<hr>
+<h3 id="16-一个m-n联系转换为一个关系模式。关系的码为：各实体码的组合"><a href="#16-一个m-n联系转换为一个关系模式。关系的码为：各实体码的组合" class="headerlink" title="16. 一个m:n联系转换为一个关系模式。关系的码为：各实体码的组合"></a>16. 一个m:n联系转换为一个关系模式。关系的码为：各实体码的组合</h3><ul>
+<li>实体之间的联系类型有：1:1，1:n，m:n三种</li>
+<li>没看懂，留个坑，回头补，参考《数据库系统概论》第4版（王珊 萨师煊）P225页</li>
+</ul>
+<hr>
+<h3 id="17-恢复和并发控制的基本单位是：事务"><a href="#17-恢复和并发控制的基本单位是：事务" class="headerlink" title="17. 恢复和并发控制的基本单位是：事务"></a>17. 恢复和并发控制的基本单位是：事务</h3><ul>
+<li>事务是恢复和并发控制的基本单位</li>
+<li>保证事务ACID特性是事务管理的重要任务。事务ACID特性遭到破坏的因素有：<ol>
+<li>多个事务并行运行时，不同事务的操作交叉执行；</li>
+<li>事务在运行过程中被强行停止。</li>
+</ol>
+</li>
+<li>为了降低以上两种情况的影响，DBMS设立了恢复机制和并发控制机制</li>
+</ul>
+<hr>
+<h3 id="18-假设有如下事务：T1：在检查点之前提交；T2：在检查点之前开始执行，在检查点之后故障点之前提交；T3：在检查点之前开始执行，在故障点时还未完成；T4：在检查点之后开始执行，在故障点之前提交；T5：在检查点之后开始执行，在故障点时还未完成。在利用具有检查点的恢复技术进行恢复时，需要REDO的是：T2和T4"><a href="#18-假设有如下事务：T1：在检查点之前提交；T2：在检查点之前开始执行，在检查点之后故障点之前提交；T3：在检查点之前开始执行，在故障点时还未完成；T4：在检查点之后开始执行，在故障点之前提交；T5：在检查点之后开始执行，在故障点时还未完成。在利用具有检查点的恢复技术进行恢复时，需要REDO的是：T2和T4" class="headerlink" title="18. 假设有如下事务：T1：在检查点之前提交；T2：在检查点之前开始执行，在检查点之后故障点之前提交；T3：在检查点之前开始执行，在故障点时还未完成；T4：在检查点之后开始执行，在故障点之前提交；T5：在检查点之后开始执行，在故障点时还未完成。在利用具有检查点的恢复技术进行恢复时，需要REDO的是：T2和T4"></a>18. 假设有如下事务：T1：在检查点之前提交；T2：在检查点之前开始执行，在检查点之后故障点之前提交；T3：在检查点之前开始执行，在故障点时还未完成；T4：在检查点之后开始执行，在故障点之前提交；T5：在检查点之后开始执行，在故障点时还未完成。在利用具有检查点的恢复技术进行恢复时，需要REDO的是：T2和T4</h3><ul>
+<li>参考本卷问答题第5题的解析</li>
+</ul>
+<hr>
+<h3 id="19-下面的结论不正确的是：D"><a href="#19-下面的结论不正确的是：D" class="headerlink" title="19. 下面的结论不正确的是：D"></a>19. 下面的结论不正确的是：D</h3><blockquote>
+<p>A. 若R.A-&gt;R.B，R.B-&gt;R.C 则R.A-&gt;R.C<br>B. 若R.A-&gt;R.B，R.A-&gt;R.C 则R.A-&gt;R.(B,C)<br>C. 若R.B-&gt;R.A，R.C-&gt;R.A 则R.(B,C)-&gt;R.A<br>D. 若R.(B,C)-&gt;R.A则R.B-&gt;R.A，R.C-&gt;R.A</p>
+</blockquote>
+<p>easy  解略  </p>
+<hr>
+<h3 id="20-已知有关系模型R（sno-sname-age），其中sno表示学生的学号，类型Char-8-，前4位表示入学年份。查询所有2003年入学的学生姓名（sname），SQL语句是：SELECT-sname-FROM-R-WHERE-sno-LIKE-39-2003-39"><a href="#20-已知有关系模型R（sno-sname-age），其中sno表示学生的学号，类型Char-8-，前4位表示入学年份。查询所有2003年入学的学生姓名（sname），SQL语句是：SELECT-sname-FROM-R-WHERE-sno-LIKE-39-2003-39" class="headerlink" title="20. 已知有关系模型R（sno,sname,age），其中sno表示学生的学号，类型Char(8)，前4位表示入学年份。查询所有2003年入学的学生姓名（sname），SQL语句是：SELECT sname FROM  R  WHERE sno LIKE &#39;2003%&#39;;"></a>20. 已知有关系模型R（sno,sname,age），其中sno表示学生的学号，类型Char(8)，前4位表示入学年份。查询所有2003年入学的学生姓名（sname），SQL语句是：<code>SELECT sname FROM  R  WHERE sno LIKE &#39;2003%&#39;;</code></h3><p>easy  解略  </p>
+<hr>
+<hr>
+<h2 id="二-、判断题"><a href="#二-、判断题" class="headerlink" title="二 、判断题"></a>二 、判断题</h2><h3 id="1-SQL中的触发器机制是一种安全性控制机制"><a href="#1-SQL中的触发器机制是一种安全性控制机制" class="headerlink" title="1. SQL中的触发器机制是一种安全性控制机制"></a>1. SQL中的触发器机制是一种安全性控制机制</h3><ul>
+<li>错。触发器定义之后，任何用户对表的增删改操作均由服务器自动激活相应的触发器，在DBMS核心层进行集中的完整性控制。</li>
+</ul>
+<h3 id="2-关系模式的各级范式之间满足的关系式1NF-∈-2NF-∈-3NF-∈-BCNF"><a href="#2-关系模式的各级范式之间满足的关系式1NF-∈-2NF-∈-3NF-∈-BCNF" class="headerlink" title="2. 关系模式的各级范式之间满足的关系式1NF ∈ 2NF ∈ 3NF ∈ BCNF"></a>2. 关系模式的各级范式之间满足的关系式1NF ∈ 2NF ∈ 3NF ∈ BCNF</h3><ul>
+<li>错。5NF ∈ 4NF ∈ BCNF ∈ 3NF ∈ 2NF ∈ 1NF</li>
+</ul>
+<h3 id="3-关系代数、元组关系演算和域演算三种语言在表达能力上是完全等价的"><a href="#3-关系代数、元组关系演算和域演算三种语言在表达能力上是完全等价的" class="headerlink" title="3. 关系代数、元组关系演算和域演算三种语言在表达能力上是完全等价的"></a>3. 关系代数、元组关系演算和域演算三种语言在表达能力上是完全等价的</h3><ul>
+<li>对。参考《数据库系统概论》第4版（王珊 萨师煊）P48页，原话。</li>
+</ul>
+<h3 id="4-在关系模式R中，函数依赖X-gt-Y的语义在R的某一关系中，若两个元组的X值相等，则Y也相等"><a href="#4-在关系模式R中，函数依赖X-gt-Y的语义在R的某一关系中，若两个元组的X值相等，则Y也相等" class="headerlink" title="4. 在关系模式R中，函数依赖X-&gt;Y的语义在R的某一关系中，若两个元组的X值相等，则Y也相等"></a>4. 在关系模式R中，函数依赖X-&gt;Y的语义在R的某一关系中，若两个元组的X值相等，则Y也相等</h3><ul>
+<li>对。参见函数依赖的定义。参考《数据库系统概论》第4版（王珊 萨师煊）P172页</li>
+</ul>
+<h3 id="5-数据库设计时应遵循规范化原则，并且规范化程度与数据库性能成正比"><a href="#5-数据库设计时应遵循规范化原则，并且规范化程度与数据库性能成正比" class="headerlink" title="5. 数据库设计时应遵循规范化原则，并且规范化程度与数据库性能成正比"></a>5. 数据库设计时应遵循规范化原则，并且规范化程度与数据库性能成正比</h3><ul>
+<li>错。规范化理论为数据库设计提供了理论的指南和工具，但仅仅是指南和工具。并不是规范化程度越高，模式就越好，而必须结合应用环境和现实世界的具体情况合理的选择数据库模式。</li>
+</ul>
+<h3 id="6-对于一个处理少量元组的用户事务，以元组为封锁粒度比较合适"><a href="#6-对于一个处理少量元组的用户事务，以元组为封锁粒度比较合适" class="headerlink" title="6. 对于一个处理少量元组的用户事务，以元组为封锁粒度比较合适"></a>6. 对于一个处理少量元组的用户事务，以元组为封锁粒度比较合适</h3><ul>
+<li>对。</li>
+<li>选择封锁粒度时应该同时考虑封锁开销和并发度两个因素。</li>
+<li>需要处理大量元组的事务可以以关系为封锁粒度；</li>
+<li>需要处理多个关系的大量元组的事务可以以数据库为封锁粒度；</li>
+<li>处理少量元组的用户事务，以元组为封锁粒度比较合适</li>
+</ul>
+<h3 id="7-用SQL语言进行数据操作需要了解存取路径"><a href="#7-用SQL语言进行数据操作需要了解存取路径" class="headerlink" title="7. 用SQL语言进行数据操作需要了解存取路径"></a>7. 用SQL语言进行数据操作需要了解存取路径</h3><ul>
+<li>错。物理独立性，无需了解存取路径</li>
+</ul>
+<h3 id="8-数据库中只存放视图的定义而不存放视图对应的数据"><a href="#8-数据库中只存放视图的定义而不存放视图对应的数据" class="headerlink" title="8. 数据库中只存放视图的定义而不存放视图对应的数据"></a>8. 数据库中只存放视图的定义而不存放视图对应的数据</h3><ul>
+<li>对。视图跟基本表不同，它是虚表</li>
+</ul>
+<h3 id="9-无论在什么情况下，X-gt-Y都是非平凡函数依赖，而Y-gt-X都是平凡的函数依赖"><a href="#9-无论在什么情况下，X-gt-Y都是非平凡函数依赖，而Y-gt-X都是平凡的函数依赖" class="headerlink" title="9. 无论在什么情况下，X-&gt;Y都是非平凡函数依赖，而Y-&gt;X都是平凡的函数依赖"></a>9. 无论在什么情况下，X-&gt;Y都是非平凡函数依赖，而Y-&gt;X都是平凡的函数依赖</h3><ul>
+<li>错。简直胡扯</li>
+</ul>
+<h3 id="10-要保证数据库的逻辑独立性，需要修改的是模式与内模之间的映射"><a href="#10-要保证数据库的逻辑独立性，需要修改的是模式与内模之间的映射" class="headerlink" title="10. 要保证数据库的逻辑独立性，需要修改的是模式与内模之间的映射"></a>10. 要保证数据库的逻辑独立性，需要修改的是模式与内模之间的映射</h3><ul>
+<li>错。应该是外模式与模式的映射</li>
+</ul>
+<hr>
+<hr>
+<h2 id="三、问答题"><a href="#三、问答题" class="headerlink" title="三、问答题"></a>三、问答题</h2><h3 id="1-DBMS的功能有哪些？有哪些部分组成？"><a href="#1-DBMS的功能有哪些？有哪些部分组成？" class="headerlink" title="1. DBMS的功能有哪些？有哪些部分组成？"></a>1. DBMS的功能有哪些？有哪些部分组成？</h3><h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><ol>
+<li>数据定义功能；</li>
+<li>数据组织、存储和管理，包括安全性保护、完整性检查、并发控制、数据库恢复等功能；</li>
+<li>数据操纵功能；</li>
+<li>数据库的事务管理和运行管理；</li>
+<li>数据库的建立和维护功能；</li>
+<li>其他功能—— DBMS与其他软件系统的通信功能，数据转换功能等；</li>
+</ol>
+<h4 id="组成部分"><a href="#组成部分" class="headerlink" title="组成部分"></a>组成部分</h4><ul>
+<li>数据库系统由数据库、数据库管理系统（及其开发工具）、应用系统、数据库管理员组成</li>
+</ul>
+<hr>
+<h3 id="2-简述数据库的三层模式和两级独立性，两级独立性是如何实现的？"><a href="#2-简述数据库的三层模式和两级独立性，两级独立性是如何实现的？" class="headerlink" title="2. 简述数据库的三层模式和两级独立性，两级独立性是如何实现的？"></a>2. 简述数据库的三层模式和两级独立性，两级独立性是如何实现的？</h3><h4 id="三层模式"><a href="#三层模式" class="headerlink" title="三层模式"></a>三层模式</h4><ul>
+<li>三层模式是指数据库系统是由<strong>外模式、模式、内模式</strong>三级构成。</li>
+<li>内模式——即存储模式，是数据在数据库内部的表示方式。例如，存储方式是堆存储，或某属性的升序存储，或属性值聚簇存储？索引按照B+树，还是Hash索引？数据是否压缩存储，是否加密等。一个数据库只有一个内模式。</li>
+<li>模式——即逻辑模式，是三级模式的中间层，是数据库数据在逻辑级上的视图。定义模式时，不仅要定义数据的逻辑结构，例如数据记录由哪些数据项构成、数据项名字、类型、取值范围等，而且要定义与数据有关的安全性、完整性要求。一个数据库只有一个模式。</li>
+<li>外模式——即子模式，是数据库用户能够看见并使用的数据视图，如果不同用户在应用需求、看待数据的方式、对数据保密的要求等方面存在差异，其外模式描述就是不同的。即使对同一数据，在外模式中的结构、类型、长度、保密级别都可以不同。但一个应用程序只能使用一个外模式。</li>
+</ul>
+<h4 id="两级独立性"><a href="#两级独立性" class="headerlink" title="两级独立性"></a>两级独立性</h4><ul>
+<li><strong>物理独立性</strong>和<strong>逻辑独立性</strong>。</li>
+<li>物理独立性指的是应用程序与数据存放在相互独立的磁盘地址，应用程序或数据的地址发生变化时都不影响对方，内模式与模式映像保证了其物理独立特性。</li>
+<li>逻辑独立性指的数据与程序逻辑结构上的独立特性，数据或应用程序的逻辑结构发生变化性都不影响对方，外模式与模式映像保证了其逻辑独立性。</li>
+</ul>
+<h4 id="两级独立性的实现"><a href="#两级独立性的实现" class="headerlink" title="两级独立性的实现"></a>两级独立性的实现</h4><ul>
+<li>两级独立性是通过二级映像功能来实现的。<ul>
+<li><strong>外模式&#x2F;模式映像</strong></li>
+<li><strong>模式&#x2F;内模式映像</strong></li>
+</ul>
+</li>
+<li>外模式&#x2F;模式映像，一个模式可以有多个外模式，对应有多个此映像。当模式改变时（例如增加新的关系、属性或改变属性的数据类型等），由DBA对各个映像作相应改变，可以使外模式保持不变，从而应用程序不必修改，保证数据与程序的逻辑独立性。</li>
+<li>模式&#x2F;内模式映像，此映像是唯一的，它定义了数据全局逻辑结构与存储结构之间的对应关系，当数据库的存储结构改变了，由DBA对此映像作相应改变，可以使模式保持不变，从而应用程序也不必改变，保证了数据与程序的物理独立性。</li>
+</ul>
+<hr>
+<h3 id="3-事务有哪些重要性质？并对每个性质作简单描述"><a href="#3-事务有哪些重要性质？并对每个性质作简单描述" class="headerlink" title="3. 事务有哪些重要性质？并对每个性质作简单描述"></a>3. 事务有哪些重要性质？并对每个性质作简单描述</h3><h4 id="事务的性质"><a href="#事务的性质" class="headerlink" title="事务的性质"></a>事务的性质</h4><ul>
+<li>事务具有<strong>原子性、一致性、隔离性、持续性</strong>，即ACID</li>
+<li>原子性。事务中包含的诸操作要么都做，要么都不做。</li>
+<li>一致性。与原子性密切相关，一个单独执行的事务应保证其执行结果的一致性。事务执行的结果是从一个一致性状态变到另一个一致性状态。如果数据库系统运行中发生故障，有些事务尚未完成就被迫中断，此时数据库处于不正确即不一致的状态。</li>
+<li>隔离性。一个事务的执行不能被其他并发的事务干扰，即一个事务内部的操作及使用的数据对其他并发事务是隔离的。</li>
+<li>持续性。即永久性，一个事务一旦提交，它对数据库中数据的改变就应该是永久的，即使随后系统出现故障也不会受到影响。</li>
+</ul>
+<hr>
+<h3 id="4-设有关系R和S，计算R与S自然连接"><a href="#4-设有关系R和S，计算R与S自然连接" class="headerlink" title="4. 设有关系R和S，计算R与S自然连接"></a>4. 设有关系R和S，计算R与S自然连接</h3><table>
+<thead>
+<tr>
+<th align="center">R</th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center"></th>
+<th align="center">S</th>
+<th align="center">B</th>
+<th align="center">C</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center">a</td>
+<td align="center">b</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">b</td>
+<td align="center">c</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">c</td>
+<td align="center">b</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">e</td>
+<td align="center">a</td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center">d</td>
+<td align="center">e</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">b</td>
+<td align="center">d</td>
+</tr>
+</tbody></table>
+<p>  答案：</p>
+<table>
+<thead>
+<tr>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">a</td>
+<td align="center">b</td>
+<td align="center">c</td>
+</tr>
+<tr>
+<td align="center">a</td>
+<td align="center">b</td>
+<td align="center">d</td>
+</tr>
+<tr>
+<td align="center">c</td>
+<td align="center">b</td>
+<td align="center">c</td>
+</tr>
+<tr>
+<td align="center">c</td>
+<td align="center">b</td>
+<td align="center">d</td>
+</tr>
+<tr>
+<td align="center">d</td>
+<td align="center">e</td>
+<td align="center">a</td>
+</tr>
+</tbody></table>
+<hr>
+<h3 id="5-考虑事务T1、T2、T3的以下日志记录，假设系统刚好在最后一条日志记录之后就崩溃了，请指出在恢复过程中的重做事务集和撤销事务集？"><a href="#5-考虑事务T1、T2、T3的以下日志记录，假设系统刚好在最后一条日志记录之后就崩溃了，请指出在恢复过程中的重做事务集和撤销事务集？" class="headerlink" title="5. 考虑事务T1、T2、T3的以下日志记录，假设系统刚好在最后一条日志记录之后就崩溃了，请指出在恢复过程中的重做事务集和撤销事务集？"></a>5. 考虑事务T1、T2、T3的以下日志记录，假设系统刚好在最后一条日志记录之后就崩溃了，请指出在恢复过程中的重做事务集和撤销事务集？</h3><blockquote>
+<p>&lt;T1,start&gt;<br>  &lt;T1,B,10,20&gt;<br>  &lt;T2,start&gt;<br>  &lt;T1,commit&gt;<br>  &lt;T2,C,0,20&gt;<br>  &lt;T3,start&gt;<br>  &lt;T3,B,10,20&gt;<br>  &lt;checkpoint{T2,T3,T4}&gt;(检查点时刻)<br>  &lt;T3,C,10,20&gt;<br>  &lt;T4,start&gt;<br>  &lt;T3,commit&gt;<br>  &lt;T4,D,10,0&gt;<br>  &lt;T4,commit&gt;</p>
+</blockquote>
+<p>分析：系统崩溃发生的是系统故障，此时缓存丢失。</p>
+<ol>
+<li>数据库为了提高性能，数据页在内存修改后并不是每次都会刷到磁盘上。checkpoint之前的数据页保证一定落盘了，这样之前的日志就没有用了，允许被覆盖</li>
+<li>正向扫描日志文件，找到既有begin又有commit的 事务标记计入redo队列；找到仅有begin而无commit的事务计入undo队列；</li>
+<li>反向扫描日志文件，对undo队列标记的事务执行逆操作，将日志记录更新前的值写入DB；</li>
+<li>正向扫描日志文件，将日志记录更新后的值写入DB中</li>
+<li>T1在checkpoint之前完成commit，无需理会；</li>
+<li>T2在checkpoint时未commit，系统故障前仍未commit，所以在undo队列；</li>
+<li>T3在checkpoint时未commit，系统故障前commit，所以在redo队列；</li>
+<li>T4在checkpoint时未start，系统故障前start并commit，所以在redo队列；</li>
+</ol>
+<p>答案：REDO队列中有T3和T4，UNDO队列中有T2.</p>
+<hr>
+<h3 id="6-试简要叙述数据库设计的全过程包括哪些阶段？"><a href="#6-试简要叙述数据库设计的全过程包括哪些阶段？" class="headerlink" title="6. 试简要叙述数据库设计的全过程包括哪些阶段？"></a>6. 试简要叙述数据库设计的全过程包括哪些阶段？</h3><ol>
+<li>需求分析阶段。准确了解和分析用户需求，包括数据与处理。</li>
+<li>概念结构设计阶段。对用户需求进行综合、归纳与抽象。</li>
+<li>逻辑结构设计阶段。将概念结构转换为某个DBMS所支持的数据模型，并优化。</li>
+<li>物理设计阶段。为逻辑数据模型选取一个最适合应用环境的物理结构，包括存储结构和存取方法。</li>
+<li>数据库实施阶段。运用SQL等语言，建立数据库，编制与调试应用程序，组织数据入库，并进行试运行。</li>
+<li>数据库运行和维护阶段。正式运行时不断的评价、调整和修改。</li>
+</ol>
+<hr>
+<h3 id="7-什么是日志文件，为什么登记日志时必须先写日志后写数据库？"><a href="#7-什么是日志文件，为什么登记日志时必须先写日志后写数据库？" class="headerlink" title="7. 什么是日志文件，为什么登记日志时必须先写日志后写数据库？"></a>7. 什么是日志文件，为什么登记日志时必须先写日志后写数据库？</h3><h4 id="日志文件"><a href="#日志文件" class="headerlink" title="日志文件"></a>日志文件</h4><ul>
+<li>用来记录事务对数据库的更新操作的文件，主要有两种格式：<ol>
+<li>以记录为单位的日志文件</li>
+<li>以数据块为单位的日志文件</li>
+</ol>
+</li>
+<li>登记日志必须遵守两条原则：<ol>
+<li>登记的次序严格按并发事务执行的时间次序</li>
+<li>必须先写日志文件，后写数据库</li>
+</ol>
+</li>
+</ul>
+<h4 id="为什么先写日志后写数据库"><a href="#为什么先写日志后写数据库" class="headerlink" title="为什么先写日志后写数据库?"></a>为什么先写日志后写数据库?</h4><ul>
+<li>把对数据的修改写到数据库中和把表示这个修改的日志记录写到日志文件中是两个不同的操作，有可能在两个操作之间出现故障。</li>
+<li>如果先写了数据库修改，而因为故障没在运行记录中登记这个修改，那么以后将无法恢复这个修改了。</li>
+<li>如果先写日志但因为故障没有修改数据库，按日志文件恢复时只不过多执行一次不必要的UNDO操作，并不会影响数据库的正确性。</li>
+<li>所以为了安全，首先把日志记录写到日志文件中，然后写数据库的修改。</li>
+</ul>
+<hr>
+<h3 id="8-设教学数据库中有三个基本表，请用SQL语句表达下列查询。"><a href="#8-设教学数据库中有三个基本表，请用SQL语句表达下列查询。" class="headerlink" title="8.设教学数据库中有三个基本表，请用SQL语句表达下列查询。"></a>8.设教学数据库中有三个基本表，请用SQL语句表达下列查询。</h3><blockquote>
+<p>学生表S(S#,SNAME,AGE,SEX)<br>选课表SC(S#,C#,GRADE)<br>课程表C(C#,CNAME,TEACHER)</p>
+</blockquote>
+<h4 id="1-查询数据库课程成绩在90分以上的学生姓名"><a href="#1-查询数据库课程成绩在90分以上的学生姓名" class="headerlink" title="(1)查询数据库课程成绩在90分以上的学生姓名"></a>(1)查询数据库课程成绩在90分以上的学生姓名</h4>  <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SELECT</span> SNAME </span><br><span class="line">FROM S </span><br><span class="line"><span class="built_in">WHERE</span> S<span class="comment"># IN </span></span><br><span class="line">    (<span class="built_in">SELECT</span> S<span class="comment"># </span></span><br><span class="line">    FROM <span class="built_in">SC</span> </span><br><span class="line">    <span class="built_in">WHERE</span> GRADE &gt; <span class="number">90</span> AND C<span class="comment"># = </span></span><br><span class="line">        (<span class="built_in">SELECT</span> C<span class="comment"># </span></span><br><span class="line">        FROM C </span><br><span class="line">        <span class="built_in">WHERE</span> CNAME = <span class="string">&quot;数据库&quot;</span>));</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-查询年龄大于23的女学生的学号和姓名"><a href="#2-查询年龄大于23的女学生的学号和姓名" class="headerlink" title="(2)查询年龄大于23的女学生的学号和姓名"></a>(2)查询年龄大于23的女学生的学号和姓名</h4>  <figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SELECT</span> S<span class="meta">#,SNAME</span></span><br><span class="line">FROM S</span><br><span class="line"><span class="built_in">WHERE</span> SEX  = <span class="string">&quot;女” AND AGE &gt; 23;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-查询”李梅”学生所学课程的课程名与任课老师名"><a href="#3-查询”李梅”学生所学课程的课程名与任课老师名" class="headerlink" title="(3)查询”李梅”学生所学课程的课程名与任课老师名"></a>(3)查询”李梅”学生所学课程的课程名与任课老师名</h4>  <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">SELECT</span> CNAME,TEACHER</span><br><span class="line">FROM C</span><br><span class="line"><span class="built_in">WHERE</span> C<span class="comment"># IN </span></span><br><span class="line">    (<span class="built_in">SELECT</span> C<span class="comment"># </span></span><br><span class="line">    FROM <span class="built_in">SC</span></span><br><span class="line">    <span class="built_in">WHERE</span> S<span class="comment"># = </span></span><br><span class="line">        (<span class="built_in">SELECT</span> S<span class="comment">#</span></span><br><span class="line">        FROM S</span><br><span class="line">        <span class="built_in">WHERE</span> SNAME = <span class="string">&quot;李梅&quot;</span>));</span><br></pre></td></tr></table></figure>
+<hr>
+<hr>
+<h2 id="四、综合题"><a href="#四、综合题" class="headerlink" title="四、综合题"></a>四、综合题</h2><h3 id="1-设关系模式R（ABCD），R上的FD集F-x3D-A-gt-B-B-gt-C-A-gt-D-D-gt-C-ρ-x3D-AB-AC-BD-是R的一个分解。"><a href="#1-设关系模式R（ABCD），R上的FD集F-x3D-A-gt-B-B-gt-C-A-gt-D-D-gt-C-ρ-x3D-AB-AC-BD-是R的一个分解。" class="headerlink" title="1. 设关系模式R（ABCD），R上的FD集F&#x3D;{A-&gt;B,B-&gt;C,A-&gt;D,D-&gt;C},ρ&#x3D;{AB,AC,BD}是R的一个分解。"></a>1. 设关系模式R（ABCD），R上的FD集F&#x3D;{A-&gt;B,B-&gt;C,A-&gt;D,D-&gt;C},ρ&#x3D;{AB,AC,BD}是R的一个分解。</h3><h4 id="1-相对于F，ρ是无损分解吗？"><a href="#1-相对于F，ρ是无损分解吗？" class="headerlink" title="(1)相对于F，ρ是无损分解吗？"></a>(1)相对于F，ρ是无损分解吗？</h4><ul>
+<li>不是无损分解</li>
+<li>推荐阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/3013218061shang/p/5573461.html">模式分解—无损连接性的判断方法（转）</a></li>
+<li>具体步骤如下 ：</li>
+</ul>
+<ol>
+<li>步骤一，最初</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">AB</td>
+<td align="center">a1</td>
+<td align="center">a2</td>
+<td align="center">b13</td>
+<td align="center">b14</td>
+</tr>
+<tr>
+<td align="center">AC</td>
+<td align="center">a1</td>
+<td align="center">b22</td>
+<td align="center">a3</td>
+<td align="center">b24</td>
+</tr>
+<tr>
+<td align="center">BD</td>
+<td align="center">b31</td>
+<td align="center">a2</td>
+<td align="center">b33</td>
+<td align="center">a4</td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li>步骤二 ，开始一次扫描，A-&gt;B后</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">AB</td>
+<td align="center">a1</td>
+<td align="center">a2</td>
+<td align="center">b13</td>
+<td align="center">b14</td>
+</tr>
+<tr>
+<td align="center">AC</td>
+<td align="center">a1</td>
+<td align="center"><strong>a2</strong></td>
+<td align="center">a3</td>
+<td align="center">b24</td>
+</tr>
+<tr>
+<td align="center">BD</td>
+<td align="center">b31</td>
+<td align="center">a2</td>
+<td align="center">b33</td>
+<td align="center">a4</td>
+</tr>
+</tbody></table>
+<ol start="3">
+<li>步骤三，B-&gt;C后</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">AB</td>
+<td align="center">a1</td>
+<td align="center">a2</td>
+<td align="center"><strong>a3</strong></td>
+<td align="center">b14</td>
+</tr>
+<tr>
+<td align="center">AC</td>
+<td align="center">a1</td>
+<td align="center">a2</td>
+<td align="center">a3</td>
+<td align="center">b24</td>
+</tr>
+<tr>
+<td align="center">BD</td>
+<td align="center">b31</td>
+<td align="center">a2</td>
+<td align="center"><strong>a3</strong></td>
+<td align="center">a4</td>
+</tr>
+</tbody></table>
+<ol start="4">
+<li>步骤四，A-&gt;D后</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">AB</td>
+<td align="center">a1</td>
+<td align="center">a2</td>
+<td align="center">a3</td>
+<td align="center">b14</td>
+</tr>
+<tr>
+<td align="center">AC</td>
+<td align="center">a1</td>
+<td align="center">a2</td>
+<td align="center">a3</td>
+<td align="center"><strong>b14</strong></td>
+</tr>
+<tr>
+<td align="center">BD</td>
+<td align="center">b31</td>
+<td align="center">a2</td>
+<td align="center">a3</td>
+<td align="center"><strong>b14</strong></td>
+</tr>
+</tbody></table>
+<ol start="5">
+<li>步骤五，D-&gt;C后无变化，一次扫描结束，但扫描前后表发生了变化</li>
+<li>步骤六 ，开始二次扫描，A-&gt;B后，B-&gt;C后，A-&gt;D后，D-&gt;C后，结束二次扫描，扫描前后并无变化，也未得到某行成为(a1,a2,…,an)的结果</li>
+<li>以上说明有损</li>
+</ol>
+<h4 id="2-求F在ρ的每个子模式上的投影？ρ是否保持FD？"><a href="#2-求F在ρ的每个子模式上的投影？ρ是否保持FD？" class="headerlink" title="(2)求F在ρ的每个子模式上的投影？ρ是否保持FD？"></a>(2)求F在ρ的每个子模式上的投影？ρ是否保持FD？</h4><ul>
+<li><p>F在AB上的投影为{A-&gt;B}</p>
+</li>
+<li><p>F在AC上的投影为{A-&gt;C}</p>
+</li>
+<li><p>F在BD上的投影为空</p>
+</li>
+<li><p>ρ不能保持FD</p>
+</li>
+</ul>
+<hr>
+<h3 id="2-现有如下关系模式：其中，Teacher（Tno-Tame-Tel-department，Bno-Bname-BorrowDate-Rdate-Backup）。Tno——教师编号-Tame——教师姓名-Tel——电话-department——所在部门，Bno——借阅图书编号-Bname——书名-BorrowDate——借书日期-Rdate——还书日期-Backup——备注。该关系模式的属性之间具有通常的语义，例如：教师编号函数决定教师姓名，即教师编号是惟一的，图书编号是惟一的，等等。请回答下述问题："><a href="#2-现有如下关系模式：其中，Teacher（Tno-Tame-Tel-department，Bno-Bname-BorrowDate-Rdate-Backup）。Tno——教师编号-Tame——教师姓名-Tel——电话-department——所在部门，Bno——借阅图书编号-Bname——书名-BorrowDate——借书日期-Rdate——还书日期-Backup——备注。该关系模式的属性之间具有通常的语义，例如：教师编号函数决定教师姓名，即教师编号是惟一的，图书编号是惟一的，等等。请回答下述问题：" class="headerlink" title="2.现有如下关系模式：其中，Teacher（Tno,Tame,Tel,department，Bno,Bname,BorrowDate,Rdate,Backup）。Tno——教师编号,Tame——教师姓名,Tel——电话,department——所在部门，Bno——借阅图书编号,Bname——书名,BorrowDate——借书日期,Rdate——还书日期,Backup——备注。该关系模式的属性之间具有通常的语义，例如：教师编号函数决定教师姓名，即教师编号是惟一的，图书编号是惟一的，等等。请回答下述问题："></a>2.现有如下关系模式：其中，Teacher（Tno,Tame,Tel,department，Bno,Bname,BorrowDate,Rdate,Backup）。Tno——教师编号,Tame——教师姓名,Tel——电话,department——所在部门，Bno——借阅图书编号,Bname——书名,BorrowDate——借书日期,Rdate——还书日期,Backup——备注。该关系模式的属性之间具有通常的语义，例如：教师编号函数决定教师姓名，即教师编号是惟一的，图书编号是惟一的，等等。请回答下述问题：</h3><h4 id="1-教师编号是候选码吗？说明判断理由"><a href="#1-教师编号是候选码吗？说明判断理由" class="headerlink" title="(1)教师编号是候选码吗？说明判断理由"></a>(1)教师编号是候选码吗？说明判断理由</h4><ul>
+<li>不是，教师编号无法唯一标识此元组，因为事实允许同一名教师借阅多本图书</li>
+</ul>
+<h4 id="2-写出该关系模式的主码"><a href="#2-写出该关系模式的主码" class="headerlink" title="(2)写出该关系模式的主码"></a>(2)写出该关系模式的主码</h4><ul>
+<li>主码是（教师编号Tno、借阅图书编号Bno、借书日期）</li>
+</ul>
+<h4 id="3-该关系模式中是否存在部分函数依赖？如果存在，请写出其中两个"><a href="#3-该关系模式中是否存在部分函数依赖？如果存在，请写出其中两个" class="headerlink" title="(3)该关系模式中是否存在部分函数依赖？如果存在，请写出其中两个"></a>(3)该关系模式中是否存在部分函数依赖？如果存在，请写出其中两个</h4><ul>
+<li>主码和教师姓名是部分函数依赖；</li>
+<li>主码和书名是部分函数依赖；</li>
+<li>主码和所在部门是部分函数依赖</li>
+<li>etc</li>
+</ul>
+<h4 id="4-该关系模式最高满足第几范式？并说明理由。"><a href="#4-该关系模式最高满足第几范式？并说明理由。" class="headerlink" title="(4)该关系模式最高满足第几范式？并说明理由。"></a>(4)该关系模式最高满足第几范式？并说明理由。</h4><ul>
+<li>存在非主属性对主码的部分依赖，所以不能是2NF或更高，故此关系模式最高为1NF</li>
+</ul>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mySQL/" rel="tag"><i class="fa fa-tag"></i> mySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/08/10/Java%E5%AE%9E%E7%8E%B0WEB-SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/" rel="next" title="Java实现WEB-SSO单点登录">
+                <i class="fa fa-chevron-left"></i> Java实现WEB-SSO单点登录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BB%83%E4%B9%A0%E9%A2%98%E4%B9%8B%E4%B8%80/" rel="prev" title="计算机网络练习题之一">
+                计算机网络练习题之一 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%AC%AC%E4%B8%80%E5%A5%97%E5%8D%B7"><span class="nav-number">1.</span> <span class="nav-text">数据库第一套卷</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E9%80%89%E6%8B%A9%E9%A2%98"><span class="nav-number">1.1.</span> <span class="nav-text">一、选择题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0%E7%9A%84%E5%9B%9B%E4%B8%AA%E7%BB%84%E5%90%88%E6%93%8D%E4%BD%9C%E6%98%AF%EF%BC%9A%E9%80%89%E6%8B%A9%E3%80%81%E6%8A%95%E5%BD%B1%E3%80%81%E8%BF%9E%E6%8E%A5%E3%80%81%E9%99%A4%E6%B3%95"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. 关系代数的四个组合操作是：选择、投影、连接、除法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-SQL%E7%9A%84DML%E6%93%8D%E4%BD%9C%E6%9C%89%EF%BC%9A%E6%8E%92%E5%BA%8F%E6%8F%92%E5%85%A5%E4%BF%AE%E6%94%B9%E7%AD%89%EF%BC%8C%E4%BD%86%E7%B4%A2%E5%BC%95%E5%B1%9E%E4%BA%8EDDL%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. SQL的DML操作有：排序插入修改等，但索引属于DDL操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B%E7%9A%84%E4%B8%89%E4%B8%AA%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86%EF%BC%9A%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E3%80%81%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C%E3%80%81%E5%AE%8C%E6%95%B4%E6%80%A7%E7%BA%A6%E6%9D%9F"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 关系数据模型的三个组成部分：数据结构、数据操作、完整性约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E8%A7%84%E8%8C%83%E5%8C%96%E7%90%86%E8%AE%BA%E6%8C%87%E5%87%BA%EF%BC%8C%E5%85%B3%E7%B3%BB%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E7%9A%84%E5%85%B3%E7%B3%BB%E5%BA%94%E6%BB%A1%E8%B6%B3%E4%B8%80%E5%AE%9A%E7%9A%84%E8%A6%81%E6%B1%82%EF%BC%8C%E6%9C%80%E8%B5%B7%E7%A0%81%E7%9A%84%E8%A6%81%E6%B1%82%E6%98%AF%E8%A6%81%E8%BE%BE%E5%88%B01NF%EF%BC%88%E7%AC%AC%E4%B8%80%E8%8C%83%E5%BC%8F%EF%BC%89%EF%BC%8C%E5%8D%B3%E6%BB%A1%E8%B6%B3%EF%BC%9A%E6%AF%8F%E4%B8%80%E4%B8%AA%E5%88%86%E9%87%8F%E5%BF%85%E9%A1%BB%E6%98%AF%E4%B8%8D%E5%8F%AF%E5%88%86%E7%9A%84%E6%95%B0%E6%8D%AE%E9%A1%B9%E3%80%82"><span class="nav-number">1.1.4.</span> <span class="nav-text">4. 关系数据库的规范化理论指出，关系数据库中的关系应满足一定的要求，最起码的要求是要达到1NF（第一范式），即满足：每一个分量必须是不可分的数据项。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%AD%90%E6%A8%A1%E5%BC%8FDDL%E7%94%A8%E6%9D%A5%E6%8F%8F%E8%BF%B0%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E5%B1%80%E9%83%A8%E9%80%BB%E8%BE%91%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.5.</span> <span class="nav-text">5. 子模式DDL用来描述：数据库的局部逻辑结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%AE%BE%E6%9C%89%E5%85%B3%E7%B3%BBR%EF%BC%88S%EF%BC%8CD%EF%BC%8CM%EF%BC%89-F-x3D-S-gt-D-D-gt-M-%E3%80%82%E5%88%99%E5%85%B3%E7%B3%BBR%E6%9C%80%E5%A4%9A%E6%BB%A1%E8%B6%B3%EF%BC%9A3NF"><span class="nav-number">1.1.6.</span> <span class="nav-text">6. 设有关系R（S，D，M） F&#x3D; {S-&gt;D,D-&gt;M}。则关系R最多满足：3NF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-DBMS%E5%9C%A8%E8%BF%90%E8%A1%8C%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%BB%BA%E7%AB%8B%E7%9A%84%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%EF%BC%8C%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%EF%BC%9A%E6%95%B0%E6%8D%AE%E5%BA%93%E6%81%A2%E5%A4%8D"><span class="nav-number">1.1.7.</span> <span class="nav-text">7. DBMS在运行过程中建立的日志文件，主要用于对数据库的：数据库恢复</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E8%AE%BER-U-%E6%98%AF%E4%B8%80%E4%B8%AA%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F%EF%BC%8CX-gt-Y%E6%98%AF%E4%B8%80%E4%B8%AAFD%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%AF%B9%E4%BB%BB%E4%BD%95W%E5%B1%9E%E4%BA%8EX%EF%BC%8CW-gt-Y%E9%83%BD%E4%B8%8D%E6%88%90%E7%AB%8B%EF%BC%8C%E5%88%99%E7%A7%B0X-gt-Y%E6%98%AF%EF%BC%9A%E5%AE%8C%E5%85%A8%E4%BE%9D%E8%B5%96"><span class="nav-number">1.1.8.</span> <span class="nav-text">8. 设R(U)是一个关系模式，X-&gt;Y是一个FD，如果对任何W属于X，W-&gt;Y都不成立，则称X-&gt;Y是：完全依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E8%8B%A5%E4%BA%8B%E5%8A%A1T1%E5%B7%B2%E7%BB%8F%E7%BB%99%E6%95%B0%E6%8D%AEA%E5%8A%A0%E4%B8%8A%E4%BA%86%E5%85%B1%E4%BA%AB%E9%94%81%EF%BC%8C%E5%88%99%E4%BA%8B%E5%8A%A1T2-%E5%8F%AA%E8%83%BD%E5%AF%B9A%E5%8A%A0%E5%85%B1%E4%BA%AB%E9%94%81"><span class="nav-number">1.1.9.</span> <span class="nav-text">9. 若事务T1已经给数据A加上了共享锁，则事务T2:只能对A加共享锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E5%85%AC%E5%8F%B8%E4%B8%AD%E6%9C%89%E5%A4%9A%E4%B8%AA%E9%83%A8%E9%97%A8%E5%92%8C%E5%A4%9A%E5%90%8D%E8%81%8C%E5%91%98%EF%BC%8C%E6%AF%8F%E4%B8%AA%E8%81%8C%E5%91%98%E5%8F%AA%E8%83%BD%E5%B1%9E%E4%BA%8E%E4%B8%80%E4%B8%AA%E9%83%A8%E9%97%A8%EF%BC%8C%E4%B8%80%E4%B8%AA%E9%83%A8%E9%97%A8%E5%8F%AF%E4%BB%A5%E6%9C%89%E5%A4%9A%E5%90%8D%E8%81%8C%E5%91%98%EF%BC%8C%E4%BB%8E%E8%81%8C%E5%91%98%E5%88%B0%E9%83%A8%E9%97%A8%E7%9A%84%E8%81%94%E7%B3%BB%E7%B1%BB%E5%9E%8B%E6%98%AF%EF%BC%9A%E4%B8%80%E5%AF%B9%E5%A4%9A"><span class="nav-number">1.1.10.</span> <span class="nav-text">10. 公司中有多个部门和多名职员，每个职员只能属于一个部门，一个部门可以有多名职员，从职员到部门的联系类型是：一对多</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E5%9C%A8%E4%B8%8B%E9%9D%A2%E7%9A%84%E4%B8%A4%E4%B8%AA%E5%85%B3%E7%B3%BB%E4%B8%AD%EF%BC%8C%E8%81%8C%E5%B7%A5%E5%8F%B7%E5%92%8C%E9%83%A8%E9%97%A8%E5%8F%B7%E5%88%86%E5%88%AB%E4%B8%BA%E8%81%8C%E5%B7%A5%E5%85%B3%E7%B3%BB%E5%92%8C%E9%83%A8%E9%97%A8%E5%85%B3%E7%B3%BB%E7%9A%84%E4%B8%BB%E7%A0%81%E3%80%82%E5%9C%A8%E8%BF%99%E4%B8%A4%E4%B8%AA%E5%85%B3%E7%B3%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E4%B8%AD%EF%BC%8C%E5%8F%AA%E6%9C%89%E4%B8%80%E4%B8%AA%E5%B1%9E%E6%80%A7%E6%98%AF%E5%A4%96%E7%A0%81%EF%BC%8C%E5%AE%83%E6%98%AF%EF%BC%9A%E8%81%8C%E5%B7%A5%E5%85%B3%E7%B3%BB%E7%9A%84%E9%83%A8%E9%97%A8%E5%8F%B7"><span class="nav-number">1.1.11.</span> <span class="nav-text">11. 在下面的两个关系中，职工号和部门号分别为职工关系和部门关系的主码。在这两个关系的属性中，只有一个属性是外码，它是：职工关系的部门号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E5%B0%86%E6%9F%A5%E8%AF%A2SC%E8%A1%A8%E7%9A%84%E6%9D%83%E9%99%90%E6%8E%88%E4%BA%88%E7%94%A8%E6%88%B7U%EF%BC%8C%E5%B9%B6%E5%85%81%E8%AE%B8%E8%BF%99%E4%B8%AA%E7%94%A8%E6%88%B7%E6%9C%89%E8%BD%AC%E6%8E%88%E6%9D%83%EF%BC%8C%E5%85%B6SQL%E8%AF%AD%E5%8F%A5%E6%98%AF%EF%BC%9AGRANT-SELECT-ON-SC-TO-U-WITH-GRANT-OPTION"><span class="nav-number">1.1.12.</span> <span class="nav-text">12. 将查询SC表的权限授予用户U，并允许这个用户有转授权，其SQL语句是：GRANT SELECT ON SC TO U WITH GRANT OPTION</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-%E8%A6%81%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E9%80%BB%E8%BE%91%E7%8B%AC%E7%AB%8B%E6%80%A7%EF%BC%8C%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9%E7%9A%84%E6%98%AF%EF%BC%9A%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%A4%96%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%97%B4%E7%9A%84%E6%98%A0%E5%B0%84"><span class="nav-number">1.1.13.</span> <span class="nav-text">13. 要保证数据库的逻辑独立性，需要修改的是：模式与外模式之间的映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#14-%E5%9C%A8DBS%E4%B8%AD%EF%BC%8CDBMS%E5%92%8COS%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB%E6%98%AF%EF%BC%9ADBMS%E8%B0%83%E7%94%A8OS"><span class="nav-number">1.1.14.</span> <span class="nav-text">14. 在DBS中，DBMS和OS之间的关系是：DBMS调用OS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#15-%E5%A6%82%E6%9E%9C%E5%85%B3%E7%B3%BBR%E4%B8%AD%E6%9C%894%E4%B8%AA%E5%B1%9E%E6%80%A7%E5%92%8C3%E4%B8%AA%E5%85%83%E7%BB%84%EF%BC%8C%E5%85%B3%E7%B3%BBS%E4%B8%AD%E6%9C%893%E4%B8%AA%E5%B1%9E%E6%80%A7%E5%92%8C5%E4%B8%AA%E5%85%83%E7%BB%84%EF%BC%8C%E5%88%99R%C3%97S%E7%9A%84%E5%B1%9E%E6%80%A7%E4%B8%AA%E6%95%B0%E5%92%8C%E5%85%83%E7%BB%84%E4%B8%AA%E6%95%B0%E5%88%86%E5%88%AB%E6%98%AF%EF%BC%9A7%E5%92%8C15"><span class="nav-number">1.1.15.</span> <span class="nav-text">15. 如果关系R中有4个属性和3个元组，关系S中有3个属性和5个元组，则R×S的属性个数和元组个数分别是：7和15</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16-%E4%B8%80%E4%B8%AAm-n%E8%81%94%E7%B3%BB%E8%BD%AC%E6%8D%A2%E4%B8%BA%E4%B8%80%E4%B8%AA%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F%E3%80%82%E5%85%B3%E7%B3%BB%E7%9A%84%E7%A0%81%E4%B8%BA%EF%BC%9A%E5%90%84%E5%AE%9E%E4%BD%93%E7%A0%81%E7%9A%84%E7%BB%84%E5%90%88"><span class="nav-number">1.1.16.</span> <span class="nav-text">16. 一个m:n联系转换为一个关系模式。关系的码为：各实体码的组合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#17-%E6%81%A2%E5%A4%8D%E5%92%8C%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6%E7%9A%84%E5%9F%BA%E6%9C%AC%E5%8D%95%E4%BD%8D%E6%98%AF%EF%BC%9A%E4%BA%8B%E5%8A%A1"><span class="nav-number">1.1.17.</span> <span class="nav-text">17. 恢复和并发控制的基本单位是：事务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#18-%E5%81%87%E8%AE%BE%E6%9C%89%E5%A6%82%E4%B8%8B%E4%BA%8B%E5%8A%A1%EF%BC%9AT1%EF%BC%9A%E5%9C%A8%E6%A3%80%E6%9F%A5%E7%82%B9%E4%B9%8B%E5%89%8D%E6%8F%90%E4%BA%A4%EF%BC%9BT2%EF%BC%9A%E5%9C%A8%E6%A3%80%E6%9F%A5%E7%82%B9%E4%B9%8B%E5%89%8D%E5%BC%80%E5%A7%8B%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%9C%A8%E6%A3%80%E6%9F%A5%E7%82%B9%E4%B9%8B%E5%90%8E%E6%95%85%E9%9A%9C%E7%82%B9%E4%B9%8B%E5%89%8D%E6%8F%90%E4%BA%A4%EF%BC%9BT3%EF%BC%9A%E5%9C%A8%E6%A3%80%E6%9F%A5%E7%82%B9%E4%B9%8B%E5%89%8D%E5%BC%80%E5%A7%8B%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%9C%A8%E6%95%85%E9%9A%9C%E7%82%B9%E6%97%B6%E8%BF%98%E6%9C%AA%E5%AE%8C%E6%88%90%EF%BC%9BT4%EF%BC%9A%E5%9C%A8%E6%A3%80%E6%9F%A5%E7%82%B9%E4%B9%8B%E5%90%8E%E5%BC%80%E5%A7%8B%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%9C%A8%E6%95%85%E9%9A%9C%E7%82%B9%E4%B9%8B%E5%89%8D%E6%8F%90%E4%BA%A4%EF%BC%9BT5%EF%BC%9A%E5%9C%A8%E6%A3%80%E6%9F%A5%E7%82%B9%E4%B9%8B%E5%90%8E%E5%BC%80%E5%A7%8B%E6%89%A7%E8%A1%8C%EF%BC%8C%E5%9C%A8%E6%95%85%E9%9A%9C%E7%82%B9%E6%97%B6%E8%BF%98%E6%9C%AA%E5%AE%8C%E6%88%90%E3%80%82%E5%9C%A8%E5%88%A9%E7%94%A8%E5%85%B7%E6%9C%89%E6%A3%80%E6%9F%A5%E7%82%B9%E7%9A%84%E6%81%A2%E5%A4%8D%E6%8A%80%E6%9C%AF%E8%BF%9B%E8%A1%8C%E6%81%A2%E5%A4%8D%E6%97%B6%EF%BC%8C%E9%9C%80%E8%A6%81REDO%E7%9A%84%E6%98%AF%EF%BC%9AT2%E5%92%8CT4"><span class="nav-number">1.1.18.</span> <span class="nav-text">18. 假设有如下事务：T1：在检查点之前提交；T2：在检查点之前开始执行，在检查点之后故障点之前提交；T3：在检查点之前开始执行，在故障点时还未完成；T4：在检查点之后开始执行，在故障点之前提交；T5：在检查点之后开始执行，在故障点时还未完成。在利用具有检查点的恢复技术进行恢复时，需要REDO的是：T2和T4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#19-%E4%B8%8B%E9%9D%A2%E7%9A%84%E7%BB%93%E8%AE%BA%E4%B8%8D%E6%AD%A3%E7%A1%AE%E7%9A%84%E6%98%AF%EF%BC%9AD"><span class="nav-number">1.1.19.</span> <span class="nav-text">19. 下面的结论不正确的是：D</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#20-%E5%B7%B2%E7%9F%A5%E6%9C%89%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%9E%8BR%EF%BC%88sno-sname-age%EF%BC%89%EF%BC%8C%E5%85%B6%E4%B8%ADsno%E8%A1%A8%E7%A4%BA%E5%AD%A6%E7%94%9F%E7%9A%84%E5%AD%A6%E5%8F%B7%EF%BC%8C%E7%B1%BB%E5%9E%8BChar-8-%EF%BC%8C%E5%89%8D4%E4%BD%8D%E8%A1%A8%E7%A4%BA%E5%85%A5%E5%AD%A6%E5%B9%B4%E4%BB%BD%E3%80%82%E6%9F%A5%E8%AF%A2%E6%89%80%E6%9C%892003%E5%B9%B4%E5%85%A5%E5%AD%A6%E7%9A%84%E5%AD%A6%E7%94%9F%E5%A7%93%E5%90%8D%EF%BC%88sname%EF%BC%89%EF%BC%8CSQL%E8%AF%AD%E5%8F%A5%E6%98%AF%EF%BC%9ASELECT-sname-FROM-R-WHERE-sno-LIKE-39-2003-39"><span class="nav-number">1.1.20.</span> <span class="nav-text">20. 已知有关系模型R（sno,sname,age），其中sno表示学生的学号，类型Char(8)，前4位表示入学年份。查询所有2003年入学的学生姓名（sname），SQL语句是：SELECT sname FROM  R  WHERE sno LIKE &#39;2003%&#39;;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C-%E3%80%81%E5%88%A4%E6%96%AD%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">二 、判断题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-SQL%E4%B8%AD%E7%9A%84%E8%A7%A6%E5%8F%91%E5%99%A8%E6%9C%BA%E5%88%B6%E6%98%AF%E4%B8%80%E7%A7%8D%E5%AE%89%E5%85%A8%E6%80%A7%E6%8E%A7%E5%88%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. SQL中的触发器机制是一种安全性控制机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%90%84%E7%BA%A7%E8%8C%83%E5%BC%8F%E4%B9%8B%E9%97%B4%E6%BB%A1%E8%B6%B3%E7%9A%84%E5%85%B3%E7%B3%BB%E5%BC%8F1NF-%E2%88%88-2NF-%E2%88%88-3NF-%E2%88%88-BCNF"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 关系模式的各级范式之间满足的关系式1NF ∈ 2NF ∈ 3NF ∈ BCNF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E5%85%B3%E7%B3%BB%E4%BB%A3%E6%95%B0%E3%80%81%E5%85%83%E7%BB%84%E5%85%B3%E7%B3%BB%E6%BC%94%E7%AE%97%E5%92%8C%E5%9F%9F%E6%BC%94%E7%AE%97%E4%B8%89%E7%A7%8D%E8%AF%AD%E8%A8%80%E5%9C%A8%E8%A1%A8%E8%BE%BE%E8%83%BD%E5%8A%9B%E4%B8%8A%E6%98%AF%E5%AE%8C%E5%85%A8%E7%AD%89%E4%BB%B7%E7%9A%84"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 关系代数、元组关系演算和域演算三种语言在表达能力上是完全等价的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%9C%A8%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8FR%E4%B8%AD%EF%BC%8C%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96X-gt-Y%E7%9A%84%E8%AF%AD%E4%B9%89%E5%9C%A8R%E7%9A%84%E6%9F%90%E4%B8%80%E5%85%B3%E7%B3%BB%E4%B8%AD%EF%BC%8C%E8%8B%A5%E4%B8%A4%E4%B8%AA%E5%85%83%E7%BB%84%E7%9A%84X%E5%80%BC%E7%9B%B8%E7%AD%89%EF%BC%8C%E5%88%99Y%E4%B9%9F%E7%9B%B8%E7%AD%89"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 在关系模式R中，函数依赖X-&gt;Y的语义在R的某一关系中，若两个元组的X值相等，则Y也相等</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E6%97%B6%E5%BA%94%E9%81%B5%E5%BE%AA%E8%A7%84%E8%8C%83%E5%8C%96%E5%8E%9F%E5%88%99%EF%BC%8C%E5%B9%B6%E4%B8%94%E8%A7%84%E8%8C%83%E5%8C%96%E7%A8%8B%E5%BA%A6%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E6%80%A7%E8%83%BD%E6%88%90%E6%AD%A3%E6%AF%94"><span class="nav-number">1.2.5.</span> <span class="nav-text">5. 数据库设计时应遵循规范化原则，并且规范化程度与数据库性能成正比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%AF%B9%E4%BA%8E%E4%B8%80%E4%B8%AA%E5%A4%84%E7%90%86%E5%B0%91%E9%87%8F%E5%85%83%E7%BB%84%E7%9A%84%E7%94%A8%E6%88%B7%E4%BA%8B%E5%8A%A1%EF%BC%8C%E4%BB%A5%E5%85%83%E7%BB%84%E4%B8%BA%E5%B0%81%E9%94%81%E7%B2%92%E5%BA%A6%E6%AF%94%E8%BE%83%E5%90%88%E9%80%82"><span class="nav-number">1.2.6.</span> <span class="nav-text">6. 对于一个处理少量元组的用户事务，以元组为封锁粒度比较合适</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E7%94%A8SQL%E8%AF%AD%E8%A8%80%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C%E9%9C%80%E8%A6%81%E4%BA%86%E8%A7%A3%E5%AD%98%E5%8F%96%E8%B7%AF%E5%BE%84"><span class="nav-number">1.2.7.</span> <span class="nav-text">7. 用SQL语言进行数据操作需要了解存取路径</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E5%8F%AA%E5%AD%98%E6%94%BE%E8%A7%86%E5%9B%BE%E7%9A%84%E5%AE%9A%E4%B9%89%E8%80%8C%E4%B8%8D%E5%AD%98%E6%94%BE%E8%A7%86%E5%9B%BE%E5%AF%B9%E5%BA%94%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">1.2.8.</span> <span class="nav-text">8. 数据库中只存放视图的定义而不存放视图对应的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-%E6%97%A0%E8%AE%BA%E5%9C%A8%E4%BB%80%E4%B9%88%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8CX-gt-Y%E9%83%BD%E6%98%AF%E9%9D%9E%E5%B9%B3%E5%87%A1%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96%EF%BC%8C%E8%80%8CY-gt-X%E9%83%BD%E6%98%AF%E5%B9%B3%E5%87%A1%E7%9A%84%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96"><span class="nav-number">1.2.9.</span> <span class="nav-text">9. 无论在什么情况下，X-&gt;Y都是非平凡函数依赖，而Y-&gt;X都是平凡的函数依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-%E8%A6%81%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E9%80%BB%E8%BE%91%E7%8B%AC%E7%AB%8B%E6%80%A7%EF%BC%8C%E9%9C%80%E8%A6%81%E4%BF%AE%E6%94%B9%E7%9A%84%E6%98%AF%E6%A8%A1%E5%BC%8F%E4%B8%8E%E5%86%85%E6%A8%A1%E4%B9%8B%E9%97%B4%E7%9A%84%E6%98%A0%E5%B0%84"><span class="nav-number">1.2.10.</span> <span class="nav-text">10. 要保证数据库的逻辑独立性，需要修改的是模式与内模之间的映射</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E9%97%AE%E7%AD%94%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">三、问答题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-DBMS%E7%9A%84%E5%8A%9F%E8%83%BD%E6%9C%89%E5%93%AA%E4%BA%9B%EF%BC%9F%E6%9C%89%E5%93%AA%E4%BA%9B%E9%83%A8%E5%88%86%E7%BB%84%E6%88%90%EF%BC%9F"><span class="nav-number">1.3.1.</span> <span class="nav-text">1. DBMS的功能有哪些？有哪些部分组成？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">组成部分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%AE%80%E8%BF%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B8%89%E5%B1%82%E6%A8%A1%E5%BC%8F%E5%92%8C%E4%B8%A4%E7%BA%A7%E7%8B%AC%E7%AB%8B%E6%80%A7%EF%BC%8C%E4%B8%A4%E7%BA%A7%E7%8B%AC%E7%AB%8B%E6%80%A7%E6%98%AF%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F"><span class="nav-number">1.3.2.</span> <span class="nav-text">2. 简述数据库的三层模式和两级独立性，两级独立性是如何实现的？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">三层模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E7%BA%A7%E7%8B%AC%E7%AB%8B%E6%80%A7"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">两级独立性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E7%BA%A7%E7%8B%AC%E7%AB%8B%E6%80%A7%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">两级独立性的实现</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%BA%8B%E5%8A%A1%E6%9C%89%E5%93%AA%E4%BA%9B%E9%87%8D%E8%A6%81%E6%80%A7%E8%B4%A8%EF%BC%9F%E5%B9%B6%E5%AF%B9%E6%AF%8F%E4%B8%AA%E6%80%A7%E8%B4%A8%E4%BD%9C%E7%AE%80%E5%8D%95%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.3.3.</span> <span class="nav-text">3. 事务有哪些重要性质？并对每个性质作简单描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E6%80%A7%E8%B4%A8"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">事务的性质</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E8%AE%BE%E6%9C%89%E5%85%B3%E7%B3%BBR%E5%92%8CS%EF%BC%8C%E8%AE%A1%E7%AE%97R%E4%B8%8ES%E8%87%AA%E7%84%B6%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.3.4.</span> <span class="nav-text">4. 设有关系R和S，计算R与S自然连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E8%80%83%E8%99%91%E4%BA%8B%E5%8A%A1T1%E3%80%81T2%E3%80%81T3%E7%9A%84%E4%BB%A5%E4%B8%8B%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%EF%BC%8C%E5%81%87%E8%AE%BE%E7%B3%BB%E7%BB%9F%E5%88%9A%E5%A5%BD%E5%9C%A8%E6%9C%80%E5%90%8E%E4%B8%80%E6%9D%A1%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95%E4%B9%8B%E5%90%8E%E5%B0%B1%E5%B4%A9%E6%BA%83%E4%BA%86%EF%BC%8C%E8%AF%B7%E6%8C%87%E5%87%BA%E5%9C%A8%E6%81%A2%E5%A4%8D%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E9%87%8D%E5%81%9A%E4%BA%8B%E5%8A%A1%E9%9B%86%E5%92%8C%E6%92%A4%E9%94%80%E4%BA%8B%E5%8A%A1%E9%9B%86%EF%BC%9F"><span class="nav-number">1.3.5.</span> <span class="nav-text">5. 考虑事务T1、T2、T3的以下日志记录，假设系统刚好在最后一条日志记录之后就崩溃了，请指出在恢复过程中的重做事务集和撤销事务集？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E8%AF%95%E7%AE%80%E8%A6%81%E5%8F%99%E8%BF%B0%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AE%BE%E8%AE%A1%E7%9A%84%E5%85%A8%E8%BF%87%E7%A8%8B%E5%8C%85%E6%8B%AC%E5%93%AA%E4%BA%9B%E9%98%B6%E6%AE%B5%EF%BC%9F"><span class="nav-number">1.3.6.</span> <span class="nav-text">6. 试简要叙述数据库设计的全过程包括哪些阶段？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E4%BB%80%E4%B9%88%E6%98%AF%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E7%99%BB%E8%AE%B0%E6%97%A5%E5%BF%97%E6%97%B6%E5%BF%85%E9%A1%BB%E5%85%88%E5%86%99%E6%97%A5%E5%BF%97%E5%90%8E%E5%86%99%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%9F"><span class="nav-number">1.3.7.</span> <span class="nav-text">7. 什么是日志文件，为什么登记日志时必须先写日志后写数据库？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E6%96%87%E4%BB%B6"><span class="nav-number">1.3.7.1.</span> <span class="nav-text">日志文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%85%88%E5%86%99%E6%97%A5%E5%BF%97%E5%90%8E%E5%86%99%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.3.7.2.</span> <span class="nav-text">为什么先写日志后写数据库?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E8%AE%BE%E6%95%99%E5%AD%A6%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E6%9C%89%E4%B8%89%E4%B8%AA%E5%9F%BA%E6%9C%AC%E8%A1%A8%EF%BC%8C%E8%AF%B7%E7%94%A8SQL%E8%AF%AD%E5%8F%A5%E8%A1%A8%E8%BE%BE%E4%B8%8B%E5%88%97%E6%9F%A5%E8%AF%A2%E3%80%82"><span class="nav-number">1.3.8.</span> <span class="nav-text">8.设教学数据库中有三个基本表，请用SQL语句表达下列查询。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%9F%A5%E8%AF%A2%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BE%E7%A8%8B%E6%88%90%E7%BB%A9%E5%9C%A890%E5%88%86%E4%BB%A5%E4%B8%8A%E7%9A%84%E5%AD%A6%E7%94%9F%E5%A7%93%E5%90%8D"><span class="nav-number">1.3.8.1.</span> <span class="nav-text">(1)查询数据库课程成绩在90分以上的学生姓名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%9F%A5%E8%AF%A2%E5%B9%B4%E9%BE%84%E5%A4%A7%E4%BA%8E23%E7%9A%84%E5%A5%B3%E5%AD%A6%E7%94%9F%E7%9A%84%E5%AD%A6%E5%8F%B7%E5%92%8C%E5%A7%93%E5%90%8D"><span class="nav-number">1.3.8.2.</span> <span class="nav-text">(2)查询年龄大于23的女学生的学号和姓名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%9F%A5%E8%AF%A2%E2%80%9D%E6%9D%8E%E6%A2%85%E2%80%9D%E5%AD%A6%E7%94%9F%E6%89%80%E5%AD%A6%E8%AF%BE%E7%A8%8B%E7%9A%84%E8%AF%BE%E7%A8%8B%E5%90%8D%E4%B8%8E%E4%BB%BB%E8%AF%BE%E8%80%81%E5%B8%88%E5%90%8D"><span class="nav-number">1.3.8.3.</span> <span class="nav-text">(3)查询”李梅”学生所学课程的课程名与任课老师名</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%BB%BC%E5%90%88%E9%A2%98"><span class="nav-number">1.4.</span> <span class="nav-text">四、综合题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%AE%BE%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8FR%EF%BC%88ABCD%EF%BC%89%EF%BC%8CR%E4%B8%8A%E7%9A%84FD%E9%9B%86F-x3D-A-gt-B-B-gt-C-A-gt-D-D-gt-C-%CF%81-x3D-AB-AC-BD-%E6%98%AFR%E7%9A%84%E4%B8%80%E4%B8%AA%E5%88%86%E8%A7%A3%E3%80%82"><span class="nav-number">1.4.1.</span> <span class="nav-text">1. 设关系模式R（ABCD），R上的FD集F&#x3D;{A-&gt;B,B-&gt;C,A-&gt;D,D-&gt;C},ρ&#x3D;{AB,AC,BD}是R的一个分解。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E7%9B%B8%E5%AF%B9%E4%BA%8EF%EF%BC%8C%CF%81%E6%98%AF%E6%97%A0%E6%8D%9F%E5%88%86%E8%A7%A3%E5%90%97%EF%BC%9F"><span class="nav-number">1.4.1.1.</span> <span class="nav-text">(1)相对于F，ρ是无损分解吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%B1%82F%E5%9C%A8%CF%81%E7%9A%84%E6%AF%8F%E4%B8%AA%E5%AD%90%E6%A8%A1%E5%BC%8F%E4%B8%8A%E7%9A%84%E6%8A%95%E5%BD%B1%EF%BC%9F%CF%81%E6%98%AF%E5%90%A6%E4%BF%9D%E6%8C%81FD%EF%BC%9F"><span class="nav-number">1.4.1.2.</span> <span class="nav-text">(2)求F在ρ的每个子模式上的投影？ρ是否保持FD？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%8E%B0%E6%9C%89%E5%A6%82%E4%B8%8B%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F%EF%BC%9A%E5%85%B6%E4%B8%AD%EF%BC%8CTeacher%EF%BC%88Tno-Tame-Tel-department%EF%BC%8CBno-Bname-BorrowDate-Rdate-Backup%EF%BC%89%E3%80%82Tno%E2%80%94%E2%80%94%E6%95%99%E5%B8%88%E7%BC%96%E5%8F%B7-Tame%E2%80%94%E2%80%94%E6%95%99%E5%B8%88%E5%A7%93%E5%90%8D-Tel%E2%80%94%E2%80%94%E7%94%B5%E8%AF%9D-department%E2%80%94%E2%80%94%E6%89%80%E5%9C%A8%E9%83%A8%E9%97%A8%EF%BC%8CBno%E2%80%94%E2%80%94%E5%80%9F%E9%98%85%E5%9B%BE%E4%B9%A6%E7%BC%96%E5%8F%B7-Bname%E2%80%94%E2%80%94%E4%B9%A6%E5%90%8D-BorrowDate%E2%80%94%E2%80%94%E5%80%9F%E4%B9%A6%E6%97%A5%E6%9C%9F-Rdate%E2%80%94%E2%80%94%E8%BF%98%E4%B9%A6%E6%97%A5%E6%9C%9F-Backup%E2%80%94%E2%80%94%E5%A4%87%E6%B3%A8%E3%80%82%E8%AF%A5%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F%E7%9A%84%E5%B1%9E%E6%80%A7%E4%B9%8B%E9%97%B4%E5%85%B7%E6%9C%89%E9%80%9A%E5%B8%B8%E7%9A%84%E8%AF%AD%E4%B9%89%EF%BC%8C%E4%BE%8B%E5%A6%82%EF%BC%9A%E6%95%99%E5%B8%88%E7%BC%96%E5%8F%B7%E5%87%BD%E6%95%B0%E5%86%B3%E5%AE%9A%E6%95%99%E5%B8%88%E5%A7%93%E5%90%8D%EF%BC%8C%E5%8D%B3%E6%95%99%E5%B8%88%E7%BC%96%E5%8F%B7%E6%98%AF%E6%83%9F%E4%B8%80%E7%9A%84%EF%BC%8C%E5%9B%BE%E4%B9%A6%E7%BC%96%E5%8F%B7%E6%98%AF%E6%83%9F%E4%B8%80%E7%9A%84%EF%BC%8C%E7%AD%89%E7%AD%89%E3%80%82%E8%AF%B7%E5%9B%9E%E7%AD%94%E4%B8%8B%E8%BF%B0%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">1.4.2.</span> <span class="nav-text">2.现有如下关系模式：其中，Teacher（Tno,Tame,Tel,department，Bno,Bname,BorrowDate,Rdate,Backup）。Tno——教师编号,Tame——教师姓名,Tel——电话,department——所在部门，Bno——借阅图书编号,Bname——书名,BorrowDate——借书日期,Rdate——还书日期,Backup——备注。该关系模式的属性之间具有通常的语义，例如：教师编号函数决定教师姓名，即教师编号是惟一的，图书编号是惟一的，等等。请回答下述问题：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%95%99%E5%B8%88%E7%BC%96%E5%8F%B7%E6%98%AF%E5%80%99%E9%80%89%E7%A0%81%E5%90%97%EF%BC%9F%E8%AF%B4%E6%98%8E%E5%88%A4%E6%96%AD%E7%90%86%E7%94%B1"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">(1)教师编号是候选码吗？说明判断理由</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%86%99%E5%87%BA%E8%AF%A5%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%B8%BB%E7%A0%81"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">(2)写出该关系模式的主码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E8%AF%A5%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F%E4%B8%AD%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8%E9%83%A8%E5%88%86%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96%EF%BC%9F%E5%A6%82%E6%9E%9C%E5%AD%98%E5%9C%A8%EF%BC%8C%E8%AF%B7%E5%86%99%E5%87%BA%E5%85%B6%E4%B8%AD%E4%B8%A4%E4%B8%AA"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">(3)该关系模式中是否存在部分函数依赖？如果存在，请写出其中两个</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E8%AF%A5%E5%85%B3%E7%B3%BB%E6%A8%A1%E5%BC%8F%E6%9C%80%E9%AB%98%E6%BB%A1%E8%B6%B3%E7%AC%AC%E5%87%A0%E8%8C%83%E5%BC%8F%EF%BC%9F%E5%B9%B6%E8%AF%B4%E6%98%8E%E7%90%86%E7%94%B1%E3%80%82"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">(4)该关系模式最高满足第几范式？并说明理由。</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

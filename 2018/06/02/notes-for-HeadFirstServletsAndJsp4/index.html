@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Head First Servlets&amp;JSP 读书笔记_4HttpServletRequest接口扩展了ServletRequest接口，发生了什么？与上同理的还有HttpServletResponse接口扩展了ServletResponse接口。以ServletRequest接口为例解释如下：  avax.servlet  Interface ServletRequestDefines">
+<meta property="og:type" content="article">
+<meta property="og:title" content="notes_for_HeadFirstServletsAndJsp4">
+<meta property="og:url" content="http://yoursite.com/2018/06/02/notes-for-HeadFirstServletsAndJsp4/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="Head First Servlets&amp;JSP 读书笔记_4HttpServletRequest接口扩展了ServletRequest接口，发生了什么？与上同理的还有HttpServletResponse接口扩展了ServletResponse接口。以ServletRequest接口为例解释如下：  avax.servlet  Interface ServletRequestDefines">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-06-02T06:22:04.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.866Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="javaWeb">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/02/notes-for-HeadFirstServletsAndJsp4/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>notes_for_HeadFirstServletsAndJsp4 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/02/notes-for-HeadFirstServletsAndJsp4/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">notes_for_HeadFirstServletsAndJsp4
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-02 14:22:04" itemprop="dateCreated datePublished" datetime="2018-06-02T14:22:04+08:00">2018-06-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Head-First-Servlets-amp-JSP-读书笔记-4"><a href="#Head-First-Servlets-amp-JSP-读书笔记-4" class="headerlink" title="Head First Servlets&amp;JSP 读书笔记_4"></a>Head First Servlets&amp;JSP 读书笔记_4</h1><h2 id="HttpServletRequest接口扩展了ServletRequest接口，发生了什么？"><a href="#HttpServletRequest接口扩展了ServletRequest接口，发生了什么？" class="headerlink" title="HttpServletRequest接口扩展了ServletRequest接口，发生了什么？"></a>HttpServletRequest接口扩展了ServletRequest接口，发生了什么？</h2><p>与上同理的还有HttpServletResponse接口扩展了ServletResponse接口。以ServletRequest接口为例解释如下：</p>
+<blockquote>
+<p>avax.servlet  Interface ServletRequest<br>Defines an object to provide client request information to a servlet. The servlet container creates a ServletRequest object and passes it as an argument to the servlet’s service method.<br>[扩展译]当Servlet容器接收到客户端要求访问特定Servlet的请求时，容器先解析客户端的原始请求数据，把它包装成一个ServletRequest对象。当容器调用Servlet对象的service()方法时，就可以把ServletRequest对象呢作为参数传给service()方法。</p>
+</blockquote>
+<blockquote>
+<p>A ServletRequest object provides data including parameter name and values, attributes, and an input stream. Interfaces that extend ServletRequest can provide additional protocol-specific data (for example, HTTP data is provided by HttpServletRequest.<br>[译]ServletRequest对象提供参数名、参数值、属性、输入流等数据。其扩展接口（比如HttpServletRequest会提供Http数据）会格外增加特定的协议数据。</p>
+</blockquote>
+<p>Http协议数据主要有如下：</p>
+<table>
+<thead>
+<tr>
+<th align="center">method</th>
+<th align="center">description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">getContextPath():String</td>
+<td align="center">Returns the portion of the request URI that indicates the context of the request.[译]获得Request中传入的URI部分（注：URI标记了资源，未给出资源地址，故只是URL的一部分，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/simplebam/article/details/72644094">Web基础-Uri跟Url的区别</a>）</td>
+</tr>
+<tr>
+<td align="center">getCookies():Cookie[]</td>
+<td align="center">Returns an array containing all of the Cookie objects the client sent with this request.[译]获得Request相关的cookie数组</td>
+</tr>
+<tr>
+<td align="center">getHeader(String name):String</td>
+<td align="center">Returns the value of the specified request header as a String.[译]获得客户的平台和浏览信息</td>
+</tr>
+<tr>
+<td align="center">getSession():HttpSession</td>
+<td align="center">Returns the current session associated with this request, or if the request does not have a session, creates one.[译]返回客户相关的Session会话</td>
+</tr>
+<tr>
+<td align="center">getInputStream():ServletInputStream</td>
+<td align="center">Retrieves the body of the request as binary data using a ServletInputStream[译]返回请求体中的二进制内容（请求体若要处理计算机驱动，可能包含二进制）[注]此为ServletRequest的方法</td>
+</tr>
+<tr>
+<td align="center">…</td>
+<td align="center">…</td>
+</tr>
+<tr>
+<td align="center">其他参数参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011159417/article/details/54020827">Servlet技术浅析（三）之—–ServletRequest接口和HttpServletRequest接口</a></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<span id="more"></span>
+
+
+<h2 id="Servlet容器如何实现HttpServletRequest接口的？"><a href="#Servlet容器如何实现HttpServletRequest接口的？" class="headerlink" title="Servlet容器如何实现HttpServletRequest接口的？"></a>Servlet容器如何实现HttpServletRequest接口的？</h2><p>背景：使用者按照接口类型来引用请求和响应对象，即调用doGet()方法时，并不知道容器是如何实现此接口和实现了其父接口定义中的所有方法。<br>推荐阅读：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/GooPolaris/p/8111837.html">Tomcat中容器是什么，容器间的关系</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/GooPolaris/p/8115784.html">Tomcat是如何将请求一步步传递到我们编写的HttpServlet类中的</a><br>大佬写的请求传递的过程实在看不懂，简单复制粘贴如下：</p>
+<ol>
+<li>请求首先由AbstractEndpoint类及其子类的内部类Acceptor（线程类）的持续监听并接收得到，过程使用套接字</li>
+<li>当接收请求完毕，经过一系列的处理后就会由AprEndpoint的内部类SocketProcessor来将请求传给ProtocolHandler来处理。这个SocketProcessor也是一个线程类</li>
+<li>AbstractConnectionHandler接收到第二步传来的套接字以后，对套接字进行处理，并传递给AbstractHttp11Processor中的process(…)方法来处理</li>
+<li>此时会创建org.apache.coyote.Request类型的请求</li>
+<li>在CoyoteAdapter中，由Connector来创建成HttpServletRequest，此方法就是请求对象、响应对象和套接字进行信息交互的地方，也就是真真正正将套接字中的信息转化为请求信息，还要把响应信息写到套接字中</li>
+<li>完成之后交给CoyoteAdapter来处理，CoyotoAdapter将请求传入Server容器的切入点</li>
+<li>CoyoteAdapter中有一个service()方法。这个方法持有一个Connector的引用。这个Connector又持有一个Service容器的引用，而Service容器有持有一个Container（Container的实现类有StandardEngine、StandardHost等等）的引用。所以CoyoteAdapter就可以根据这些引用将请求传递到Server容器中了</li>
+<li>当最后一个StandardWrapperValve（其对应Engine会调用它持有的StandardPipeline对象来处理请求，此管道中的有许多阀门，这些Valve会对请求进行处理）处理完请求后，此时请求已经到达了最底层的容器了。</li>
+<li>StandardWrapper就是最底层的容器，它不允许再有子容器。之后把请求交给Filter来处理，此时请求进入过滤器链条中，参考:<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ooooevan/p/5727798.html">过滤器中的chain.doFilter(request,response)</a></li>
+<li>过滤器处理完之后当将请求传递给我们编写的HttpServlet来处理</li>
+</ol>
+<h2 id="Cookie和Session的区别与联系"><a href="#Cookie和Session的区别与联系" class="headerlink" title="Cookie和Session的区别与联系"></a>Cookie和Session的区别与联系</h2><p>Cookie和Session都是为了保存客户端和服务端之间的交互状态，实现机制不同，各有优缺点。</p>
+<ul>
+<li>一个最大的区别就是<strong>Cookie是保存在客户端</strong>而<strong>Session就保存在服务端</strong>的。Cookie是客户端请求服务端时服务器会将一些信息以键值对的形式返回给客户端，保存在浏览器中，交互的时候可以加上这些Cookie值。用Cookie就可以方便的做一些缓存。</li>
+<li>Cookie的缺点是大小和数量都有限制；Cookie是存在客户端的可能被禁用、删除、篡改，是不安全的；Cookie如果很大，每次要请求都要带上，这样就影响了传输效率。</li>
+<li>Session是基于Cookie来实现的，不同的是Session本身存在于服务端，但是每次传输的时候不会传输数据，只是把代表一个客户端的唯一ID（通常是JSESSIONID）写在客户端的Cookie中，这样每次传输这个ID就可以了。</li>
+<li>Session的优势就是传输数据量小，比较安全。</li>
+<li>Session也有缺点，就是如果Session不做特殊的处理容易失效、过期、丢失或者Session过多导致服务器内存溢出，并且要实现一个稳定可用安全的分布式Session框架也是有一定复杂度的。</li>
+<li>在实际使用中就要结合Cookie和Session的优缺点针对不同的问题来设计解决方案。</li>
+</ul>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/xnf1991/article/details/52157378">真相了！关于HTTP 请求方式: GET和POST的比较的本质</a></p>
+<h2 id="幂等的Get-非幂等的Post"><a href="#幂等的Get-非幂等的Post" class="headerlink" title="幂等的Get 非幂等的Post"></a>幂等的Get 非幂等的Post</h2><p>[理解]幂等：可以一遍一遍反复做同一件事，不会有预料不到的副作用，Get、Head、Put都是幂等的。Post是非幂等的，Post体的提交数据可能用于不可逆转的事务，如涉及更新DB的操作时，易造成操作不止一次的情况。<br>所以，Post本质上是非幂等的，需要程序人员干涉处理。</p>
+<h2 id="你应该知道的表单细节"><a href="#你应该知道的表单细节" class="headerlink" title="你应该知道的表单细节"></a>你应该知道的表单细节</h2><ol>
+<li><p>表单中若没有明确给出method&#x3D;‘Post’，则会默认为HttpGet请求。</p>
+</li>
+<li><p>使用getParameter(“parametername”)方法，返回值始终是String</p>
+</li>
+<li><p>Post请求若有两个参数，可用&amp;分隔，如：</p>
+ <figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">color</span>=dark&amp;body=heavy</span><br></pre></td></tr></table></figure></li>
+<li><p>getHeader()方法获得首部String，对于某些首部（例如Content-Length信息体的字节数）可能就对应的一个数，此时可以用getIntHeader()直接得到int值</p>
+</li>
+<li><p>getServerPort()\getLocalPort()\getRemotePort()的区别</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">方法</th>
+<th align="center">比较</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">getRemotePort()</td>
+<td align="center">得到客户的端口，即发出请求的客户的端口号</td>
+</tr>
+<tr>
+<td align="center">getServerPort()</td>
+<td align="center">请求原来发送到哪个端口，即服务器监听的端口</td>
+</tr>
+<tr>
+<td align="center">getLocalPort()</td>
+<td align="center">请求最后发送到哪个端口，即服务器为每个线程找的一个不同的本地端口，用以实现一个应用同时处理多个客户</td>
+</tr>
+<tr>
+<td align="center">[注]远程意味着客户</td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h2 id="在Response中为客户发送一个jar"><a href="#在Response中为客户发送一个jar" class="headerlink" title="在Response中为客户发送一个jar"></a>在Response中为客户发送一个jar</h2><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Servlet代码</span></span><br><span class="line">pubilc  <span class="keyword">class</span> Codereturn <span class="keyword">extends</span> Httpservlet&#123;</span><br><span class="line">	<span class="keyword">public</span>  <span class="keyword">void</span> doGet(HttpServletRequest request,HttpServletResponse response)<span class="keyword">throws</span> IOException,ServletException&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//告诉浏览器接下来是什么类型的内容（即内容类型）</span></span><br><span class="line">		response.setContentType(<span class="string">&quot;application/jar&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//获得本Servlet对应的背景对象，ctx.getResourceAsStream()方法中是jar所在路径，在JarDownlioad根目录下，并表示给浏览器一个输入流</span></span><br><span class="line">		ServletContext ctx = getServletContext();</span><br><span class="line">		InputStream is = ctx.getResourceAsStream(<span class="string">&quot;/bookCode.jar&quot;</span>);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//以下是常规的I/O操作</span></span><br><span class="line">		<span class="keyword">int</span> <span class="keyword">read</span> = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">		OutputStream os = response.getOutputStream();</span><br><span class="line">		<span class="keyword">while</span>((<span class="keyword">read</span> = is.<span class="keyword">read</span>(bytes)) != -<span class="number">1</span>)&#123;</span><br><span class="line">			os.<span class="keyword">write</span>(bytes,<span class="number">0</span>,<span class="keyword">read</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		os.flush();</span><br><span class="line">		os.close();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他：可以设置response来设置首部、发送错误、增加cookie等</p>
+<h2 id="setContenttype-常用的内容类型"><a href="#setContenttype-常用的内容类型" class="headerlink" title="setContenttype()常用的内容类型"></a>setContenttype()常用的内容类型</h2><ul>
+<li>内容类型：即MIME类型Multipurpose Internet Mail Extensions。服务器告诉浏览器要发出的是什么，浏览器才会做出正确的举动。</li>
+<li>注：总是先调好setContenttype()，再调用获得输出流的方法。</li>
+<li>服务器不一定能通过文件的扩展名看出内容类型，所以需要MIME<br>MIME类型：不用记忆</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">MIME类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">超文本标记语言文本 .html</td>
+<td align="center">text&#x2F;html</td>
+</tr>
+<tr>
+<td align="center">xml文档 .xml</td>
+<td align="center">text&#x2F;xml</td>
+</tr>
+<tr>
+<td align="center">XHTML文档 .xhtml</td>
+<td align="center">application&#x2F;xhtml+xml</td>
+</tr>
+<tr>
+<td align="center">普通文本 .txt</td>
+<td align="center">text&#x2F;plain</td>
+</tr>
+<tr>
+<td align="center">RTF文本 .rtf</td>
+<td align="center">application&#x2F;rtf</td>
+</tr>
+<tr>
+<td align="center">PDF文档 .pdf</td>
+<td align="center">application&#x2F;pdf</td>
+</tr>
+<tr>
+<td align="center">Microsoft Word文件 .word</td>
+<td align="center">application&#x2F;msword</td>
+</tr>
+<tr>
+<td align="center">PNG图像 .png</td>
+<td align="center">image&#x2F;png</td>
+</tr>
+<tr>
+<td align="center">GIF图形 .gif</td>
+<td align="center">image&#x2F;gif</td>
+</tr>
+<tr>
+<td align="center">JPEG图形 .jpeg,.jpg</td>
+<td align="center">image&#x2F;jpeg</td>
+</tr>
+<tr>
+<td align="center">au声音文件 .au</td>
+<td align="center">audio&#x2F;basic</td>
+</tr>
+<tr>
+<td align="center">MIDI音乐文件 mid,.midi</td>
+<td align="center">audio&#x2F;midi,audio&#x2F;x-midi</td>
+</tr>
+<tr>
+<td align="center">RealAudio音乐文件 .ra, .ram</td>
+<td align="center">audio&#x2F;x-pn-realaudio</td>
+</tr>
+<tr>
+<td align="center">MPEG文件 .mpg,.mpeg</td>
+<td align="center">video&#x2F;mpeg</td>
+</tr>
+<tr>
+<td align="center">AVI文件 .avi</td>
+<td align="center">video&#x2F;x-msvideo</td>
+</tr>
+<tr>
+<td align="center">GZIP文件 .gz</td>
+<td align="center">application&#x2F;x-gzip</td>
+</tr>
+<tr>
+<td align="center">TAR文件 .tar</td>
+<td align="center">application&#x2F;x-tar</td>
+</tr>
+<tr>
+<td align="center">任意的二进制数据</td>
+<td align="center">application&#x2F;octet-stream</td>
+</tr>
+</tbody></table>
+<h3 id="输出字符或是字节"><a href="#输出字符或是字节" class="headerlink" title="输出字符或是字节"></a>输出字符或是字节</h3><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//将文本数据打印到字符流</span><br><span class="line">PrintWriter writer <span class="operator">=</span> response.getWriter()<span class="comment">;</span></span><br><span class="line">writer.println(<span class="string">&quot;some text and HTML&quot;</span>)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">//文本打印到字节流</span><br><span class="line">ServletOutputStream out <span class="operator">=</span> response.getOutputStream()<span class="comment">;</span></span><br><span class="line">out.write(aByteArray)<span class="comment">;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>println()写至PrintWriter</li>
+<li>write()写至ServletOutputStream</li>
+<li>其实PrintWriter内部包装了ServletOutputStream，使之更便于处理字符。</li>
+</ul>
+<h2 id="请求重定向-x3D-客户"><a href="#请求重定向-x3D-客户" class="headerlink" title="请求重定向 &#x3D; 客户"></a>请求重定向 &#x3D; 客户</h2><p>[理解]让别人来为你的请求处理响应，例如servlet重定向到一个完全不同的URL，或者把请求分派给Web应用的另一个组件。</p>
+<ol>
+<li>servlet拿到请求后决定使用重定向</li>
+<li>servlet在响应上调用sendRedirect(aString)，servlet完成工作</li>
+<li>之后Http响应有带着状态码301，以及一个“Location”首部（即一个URL）</li>
+<li>浏览器得到响应，发现301状态码，并寻找“Location”首部；并使用该Location的值（即新的URL）建立一个新的请求（用户可以发现此时浏览器地址栏的URL发生了改变）</li>
+<li>服务器对新的请求作出响应，在浏览器展示新页面</li>
+</ol>
+<ul>
+<li>可以使用相对URL来作为sendRedirect()的参数（该参数只能是String类型，见下例），即sendRedirect(“foo&#x2F;stuff.html”)，此url是相对于原URL（需要原URL放在location的首部）来建立的，</li>
+<li>若sendRedirect(“&#x2F;foo&#x2F;stuff.html”)，此时容器会相对Web应用本身建立完整的URL，不会参考原URL。</li>
+<li>要在响应之前发出重定向的指令，因为已经向流中写了东西，想重定向为时已晚，否则抛出IllegalStateException异常。</li>
+</ul>
+<h2 id="请求分派-x3D-服务器"><a href="#请求分派-x3D-服务器" class="headerlink" title="请求分派 &#x3D; 服务器"></a>请求分派 &#x3D; 服务器</h2><ol>
+<li><p>servlet拿到请求后决定交给Web应用的另一个部分（下文以JSP举例）</p>
+</li>
+<li><p>servlet调用以下代码，由JSP接管响应</p>
+ <figure class="highlight vbscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RequestDispatcher view  = </span><br><span class="line">	<span class="built_in">request</span>.getRequestDispatcher(<span class="string">&quot;result.jsp&quot;</span>);</span><br><span class="line">view.forward(<span class="built_in">request</span>,<span class="built_in">response</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>浏览器以正常方法得到响应，而且浏览器地址栏没有变化，用户一无所知</p>
+</li>
+</ol>
+<p>已完成《Head First Servlets and JSP》第4章 146页</p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/30/Set-Character-utf8/" rel="next" title="Set Character utf8">
+                <i class="fa fa-chevron-left"></i> Set Character utf8
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/08/notes-for-HeadFirstServletsAndJsp5/" rel="prev" title="notes_for_HeadFirstServletsAndJsp5">
+                notes_for_HeadFirstServletsAndJsp5 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Head-First-Servlets-amp-JSP-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-4"><span class="nav-number">1.</span> <span class="nav-text">Head First Servlets&amp;JSP 读书笔记_4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HttpServletRequest%E6%8E%A5%E5%8F%A3%E6%89%A9%E5%B1%95%E4%BA%86ServletRequest%E6%8E%A5%E5%8F%A3%EF%BC%8C%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">HttpServletRequest接口扩展了ServletRequest接口，发生了什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet%E5%AE%B9%E5%99%A8%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0HttpServletRequest%E6%8E%A5%E5%8F%A3%E7%9A%84%EF%BC%9F"><span class="nav-number">1.2.</span> <span class="nav-text">Servlet容器如何实现HttpServletRequest接口的？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cookie%E5%92%8CSession%E7%9A%84%E5%8C%BA%E5%88%AB%E4%B8%8E%E8%81%94%E7%B3%BB"><span class="nav-number">1.3.</span> <span class="nav-text">Cookie和Session的区别与联系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%82%E7%AD%89%E7%9A%84Get-%E9%9D%9E%E5%B9%82%E7%AD%89%E7%9A%84Post"><span class="nav-number">1.4.</span> <span class="nav-text">幂等的Get 非幂等的Post</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84%E8%A1%A8%E5%8D%95%E7%BB%86%E8%8A%82"><span class="nav-number">1.5.</span> <span class="nav-text">你应该知道的表单细节</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8Response%E4%B8%AD%E4%B8%BA%E5%AE%A2%E6%88%B7%E5%8F%91%E9%80%81%E4%B8%80%E4%B8%AAjar"><span class="nav-number">1.6.</span> <span class="nav-text">在Response中为客户发送一个jar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#setContenttype-%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E5%AE%B9%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.7.</span> <span class="nav-text">setContenttype()常用的内容类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E5%AD%97%E7%AC%A6%E6%88%96%E6%98%AF%E5%AD%97%E8%8A%82"><span class="nav-number">1.7.1.</span> <span class="nav-text">输出字符或是字节</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E9%87%8D%E5%AE%9A%E5%90%91-x3D-%E5%AE%A2%E6%88%B7"><span class="nav-number">1.8.</span> <span class="nav-text">请求重定向 &#x3D; 客户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E5%88%86%E6%B4%BE-x3D-%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">1.9.</span> <span class="nav-text">请求分派 &#x3D; 服务器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

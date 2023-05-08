@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="aoot examination1. 接口和抽象类的区别 接口是对动作的抽象（这个对象能做什么），抽象类是对根源的抽象（这个对象是什么）。 两者都不能直接实例化，对接口实例化时，接口变量必须指向一个类对象（此类对象必须实现了所有的接口方法）；对抽象类实例化时，抽象类变量必须指向一个子类对象（此子类对象必须实现了所有的抽象方法）。注：如果方法不能全部被类 A 实现，那么类 A 必然是抽象类。 接口里">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Aoot examination">
+<meta property="og:url" content="http://yoursite.com/2018/11/13/Aoot-examination/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="aoot examination1. 接口和抽象类的区别 接口是对动作的抽象（这个对象能做什么），抽象类是对根源的抽象（这个对象是什么）。 两者都不能直接实例化，对接口实例化时，接口变量必须指向一个类对象（此类对象必须实现了所有的接口方法）；对抽象类实例化时，抽象类变量必须指向一个子类对象（此子类对象必须实现了所有的抽象方法）。注：如果方法不能全部被类 A 实现，那么类 A 必然是抽象类。 接口里">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/11/13/Aoot-examination/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/13/Aoot-examination/1.png">
+<meta property="article:published_time" content="2018-11-13T10:23:54.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.833Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="javaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/13/Aoot-examination/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/13/Aoot-examination/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Aoot examination | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/13/Aoot-examination/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Aoot examination
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-13 18:23:54" itemprop="dateCreated datePublished" datetime="2018-11-13T18:23:54+08:00">2018-11-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="aoot-examination"><a href="#aoot-examination" class="headerlink" title="aoot examination"></a>aoot examination</h1><h4 id="1-接口和抽象类的区别"><a href="#1-接口和抽象类的区别" class="headerlink" title="1. 接口和抽象类的区别"></a>1. 接口和抽象类的区别</h4><ul>
+<li>接口是对动作的抽象（这个对象能做什么），抽象类是对根源的抽象（这个对象是什么）。</li>
+<li>两者都不能直接实例化，对接口实例化时，接口变量必须指向一个类对象（此类对象必须实现了所有的接口方法）；对抽象类实例化时，抽象类变量必须指向一个子类对象（此子类对象必须实现了所有的抽象方法）。注：如果方法不能全部被类 A 实现，那么类 A 必然是抽象类。</li>
+<li>接口里定义的变量只能是公共的静态的常量，抽象类中的变量是普通变量。</li>
+<li>抽象方法要被实现，所以不能是静态的，也不能是私有的。</li>
+</ul>
+<span id="more"></span>
+
+<h4 id="2-嵌套类，内部类的概念"><a href="#2-嵌套类，内部类的概念" class="headerlink" title="2. 嵌套类，内部类的概念"></a>2. 嵌套类，内部类的概念</h4><ul>
+<li>嵌套类：一个类的内部定义另一个类，就是嵌套类。分为静态（使用较少）和非静态两种。</li>
+<li>内部类：指非静态嵌套类。分为成员内部类、静态嵌套类、方法内部类、匿名内部类。</li>
+</ul>
+<p>注：对于静态嵌套类，因为其中的所有成员和方法都默认是静态的，所以无法访问外部类中的非静态成员，由此静态嵌套类使用受限。</p>
+<h4 id="3-javadoc-标签哪些是类前面的，哪些是方法前面了？"><a href="#3-javadoc-标签哪些是类前面的，哪些是方法前面了？" class="headerlink" title="3. javadoc 标签哪些是类前面的，哪些是方法前面了？"></a>3. javadoc 标签哪些是类前面的，哪些是方法前面了？</h4><ol>
+<li>类注释的标签有：author、version、</li>
+<li>方法注释的标签有：param、return、throws、exception</li>
+<li>通用：see 引用、since 描述文本（支持哪个 jdk 版本）、deprecated、link（链接文档用）</li>
+</ol>
+<h4 id="4-防御性编程："><a href="#4-防御性编程：" class="headerlink" title="4. 防御性编程："></a>4. 防御性编程：</h4><ul>
+<li>目的：打造高质量的模块。</li>
+<li>设计系统的每个组件，让其尽可能的<strong>保护</strong>自己。</li>
+<li>预见在什么地方可能出现问题，然后创建一个环境来测试错误，<strong>当预见的问题出现的时候通知你，并执行一个你指定的损害控制动作</strong>。</li>
+</ul>
+<h4 id="5-overload-和-override-深刻理解"><a href="#5-overload-和-override-深刻理解" class="headerlink" title="5. overload 和 override 深刻理解"></a>5. overload 和 override 深刻理解</h4><ul>
+<li>override，重写。子类对父类的允许访问的方法的实现过程进行重新编写，外壳完全不变，核心重写。<ul>
+<li>不能抛出比原方法更宽泛的异常。原来抛 IOException，重写后只能抛 IOException 或其子类。</li>
+<li>final 方法不能被重写。</li>
+<li>static 方法不能被重写，但可以被重新声明。</li>
+<li>构造方法不能被重写。</li>
+</ul>
+</li>
+<li>overload，重载。一个类中，方法名字相同，而参数不同，返回类型可同可不同。<ul>
+<li>必须改变参数列表；</li>
+<li>访问修饰符可以改变；</li>
+<li>可以声明更广的检查异常；</li>
+<li>无法以返回值类型作为重载函数的区分标准。</li>
+</ul>
+</li>
+</ul>
+<h4 id="6-Java-中哪些类型有兼容性，哪些类型没有兼容性？"><a href="#6-Java-中哪些类型有兼容性，哪些类型没有兼容性？" class="headerlink" title="6. Java 中哪些类型有兼容性，哪些类型没有兼容性？"></a>6. Java 中哪些类型有兼容性，哪些类型没有兼容性？</h4><p><a target="_blank" rel="noopener" href="http://www.sohu.com/a/115257754_480118">java培训:基本数据类型之间的兼容性</a></p>
+<blockquote>
+<p>“小”的数据类型可以直接赋给“大”的数据类型。<br>“大”的不能赋值给“小”的数据类型(会出现编译错误)</p>
+</blockquote>
+<ul>
+<li>整数类：long &gt; int &gt; short &gt; byte</li>
+<li>浮点型：double &gt; float</li>
+<li>整型数据类型可以赋给浮点数据类型</li>
+<li>char 可以赋给 long 和 int ，但是不能赋给 short 和 byte (编译错误) 。</li>
+<li>char 可以赋给float和double</li>
+<li>当整数型常量在 0~65535 之间时，可以被赋值给 char 型变量</li>
+<li>char 型常量可以被赋值给整数类变量，只要整数变量的类型可以容纳 char 型文字常量所表示的数值。</li>
+<li>浮点型常量默认为 double 型，而 double 型常量不能赋值给 float 型变量。</li>
+<li>boolean 与其他数据类型没有兼容性。</li>
+</ul>
+<h4 id="7-float-和-double-为什么不能用等号等号来比较。怎么比较？"><a href="#7-float-和-double-为什么不能用等号等号来比较。怎么比较？" class="headerlink" title="7. float 和 double 为什么不能用等号等号来比较。怎么比较？"></a>7. float 和 double 为什么不能用等号等号来比较。怎么比较？</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/bupa900318/article/details/80553695">JAVA - 判断两个浮点数相等</a></p>
+<blockquote>
+<p>计算机表示浮点数( float 或 double 类型)都有一个精度限制，对于超出了精度限制的浮点数，计算机会把它们的精度之外的小数部分截断。因此，本来不相等的两个浮点数在计算机中可能就变成相等的了</p>
+</blockquote>
+<ol>
+<li>设置误差精度</li>
+<li>转换成字符串后使用 equals 方法比较，需要精度很高</li>
+<li>转换成 Long 后使用<code>==</code>比较（即使用<code>Double.doubleToLongBits()</code>）</li>
+<li>使用 BigDecimal 类型的 equals 方法或 compareTo 方法</li>
+</ol>
+<h4 id="8-volatile-和-synchronize-的区别？"><a href="#8-volatile-和-synchronize-的区别？" class="headerlink" title="8. volatile 和 synchronize 的区别？"></a>8. volatile 和 synchronize 的区别？</h4><p>分别是什么：</p>
+<ol>
+<li>volatile是一个变量修饰符，而synchronized是一个方法或块的修饰符。</li>
+<li>一个声明为 volatile 类型的变量将在所有的线程中同步的获得数据，不论你在任何线程中更改了变量，其他的线程将立即得到同样的结果。所以 volatile 类型变量在性能上有所消耗。<ul>
+<li>是在告诉 jvm 当前变量在寄存器（工作内存）中的值是不确定的，需要从主存中读取（事实上并不确切）。</li>
+<li>很多Java程序员认为volatile是让CPU直接访问主存来避免visibility问题, 这是错误的观点。其实Java里面volatile就是放了一个full memory fence（理解：强制将L1、L2刷入线程间的缓存，即多线程可见）等待 write buffer flush 到缓存系统处理结束。参考<a target="_blank" rel="noopener" href="https://36kr.com/p/5037166.html">分布式系统一致性的发展历史（一）</a>中的解释。</li>
+</ul>
+</li>
+<li>synchronized 获取和释放由监听器控制的锁，如果两个线程都使用一个监听器(即相同对象锁)，那么监听器可以强制在一个时刻只有一个线程能处理代码块，这是最一般的同步。另外，synchronized 还能使内存同步。在实际当中，synchronized 使得所有的线程内存与主内存相同步。<ul>
+<li>本质是：锁定当前变量，只有当前线程可以访问该变量，其他线程被阻塞住</li>
+</ul>
+</li>
+<li>volatile 只能在线程内存和主内存之间同步一个（或多个，限于写 volatile 变量之前所有对共享变量的值的改变）变量的值，而 synchronized 则同步在线程内存和主内存之间的所有变量的值，并且通过锁住和释放监听器来实现。</li>
+</ol>
+<p>区别：</p>
+<ol>
+<li>volatile 是线程同步的轻量级实现，所以 volatile 的性能要比 synchronize 好；但 synchronize 的执行效率也不差；</li>
+<li>多线程访问 volatile 不会发生阻塞；而 synchronize 会发生阻塞；</li>
+<li>volatile 能保证变量在私有内存和主内存间的同步，但不能保证变量的原子性；synchronize 可以保证变量原子性；</li>
+<li>volatile 是变量在多线程之间的可见性；synchronize 是多线程之间访问资源的同步性；</li>
+<li>volatile 标记的变量不会被编译器优化；synchronized 标记的变量可以被编译器优化。</li>
+</ol>
+<p> <br>对于 volatile 修饰的变量，可以解决变量读时可见性问题，无法保证原子性。对于多线程访问同一个实例变量还是需要加锁同步。</p>
+<h4 id="9-mvn-x2F-git-x2F-Junit-的命令。"><a href="#9-mvn-x2F-git-x2F-Junit-的命令。" class="headerlink" title="9. mvn&#x2F;git&#x2F;Junit 的命令。"></a>9. mvn&#x2F;git&#x2F;Junit 的命令。</h4><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">mvn</span> compile</span><br><span class="line"><span class="keyword">mvn</span> test</span><br><span class="line"><span class="keyword">mvn</span> package</span><br><span class="line"><span class="keyword">mvn</span> clean</span><br><span class="line"><span class="keyword">mvn</span> install</span><br><span class="line"><span class="keyword">mvn</span> checkstyle:checkstyle</span><br><span class="line"><span class="keyword">mvn</span> test &gt; test.log</span><br><span class="line"><span class="keyword">mvn</span> cobertura:cobertura</span><br><span class="line"><span class="keyword">mvn</span> javadoc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="symbol">git</span> init 将目标编程 git 仓库</span><br><span class="line"></span><br><span class="line"><span class="comment">// 新增文件到仓库</span></span><br><span class="line"><span class="symbol">git</span> <span class="keyword">add</span> readme.txt </span><br><span class="line"><span class="symbol">git</span> commit -m <span class="string">&quot;wrote a readme file&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">git</span> status 查看结果</span><br><span class="line"><span class="symbol">git</span> diff readme.txt 查看工作区与仓库中的区别</span><br><span class="line"></span><br><span class="line"><span class="symbol">git</span> log 查看日志记录</span><br><span class="line"></span><br><span class="line"><span class="symbol">git</span> reset --hard HEAD^  强力回退</span><br><span class="line"></span><br><span class="line"><span class="symbol">git</span> <span class="keyword">push</span> origin master 推送最新修改</span><br><span class="line"></span><br><span class="line"><span class="symbol">git</span> clone </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="10-maven-的目录结构"><a href="#10-maven-的目录结构" class="headerlink" title="10. maven 的目录结构"></a>10. maven 的目录结构</h4><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">src - main - java</span><br><span class="line"><span class="bullet">			 -</span> resources</span><br><span class="line"><span class="bullet">			 -</span> filters</span><br><span class="line"><span class="bullet">			 -</span> webapp</span><br><span class="line"><span class="bullet">	 -</span> test - java		</span><br><span class="line"><span class="bullet">			 -</span> resources</span><br><span class="line"><span class="bullet">			 -</span> filters</span><br><span class="line"><span class="bullet">	 -</span> it	  </span><br><span class="line"><span class="bullet">	 -</span> assembly </span><br><span class="line"><span class="bullet">	 -</span> site</span><br><span class="line">LICENSE.txt</span><br><span class="line">NOTICE.txt</span><br><span class="line">README.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="11-Java-的-IO-体系"><a href="#11-Java-的-IO-体系" class="headerlink" title="11. Java 的 IO 体系"></a>11. Java 的 IO 体系</h4><p>推荐阅读：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/fysola/p/6123947.html">Java IO 体系</a></p>
+<p><img src="/2018/11/13/Aoot-examination/1.png" alt="1"></p>
+<ol>
+<li><p>字节流<br> InputStream、OutputStream：</p>
+ <figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">读取文本</span><br><span class="line">psvm()&#123;</span><br><span class="line">	FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;likehui.txt&quot;</span>); <span class="comment">// try-catch Exception</span></span><br><span class="line">	<span class="keyword">int</span> n = fis.<span class="keyword">read</span>();</span><br><span class="line">	sysout((<span class="keyword">char</span>)n); <span class="comment">// print 文本中第一个字符，比如“H”</span></span><br><span class="line">	fis.close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 复制图片</span></span><br><span class="line">psvm()&#123;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		FileInputStream fis = <span class="keyword">new</span> FileInputStream(<span class="string">&quot;src/main/resources/happy.png&quot;</span>);</span><br><span class="line">		FileOutputStream fos = <span class="keyword">new</span> FileOutputStream(<span class="string">&quot;src/main/resources/happy3.png&quot;</span>);</span><br><span class="line">		<span class="keyword">int</span> n = <span class="number">0</span>;</span><br><span class="line">		<span class="keyword">byte</span>[] b = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">		<span class="keyword">while</span>((n = fis.<span class="keyword">read</span>(b))!= -<span class="number">1</span>)&#123;</span><br><span class="line">			fos.<span class="keyword">write</span>(b,<span class="number">0</span>,n);</span><br><span class="line">		&#125;</span><br><span class="line">		fis.close();</span><br><span class="line">		fos.close();</span><br><span class="line"></span><br><span class="line">	&#125; <span class="keyword">catch</span> (FileNotFoundException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">		e.printStackTrace();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+<li><p>字符流</p>
+<p> <img src="/2018/11/13/Aoot-examination/1.png" alt="1"></p>
+ <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">略略略</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>序列化</p>
+ <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 其中 Goods 类实现了 Serializable接口</span></span><br><span class="line">psvm<span class="literal">()</span>&#123;</span><br><span class="line">	Goods gd001 = <span class="keyword">new</span> <span class="constructor">Goods(<span class="string">&quot;gd001&quot;</span>,0.2)</span>;</span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		FileOutputStream fos = <span class="keyword">new</span> <span class="constructor">FileOutputStream(<span class="string">&quot;src/main/resources/imooc.txt&quot;</span>)</span>;</span><br><span class="line">		ObjectOutputStream oos = <span class="keyword">new</span> <span class="constructor">ObjectOutputStream(<span class="params">fos</span>)</span>;</span><br><span class="line">		FileInputStream fis = <span class="keyword">new</span> <span class="constructor">FileInputStream(<span class="string">&quot;src/main/resources/imooc.txt&quot;</span>)</span>;</span><br><span class="line">		ObjectInputStream ois = <span class="keyword">new</span> <span class="constructor">ObjectInputStream(<span class="params">fis</span>)</span>;</span><br><span class="line">		oos.write<span class="constructor">Object(<span class="params">gd001</span>)</span>;</span><br><span class="line">		oos.write<span class="constructor">Boolean(<span class="params">true</span>)</span>;</span><br><span class="line">		oos.flush<span class="literal">()</span>;</span><br><span class="line"></span><br><span class="line">		Goods goods = (Goods) ois.read<span class="constructor">Object()</span>;</span><br><span class="line">		<span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(goods);</span><br><span class="line">		<span class="module-access"><span class="module"><span class="identifier">System</span>.</span></span>out.println(ois.read<span class="constructor">Boolean()</span>);</span><br><span class="line">		fos.close<span class="literal">()</span>;</span><br><span class="line">		oos.close<span class="literal">()</span>;</span><br><span class="line">		fis.close<span class="literal">()</span>;</span><br><span class="line">		ois.close<span class="literal">()</span>;</span><br><span class="line">	&#125; catch (FileNotFoundException e) &#123;</span><br><span class="line">		e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">	&#125; catch (IOException e) &#123;</span><br><span class="line">		e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">	&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">		e.print<span class="constructor">StackTrace()</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;	</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="12-decorate-pattern"><a href="#12-decorate-pattern" class="headerlink" title="12. decorate pattern"></a>12. decorate pattern</h4><p>装饰模式动态的将责任附加到对象上，若要扩展功能，装饰模式提供了比继承更有弹性的替代方案</p>
+<h4 id="13-runtimeException-受检异常"><a href="#13-runtimeException-受检异常" class="headerlink" title="13. runtimeException 受检异常"></a>13. runtimeException 受检异常</h4><p>必须捕获或抛出：checkedException<br>允许忽略：不可查的 RuntimeException（含子类）和 Error（含子类）</p>
+<ol>
+<li>非检查异常，就是指编译器不要求强制处理的异常。一般指 RuntimeException 及其子类。</li>
+<li>检查异常，就是编译器要求强制处理的异常。一般有：IO 异常、SQL 异常</li>
+</ol>
+<ul>
+<li>RuntimeException 的子类：<ul>
+<li>NullPointerException；</li>
+<li>ArrayIndexOutOfBoundsException；</li>
+<li>ArithmeticException；</li>
+<li>ClassCastException。</li>
+</ul>
+</li>
+</ul>
+<h4 id="14-equals-hashcode-怎么实现的"><a href="#14-equals-hashcode-怎么实现的" class="headerlink" title="14. equals hashcode 怎么实现的"></a>14. equals hashcode 怎么实现的</h4><p>实现 equals 的方法：</p>
+<ol>
+<li>Use &#x3D;&#x3D; to see if argument is a reference to this (optimization)</li>
+<li>Use instanceof to check if argument is of the correct type (properly handles null)</li>
+<li>Cast the argument to the correct type</li>
+<li>Check each “significant” field</li>
+<li>Check reflexivity, symmetry, transitivity</li>
+</ol>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> boolean equals(Object obj)&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">this</span> == obj) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">if</span>(!(obj instanceof Person)) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	Person person = (Person)obj;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">this</span>.name.equals(person.name):</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>实现 hashCode 的方法：</p>
+<ol>
+<li>取一个非 0 的 int 作为初始值，比如 42，保存在 result 中。</li>
+<li>计算你所关心的域（在 equals 起作用的）的 hashCode。如何生成属性的 hashCode 我们等一下再说，先假设生成的 hashCode 为 c。</li>
+<li>组合所有的域，result &#x3D; 31 * result + c。</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TestClass</span> &#123;</span><br><span class="line">    <span class="built_in">byte</span> b;</span><br><span class="line">    <span class="built_in">char</span> c;</span><br><span class="line">    <span class="built_in">short</span> s;</span><br><span class="line">    <span class="built_in">int</span> i;</span><br><span class="line">    <span class="built_in">long</span> l;</span><br><span class="line">    <span class="built_in">float</span> f;</span><br><span class="line">    <span class="built_in">double</span> d;</span><br><span class="line">    String <span class="built_in">string</span>;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="function"><span class="keyword">public</span> boolean <span class="title">equals</span>(<span class="params">Object o</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">this</span> == o) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">        <span class="keyword">if</span> (o == <span class="literal">null</span> || getClass() != o.getClass()) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        TestClass testClass = (TestClass) o;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (b != testClass.b) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (c != testClass.c) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (s != testClass.s) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (i != testClass.i) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (l != testClass.l) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (Float.compare(testClass.f, f) != <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">if</span> (Double.compare(testClass.d, d) != <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">string</span> != <span class="literal">null</span> ? <span class="built_in">string</span>.<span class="keyword">equals</span>(testClass.<span class="built_in">string</span>) : testClass.<span class="built_in">string</span> == <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">int</span> <span class="title">hashCode</span>()</span> &#123;</span><br><span class="line">        <span class="built_in">int</span> result;</span><br><span class="line">        <span class="built_in">long</span> temp;</span><br><span class="line">        result = (<span class="built_in">int</span>) b;</span><br><span class="line">        result = <span class="number">31</span> * result + (<span class="built_in">int</span>) c;</span><br><span class="line">        result = <span class="number">31</span> * result + (<span class="built_in">int</span>) s;</span><br><span class="line">        result = <span class="number">31</span> * result + i;</span><br><span class="line">        result = <span class="number">31</span> * result + (<span class="built_in">int</span>) (l ^ (l &gt;&gt;&gt; <span class="number">32</span>));</span><br><span class="line">        result = <span class="number">31</span> * result + (f != +<span class="number">0.0f</span> ? Float.floatToIntBits(f) : <span class="number">0</span>);</span><br><span class="line">        temp = Double.doubleToLongBits(d);</span><br><span class="line">        result = <span class="number">31</span> * result + (<span class="built_in">int</span>) (temp ^ (temp &gt;&gt;&gt; <span class="number">32</span>));</span><br><span class="line">        result = <span class="number">31</span> * result + (<span class="built_in">string</span> != <span class="literal">null</span> ? <span class="built_in">string</span>.hashCode() : <span class="number">0</span>);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/13/UML%EF%BC%887%EF%BC%89/" rel="next" title="UML（7）">
+                <i class="fa fa-chevron-left"></i> UML（7）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/16/tinySpring-Aop-%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" rel="prev" title="tiny-spring-Aop 分析笔记（1）">
+                tiny-spring-Aop 分析笔记（1） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#aoot-examination"><span class="nav-number">1.</span> <span class="nav-text">aoot examination</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%8E%A5%E5%8F%A3%E5%92%8C%E6%8A%BD%E8%B1%A1%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1. 接口和抽象类的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%B5%8C%E5%A5%97%E7%B1%BB%EF%BC%8C%E5%86%85%E9%83%A8%E7%B1%BB%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2. 嵌套类，内部类的概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-javadoc-%E6%A0%87%E7%AD%BE%E5%93%AA%E4%BA%9B%E6%98%AF%E7%B1%BB%E5%89%8D%E9%9D%A2%E7%9A%84%EF%BC%8C%E5%93%AA%E4%BA%9B%E6%98%AF%E6%96%B9%E6%B3%95%E5%89%8D%E9%9D%A2%E4%BA%86%EF%BC%9F"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3. javadoc 标签哪些是类前面的，哪些是方法前面了？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E9%98%B2%E5%BE%A1%E6%80%A7%E7%BC%96%E7%A8%8B%EF%BC%9A"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4. 防御性编程：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-overload-%E5%92%8C-override-%E6%B7%B1%E5%88%BB%E7%90%86%E8%A7%A3"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">5. overload 和 override 深刻理解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Java-%E4%B8%AD%E5%93%AA%E4%BA%9B%E7%B1%BB%E5%9E%8B%E6%9C%89%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%8C%E5%93%AA%E4%BA%9B%E7%B1%BB%E5%9E%8B%E6%B2%A1%E6%9C%89%E5%85%BC%E5%AE%B9%E6%80%A7%EF%BC%9F"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">6. Java 中哪些类型有兼容性，哪些类型没有兼容性？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-float-%E5%92%8C-double-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%B8%8D%E8%83%BD%E7%94%A8%E7%AD%89%E5%8F%B7%E7%AD%89%E5%8F%B7%E6%9D%A5%E6%AF%94%E8%BE%83%E3%80%82%E6%80%8E%E4%B9%88%E6%AF%94%E8%BE%83%EF%BC%9F"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">7. float 和 double 为什么不能用等号等号来比较。怎么比较？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-volatile-%E5%92%8C-synchronize-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">8. volatile 和 synchronize 的区别？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-mvn-x2F-git-x2F-Junit-%E7%9A%84%E5%91%BD%E4%BB%A4%E3%80%82"><span class="nav-number">1.0.0.9.</span> <span class="nav-text">9. mvn&#x2F;git&#x2F;Junit 的命令。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-maven-%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">1.0.0.10.</span> <span class="nav-text">10. maven 的目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-Java-%E7%9A%84-IO-%E4%BD%93%E7%B3%BB"><span class="nav-number">1.0.0.11.</span> <span class="nav-text">11. Java 的 IO 体系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-decorate-pattern"><span class="nav-number">1.0.0.12.</span> <span class="nav-text">12. decorate pattern</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#13-runtimeException-%E5%8F%97%E6%A3%80%E5%BC%82%E5%B8%B8"><span class="nav-number">1.0.0.13.</span> <span class="nav-text">13. runtimeException 受检异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#14-equals-hashcode-%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="nav-number">1.0.0.14.</span> <span class="nav-text">14. equals hashcode 怎么实现的</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

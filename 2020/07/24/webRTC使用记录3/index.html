@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="副标题：webRTC 使用准备之流媒体协议 参考文章：WebRTC中RTP&#x2F;RTCP协议实现分析 RTP 协议定义流媒体数据在互联网上传输的数据包格式，而 RTCP 协议则负责可靠传输、流量控制和拥塞控制等服务质量保证。有名的是Google的GCC（拥塞控制算法(Google Congestion Control,简称GCC[1])））.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webRTC使用记录3">
+<meta property="og:url" content="http://yoursite.com/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="副标题：webRTC 使用准备之流媒体协议 参考文章：WebRTC中RTP&#x2F;RTCP协议实现分析 RTP 协议定义流媒体数据在互联网上传输的数据包格式，而 RTCP 协议则负责可靠传输、流量控制和拥塞控制等服务质量保证。有名的是Google的GCC（拥塞控制算法(Google Congestion Control,简称GCC[1])））.">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/SR.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/Sender_info.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/Report_block.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/RR.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/SDES.png">
+<meta property="og:image" content="http://yoursite.com/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/FB.png">
+<meta property="article:published_time" content="2020-07-24T03:57:34.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.869Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="computer network">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/SR.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/24/webRTC使用记录3/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>webRTC使用记录3 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webRTC使用记录3
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2020-07-24 11:57:34" itemprop="dateCreated datePublished" datetime="2020-07-24T11:57:34+08:00">2020-07-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>副标题：webRTC 使用准备之流媒体协议</p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c84be6f3ddf3">WebRTC中RTP&#x2F;RTCP协议实现分析</a></p>
+<p>RTP 协议定义流媒体数据在互联网上传输的数据包格式，而 RTCP 协议则负责可靠传输、流量控制和拥塞控制等服务质量保证。有名的是Google的GCC（拥塞控制算法(Google Congestion Control,简称GCC[1])））.</p>
+<span id="more"></span>
+
+<p>UDP 协议：源端口、目的端口、UDP 长度、校验和、数据</p>
+<ul>
+<li>相比 TCP 协议，数据有效性、有序性等等完全不管，更适合流媒体的实时传输。</li>
+<li>TCP 为了保证包的有序到达，具有丢包重传机制，比如丢包时的计时器从 200ms 到 400ms 到更久的时间，所以不适合实时传输。但当 UDP 不通时，需要换用 TCP 来保证连通率。但当 TCP 不通时，需要换用 HTTPS 来保证连通。</li>
+<li>UDP 无法解决的有序性等问题，由应用层的协议来解决。</li>
+</ul>
+<p>RTP 协议：UDP 的上层协议，也能跑在 TCP 上（但一般不会这么干）。</p>
+<ul>
+<li>具有 sequence number 字段，用于对数据包进行排序。</li>
+<li>timestamp 字段，用于判断某些包是否属于同一帧。若多个包具有相同的 timestamp，说明它们属于同一帧。</li>
+<li>SSRC 字段，synchronization source identifier，同步信源。占 32 位，用于标识同步信源。该标识符是随机选择的，参加同一视频会议的两个同步信源不能有相同的SSRC。</li>
+<li>CSRC 字段，共享源。每个 CSRC 标识符占 32 位，可以有 0～15 个。每个 CSRC 标识了包含在该RTP报文有效载荷中的所有特约信源。</li>
+</ul>
+<ol>
+<li>视频或音频的接收端通常有一个环形队列，计算：一秒 30 帧数据，控制 200 毫秒以内的延迟，然后一个队列中能够装多少包，是可以计算出的，进而推算出环形队列的大小。</li>
+</ol>
+<p>RTCP 协议：</p>
+<ul>
+<li>标准的 Header：version+P(即 padding)+Count+Type+Length &#x3D; 2 + 1 + 5 + 8 + 16 bit</li>
+</ul>
+<p>RTCP Type：</p>
+<table>
+<thead>
+<tr>
+<th>PT</th>
+<th>缩写</th>
+<th>说明</th>
+<th>tips</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>200</td>
+<td>SR</td>
+<td>Sender Report packet</td>
+<td>重要※</td>
+</tr>
+<tr>
+<td>201</td>
+<td>RR</td>
+<td>Receiver Report packet</td>
+<td>重要※</td>
+</tr>
+<tr>
+<td>202</td>
+<td>SDES</td>
+<td>Source Description packet</td>
+<td>源描述协议，用于切源</td>
+</tr>
+<tr>
+<td>203</td>
+<td>BYE</td>
+<td>Goodbye packet</td>
+<td></td>
+</tr>
+<tr>
+<td>204</td>
+<td>APP</td>
+<td>Application-defined packet</td>
+<td>应用层自定义</td>
+</tr>
+<tr>
+<td>192</td>
+<td>FIR</td>
+<td>Full INTRA-frame Request</td>
+<td>请求完整的I-帧，用于完全重新开始接收时（废弃，功能由 206 完成）</td>
+</tr>
+<tr>
+<td>193</td>
+<td>NACK</td>
+<td>Negative Acknowledgement</td>
+<td>标记收包情况（废弃，功能由 206 完成）</td>
+</tr>
+<tr>
+<td>205</td>
+<td>RTPFB</td>
+<td>Generic RTP Feedback</td>
+<td>传输层的返回包</td>
+</tr>
+<tr>
+<td>206</td>
+<td>PSFB</td>
+<td>Payload-specific Feedback</td>
+<td>应用层的返回包，对内容编解码器进行反馈</td>
+</tr>
+</tbody></table>
+<hr>
+<p>Intra的含义是图像内编码，不需要其他图像信息即可解码.</p>
+<h2 id="RTCP-SR"><a href="#RTCP-SR" class="headerlink" title="RTCP SR"></a>RTCP SR</h2><p><img src="/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/SR.png"></p>
+<ol>
+<li>SR &#x3D; header + sender info + report block * N 。</li>
+<li>header  也就是标准的 RTCP header。</li>
+<li>Sender info block 和 report block 如下。</li>
+</ol>
+<p>Sender Information block：</p>
+<p><img src="/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/Sender_info.png"></p>
+<ul>
+<li>NTP timestamp，用于音视频同步的时间戳，网络时间戳，64 位。</li>
+<li>RTP timestamp， RTP 的普通时间戳，32 位，与 RTP 包时间戳一致。</li>
+<li><strong>SPC</strong>，发送的包的总数，32 位。</li>
+<li><strong>SOC</strong>，发送的包的全部字节，32 位。</li>
+</ul>
+<p>Report block:</p>
+<p><img src="/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/Report_block.png"></p>
+<ul>
+<li>SSRC_1：标识哪个 SSRC，32 位</li>
+<li>fraction lost：丢包率，8 位。</li>
+<li>packets lost：自接收开始的丢包总数，迟到包不计入，24 位。</li>
+<li>cumulative number of packets lost：丢包总数</li>
+<li>extended highest sequence number received：一般 2^16个<strong>包</strong>算一个<strong>段</strong>，这个字段里面，高 16 位标识属于哪个段，低 16 位标识属于段中哪里 sequence number。</li>
+<li>jitter：RTP 包接收时间间隔的统计方差，用于拥塞防止的重要参考字段，如果持续增长，说明可能存在拥塞。</li>
+<li>last SR（LSR），上次发送SR 的时间戳，34 位。</li>
+<li>delay since last SR： 接收 SR 的时间与发送 SR 的时间差。</li>
+</ul>
+<h2 id="RTCP-RR"><a href="#RTCP-RR" class="headerlink" title="RTCP RR"></a>RTCP RR</h2><p>RR &#x3D; header + report block * N</p>
+<p>看下图，跟  SR 类似，不再赘述。</p>
+<p><img src="/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/RR.png"></p>
+<hr>
+<h2 id="RTCP-SDES"><a href="#RTCP-SDES" class="headerlink" title="RTCP SDES"></a>RTCP SDES</h2><p><img src="/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/SDES.png"></p>
+<p>SDES：header + （SSRC + SDES items）* N</p>
+<p>SDES item 采用TLV 结构类型：type + length + value</p>
+<ul>
+<li>举例： CNAME + length + name…</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>CNAME</strong></td>
+<td><strong>CNAME 与 SSRC 对应，CNAME 为源的唯一标识</strong></td>
+</tr>
+<tr>
+<td>NAME</td>
+<td>用于描述源名，人类可读</td>
+</tr>
+<tr>
+<td>EMAIL</td>
+<td></td>
+</tr>
+<tr>
+<td>PHONE</td>
+<td></td>
+</tr>
+<tr>
+<td>LOC</td>
+<td></td>
+</tr>
+<tr>
+<td>TOOL</td>
+<td>没啥用</td>
+</tr>
+<tr>
+<td>NOTE</td>
+<td>备注</td>
+</tr>
+<tr>
+<td>PRIV</td>
+<td>私有扩展</td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="RTCP-BYE"><a href="#RTCP-BYE" class="headerlink" title="RTCP BYE"></a>RTCP BYE</h2><p>BYE &#x3D; header + SSRC * N + length + opt（reason for leaving）</p>
+<hr>
+<h2 id="RTCP-APP"><a href="#RTCP-APP" class="headerlink" title="RTCP APP"></a>RTCP APP</h2><p>APP &#x3D; header + SSRC + nameN + applicationData</p>
+<hr>
+<h2 id="RTCP-RTPFB-amp-PSFB"><a href="#RTCP-RTPFB-amp-PSFB" class="headerlink" title="RTCP RTPFB &amp; PSFB"></a>RTCP RTPFB &amp; PSFB</h2><p><img src="/2020/07/24/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%953/FB.png"></p>
+<p>FB &#x3D; header(传统 RTCP 的 header 小改) + SSRC + SSRC2 + FCI</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>传输层的 FB</td>
+<td>RTPFB，是对传输层的控制，如 NACK</td>
+</tr>
+<tr>
+<td>负载层的 FB</td>
+<td>PSFB，是对负载层的控制，如编解码器，如 PLI</td>
+</tr>
+<tr>
+<td>应用层的 FB</td>
+<td>应用层自己识别，一般认为是一种特殊的 PSFB</td>
+</tr>
+</tbody></table>
+<p>RTPFB分类：</p>
+<ol>
+<li>NACK：对丢包请求的</li>
+<li>TMMBR：最大媒体流比特率请求，max media stream bitrate request。表明接收端当前带宽受限，告诉发送端控制码率。</li>
+<li>TMMBN：max media stream bitrate notification.响应的通知，会告知最大的带宽，是 TMMBR 的响应。</li>
+</ol>
+<p>PsFB 分类：</p>
+<ol>
+<li>PLI：picture loss indication, 图片丢失，可能会将这个帧的所有包都发送过来。</li>
+<li>SLI：slice loss indication, 每个视频帧可能包含多个 slice，每个 slice 可能对应一个包，slice 如果丢失时可能会发送这个请求。</li>
+<li>RPSI：reference picture selection indication, 参考图片丢失，相当于 B 帧丢失。</li>
+<li>FIR：full intra request command, 请求一个完整的内部帧。</li>
+<li>TSTR：temporal-spatial trade-off request, 空间时间交互系统的请求。</li>
+<li>TSTN：temporal-spatial trade-off notification, 上面 5 的响应。</li>
+</ol>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/23/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%952/" rel="next" title="webRTC使用记录2">
+                <i class="fa fa-chevron-left"></i> webRTC使用记录2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/26/webRTC%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%954/" rel="prev" title="webRTC使用记录4">
+                webRTC使用记录4 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-SR"><span class="nav-number">1.</span> <span class="nav-text">RTCP SR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-RR"><span class="nav-number">2.</span> <span class="nav-text">RTCP RR</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-SDES"><span class="nav-number">3.</span> <span class="nav-text">RTCP SDES</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-BYE"><span class="nav-number">4.</span> <span class="nav-text">RTCP BYE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-APP"><span class="nav-number">5.</span> <span class="nav-text">RTCP APP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RTCP-RTPFB-amp-PSFB"><span class="nav-number">6.</span> <span class="nav-text">RTCP RTPFB &amp; PSFB</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

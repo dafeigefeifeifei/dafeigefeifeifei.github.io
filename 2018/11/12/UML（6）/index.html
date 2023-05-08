@@ -1,0 +1,1614 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="面向对象系统分析与设计（6）1. 系统设计 定义：将分析模型的逻辑结构加以实现前的准备过程。  哪些工作内容：  考虑非功能性需求的弊端； 考虑全局设计问题； 考虑实现的环境 —— implement environment； 补充 classes 的所有属性和操作； 将 implementation 的工作分成可执行的小块； 为 subsystems 间建立接口。  当可以从“分析模式”平滑过渡">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UML（6）">
+<meta property="og:url" content="http://yoursite.com/2018/11/12/UML%EF%BC%886%EF%BC%89/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="面向对象系统分析与设计（6）1. 系统设计 定义：将分析模型的逻辑结构加以实现前的准备过程。  哪些工作内容：  考虑非功能性需求的弊端； 考虑全局设计问题； 考虑实现的环境 —— implement environment； 补充 classes 的所有属性和操作； 将 implementation 的工作分成可执行的小块； 为 subsystems 间建立接口。  当可以从“分析模式”平滑过渡">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-11-12T08:07:43.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.858Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="UML">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/12/UML（6）/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>UML（6） | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/UML%EF%BC%886%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">UML（6）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-12 16:07:43" itemprop="dateCreated datePublished" datetime="2018-11-12T16:07:43+08:00">2018-11-12</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UML/" itemprop="url" rel="index"><span itemprop="name">UML</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="面向对象系统分析与设计（6）"><a href="#面向对象系统分析与设计（6）" class="headerlink" title="面向对象系统分析与设计（6）"></a>面向对象系统分析与设计（6）</h1><h2 id="1-系统设计"><a href="#1-系统设计" class="headerlink" title="1. 系统设计"></a>1. 系统设计</h2><ul>
+<li>定义：将分析模型的逻辑结构加以实现前的准备过程。</li>
+</ul>
+<p>哪些工作内容：</p>
+<ol>
+<li>考虑非功能性需求的弊端；</li>
+<li>考虑全局设计问题；</li>
+<li>考虑实现的环境 —— implement environment；</li>
+<li>补充 classes 的所有属性和操作；</li>
+<li>将 implementation 的工作分成可执行的小块；</li>
+<li>为 subsystems 间建立接口。</li>
+</ol>
+<p>当可以从“分析模式”平滑过渡到“设计模式”时（即无需大改时），就是开始系统设计的最佳时刻。</p>
+<span id="more"></span>
+
+<h3 id="1-1-设计的意义和标准"><a href="#1-1-设计的意义和标准" class="headerlink" title="1.1 设计的意义和标准"></a>1.1 设计的意义和标准</h3><p>上文列出的 6 项工作必须要在 implementation 前完成，所以不能跳过设计这一步骤。</p>
+<ol>
+<li>研究非功能性需求提高质量；</li>
+<li>看重<strong>设计目标</strong>和<strong>扩展功能</strong>，而不是管理目标。</li>
+<li>遵循的标准：外观标准、依赖标准、维护标准、开销标准等等。</li>
+<li>考虑的范畴：<ul>
+<li>数据的管理；</li>
+<li>访问权限管理；</li>
+<li>流程控制；</li>
+<li>边界条件；</li>
+</ul>
+</li>
+</ol>
+<h3 id="1-2-设计-Tips："><a href="#1-2-设计-Tips：" class="headerlink" title="1.2 设计 Tips："></a>1.2 设计 Tips：</h3><ol>
+<li>指定 admin 的用例，作为 start-up 和 shutdown。</li>
+<li>指定 errors 的异常处理机制。</li>
+</ol>
+<h3 id="1-3-implement-environment"><a href="#1-3-implement-environment" class="headerlink" title="1.3 implement environment"></a>1.3 implement environment</h3><ul>
+<li>要考虑在构建一个 system 时，技术和管理上所受到的限制。<ul>
+<li>比如：系统运行环境问题、硬件&#x2F;软件问题、编程语言选择问题、参与人员问题等。</li>
+</ul>
+</li>
+<li>策略：定位对 implement environment 的依赖，然后可以创建代理的方式（类似 JVM 的跨平台）来解决。</li>
+</ul>
+<h2 id="2-UP-设计过程"><a href="#2-UP-设计过程" class="headerlink" title="2. UP 设计过程"></a>2. UP 设计过程</h2><ol>
+<li>设计 use-cases（PPT P21）</li>
+<li>设计 classes（PPT P57）</li>
+<li>设计 subsystems（PPT P75）</li>
+</ol>
+<h3 id="2-1-use-case-设计"><a href="#2-1-use-case-设计" class="headerlink" title="2.1 use-case 设计"></a>2.1 use-case 设计</h3><ol>
+<li>确定要设计哪些类<ul>
+<li>保持可追溯性：use-case 设计的实现 -&gt; use-case 分析的实现 -&gt; use-case</li>
+</ul>
+</li>
+<li>增加说明：使用类图、非功能性的需求。</li>
+</ol>
+<p>其中 OO Design 的迭代过程：</p>
+<ol>
+<li>设计初步类图模型；</li>
+<li>为每个用例设计一个 sequence diagram。<ul>
+<li>开发初步的 sequence diagrams；</li>
+<li>开发多层的 sequence diagrams。</li>
+</ul>
+</li>
+<li>修改类图；<ul>
+<li>修改方法名；</li>
+<li>修改属性等；</li>
+</ul>
+</li>
+<li>用 package 打包（或者分 subsystem、分层）等方式，按功能将类图设计分区。</li>
+</ol>
+<h4 id="2-1-1-设计初步类图模型"><a href="#2-1-1-设计初步类图模型" class="headerlink" title="2.1.1 设计初步类图模型"></a>2.1.1 设计初步类图模型</h4><ol>
+<li>扩展 domain model class diagram。<ul>
+<li>注：domain model 是指缩略版的类图，只有类名、属性名两种信息。不含 method、没有<code>+、-、#</code>等符号。</li>
+<li>1）增加属性的 type 和初值。</li>
+<li>2）增加可见性标识。</li>
+</ul>
+</li>
+<li>详细设计。<ul>
+<li>1）交互图实现指向性。</li>
+<li>2）补足箭头，让其连贯起来。</li>
+<li>3）每个类增加 method。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-1-2-设计初步-sequence-diagram"><a href="#2-1-2-设计初步-sequence-diagram" class="headerlink" title="2.1.2 设计初步 sequence diagram"></a>2.1.2 设计初步 sequence diagram</h4><p>初步 sequence diagram 的假设：</p>
+<pre><code>1. perfect technology assumption。比如不考虑登录注销功能。
+2. perfect memory assumption。比如不考虑存储问题。
+3. perfect solution assumption。比如不考虑 Exception 分支。
+</code></pre>
+<h4 id="2-1-3-设计-multilayer-sequence"><a href="#2-1-3-设计-multilayer-sequence" class="headerlink" title="2.1.3 设计 multilayer sequence"></a>2.1.3 设计 multilayer sequence</h4><ol>
+<li>修改 domain layer，其中加入 use-case controller 和 classes；</li>
+<li>增加 data access layer。<ul>
+<li>增加额外的数据访问类，作为外界数据库交互用途；</li>
+<li>取消掉 perfect memory 假设。</li>
+<li>职责分离。（以前是 controller 要实例化一个实体类，这个 instance 要求 DA 类去操作 instance 的属性去读数据库；增加 data access layer后：controller 可以直接要求 DA 类去实例化那个实体类，而且由 DA 类来完成读库，传初始值给 instance 等操作）</li>
+</ul>
+</li>
+<li>增加 view layer。<ul>
+<li>增加额外的 user-interface 类。比如增加 windows 类用来实现 actor 和 controller 之间的交互。</li>
+<li>为每个用例增加 GUI 表格或者 Web 网页。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-1-4-修改类图"><a href="#2-1-4-修改类图" class="headerlink" title="2.1.4 修改类图"></a>2.1.4 修改类图</h4><ol>
+<li>做到每层一个类图：<ul>
+<li>view 层和 data access 层增加新类；</li>
+<li>domain 层的 use-case controller 增加新类。</li>
+</ul>
+</li>
+<li>时序图的 messages 增加 methods：<ul>
+<li>构造方法；</li>
+<li>getter 和 setter 方法；</li>
+<li>用例特有的方法。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-1-5-打包分区"><a href="#2-1-5-打包分区" class="headerlink" title="2.1.5 打包分区"></a>2.1.5 打包分区</h4><ol>
+<li>高级的 UML 图会将相关的类联系起来；</li>
+<li>确认一个 system 的主要组成和依赖。</li>
+<li>为每层确定最终的分区情况。</li>
+<li>划分子系统、在 packages 中体现出层次性。</li>
+</ol>
+<h3 id="2-2-classes-设计"><a href="#2-2-classes-设计" class="headerlink" title="2.2 classes 设计"></a>2.2 classes 设计</h3><ul>
+<li>前提：要设计的类，必须是能够被实现的类才行。</li>
+<li>这些类出自两个地方：<ol>
+<li>the problem domain：改进之前对类的分析；如果必要，可以将类划分为多个设计类。</li>
+<li>the solution domain：一般的公用类库、框架等；实现一个系统的技术工具等。</li>
+</ol>
+</li>
+</ul>
+<h4 id="2-2-1-solution-domain"><a href="#2-2-1-solution-domain" class="headerlink" title="2.2.1 solution domain"></a>2.2.1 solution domain</h4><ol>
+<li>如果是 boundary classes，要考虑指定的 user interface technologies。</li>
+<li>如果是 entity classes，要考虑指定的 data management technologies。</li>
+<li>如果是 control classes，要考虑：<ol>
+<li>distribution issues：看需不需要分布式吧。</li>
+<li>performance issues：考虑跟 boundary class 和 entity class 的兼容问题。</li>
+<li>transaction issues：考虑是否需要事务管理技术。</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-2-2-activities"><a href="#2-2-2-activities" class="headerlink" title="2.2.2 activities"></a>2.2.2 activities</h4><ol>
+<li>完善 activities 的规格：<ol>
+<li>补足属性、联结、操作等；</li>
+<li>补足可见性等；</li>
+<li>对操作增加约束，比如先决条件、后发动作等。</li>
+<li>异常等。</li>
+</ol>
+</li>
+<li>选出可重用的组件：<ol>
+<li>类库；</li>
+<li>对非功能性需求的一般设计机制（generic design mechanisms）：持久性、分布式、安全性、事务管理等。</li>
+</ol>
+</li>
+<li>重建设计模式：<ol>
+<li>realize associations：[理解]大概指可变性、适应性。</li>
+<li>利用继承、代理等实现重用。</li>
+</ol>
+</li>
+<li>优化设计模式：<ol>
+<li>修改访问路径；</li>
+<li>拆分 classes；</li>
+<li>缓存；</li>
+<li>延迟计算。</li>
+</ol>
+</li>
+</ol>
+<h4 id="2-2-3-优秀的类的设计"><a href="#2-2-3-优秀的类的设计" class="headerlink" title="2.2.3 优秀的类的设计"></a>2.2.3 优秀的类的设计</h4><ol>
+<li>完整、充足：无论什么 users 想做的都能满足；</li>
+<li>primitiveness：operations 采用最简单最省力的方式；</li>
+<li>高内聚</li>
+<li>低耦合</li>
+</ol>
+<h4 id="2-2-4-generic-design-mechanisms"><a href="#2-2-4-generic-design-mechanisms" class="headerlink" title="2.2.4 generic design mechanisms"></a>2.2.4 generic design mechanisms</h4><p>针对常见的需求，一些好的实践。</p>
+<ol>
+<li>设计模型，同义词：example。<ul>
+<li>针对 object 和 RDBMS 对应的情况，优秀的做法是：<ol>
+<li>一个 class 对应一张表；</li>
+<li>一个 属性对应表中一个字段；</li>
+<li>主键对应 objectId；</li>
+<li>每个 object 对应表中一行；</li>
+<li>classes 间的 association 与表中关系对应；</li>
+<li>继承关系，也在表中对应。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>框架，不解释。</li>
+</ol>
+<h3 id="2-3-subsystems-设计"><a href="#2-3-subsystems-设计" class="headerlink" title="2.3 subsystems 设计"></a>2.3 subsystems 设计</h3><p>将系统拆分成子系统，便于更好的管理。</p>
+<p>子系统中可以包括：</p>
+<ol>
+<li>设计类；</li>
+<li>用例的实现；</li>
+<li>其他子系统；</li>
+<li>接口。</li>
+</ol>
+<p>Tips：用例可以设计成子系统；子系统可以被当做交互图。</p>
+<h4 id="2-3-1-子系统的分区-x2F-分层"><a href="#2-3-1-子系统的分区-x2F-分层" class="headerlink" title="2.3.1 子系统的分区&#x2F;分层"></a>2.3.1 子系统的分区&#x2F;分层</h4><ol>
+<li>可以递归的划分子系统；</li>
+<li>每层为高层提供服务，以及使用下层的服务；</li>
+<li>层次结构：<ol>
+<li>closed layered architecture: 一般指上下层的调用，不可以跨层。较常见。</li>
+<li>open layered architecture: 可跨层调用。耦合度高，较少见。</li>
+</ol>
+</li>
+<li>子系统分区：<ul>
+<li>一层可分多个子系统；</li>
+<li>层间存在 peer to peer 的服务。</li>
+</ul>
+</li>
+</ol>
+<h4 id="2-3-2-子系统接口"><a href="#2-3-2-子系统接口" class="headerlink" title="2.3.2 子系统接口"></a>2.3.2 子系统接口</h4><ul>
+<li>通常叫做 API</li>
+<li>包括：操作名、参数及参数类型、返回值；</li>
+<li>Tips：	<ol>
+<li>如果有一个依赖指向这个子系统，那么这个子系统有必要提供一个接口。</li>
+<li>使用接口的 client，与这个子系统的实现是 independent 的。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-4-deployment-model"><a href="#2-4-deployment-model" class="headerlink" title="2.4 deployment model"></a>2.4 deployment model</h3><ul>
+<li>定义：描述一个 system 是如果在物理上部署&#x2F;安排的。</li>
+<li>deployment diagram 要展示的有：<ol>
+<li>nodes：一般指计算资源（处理器等）；</li>
+<li>relationships：一般指 nodes 的连接方式。</li>
+</ol>
+</li>
+<li>一般的分布式部署采用三层结构。<ol>
+<li>1）clients：用户接口。</li>
+<li>2）database functionality：数据库的功能。</li>
+<li>3）business&#x2F;application logic：业务逻辑。</li>
+<li>[理解]其实是一种 server&#x2F;client 结构，可以当做 view 层、业务层、DAO 层来看待，每层都可独立替代。</li>
+</ol>
+</li>
+</ul>
+<h3 id="2-5-检查设计"><a href="#2-5-检查设计" class="headerlink" title="2.5 检查设计"></a>2.5 检查设计</h3><p>一个大型 project 的开发会涉及很多人员甚至团队，所以要在设计的最后统一命名风格、统一 OO 的规矩、消除冗余类等等。检查工作要持续到 project 的始末。</p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/UML/" rel="tag"><i class="fa fa-tag"></i> UML</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/11/UML%EF%BC%885%EF%BC%89/" rel="next" title="UML（5）">
+                <i class="fa fa-chevron-left"></i> UML（5）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/13/UML%EF%BC%887%EF%BC%89/" rel="prev" title="UML（7）">
+                UML（7） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90%E4%B8%8E%E8%AE%BE%E8%AE%A1%EF%BC%886%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">面向对象系统分析与设计（6）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.1.</span> <span class="nav-text">1. 系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%84%8F%E4%B9%89%E5%92%8C%E6%A0%87%E5%87%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 设计的意义和标准</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E8%AE%BE%E8%AE%A1-Tips%EF%BC%9A"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 设计 Tips：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-implement-environment"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 implement environment</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-UP-%E8%AE%BE%E8%AE%A1%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">2. UP 设计过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-use-case-%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 use-case 设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-1-%E8%AE%BE%E8%AE%A1%E5%88%9D%E6%AD%A5%E7%B1%BB%E5%9B%BE%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">2.1.1 设计初步类图模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-2-%E8%AE%BE%E8%AE%A1%E5%88%9D%E6%AD%A5-sequence-diagram"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">2.1.2 设计初步 sequence diagram</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-3-%E8%AE%BE%E8%AE%A1-multilayer-sequence"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">2.1.3 设计 multilayer sequence</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-4-%E4%BF%AE%E6%94%B9%E7%B1%BB%E5%9B%BE"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">2.1.4 修改类图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-5-%E6%89%93%E5%8C%85%E5%88%86%E5%8C%BA"><span class="nav-number">1.2.1.5.</span> <span class="nav-text">2.1.5 打包分区</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-classes-%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 classes 设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-1-solution-domain"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">2.2.1 solution domain</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-2-activities"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">2.2.2 activities</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-3-%E4%BC%98%E7%A7%80%E7%9A%84%E7%B1%BB%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">2.2.3 优秀的类的设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-4-generic-design-mechanisms"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">2.2.4 generic design mechanisms</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-subsystems-%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 subsystems 设计</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-%E5%AD%90%E7%B3%BB%E7%BB%9F%E7%9A%84%E5%88%86%E5%8C%BA-x2F-%E5%88%86%E5%B1%82"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">2.3.1 子系统的分区&#x2F;分层</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">2.3.2 子系统接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-deployment-model"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 deployment model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-%E6%A3%80%E6%9F%A5%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 检查设计</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

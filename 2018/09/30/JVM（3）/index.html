@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="JVM 学习资源JVM 系列文章 以下图片参考上方链接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM（3）">
+<meta property="og:url" content="http://yoursite.com/2018/09/30/JVM%EF%BC%883%EF%BC%89/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="JVM 学习资源JVM 系列文章 以下图片参考上方链接">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/09/30/JVM%EF%BC%883%EF%BC%89/1.png">
+<meta property="article:published_time" content="2018-09-30T01:11:07.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.835Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="JVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/09/30/JVM%EF%BC%883%EF%BC%89/1.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/09/30/JVM（3）/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>JVM（3） | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/30/JVM%EF%BC%883%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">JVM（3）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-09-30 09:11:07" itemprop="dateCreated datePublished" datetime="2018-09-30T09:11:07+08:00">2018-09-30</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="JVM-学习资源"><a href="#JVM-学习资源" class="headerlink" title="JVM 学习资源"></a>JVM 学习资源</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/lirenzuo/article/details/81182686">JVM 系列文章</a></p>
+<p>以下图片参考上方链接</p>
+<span id="more"></span>
+
+<p><img src="/2018/09/30/JVM%EF%BC%883%EF%BC%89/1.png"></p>
+<h1 id="JVM-性能监测工具剖析"><a href="#JVM-性能监测工具剖析" class="headerlink" title="JVM 性能监测工具剖析"></a>JVM 性能监测工具剖析</h1><p>注：代码中以<code>//</code>开头的为笔者备注\</p>
+<table>
+<thead>
+<tr>
+<th align="center">名称</th>
+<th align="center">主要作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">jps</td>
+<td align="center">显示指定系统内所有的 HotSpot 虚拟机进程</td>
+</tr>
+<tr>
+<td align="center">jstat</td>
+<td align="center">用于收集 HotSpot 虚拟机各方面的运行数据</td>
+</tr>
+<tr>
+<td align="center">jinfo</td>
+<td align="center">显示虚拟机配置信息</td>
+</tr>
+<tr>
+<td align="center">jmap</td>
+<td align="center">生成虚拟机的内存转储快照（即 heapdump 文件）</td>
+</tr>
+<tr>
+<td align="center">jhat</td>
+<td align="center">用于分析 heapdump 文件，会建立一个 HTTP 服务器，用户可使用浏览器查看</td>
+</tr>
+<tr>
+<td align="center">jstack</td>
+<td align="center">显示虚拟机的线程快照</td>
+</tr>
+</tbody></table>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/fenglibing/article/details/6411999">JDK 内置工具使用</a></p>
+<h2 id="jps"><a href="#jps" class="headerlink" title="jps"></a>jps</h2><ul>
+<li>查看虚拟机进程，JVM Process Status</li>
+<li>格式：jps[option][hostid]</li>
+<li>option：<ul>
+<li>-q：只输出 LVMID</li>
+<li>-m：输出虚拟机进程启动时传递给主类 main()函数的参数</li>
+<li>-l：输出主类的全名，如果进程执行的是 jar 包，输出 jar 路径</li>
+<li>-v：输出虚拟机进程启动时 JVM 参数</li>
+</ul>
+</li>
+<li>hostid：指定特定主机，若不填默认本机</li>
+</ul>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_2_centos ~]<span class="comment"># jps -l</span></span><br><span class="line"><span class="number">18340</span> sun.tools.jps.Jps   <span class="regexp">//</span>当前查询进程，即 jps 进程</span><br><span class="line"><span class="number">27848</span> <span class="regexp">/opt/gi</span>tblit/gitblit.jar</span><br><span class="line"><span class="number">14479</span> gitblit.jar</span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span>说明当前有 <span class="number">14479</span> 和 <span class="number">27848</span> 两个虚拟机进程</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="jstat"><a href="#jstat" class="headerlink" title="jstat"></a>jstat</h2><ul>
+<li>收集 HotSpot 虚拟机各方面的运行数据，JVM Statistics Monitoring</li>
+<li>格式：jstat[option vmid [interval[s|ms][count] ] ]</li>
+<li>vmid:<ul>
+<li>如果是本地，即Lvmid；</li>
+<li>如果是远程，则vmid要用[protocol:][&#x2F;&#x2F;]lvmid[@hostname[:port]&#x2F;servername]，官方文档：<a target="_blank" rel="noopener" href="https://docs.oracle.com/javase/1.5.0/docs/tooldocs/share/jstat.html">jstat - Java Virtual Machine Statistics Monitoring Tool</a></li>
+</ul>
+</li>
+<li>option：<ul>
+<li>-class，监视<strong>类</strong>装载、卸载数量、总空间、装载耗时</li>
+<li>-gc，监视 Java 堆状况，包括 Eden 区、两个 Survivor 区、老年代、永久代的容量，已用空间、GC 时间合计等信息</li>
+<li>-gcutil，监视内容类似gc，但主要关注已使用空间占总空间的百分比</li>
+<li>。。。不详述</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">[root@VM_0_2_centos ~]# jstat -<span class="keyword">class</span> 14479 <span class="comment">// 查看类</span></span><br><span class="line">Loaded  Bytes  Unloaded  Bytes     Time <span class="comment">// 装数量 空间 卸数量 空间 装耗时</span></span><br><span class="line"> 12042 21286.9     4260  6564.5       8.09</span><br><span class="line"></span><br><span class="line">[root@VM_0_2_centos ~]# jstat -gcnew 14479 <span class="comment">// 监视新生代的 GC</span></span><br><span class="line"> S0C    S1C    S0U    S1U   TT MTT  DSS      EC       EU     YGC     YGCT</span><br><span class="line">2688.0 2688.0    0.0  143.0 15  15 1344.0  22016.0  17339.3   1595    5.526</span><br><span class="line"><span class="comment">//S0C、S0U 分别是第一个 Survivor 区的总容量和使用量；</span></span><br><span class="line">TT、MTT 是持有次数限制与最大持有次数限制；</span><br><span class="line">DSS 是当前需要 Survivor 的容量</span><br><span class="line">EC、EU 分别是新生代中总容量和已使用量；</span><br><span class="line">YGC 是<span class="keyword">app</span>启动到当前新生代 GC 的次数；</span><br><span class="line">YGCT 是<span class="keyword">app</span>启动到当前新生代 GC 的总耗时（s）；</span><br><span class="line"></span><br><span class="line">[root@VM_0_2_centos ~]# jstat -gcutil 14479 <span class="comment">// 关注已使用空间的百分比</span></span><br><span class="line">  S0     S1     <span class="keyword">E</span>      O      <span class="keyword">M</span>     CCS    YGC     YGCT    FGC    FGCT     GCT</span><br><span class="line">  0.00   5.32  78.76  84.37  95.41  91.95   1595    5.526    26    2.402    7.928</span><br><span class="line"><span class="comment">//S0、S1、E、O、M分别是两个 Survivor、新生代、老年代、永久代的使用百分比；</span></span><br><span class="line">CCS 是压缩使用比例</span><br><span class="line">YGC、FGC 是<span class="keyword">app</span>启动到当前新生代、老年代 GC 的次数；</span><br><span class="line">YGCT、FGCT 是<span class="keyword">app</span>启动到当前新生代、老年代 GC 的总耗时（s）；</span><br><span class="line">GCT 是<span class="keyword">app</span>启动到当前 GC 的总耗时（s）；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>S0C：年轻代中第一个survivor（幸存区）的容量 (字节) <br>S1C：年轻代中第二个survivor（幸存区）的容量 (字节) <br>S0U：年轻代中第一个survivor（幸存区）目前已使用空间 (字节) <br>S1U：年轻代中第二个survivor（幸存区）目前已使用空间 (字节) <br>EC：年轻代中Eden（伊甸园）的容量 (字节) <br>EU：年轻代中Eden（伊甸园）目前已使用空间 (字节) <br>OC：Old代的容量 (字节) <br>OU：Old代目前已使用空间 (字节) <br>PC：Perm(持久代)的容量 (字节) <br>PU：Perm(持久代)目前已使用空间 (字节) <br>YGC：从应用程序启动到采样时年轻代中gc次数 <br>YGCT：从应用程序启动到采样时年轻代中gc所用时间(s) <br>FGC：从应用程序启动到采样时old代(全gc)gc次数 <br>FGCT：从应用程序启动到采样时old代(全gc)gc所用时间(s) <br>GCT：从应用程序启动到采样时gc用的总时间(s) <br>NGCMN：年轻代(young)中初始化(最小)的大小 (字节) <br>NGCMX：年轻代(young)的最大容量 (字节) <br>NGC：年轻代(young)中当前的容量 (字节) <br>OGCMN：old代中初始化(最小)的大小 (字节) <br>OGCMX：old代的最大容量 (字节) <br>OGC：old代当前新生成的容量 (字节) <br>PGCMN：perm代中初始化(最小)的大小 (字节) <br>PGCMX：perm代的最大容量 (字节)   <br>PGC：perm代当前新生成的容量 (字节) <br>S0：年轻代中第一个survivor（幸存区）已使用的占当前容量百分比 <br>S1：年轻代中第二个survivor（幸存区）已使用的占当前容量百分比 <br>E：年轻代中Eden（伊甸园）已使用的占当前容量百分比 <br>O：old代已使用的占当前容量百分比 <br>P：perm代已使用的占当前容量百分比 <br>S0CMX：年轻代中第一个survivor（幸存区）的最大容量 (字节) <br>S1CMX ：年轻代中第二个survivor（幸存区）的最大容量 (字节) <br>ECMX：年轻代中Eden（伊甸园）的最大容量 (字节) <br>DSS：当前需要survivor（幸存区）的容量 (字节)（Eden区已满） <br>TT： 持有次数限制 <br>MTT ： 最大持有次数限制</p>
+</blockquote>
+<h2 id="jinfo"><a href="#jinfo" class="headerlink" title="jinfo"></a>jinfo</h2><ul>
+<li>实时查看 JVM 各项参数，功能不全，一般只用flag</li>
+<li>格式：jinfo[option] pid</li>
+<li>option：<ul>
+<li>-flag：</li>
+</ul>
+</li>
+</ul>
+<h2 id="jmap"><a href="#jmap" class="headerlink" title="jmap"></a>jmap</h2><ul>
+<li>生成堆转储快照</li>
+<li>格式：jmap[option]vmid</li>
+<li>option：<ul>
+<li>-dump：生成快照</li>
+<li>-heap：显示 Java 堆详细信息</li>
+<li>-histo：显示堆中对象统计信息，包括类、实例数量、合计容量</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<h2 id="jhat"><a href="#jhat" class="headerlink" title="jhat"></a>jhat</h2><ul>
+<li>虚拟机堆转储快照分析工具，JVM Heap Analysis Tool</li>
+<li>功能较少，推荐使用更专业的工具，如 VisualVM 等</li>
+</ul>
+<h2 id="jstack"><a href="#jstack" class="headerlink" title="jstack"></a>jstack</h2><ul>
+<li>Java 堆栈跟踪工具，用来用来监控 JVM 中每一条线程正在执行的方法堆栈的集合，想知道某个线程正在做什么，或者因为什么不响应了</li>
+<li>格式：jstack[option]vmid</li>
+<li>option：<ul>
+<li>-l：除堆栈外，显示关于锁的附加信息</li>
+<li>-F：当正常输出的请求不被响应时，强制输出线程堆栈</li>
+<li>-m：如果调用到本地方法的话，可以显示 C&#x2F;C++ 的堆栈</li>
+</ul>
+</li>
+</ul>
+<pre><code>[root@VM_0_2_centos ~]# jstack -l 14479  //查的gitblit.jar
+2018-10-01 10:31:58
+Full thread dump OpenJDK 64-Bit Server VM (25.171-b10 mixed mode):
+
+//jstack 连接
+&quot;Attach Listener&quot; #168 daemon prio=9 os_prio=0 tid=0x00007f9c18075d70 nid=0x1d6a waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE //说明正常运行
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;qtp1279149968-166&quot; #166 prio=5 os_prio=0 tid=0x00007f9c1088fd10 nid=0x22af waiting on condition [0x00007f9c07dfe000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+    at sun.misc.Unsafe.park(Native Method)
+    - parking to wait for  &lt;0x00000000ece65c08&gt; (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+    at java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+    at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+    at org.eclipse.jetty.util.BlockingArrayQueue.poll(BlockingArrayQueue.java:389)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool.idleJobPoll(QueuedThreadPool.java:531)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool.access$700(QueuedThreadPool.java:47)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:590)
+    at java.lang.Thread.run(Thread.java:748)
+
+   Locked ownable synchronizers:
+    - None
+
+...
+//删减
+...
+
+&quot;qtp1279149968-11-selector-ServerConnectorManager@2f0559e0/0&quot; #11 prio=5 os_prio=0 tid=0x00007f9c40638230 nid=0x389c runnable [0x00007f9c0f735000]
+   java.lang.Thread.State: RUNNABLE
+    at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)
+    at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)
+    at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:93)
+    at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:86)
+    - locked &lt;0x00000000ed2fdb60&gt; (a sun.nio.ch.Util$3)
+    - locked &lt;0x00000000ed2fdb70&gt; (a java.util.Collections$UnmodifiableSet)
+    - locked &lt;0x00000000ed2fdb18&gt; (a sun.nio.ch.EPollSelectorImpl)
+    at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:97)
+    at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:101)
+    at org.eclipse.jetty.io.SelectorManager$ManagedSelector.select(SelectorManager.java:600)
+    at org.eclipse.jetty.io.SelectorManager$ManagedSelector.run(SelectorManager.java:549)
+    at org.eclipse.jetty.util.thread.NonBlockingThread.run(NonBlockingThread.java:52)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:635)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool$3.run(QueuedThreadPool.java:555)
+    at java.lang.Thread.run(Thread.java:748)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Gitblit Shutdown Monitor&quot; #8 daemon prio=5 os_prio=0 tid=0x00007f9c4062f4a0 nid=0x389a runnable [0x00007f9c0f937000]
+   java.lang.Thread.State: RUNNABLE
+    at java.net.PlainSocketImpl.socketAccept(Native Method)
+    at java.net.AbstractPlainSocketImpl.accept(AbstractPlainSocketImpl.java:409)
+    at java.net.ServerSocket.implAccept(ServerSocket.java:545)
+    at java.net.ServerSocket.accept(ServerSocket.java:513)
+    at com.gitblit.GitBlitServer$ShutdownMonitorThread.run(GitBlitServer.java:517)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Service Thread&quot; #7 daemon prio=9 os_prio=0 tid=0x00007f9c400eaf20 nid=0x3897 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;C1 CompilerThread1&quot; #6 daemon prio=9 os_prio=0 tid=0x00007f9c400dc2f0 nid=0x3896 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;C2 CompilerThread0&quot; #5 daemon prio=9 os_prio=0 tid=0x00007f9c400da750 nid=0x3895 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Signal Dispatcher&quot; #4 daemon prio=9 os_prio=0 tid=0x00007f9c400d8c20 nid=0x3894 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Finalizer&quot; #3 daemon prio=8 os_prio=0 tid=0x00007f9c400af720 nid=0x3893 in Object.wait() [0x00007f9c44197000]
+   java.lang.Thread.State: WAITING (on object monitor) //等待资源来唤醒
+    at java.lang.Object.wait(Native Method)
+    at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:143)
+    - locked &lt;0x00000000ecdb7dd8&gt; (a java.lang.ref.ReferenceQueue$Lock)
+    at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:164)
+    at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:212)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;Reference Handler&quot; #2 daemon prio=10 os_prio=0 tid=0x00007f9c400ab4b0 nid=0x3892 in Object.wait() [0x00007f9c44298000]
+   java.lang.Thread.State: WAITING (on object monitor)
+    at java.lang.Object.wait(Native Method)
+    at java.lang.Object.wait(Object.java:502)
+    at java.lang.ref.Reference.tryHandlePending(Reference.java:191)
+    - locked &lt;0x00000000ecdb7f90&gt; (a java.lang.ref.Reference$Lock)
+    at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:153)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;main&quot; #1 prio=5 os_prio=0 tid=0x00007f9c400093c0 nid=0x3890 in Object.wait() [0x00007f9c47b48000]
+   java.lang.Thread.State: WAITING (on object monitor)
+    at java.lang.Object.wait(Native Method)
+    - waiting on &lt;0x00000000ece31020&gt; (a java.lang.Object)
+    at java.lang.Object.wait(Object.java:502)
+    at org.eclipse.jetty.util.thread.QueuedThreadPool.join(QueuedThreadPool.java:381)
+    - locked &lt;0x00000000ece31020&gt; (a java.lang.Object)
+    at org.eclipse.jetty.server.Server.join(Server.java:556)
+    at com.gitblit.GitBlitServer.start(GitBlitServer.java:461)
+    at com.gitblit.GitBlitServer.main(GitBlitServer.java:124)
+    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+    at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+    at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+    at java.lang.reflect.Method.invoke(Method.java:498)
+    at org.moxie.MxLauncher.main(MxLauncher.java:129)
+
+   Locked ownable synchronizers:
+    - None
+
+&quot;VM Thread&quot; os_prio=0 tid=0x00007f9c400a2000 nid=0x3891 runnable
+
+&quot;VM Periodic Task Thread&quot; os_prio=0 tid=0x00007f9c4001b250 nid=0x3898 waiting on condition
+
+JNI global references: 281
+
+// 着重关注 Deadlock 死锁、Waiting on condition 等待资源或条件来唤醒、Blocked 阻塞、Waiting on monitor entry 等待获取锁。
+// 如果 CPU 高，线程可能有死循环，需要关注 Runable 状态 
+</code></pre>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag"><i class="fa fa-tag"></i> JVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/26/JVM%EF%BC%882%EF%BC%89/" rel="next" title="JVM（2）">
+                <i class="fa fa-chevron-left"></i> JVM（2）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/31/UML-1/" rel="prev" title="UML(1)">
+                UML(1) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM-%E5%AD%A6%E4%B9%A0%E8%B5%84%E6%BA%90"><span class="nav-number">1.</span> <span class="nav-text">JVM 学习资源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JVM-%E6%80%A7%E8%83%BD%E7%9B%91%E6%B5%8B%E5%B7%A5%E5%85%B7%E5%89%96%E6%9E%90"><span class="nav-number"></span> <span class="nav-text">JVM 性能监测工具剖析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jps"><span class="nav-number">1.</span> <span class="nav-text">jps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jstat"><span class="nav-number">2.</span> <span class="nav-text">jstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jinfo"><span class="nav-number">3.</span> <span class="nav-text">jinfo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jmap"><span class="nav-number">4.</span> <span class="nav-text">jmap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jhat"><span class="nav-number">5.</span> <span class="nav-text">jhat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jstack"><span class="nav-number">6.</span> <span class="nav-text">jstack</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

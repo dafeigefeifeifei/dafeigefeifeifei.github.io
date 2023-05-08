@@ -1,0 +1,1497 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Head First Servlets&amp;JSP 读书笔记_3名词解释 J2EE：Java 2 Enterprise Edition，包含了Web容器和EJB(Enterprise JavaBean)容器，而tomcat只是一种Web容器，不是完整的J2EE应用服务器  独立的EJB容器？独立的EJB容器已经过时，目前所有的EJB容器都作为完整J2EE的一部分  POJO：Plain Old">
+<meta property="og:type" content="article">
+<meta property="og:title" content="notes_for_HeadFirstServletsAndJsp3">
+<meta property="og:url" content="http://yoursite.com/2018/05/14/notes-for-HeadFirstServletsAndJsp3/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="Head First Servlets&amp;JSP 读书笔记_3名词解释 J2EE：Java 2 Enterprise Edition，包含了Web容器和EJB(Enterprise JavaBean)容器，而tomcat只是一种Web容器，不是完整的J2EE应用服务器  独立的EJB容器？独立的EJB容器已经过时，目前所有的EJB容器都作为完整J2EE的一部分  POJO：Plain Old">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-05-14T01:17:03.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.866Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="javaWeb">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/14/notes-for-HeadFirstServletsAndJsp3/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>notes_for_HeadFirstServletsAndJsp3 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/notes-for-HeadFirstServletsAndJsp3/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">notes_for_HeadFirstServletsAndJsp3
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-14 09:17:03" itemprop="dateCreated datePublished" datetime="2018-05-14T09:17:03+08:00">2018-05-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Head-First-Servlets-amp-JSP-读书笔记-3"><a href="#Head-First-Servlets-amp-JSP-读书笔记-3" class="headerlink" title="Head First Servlets&amp;JSP 读书笔记_3"></a>Head First Servlets&amp;JSP 读书笔记_3</h1><h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li><p>J2EE：Java 2 Enterprise Edition，包含了Web容器和EJB(Enterprise JavaBean)容器，而tomcat只是一种Web容器，不是完整的J2EE应用服务器</p>
+</li>
+<li><p>独立的EJB容器？独立的EJB容器已经过时，目前所有的EJB容器都作为完整J2EE的一部分</p>
+</li>
+<li><p>POJO：Plain Old Java Object，普通的java对象。与JavaBean的区别是，POJO可以有属性和getter&#x2F;setter方法，可以有简单的运算属性，但不允许有业务方法和connection之类方法</p>
+</li>
+<li><p>scriptlet代码：</p>
+<blockquote>
+<p>In JavaServer Pages (JSP) technology, a scriptlet is a piece of Java-code embedded in the HTML-like JSP code. The scriptlet is everything inside the &lt;%  %&gt; tags. Between these the user can add any valid Scriptlet i.e. any valid Java Code.<br>  [译]JSP中的scriptlet是指在类HTML的JSP中的标准java代码段，使用”&lt;% %&gt;”的格式。</p>
+</blockquote>
+</li>
+<li><p>请求分派机制：容器机制，容器管理的一个组件调用另一个组件</p>
+</li>
+</ul>
+<h2 id="web与MVC"><a href="#web与MVC" class="headerlink" title="web与MVC"></a>web与MVC</h2><p>[理解]MVC：将Servlet中做业务逻辑的功能（查询DB，插入DB，把HTML输出到响应流返回客户）搬到业务层和持久层。业务逻辑本身应该作为一个可重用的Java类，让业务逻辑根本不知道有表现的存在。</p>
+<ol>
+<li><p>原本Servlet完成的输出HTML的工作，现在Servlet将请求转发给适当的JSP，再由JSP建立响应HTML，并将其返回。</p>
+ <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用ssm的controller凑合理解一下。。</span></span><br><span class="line"><span class="comment">//从这个url（admin_category_list）进来</span></span><br><span class="line">@<span class="constructor">RequestMapping(<span class="string">&quot;admin_category_list&quot;</span>)</span></span><br><span class="line">public String <span class="built_in">list</span>(Model model,Page page) &#123;</span><br><span class="line">	List&lt;Category&gt; cs=categoryService.<span class="built_in">list</span>(page);</span><br><span class="line">	<span class="built_in">int</span> total=categoryService.total<span class="literal">()</span>;</span><br><span class="line">	page.set<span class="constructor">Total(<span class="params">total</span>)</span>;</span><br><span class="line">	model.add<span class="constructor">Attribute(<span class="string">&quot;cs&quot;</span>,<span class="params">cs</span>)</span>;</span><br><span class="line">	model.add<span class="constructor">Attribute(<span class="string">&quot;page&quot;</span>,<span class="params">page</span>)</span>;</span><br><span class="line">	<span class="comment">//视图跳转到listCategory.jsp文件</span></span><br><span class="line">	return <span class="string">&quot;admin/listCategory&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>功能分隔：</p>
+<blockquote>
+<ul>
+<li>视图：负责表示方面。它从控制器得到模型的状态。另外视图还要获得用户的输入，并交给控制器。</li>
+<li>控制器：从请求获得用户输入，并明确这些输入对模型有什么影响。告诉模型自行更新，并且让视图（JSP）能得到新的模型状态。</li>
+<li>模型：包含具体的业务逻辑和状态。即模型知道用什么规则来得到和更新状态。购物车的内容（和处理购物车内容的规则）就属于MVC中的模型。系统中只有这部分与数据库通信（不过它可能会使用另一个对象完成具体的数据库通信，但这种模式以后再讲）。</li>
+</ul>
+</blockquote>
+ <span id="more"></span></li>
+</ol>
+<h2 id="servlet调用Jsp"><a href="#servlet调用Jsp" class="headerlink" title="servlet调用Jsp"></a>servlet调用Jsp</h2><h4 id="Servlet代码（初版）"><a href="#Servlet代码（初版）" class="headerlink" title="Servlet代码（初版）"></a>Servlet代码（初版）</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> ***;</span><br><span class="line"><span class="keyword">import</span> ***;</span><br><span class="line"></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">Select</span> <span class="keyword">extends</span>  <span class="title">HttpServlet</span></span>&#123;</span><br><span class="line">	</span><br><span class="line">	public void doPost(<span class="type">HttpServletRequest</span> request,<span class="type">HttpServletResponse</span> response)<span class="keyword">throws</span> <span class="type">IOException</span>,<span class="type">ServletException</span>&#123;</span><br><span class="line">		response.setContentType(<span class="string">&quot;text/html&quot;</span>);<span class="comment">//来自ServletResponse接口</span></span><br><span class="line">		<span class="type">PrintWriter</span> out = response.getWriter();</span><br><span class="line">		out.println(<span class="string">&quot;这是个啥？&quot;</span>);</span><br><span class="line">		<span class="type">String</span> c=request.getParameter(<span class="string">&quot;color&quot;</span>);<span class="comment">//来自ServletRequest接口，与属性值name=”color“标签对应</span></span><br><span class="line">		out.println(<span class="string">&quot;颜色是：&quot;</span>+c);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="让servlet调用JSP生成视图"><a href="#让servlet调用JSP生成视图" class="headerlink" title="让servlet调用JSP生成视图"></a>让servlet调用JSP生成视图</h4><ol>
+<li>url找到servlet；</li>
+<li>sevlet调用某java类处理业务逻辑；</li>
+<li>业务逻辑处理后的返回值增加到请求对象（以某种方式写入request中），以便于JSP的访问；</li>
+<li>要求容器把请求转发给”***.jsp”;</li>
+</ol>
+<h2 id="容器管理servlet"><a href="#容器管理servlet" class="headerlink" title="容器管理servlet"></a>容器管理servlet</h2><h4 id="servlet的生命周期（request和response角度）"><a href="#servlet的生命周期（request和response角度）" class="headerlink" title="servlet的生命周期（request和response角度）"></a>servlet的生命周期（request和response角度）</h4><ul>
+<li>客户点击URL</li>
+<li>容器按照目标servlet创建HttpServletRequest和HttpServletResponse对象</li>
+<li>容器创建或分配一个线程，并调用servlet中的service()方法</li>
+<li>service()按需调用doGet()或 doPost()方法</li>
+<li>将响应通过容器写至客户</li>
+<li>service()结束，线程或撤销或返回到容器所管理的线程池中，Request和Response对象可以垃圾回收</li>
+<li>客户得到响应</li>
+</ul>
+<h4 id="servlet的生命周期（容器与servlet角度）"><a href="#servlet的生命周期（容器与servlet角度）" class="headerlink" title="servlet的生命周期（容器与servlet角度）"></a><a target="_blank" rel="noopener" href="http://www.runoob.com/servlet/servlet-life-cycle.html">servlet的生命周期</a>（容器与servlet角度）</h4><ul>
+<li>容器加载servlet类，生成.class文件</li>
+<li>初始化servlet，运行其构造方法init()。如果不覆盖init方法，就会运行Generic-Servlet的init方法。两种init方法比较：</li>
+<li>一般建议使用左侧便利版本</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">public void init() throws ServletException</th>
+<th align="center">public void init(ServletConfig config) throws ServletException</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">A convenience method which can be overridden so that there’s no need to call super.init(config)</td>
+<td align="center">Called by the servlet container to indicate to a servlet that the servlet is being placed into service. See Servlet.init(javax.servlet.ServletConfig).</td>
+</tr>
+<tr>
+<td align="center">[译]相比init(ServletConfig)方法，使用init()方法无需调用super.init(config)方法。</td>
+<td align="center">[译]Servlet容器调用此方法使servlet进入Service中</td>
+</tr>
+<tr>
+<td align="center">Instead of overriding init(ServletConfig), simply override this method and it will be called by GenericServlet.init(ServletConfig config). The ServletConfig object can still be retrieved via getServletConfig()</td>
+<td align="center">This implementation stores the ServletConfig object it receives from the servlet container for later use. When overriding this form of the method, call super.init(config)</td>
+</tr>
+<tr>
+<td align="center">[译]简单重写此方法，未来会被GenericServlet.init(ServletConfig config)方法调用，ServletConfig对象会由getServletConfig方法取到</td>
+<td align="center">[译]此实现从Servlet容器存入了ServletConfig对象，当覆盖此方法时，需要调用super.init(config)方法</td>
+</tr>
+</tbody></table>
+<ul>
+<li>servlet总是在为第一个客户请求提供服务之前得到加载和初始化</li>
+<li>处理客户请求，Servlet容器中有一个线程池 ，针对每次请求会分配一个线程去处理请求，即便是同一个客户多个请求，也同样对应着多个线程</li>
+<li>容器调用destroy()，在servlet被杀死之前有机会清理资源，可以让您的 Servlet 关闭数据库连接、停止后台线程、把 Cookie 列表或点击计数器写入到磁盘，并执行其他类似的清理活动</li>
+<li>注：当工程从Tomcat移除时，会调用destroy()方法</li>
+<li>在调用 destroy() 方法之后，servlet 对象被标记为垃圾回收。由 JVM 的垃圾回收器完成回收</li>
+</ul>
+<h4 id="有关servlet，你该知道的"><a href="#有关servlet，你该知道的" class="headerlink" title="有关servlet，你该知道的"></a>有关servlet，你该知道的</h4><ol>
+<li>servlet一生只调用一次init()和destroy().</li>
+<li>每个servlet都仅对应一个实例（SingleThreadModel除外，一般不用）</li>
+<li>与HTTP有关的都在javax.servlet.http包中,其余的（通用servlet类和接口）则   在javax.servlet包中</li>
+<li>运行init方法后，servlet还不是真正的servlet，还需要具备一些特性，比如能够使用ServletContext引用从容器得到信息</li>
+<li>ServletConfig和ServletContext的存在是为了支持servlet处理客户请求，以下是两者对比：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">ServletConfig对象</th>
+<th align="center">ServletContext对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">每个Servlet都有一个ServletConfig对象</td>
+<td align="center">每个Web应用只有一个ServletContext</td>
+</tr>
+<tr>
+<td align="center">用于向Servlet传递部署时消息（例如数据库或企业bean的查找名 ），而你不想把这个消息硬编码写到servlet中（servlet初始化参数）</td>
+<td align="center">用于访问Web应用参数（也在DD中配置）</td>
+</tr>
+<tr>
+<td align="center">用于访问ServletContext</td>
+<td align="center">相当于一种应用公告栏，可以在这里放置信息（称为属性），应用的其他部分可以访问这些信息</td>
+</tr>
+<tr>
+<td align="center">参数在部署描述文件中配置</td>
+<td align="center">用于得到服务器信息，包括容器名和容器版本，以及所支持的API的版本等</td>
+</tr>
+</tbody></table>
+<p>已完成全书第4章105页，读书笔记未完待续。。 </p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/13/notes-for-HeadFirstServletsAndJsp2/" rel="next" title="notes_for_HeadFirstServletsAndJsp2">
+                <i class="fa fa-chevron-left"></i> notes_for_HeadFirstServletsAndJsp2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/17/Multithread-and-ThreadPool/" rel="prev" title="Multithread and ThreadPool">
+                Multithread and ThreadPool <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Head-First-Servlets-amp-JSP-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-3"><span class="nav-number">1.</span> <span class="nav-text">Head First Servlets&amp;JSP 读书笔记_3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="nav-number">1.1.</span> <span class="nav-text">名词解释</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web%E4%B8%8EMVC"><span class="nav-number">1.2.</span> <span class="nav-text">web与MVC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#servlet%E8%B0%83%E7%94%A8Jsp"><span class="nav-number">1.3.</span> <span class="nav-text">servlet调用Jsp</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet%E4%BB%A3%E7%A0%81%EF%BC%88%E5%88%9D%E7%89%88%EF%BC%89"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">Servlet代码（初版）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A9servlet%E8%B0%83%E7%94%A8JSP%E7%94%9F%E6%88%90%E8%A7%86%E5%9B%BE"><span class="nav-number">1.3.0.2.</span> <span class="nav-text">让servlet调用JSP生成视图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86servlet"><span class="nav-number">1.4.</span> <span class="nav-text">容器管理servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#servlet%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%88request%E5%92%8Cresponse%E8%A7%92%E5%BA%A6%EF%BC%89"><span class="nav-number">1.4.0.1.</span> <span class="nav-text">servlet的生命周期（request和response角度）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#servlet%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%EF%BC%88%E5%AE%B9%E5%99%A8%E4%B8%8Eservlet%E8%A7%92%E5%BA%A6%EF%BC%89"><span class="nav-number">1.4.0.2.</span> <span class="nav-text">servlet的生命周期（容器与servlet角度）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%85%B3servlet%EF%BC%8C%E4%BD%A0%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84"><span class="nav-number">1.4.0.3.</span> <span class="nav-text">有关servlet，你该知道的</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>

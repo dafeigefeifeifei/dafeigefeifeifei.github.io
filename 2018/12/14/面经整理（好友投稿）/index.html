@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="天猫Java一面1. 常见集合类的区别和适用场景List集合ArrayList：  基于数组来实现集合的功能，内部维护了一个可变长的对象数组，集合扩容时会创建更大的数组空间，把原有数据复制到新的数组中。随机访问快，插入和删除的效率低。  LinkedList：  基于链表实现，数据的删除和插入快，随机访问的速度很慢。  ####Map集合 HashMap：  线程不安全，存储键值对，允许 key">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面经整理（好友投稿）">
+<meta property="og:url" content="http://yoursite.com/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86%EF%BC%88%E5%A5%BD%E5%8F%8B%E6%8A%95%E7%A8%BF%EF%BC%89/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="天猫Java一面1. 常见集合类的区别和适用场景List集合ArrayList：  基于数组来实现集合的功能，内部维护了一个可变长的对象数组，集合扩容时会创建更大的数组空间，把原有数据复制到新的数组中。随机访问快，插入和删除的效率低。  LinkedList：  基于链表实现，数据的删除和插入快，随机访问的速度很慢。  ####Map集合 HashMap：  线程不安全，存储键值对，允许 key">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86%EF%BC%88%E5%A5%BD%E5%8F%8B%E6%8A%95%E7%A8%BF%EF%BC%89/lock.gif">
+<meta property="og:image" content="http://yoursite.com/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86%EF%BC%88%E5%A5%BD%E5%8F%8B%E6%8A%95%E7%A8%BF%EF%BC%89/1.jpg">
+<meta property="article:published_time" content="2018-12-14T07:01:29.000Z">
+<meta property="article:modified_time" content="2023-05-08T16:33:08.925Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="javaWeb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86%EF%BC%88%E5%A5%BD%E5%8F%8B%E6%8A%95%E7%A8%BF%EF%BC%89/lock.gif">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/14/面经整理（好友投稿）/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>面经整理（好友投稿） | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86%EF%BC%88%E5%A5%BD%E5%8F%8B%E6%8A%95%E7%A8%BF%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">面经整理（好友投稿）
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-14 15:01:29" itemprop="dateCreated datePublished" datetime="2018-12-14T15:01:29+08:00">2018-12-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="天猫Java一面"><a href="#天猫Java一面" class="headerlink" title="天猫Java一面"></a>天猫Java一面</h1><h3 id="1-常见集合类的区别和适用场景"><a href="#1-常见集合类的区别和适用场景" class="headerlink" title="1. 常见集合类的区别和适用场景"></a>1. 常见集合类的区别和适用场景</h3><h4 id="List集合"><a href="#List集合" class="headerlink" title="List集合"></a>List集合</h4><p>ArrayList：</p>
+<ul>
+<li>基于数组来实现集合的功能，内部维护了一个可变长的对象数组，集合扩容时会创建更大的数组空间，把原有数据复制到新的数组中。随机访问快，插入和删除的效率低。</li>
+</ul>
+<p>LinkedList：</p>
+<ul>
+<li>基于链表实现，数据的删除和插入快，随机访问的速度很慢。</li>
+</ul>
+<p>####Map集合</p>
+<p>HashMap：</p>
+<ul>
+<li>线程不安全，存储键值对，允许 key 和 value 为 null</li>
+</ul>
+<p>ConcurrentHashMap：</p>
+<ul>
+<li>线程安全，不允许 key 和 value 为 null，使用的锁机制实现线程安全</li>
+</ul>
+<p>TreeMap：</p>
+<ul>
+<li>线程不安全，依靠comparator或comparable实现key的去重，TreaMap是有序的</li>
+</ul>
+<span id="more"></span>
+
+<h3 id="2-并发容器、同步容器"><a href="#2-并发容器、同步容器" class="headerlink" title="2. 并发容器、同步容器"></a>2. 并发容器、同步容器</h3><p><strong>同步容器</strong>：同步容器将所有对容器状态的访问都串行化，以实现线程安全性。同步容器包括 Vector、HashTable。同步容器实现线程安全的方式是对每个公有方法都进行同步，使得每次只有一个线程能访问容器的状态。由于两个同步方法的操作顺序不一致，会引起数组越界，不安全。</p>
+<p><strong>并发容器</strong>：ConcurrentHashMap、CopyOnWriteArrayList、Queue、BlockingQueue、ConcurrentSkipListMap、ConcurrentSkipListSet。</p>
+<h3 id="3-ConcurrentHashMap、CopyOnWriteArrayList"><a href="#3-ConcurrentHashMap、CopyOnWriteArrayList" class="headerlink" title="3. ConcurrentHashMap、CopyOnWriteArrayList"></a>3. ConcurrentHashMap、CopyOnWriteArrayList</h3><p><strong>ConcurrentHashMap</strong>：锁分段技术：容器中有多把锁，每把锁锁住容器的一部分数据，那么当多线程访问容器中的不同数据时就不存在锁竞争。</p>
+<ul>
+<li>concurrentHashMap 的结构是由 segment、hashEntry 组成。</li>
+</ul>
+<p><strong>CopyOnWriteArrayList</strong>：CopyOnWrite 容器即写时复制的容器。</p>
+<ul>
+<li>通俗的理解是当我们往一个容器添加元素的时候，不直接往当前容器添加，而是先将当前容器进行 Copy，复制出一个新的容器，然后新的容器里添加元素，添加完元素之后，再将原容器的引用指向新的容器。这样做的好处是我们可以对 CopyOnWrite 容器进行并发的读，而不需要加锁，因为当前容器不会添加任何元素。所以 CopyOnWrite 容器也是一种读写分离的思想，读和写不同的容器。写的时候需要加锁，不然多个线程同时写会有多个副本。CopyOnWrite 并发容器用于读多写少的并发场景。</li>
+</ul>
+<h3 id="4-判断一个列表是否有环"><a href="#4-判断一个列表是否有环" class="headerlink" title="4. 判断一个列表是否有环"></a>4. 判断一个列表是否有环</h3><p>两个指针，一个走的快，一个走的慢，最终经过若干步，走的快的指针总会超过慢的指针一圈而相遇。</p>
+<figure class="highlight xl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bool hasCycle(ListNode* head) &#123;</span><br><span class="line">    ListNode* fast = head;</span><br><span class="line">    ListNode* slow = head;</span><br><span class="line">    <span class="function"><span class="title">while</span>(fast &amp;&amp; fast-&gt;</span>next) &#123;</span><br><span class="line">        <span class="function"><span class="title">fast</span> = fast-&gt;</span><span class="function"><span class="title">next</span>-&gt;</span>next;</span><br><span class="line">        <span class="function"><span class="title">slow</span> = slow-&gt;</span>next;</span><br><span class="line">        <span class="keyword">if</span> (slow == fast)</span><br><span class="line">            return <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    return <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-多台服务器之间session共享方案"><a href="#5-多台服务器之间session共享方案" class="headerlink" title="5. 多台服务器之间session共享方案"></a>5. 多台服务器之间session共享方案</h3><p>方案：</p>
+<ol>
+<li>session集中处理，建立一个数据库存放session，不同的应用从这个数据库中取session；</li>
+<li>应用间session同步（缺点：网络间复制信息效率低）；</li>
+<li>将请求固定到对应的服务器，保证下次请求还是到达上次访问的服务器（即 session sticky 技术）；</li>
+<li>通过cookie中夹带的session，将session放在客户端。</li>
+</ol>
+<h3 id="6-BIO、NIO、AIO"><a href="#6-BIO、NIO、AIO" class="headerlink" title="6. BIO、NIO、AIO"></a>6. BIO、NIO、AIO</h3><p><strong>BIO</strong>：阻塞IO，一个Socket套接字需要一个线程处理。<br><strong>NIO</strong>：基于事件驱动思想，采用Reactor模式，统一通过Reactor对所有客户端的Socket套接字的事件做处理，然后派发到不同的线程。（线程与Socket是多对多的关系）。<br><strong>AIO</strong>：异步IO，NIO在有通知是可以进行相关操作，AIO在有通知时表示相关操作已经完成</p>
+<p>其实还有 IO 复用，信号驱动IO两种方式，具体参考：<a target="_blank" rel="noopener" href="http://likehui.fun/2018/12/07/interview%EF%BC%881%EF%BC%89/">面经整理1</a></p>
+<h3 id="7-JVM内存模型"><a href="#7-JVM内存模型" class="headerlink" title="7. JVM内存模型"></a>7. JVM内存模型</h3><p>堆：主要存放对象实例，分为新生代、老年代，线程共享。<br>栈：主要存放局部变量，线程私有，方法调用的过程就是入栈到出栈的过程<br>方法区：线程共享，用于存放已被虚拟机加载的类信息、常量、静态变量、即使编译器编译后的代码等数据。<br>GC：引用计数法、可达性分析法。GC Roots：栈中引用的对象；方法区中类静态属性引用的对象，常量引用的对象；</p>
+<h3 id="8-Java的垃圾回收——标记算法和复制算法"><a href="#8-Java的垃圾回收——标记算法和复制算法" class="headerlink" title="8. Java的垃圾回收——标记算法和复制算法"></a>8. Java的垃圾回收——标记算法和复制算法</h3><p>标记算法：分为两个阶段：标记和清除。首先标记出所有需要回收的对象，在标记完成后统一回收。问题：效率不高；会产生内存碎片</p>
+<p>复制算法：将内存按容量分成大小相等的两块，每次只用其中的一块，当一块内存用完了，就将还存活的对象复制到另一块上，清空已使用过的内存空间。内存的利用率变高，只有百分之十的空间被浪费。</p>
+<h3 id="9-http和https的区别，http1-x和http2-0的区别，SSL和TSL之间的区别"><a href="#9-http和https的区别，http1-x和http2-0的区别，SSL和TSL之间的区别" class="headerlink" title="9. http和https的区别，http1.x和http2.0的区别，SSL和TSL之间的区别"></a>9. http和https的区别，http1.x和http2.0的区别，SSL和TSL之间的区别</h3><p>https在http的基础上加了ssl协议，ssl协议工作于传输层和应用层之间，为应用层提供数据的加密能力。</p>
+<p>TSL：传输层安全协议，TLS可以理解成SSL协议3.0版本的升级，对于大的协议栈而言，SSL和TSL区别不大。</p>
+<p>Http2.0实现多路复用、请求优先级、首部压缩、服务端推送</p>
+<h3 id="10-GC、G1、ZGC的区别"><a href="#10-GC、G1、ZGC的区别" class="headerlink" title="10. GC、G1、ZGC的区别"></a>10. GC、G1、ZGC的区别</h3><p>G1收集器：G1是一款面向服务端应用的垃圾收集器，特点：并行与并发（Stop The World）、分代收集、空间整合、可预测的停顿。G1收集器运作：初始标记、并发标记、最终回收、筛选回收。</p>
+<p>ZGC：java11发布的新的GC收集器，缩短GC停顿，新技术：着色指针和读屏障<br>GC时方法论，G1、ZGC等收集器是具体实现。</p>
+<h3 id="11-B树、B-树、红黑树"><a href="#11-B树、B-树、红黑树" class="headerlink" title="11. B树、B+树、红黑树"></a>11. B树、B+树、红黑树</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/vincently/p/4526560.html">【经典数据结构】B树与B+树</a></p>
+<p><a target="_blank" rel="noopener" href="http://www.cnblogs.com/yangecnu/p/Introduce-Red-Black-Tree.html">浅谈算法和数据结构: 九 平衡查找树之红黑树</a></p>
+<h3 id="12-内存泄漏和内存溢出的区别"><a href="#12-内存泄漏和内存溢出的区别" class="headerlink" title="12. 内存泄漏和内存溢出的区别"></a>12. 内存泄漏和内存溢出的区别</h3><p>内存泄漏：是指程序在申请内存后，无法释放已申请的内存空间，一次内存泄漏似乎不会有大的影响，但内存泄漏堆积的后果就是内存溢出</p>
+<p>内存溢出（OOM）：是指程序申请内存空间时，没有足够的内存空间供申请者使用</p>
+<p>栈溢出：如果线程请求的栈深度大于JVM 允许的最大深度，抛出异常</p>
+<p>内存溢出解决方案：修改JVM启动参数，直接增加内存；找出可能发生内存溢出的位置。</p>
+<h3 id="13-session的生命周期"><a href="#13-session的生命周期" class="headerlink" title="13. session的生命周期"></a>13. session的生命周期</h3><ul>
+<li>session存放在服务器端，一般放在服务器的内存，session放在sessions容器中由Manager类管理，长时间不用的session将被回收，Tomcat中的默认失效时间是20分。</li>
+<li>调用session的invalidate方法也会让session失效。</li>
+</ul>
+<h1 id="天猫Java二面"><a href="#天猫Java二面" class="headerlink" title="天猫Java二面"></a>天猫Java二面</h1><h3 id="1-java-cas原理"><a href="#1-java-cas原理" class="headerlink" title="1. java cas原理"></a>1. java cas原理</h3><p>CAS包含三个操作数——需要读写的内存位置V，进行比较的值A和拟写入的新值B。</p>
+<ul>
+<li>当且仅当V的值等于A时，CAS才会通过原子方式用新值B来更新V的值，否则不会执行任何操作。属于乐观锁。</li>
+</ul>
+<h3 id="2-Java线程池参数"><a href="#2-Java线程池参数" class="headerlink" title="2. Java线程池参数"></a>2. Java线程池参数</h3><p>7个参数</p>
+<ol>
+<li>corePoolSize表示常驻核心线程数；</li>
+<li>maximumPoolSize表示线程池能够容纳同时执行的最大线程数；</li>
+<li>keepAliveTime表示线程池中线程空闲时间，当空闲时间达到keepAliveTime时，线程会被销毁，直到剩下corePoolSize个线程为止；</li>
+<li>TimeUnit表示时间单位；</li>
+<li>workQueue表示缓存队列，当请求的线程数大于maximumPoolSize时，线程进入BlockingQueue阻塞队列；</li>
+<li>threadFactory表示线程工厂，用来生产一组相同任务的线程；</li>
+<li>handler表示执行拒绝策略的对象，当超过workQueue的任务缓存区上限的时候，就可以通过该策略处理器供求。</li>
+</ol>
+<h3 id="3-Java的lock的底层实现"><a href="#3-Java的lock的底层实现" class="headerlink" title="3. Java的lock的底层实现"></a>3. Java的lock的底层实现</h3><ul>
+<li>继承AQS，AbstractQueuedSynchronizer会把所有的请求线程构成一个CLH队列，线程请求获取锁，如果获取失败会将线程信息封装成node加入Sync queue队列，循环请求获取锁。锁释放之后会唤醒队列中的第一个线程<ul>
+<li>当一个线程执行完毕（unlock）后，会激活队列中的后续结点。</li>
+<li>原生 CLH 队列是自旋锁，但Doug Lea把其改造为阻塞锁。</li>
+</ul>
+</li>
+</ul>
+<p>lee补充：</p>
+<p>####（0）调用顺序</p>
+<p><img src="/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86%EF%BC%88%E5%A5%BD%E5%8F%8B%E6%8A%95%E7%A8%BF%EF%BC%89/lock.gif" alt="lock"></p>
+<ul>
+<li><p>各种  Lock 的实现，都继承于<code>java.util.concurrent.*</code>包下的<code>AbstractQueuedSynchronizer</code>类。</p>
+</li>
+<li><p>以 <code>ReentrantLock</code>为例：</p>
+  <figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ReentrantLock 的所有 Lock 接口的操作都委派到 Sync 上</span></span><br><span class="line">static <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Sync</span> <span class="keyword">extends</span> <span class="title">AbstractQueuedSynchronizer</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 两个子类，公平和非公平锁</span></span><br><span class="line"><span class="keyword">final</span> static <span class="class"><span class="keyword">class</span> <span class="title">NonfairSync</span> <span class="keyword">extends</span> <span class="title">Snyc</span></span></span><br><span class="line"><span class="keyword">final</span> static <span class="class"><span class="keyword">class</span> <span class="title">FairSync</span> <span class="keyword">extends</span> <span class="title">Snyc</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>AQS 抽象了绝大部分 Lock 的功能，只把<code>tryAcquire()</code>方法延迟到子类中实现。</p>
+<ul>
+<li><code>tryAcquire()</code>方法在于用子类来判断，请求线程是否可以获得锁。</li>
+<li>参考博文：<a target="_blank" rel="noopener" href="http://likehui.fun/2018/12/07/interview%EF%BC%881%EF%BC%89/">interview（1）</a>的第八题</li>
+</ul>
+</li>
+</ul>
+<h4 id="（1）加锁："><a href="#（1）加锁：" class="headerlink" title="（1）加锁："></a>（1）加锁：</h4><ul>
+<li><p>每次请求锁都会调用<code>nonfairTryAcquire()</code>方法：</p>
+  <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">final boolean nonfair<span class="constructor">TryAcquire(<span class="params">int</span> <span class="params">acquires</span>)</span>&#123;  <span class="comment">// acquires 初始为1</span></span><br><span class="line">	final Thread current = <span class="module-access"><span class="module"><span class="identifier">Thread</span>.</span></span>current<span class="constructor">Thread()</span>;</span><br><span class="line">	<span class="built_in">int</span> c = get<span class="constructor">State()</span>;</span><br><span class="line">	<span class="keyword">if</span>(c<span class="operator"> == </span><span class="number">0</span>)&#123;  <span class="comment">// 说明当前没有锁竞争此资源 </span></span><br><span class="line">		<span class="keyword">if</span>(compare<span class="constructor">AndSetState(0,<span class="params">acquires</span>)</span>)&#123;  <span class="comment">// CAS 的方式设置</span></span><br><span class="line">			set<span class="constructor">ExclusiveOwnerThread(<span class="params">current</span>)</span>;</span><br><span class="line">			return <span class="literal">true</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(current<span class="operator"> == </span>get<span class="constructor">ExclusiveOwnerThread()</span>)&#123; </span><br><span class="line">		<span class="comment">// 说明当前线程已经拥有此锁</span></span><br><span class="line">		<span class="built_in">int</span> nextc = c + acquires; <span class="comment">// 线程重入锁+1</span></span><br><span class="line">		<span class="keyword">if</span>(nextc &lt; <span class="number">0</span>)</span><br><span class="line">			throw <span class="keyword">new</span> <span class="constructor">Error(<span class="string">&quot;Maximum lock count exceeded&quot;</span>)</span>;</span><br><span class="line">		set<span class="constructor">State(<span class="params">nextc</span>)</span>; <span class="comment">// 实现了偏向锁的功能</span></span><br><span class="line">		return <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	return <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果请求锁失败，那么新的竞争线程会被追加到队尾，具体采用 CAS 的 Lock-free 算法，因为线程并发对 tail 调用 CAS 可能会导致其他线程 CAS 失败，解决办法是循环 CAS 直至成功。</p>
+</li>
+<li><p>入队出队都是用CAS方式设置的，addWaiter 方法负责把当前拿锁失败的线程包装成一个 Node 添加到队尾，如下：</p>
+  <figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">private <span class="keyword">Node</span> <span class="title">addWaiter</span>(<span class="keyword">Node</span> <span class="title">mode</span>)&#123;</span><br><span class="line">	<span class="keyword">Node</span> <span class="title">node</span> = new <span class="keyword">Node</span><span class="title">(Thread</span>.currentThread(),mode);</span><br><span class="line">	<span class="keyword">Node</span> <span class="title">pred</span> = tail;</span><br><span class="line">	if(pred)&#123; // 如果 tail 非空，将新的 <span class="keyword">node</span> <span class="title">置于 tail</span> 处</span><br><span class="line">		node.prev = pred;</span><br><span class="line">		if(compareAndSetTail(pred,<span class="keyword">node</span><span class="title">)&#123; // 追加队尾操作</span></span><br><span class="line"><span class="title">			pred</span>.next = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">			return</span> <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">		&#125;</span></span><br><span class="line"><span class="title">	&#125;</span></span><br><span class="line"><span class="title">	enq</span>(<span class="keyword">node</span><span class="title">); // 如果 tail</span> 是空的，或者上一步的 CAS 失败，则执行 enq 方法</span><br><span class="line">	return <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">&#125;</span></span><br><span class="line"><span class="title"></span></span><br><span class="line"><span class="title">private</span> <span class="keyword">Node</span> <span class="title">enq</span>(final <span class="keyword">Node</span> <span class="title">node</span>)&#123;</span><br><span class="line">	for(;;)&#123;  // 无限循环进行 CAS，知道把当前线程追加到队尾（或队头）</span><br><span class="line">		<span class="keyword">Node</span> <span class="title">t</span> = tail;</span><br><span class="line">		if(t == null)&#123;</span><br><span class="line">			<span class="keyword">Node</span> <span class="title">h</span> = new <span class="keyword">Node</span><span class="title">();</span></span><br><span class="line"><span class="title">			h</span>.next = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">			node</span>.prev = h;</span><br><span class="line">			if(compareAndSetHead(h))&#123;</span><br><span class="line">				tail = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">				return</span> h;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;else&#123;</span><br><span class="line">			node.prev = t;</span><br><span class="line">			if(compareAndSetTail(t,<span class="keyword">node</span><span class="title">))&#123;</span></span><br><span class="line"><span class="title">				t</span>.next = <span class="keyword">node</span><span class="title">;</span></span><br><span class="line"><span class="title">				return</span> t;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行<code>acquireQueued()</code>方法，将刚追加到队列中的线程节点进行阻塞，但阻塞前再一次通过<code>tryAccquire()</code>重试是否能获得锁，如果重试成功则无需阻塞，直接返回，如下：</p>
+  <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回 false 表示可获得锁，无需入队</span></span><br><span class="line">final boolean acquire<span class="constructor">Queued(<span class="params">final</span> Node <span class="params">node</span>,<span class="params">int</span> <span class="params">arg</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">try</span>&#123;</span><br><span class="line">		boolean interrupted = <span class="literal">false</span>;</span><br><span class="line">		<span class="keyword">for</span>(;;)&#123;</span><br><span class="line">			final Node p = node.predecessor<span class="literal">()</span>;</span><br><span class="line">			<span class="keyword">if</span>(p<span class="operator"> == </span>head<span class="operator"> &amp;&amp; </span><span class="keyword">try</span><span class="constructor">Acquire(<span class="params">arg</span>)</span>)&#123;</span><br><span class="line">				set<span class="constructor">Head(<span class="params">node</span>)</span>;</span><br><span class="line">				p.next = null;</span><br><span class="line">				return interrupted;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span>(should<span class="constructor">ParkAfterFailedAcquire(<span class="params">p</span>,<span class="params">node</span>)</span><span class="operator"> &amp;&amp;</span></span><br><span class="line"><span class="operator">				</span>park<span class="constructor">AndCheckInterrupt()</span>) </span><br><span class="line">				<span class="comment">/* parkAndCheckInterrupt会调用 LockSupport.park() 显式阻塞，</span></span><br><span class="line"><span class="comment">				*  此时进入系统内核中，检查线程状态（should...方法检查）</span></span><br><span class="line"><span class="comment">				*/</span>  然后阻塞（park...方法阻塞）</span><br><span class="line">				</span><br><span class="line">				 <span class="comment">// 被阻塞的线程经解锁后来到此步，将 interrupted 置为 true</span></span><br><span class="line">				 <span class="comment">// 解除阻塞状态的线程不一定能获得锁，仍需要参与竞争tryAccquire</span></span><br><span class="line">				 interrupted = <span class="literal">true</span>; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;catch (RuntimeException ex)&#123;</span><br><span class="line">		cancel<span class="constructor">Acquire(<span class="params">node</span>)</span>;</span><br><span class="line">		throw ex;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="（2）解锁："><a href="#（2）解锁：" class="headerlink" title="（2）解锁："></a>（2）解锁：</h4><ul>
+<li><p><code>AbstractQueuedSynchronizer.release</code>和<code>Sync.tryRelease</code>方法:</p>
+  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">release</span><span class="params">(<span class="type">int</span> arg)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(tryRealse(arg))&#123;  <span class="comment">// 如果可以释放锁，进入此判断</span></span><br><span class="line">		<span class="type">Node</span> <span class="variable">h</span> <span class="operator">=</span> head;</span><br><span class="line">		<span class="keyword">if</span>(h != <span class="literal">null</span> &amp;&amp; h.waitStatus != <span class="number">0</span>)</span><br><span class="line">			unparkSuccessor(h);  <span class="comment">// 唤醒 head 线程（即队列第一个）</span></span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">final</span> <span class="type">boolean</span> <span class="title function_">tryRelease</span><span class="params">(<span class="type">int</span> releases)</span>&#123;</span><br><span class="line">	<span class="type">int</span> <span class="variable">c</span> <span class="operator">=</span> getState() - releases;</span><br><span class="line">	<span class="keyword">if</span>(Thread.currentThread() != getExclusiveOwnerThread())</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalMonitorStateException</span>();</span><br><span class="line">	<span class="type">boolean</span> <span class="variable">free</span> <span class="operator">=</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">if</span>(c == <span class="number">0</span>)&#123;</span><br><span class="line">		<span class="comment">// 如果多次锁定，就多次释放，直到 c 为0才真正释放锁</span></span><br><span class="line">		free = <span class="literal">true</span>;</span><br><span class="line">		setExclusiveOwnerThread(<span class="literal">null</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	setState(c); <span class="comment">// 因为没竞争，所以用不着 CAS</span></span><br><span class="line">	<span class="keyword">return</span> free;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">unparkSuccessor</span><span class="params">(Node node)</span>&#123;</span><br><span class="line">	<span class="type">int</span> <span class="variable">ws</span> <span class="operator">=</span> node.waitStatus;</span><br><span class="line">	<span class="keyword">if</span>(ws &lt; <span class="number">0</span>)&#123;</span><br><span class="line">		compareAndSetWaitStatus(node,ws,<span class="number">0</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="type">Node</span> <span class="variable">s</span> <span class="operator">=</span> node.next; <span class="comment">// 一般 s 就是 head</span></span><br><span class="line">	<span class="comment">// 如果head 是空（几率小），队列从后往前回溯，找到第一个可用线程</span></span><br><span class="line">	<span class="keyword">if</span>(s == <span class="literal">null</span> || s.waitStatus &gt; <span class="number">0</span>)&#123;</span><br><span class="line">		s = <span class="literal">null</span>;</span><br><span class="line">		<span class="keyword">for</span>(<span class="type">Node</span> <span class="variable">t</span> <span class="operator">=</span> tail; t!= <span class="literal">null</span> &amp;&amp; t != node; t= t.prev)</span><br><span class="line">			<span class="keyword">if</span>(t.waitStatus &lt;= <span class="number">0</span>)</span><br><span class="line">				s = t;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span>(s != <span class="literal">null</span>)</span><br><span class="line">		LockSupport.unpark(s.thread); <span class="comment">// 通知系统内核唤醒该线程</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h4 id="（3）Lock-跟-Synchronized-底层比较"><a href="#（3）Lock-跟-Synchronized-底层比较" class="headerlink" title="（3）Lock 跟 Synchronized 底层比较"></a>（3）Lock 跟 Synchronized 底层比较</h4><ul>
+<li>两者底层都是基于 CAS 操作的，从数据结构来说两者设计上没有本质区别。</li>
+<li>synchronized 实现了自旋锁，并针对不同的系统和硬件体系进行了优化；</li>
+<li>Lock 完全依靠系统阻塞挂起等待线程。</li>
+<li>Lock 比 synchronized 更适合在应用层扩展，可以既传承 AQS 定义各种实现，比如实现读写锁、公平、非公平锁等；Lock 比 wait&#x2F;notify要方便的多、灵活地多。</li>
+</ul>
+<p>Ps：Lock 的使用方法（四种锁法）可以参考这篇博文：<a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000005602326">Lock 的使用</a></p>
+<p>【墙裂推荐阅读！】Lock 底层：<a target="_blank" rel="noopener" href="https://blog.csdn.net/endlu/article/details/51249156">Java锁—-Lock实现原理</a></p>
+<h3 id="4-mysql的数据库默认存储引擎"><a href="#4-mysql的数据库默认存储引擎" class="headerlink" title="4. mysql的数据库默认存储引擎"></a>4. mysql的数据库默认存储引擎</h3><p><strong>InnoDB</strong>：在使用MYSQL的时候，你所面对的每一个挑战几乎都源于ISAM和MyISAM数据库引擎<strong>不支持事务处理</strong>（transaction process）也不支持<strong>外键</strong>。尽管要比ISAM和 MyISAM引擎慢很多，但是InnoDB包括了对事务处理和外来键的支持，这两点都是前两个引擎所没有的。</p>
+<p><strong>MyISAM</strong>：除了提供ISAM里所没有的索引和字段管理的大量功能，MyISAM还使用一种表格锁定的机制，来优化多个并发的读写操作，其代价是你需要经常运行OPTIMIZE TABLE命令，来恢复被更新机制所浪费的空间，MYISAM强调了快速读取操作，MyISAM格式的一个重要缺陷就是不能在表损坏后恢复数据。</p>
+<p><strong>ISAM</strong>：因此，ISAM执行读取操作的速度很快，而且不占用大量的内存和存储资源。ISAM的两个主要不足之处在于，它不支持事务处理，也不能够容错。</p>
+<p>MyISAM引擎的索引结构为B+Tree，其中B+Tree的数据域存储的内容为实际数据的<strong>地址</strong>，也就是说它的索引和实际的数据是分开的，只不过是用索引指向了实际的数据，这种索引就是所谓的<strong>非聚集索引</strong>。</p>
+<p>InnoDB引擎的索引结构同样也是B+Tree，但是Innodb的<strong>索引文件本身就是数据文件</strong>，即B+Tree的数据域存储的就是实际的数据，这种索引就是<strong>聚集索引</strong>。这个索引的key就是数据表的主键，因此InnoDB表数据文件本身就是主索引。</p>
+<h3 id="5-Mysql的事务隔离级别"><a href="#5-Mysql的事务隔离级别" class="headerlink" title="5. Mysql的事务隔离级别"></a>5. Mysql的事务隔离级别</h3><table>
+<thead>
+<tr>
+<th align="center">事务隔离级别</th>
+<th align="center">脏读</th>
+<th align="center">不可重复读</th>
+<th align="center">幻读</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">读未提交</td>
+<td align="center">是</td>
+<td align="center">是</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="center">读提交</td>
+<td align="center">否</td>
+<td align="center">是</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="center">重复读</td>
+<td align="center">否</td>
+<td align="center">否</td>
+<td align="center">是</td>
+</tr>
+<tr>
+<td align="center">串行化</td>
+<td align="center">否</td>
+<td align="center">否</td>
+<td align="center">否</td>
+</tr>
+</tbody></table>
+<p>脏读：</p>
+<ul>
+<li>事务A读取了事务B更新的数据，然后B回滚操作，那么A读到的数据就是脏数据。</li>
+</ul>
+<p>不可重复读：</p>
+<ul>
+<li>事务A多次读取同一数据，事务B在事务A多次读取的过程中，对数据作了更新并提交，导致事务A多次读取同一数据时，结果不一致。</li>
+</ul>
+<p>幻读：</p>
+<ul>
+<li>系统管理员A将学生成绩分数改为ABCDE等级，这是系统管理员B插入一条学生成绩分数的记录，当系统管理员改结束后发现有一条记录没有更改，好像产生幻觉。</li>
+</ul>
+<p><strong>小结</strong>：不可重复读和幻读很容易混淆，<strong>不可重复读侧重于修改，幻读侧重于新增或删除</strong>。解决不可重复读的问题只需锁住满足条件的行，解决幻读需要锁表</p>
+<h3 id="6-四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学"><a href="#6-四个表-记录成绩，每个大约十万条记录，如何找到成绩最好的同学" class="headerlink" title="6.  四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学"></a>6.  四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学</h3><p>创建索引，多线程查询，优化sql语句，提高查询效率</p>
+<h3 id="7-常用的负载均衡算法"><a href="#7-常用的负载均衡算法" class="headerlink" title="7. 常用的负载均衡算法"></a>7. 常用的负载均衡算法</h3><p>轮询、随机、源地址哈希、加权轮询、加权随机、最小连接数法</p>
+<h3 id="8-Redis持久化、keys命令"><a href="#8-Redis持久化、keys命令" class="headerlink" title="8. Redis持久化、keys命令"></a>8. Redis持久化、keys命令</h3><p>如果Redis有一亿个key，使用keys命令会影响性能，改为使用set（smemebers key）<br>redis持久化：<a target="_blank" rel="noopener" href="http://redisdoc.zixuebook.cn/topic/persistence.html#redis">http://redisdoc.zixuebook.cn/topic/persistence.html#redis</a></p>
+<h1 id="天猫Java三面"><a href="#天猫Java三面" class="headerlink" title="天猫Java三面"></a>天猫Java三面</h1><h3 id="1-大型网站的分布式服务器集群部署"><a href="#1-大型网站的分布式服务器集群部署" class="headerlink" title="1. 大型网站的分布式服务器集群部署"></a>1. 大型网站的分布式服务器集群部署</h3><p><img src="/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%86%EF%BC%88%E5%A5%BD%E5%8F%8B%E6%8A%95%E7%A8%BF%EF%BC%89/1.jpg" alt="1"></p>
+<h3 id="2-多个RPC请求进来，服务器怎么处理并发"><a href="#2-多个RPC请求进来，服务器怎么处理并发" class="headerlink" title="2. 多个RPC请求进来，服务器怎么处理并发"></a>2. 多个RPC请求进来，服务器怎么处理并发</h3><p>通过负载均衡策略，将请求分流；采用异步IO、非阻塞IO</p>
+<h3 id="3-Redis的哨兵机制（是一个分布式系统）"><a href="#3-Redis的哨兵机制（是一个分布式系统）" class="headerlink" title="3. Redis的哨兵机制（是一个分布式系统）"></a>3. Redis的哨兵机制（是一个分布式系统）</h3><p>Redis的哨兵系统用于管理多个Redis服务器，该系统执行一下三个任务：<br>监控：Sentinel会不断地检查你的主服务器和从服务器是否正常运行<br>提醒：当被监控地某个Redis服务器出现问题时，Sentinel可以通过API向管理员或者其他应用程序发哦是那个通知<br>自动故障迁移：当一个主服务器不能正常工作时，Sentinel会开始一次自动故障迁移操作，他会将失效主服务器地其中一个从服务器升级为新的主服务器，并让失效主服务器的其他从服务器改为复制新的主的服务器；当客户端试图连接失效的主服务器时，集群也会向客户端返回新主服务器的地址，使得集群可以使用新主服务器代替失效服务器。<br>其他：<br>主观下线：指的是单个Sentinel实例对服务器做出的下线判断<br>客观下线：指的是多个Sentinel实例对服务器做出主观下线判断，并且通过SENTINEL is-master-down-by-addr 命令互相交流之后， 得出的服务器下线判断。</p>
+<p>（lee 总结：对主从服务器进行①运行监控 ②故障定位 ③故障转移 ④下线判断）</p>
+<p>故障转移：</p>
+<ol>
+<li>发现主服务器已经进入客观下线状态</li>
+<li>对我们当前纪元进行自增，并尝试再这个纪元中当选</li>
+<li>如果当选失败，那么在设定的故障迁移超时时间的两倍之后，重新尝试当选 ，如果当选成功执行以下步骤</li>
+<li>选出一个从服务器，并将它升级为主服务器</li>
+<li>向被选中的从服务器发送SALVE NO ONE命令，让他转变为主服务器</li>
+<li>通过发布与订阅功能，将更新后的配置传播给所有其他Sentinel，其他Sentinel对它们自己的配置进行更新</li>
+<li>向已下线主服务器的从服务器发送SLAVEOF命令，让它们去复制新的主服务器</li>
+<li>当所有从服务器都已经开始复制新的主服务器时，领头Sentinel终止这次故障迁移操作</li>
+</ol>
+<h3 id="3-数据库分库分表一般多大数据量才需要"><a href="#3-数据库分库分表一般多大数据量才需要" class="headerlink" title="3. 数据库分库分表一般多大数据量才需要"></a>3. 数据库分库分表一般多大数据量才需要</h3><p>一般来说，Mysql单库超过5000万条记录，Oracle单库超过1亿条记录，DB压力就很大，当数据量达到数据库所能承载的数据量后就需要分库、分表。单个库数据量（1T-2T）。</p>
+<p>切库思路：读写分离，第一种自定义注解完成数据库切库，第二种项目中配置多个库的数据源（这几个数据库是完全不同的）。</p>
+<p>数据库分表：横向分表、纵向分表（根据数据活跃度分离）mybatis分表插件shardbatis2.0</p>
+<h3 id="4-如何保证数据库与redis缓存数据一致"><a href="#4-如何保证数据库与redis缓存数据一致" class="headerlink" title="4. 如何保证数据库与redis缓存数据一致"></a>4. 如何保证数据库与redis缓存数据一致</h3><p>首先尝试从缓存中读数据，命中则直接返回，如果读不到则到数据库读数据，并将数据写入缓存；更新数据时，先更新数据库，然后把缓存里对应的数据失效掉。</p>
+<p>解决方案：定期全量更新，定期把缓存全部清掉，然后再全量加载；给所有的缓存一个失效期。</p>
+<h3 id="5-消息队列的使用、应用场景"><a href="#5-消息队列的使用、应用场景" class="headerlink" title="5. 消息队列的使用、应用场景"></a>5. 消息队列的使用、应用场景</h3><p>消息队列：解耦、异步、削峰。应用场景：解决应用解耦、异步消息、流量削峰<br>缺点：系统可用性降低、系统复杂度增加</p>
+<h3 id="6-JVM相关分析工具、具体的性能调优步骤"><a href="#6-JVM相关分析工具、具体的性能调优步骤" class="headerlink" title="6. JVM相关分析工具、具体的性能调优步骤"></a>6. JVM相关分析工具、具体的性能调优步骤</h3><p>jstat、jinfo、jps、jstack、jmap</p>
+<h3 id="7-MySQL的慢sql优化"><a href="#7-MySQL的慢sql优化" class="headerlink" title="7. MySQL的慢sql优化"></a>7. MySQL的慢sql优化</h3><p>慢sql的原因：sql编写问题；锁；业务实例相互干扰；服务器硬件；MYSQL BUG</p>
+<ul>
+<li>优化sql语句：通过慢查询日志，抓取慢sql，通过explain对慢sql分析。</li>
+<li>字段类型转换导致不用索引，如字符串类型的不用引号，数字类型的用引号等，这有可能会用不到索引导致全表扫描；</li>
+<li>mysql 不支持函数转换，所以字段前面不能加函数，否则这将用不到索引；</li>
+<li>不要在字段前面加减运算；</li>
+<li>字符串比较长的可以考虑索引一部份减少索引文件大小，提高写入效率；</li>
+<li>like % 在前面用不到索引；</li>
+<li>根据联合索引的第二个及以后的字段单独查询用不到索引；</li>
+<li>不要使用 <code>select *</code>；</li>
+<li>排序请尽量使用升序 ;</li>
+<li>or 的查询尽量用 union 代替 （Innodb）；</li>
+<li>复合索引高选择性的字段排在前面；</li>
+<li>order by &#x2F; group by 字段包括在索引当中减少排序，效率会更高。</li>
+<li>除了上述索引使用规则外，SQL 编写时还需要特别注意以下几点：<ul>
+<li>尽量规避大事务的 SQL，大事务的 SQL 会影响数据库的并发性能及主从同步；</li>
+<li>分页语句 limit 的问题；</li>
+<li>删除表所有记录请用 truncate，不要用 delete；</li>
+<li>不让 mysql 干多余的事情，如计算；</li>
+<li>输写 SQL 带字段，以防止后面表变更带来的问题，性能也是比较优的 ( 涉及到数据字典解析，请自行查询资料)；</li>
+<li>在 Innodb上用 select count(*)，因为 Innodb 会存储统计信息；</li>
+<li>慎用 Oder by rand()。</li>
+</ul>
+</li>
+<li>最后，服务器的参数优化。</li>
+</ul>
+<h3 id="8-秒杀场景的设计"><a href="#8-秒杀场景的设计" class="headerlink" title="8. 秒杀场景的设计"></a>8. 秒杀场景的设计</h3><p><strong>特点</strong>：秒杀时网站的访问量大增；秒杀时购买的请求数量远小于库存，只有部分用户能够成功；业务流程简单，根据先后顺序，下订单减库存</p>
+<p><strong>前端</strong>：加验证码可以在单位时间内有效的控制住合法用户；将活动页面上的元素全部静态化，通过CDN抗峰值；禁止重复提交</p>
+<p><strong>后端</strong>：加缓存、限制uid、采用消息队列缓存请求、利用缓存应对读写请求</p>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javaWeb/" rel="tag"><i class="fa fa-tag"></i> javaWeb</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%863/" rel="next" title="面经整理3">
+                <i class="fa fa-chevron-left"></i> 面经整理3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/16/SocketDemo%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="SocketDemo学习笔记">
+                SocketDemo学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A9%E7%8C%ABJava%E4%B8%80%E9%9D%A2"><span class="nav-number">1.</span> <span class="nav-text">天猫Java一面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%B8%B8%E8%A7%81%E9%9B%86%E5%90%88%E7%B1%BB%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. 常见集合类的区别和适用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#List%E9%9B%86%E5%90%88"><span class="nav-number">1.0.1.1.</span> <span class="nav-text">List集合</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%B9%B6%E5%8F%91%E5%AE%B9%E5%99%A8%E3%80%81%E5%90%8C%E6%AD%A5%E5%AE%B9%E5%99%A8"><span class="nav-number">1.0.2.</span> <span class="nav-text">2. 并发容器、同步容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-ConcurrentHashMap%E3%80%81CopyOnWriteArrayList"><span class="nav-number">1.0.3.</span> <span class="nav-text">3. ConcurrentHashMap、CopyOnWriteArrayList</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E5%88%97%E8%A1%A8%E6%98%AF%E5%90%A6%E6%9C%89%E7%8E%AF"><span class="nav-number">1.0.4.</span> <span class="nav-text">4. 判断一个列表是否有环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E5%A4%9A%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B9%8B%E9%97%B4session%E5%85%B1%E4%BA%AB%E6%96%B9%E6%A1%88"><span class="nav-number">1.0.5.</span> <span class="nav-text">5. 多台服务器之间session共享方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-BIO%E3%80%81NIO%E3%80%81AIO"><span class="nav-number">1.0.6.</span> <span class="nav-text">6. BIO、NIO、AIO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-JVM%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.0.7.</span> <span class="nav-text">7. JVM内存模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Java%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E2%80%94%E2%80%94%E6%A0%87%E8%AE%B0%E7%AE%97%E6%B3%95%E5%92%8C%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">1.0.8.</span> <span class="nav-text">8. Java的垃圾回收——标记算法和复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-http%E5%92%8Chttps%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8Chttp1-x%E5%92%8Chttp2-0%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%8CSSL%E5%92%8CTSL%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.9.</span> <span class="nav-text">9. http和https的区别，http1.x和http2.0的区别，SSL和TSL之间的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-GC%E3%80%81G1%E3%80%81ZGC%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.10.</span> <span class="nav-text">10. GC、G1、ZGC的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-B%E6%A0%91%E3%80%81B-%E6%A0%91%E3%80%81%E7%BA%A2%E9%BB%91%E6%A0%91"><span class="nav-number">1.0.11.</span> <span class="nav-text">11. B树、B+树、红黑树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F%E5%92%8C%E5%86%85%E5%AD%98%E6%BA%A2%E5%87%BA%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.0.12.</span> <span class="nav-text">12. 内存泄漏和内存溢出的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#13-session%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.0.13.</span> <span class="nav-text">13. session的生命周期</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A9%E7%8C%ABJava%E4%BA%8C%E9%9D%A2"><span class="nav-number">2.</span> <span class="nav-text">天猫Java二面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-java-cas%E5%8E%9F%E7%90%86"><span class="nav-number">2.0.1.</span> <span class="nav-text">1. java cas原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%8F%82%E6%95%B0"><span class="nav-number">2.0.2.</span> <span class="nav-text">2. Java线程池参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Java%E7%9A%84lock%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.0.3.</span> <span class="nav-text">3. Java的lock的底层实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%881%EF%BC%89%E5%8A%A0%E9%94%81%EF%BC%9A"><span class="nav-number">2.0.3.1.</span> <span class="nav-text">（1）加锁：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%882%EF%BC%89%E8%A7%A3%E9%94%81%EF%BC%9A"><span class="nav-number">2.0.3.2.</span> <span class="nav-text">（2）解锁：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%EF%BC%883%EF%BC%89Lock-%E8%B7%9F-Synchronized-%E5%BA%95%E5%B1%82%E6%AF%94%E8%BE%83"><span class="nav-number">2.0.3.3.</span> <span class="nav-text">（3）Lock 跟 Synchronized 底层比较</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-mysql%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E9%BB%98%E8%AE%A4%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E"><span class="nav-number">2.0.4.</span> <span class="nav-text">4. mysql的数据库默认存储引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Mysql%E7%9A%84%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">2.0.5.</span> <span class="nav-text">5. Mysql的事务隔离级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%9B%9B%E4%B8%AA%E8%A1%A8-%E8%AE%B0%E5%BD%95%E6%88%90%E7%BB%A9%EF%BC%8C%E6%AF%8F%E4%B8%AA%E5%A4%A7%E7%BA%A6%E5%8D%81%E4%B8%87%E6%9D%A1%E8%AE%B0%E5%BD%95%EF%BC%8C%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0%E6%88%90%E7%BB%A9%E6%9C%80%E5%A5%BD%E7%9A%84%E5%90%8C%E5%AD%A6"><span class="nav-number">2.0.6.</span> <span class="nav-text">6.  四个表 记录成绩，每个大约十万条记录，如何找到成绩最好的同学</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E5%B8%B8%E7%94%A8%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AE%97%E6%B3%95"><span class="nav-number">2.0.7.</span> <span class="nav-text">7. 常用的负载均衡算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Redis%E6%8C%81%E4%B9%85%E5%8C%96%E3%80%81keys%E5%91%BD%E4%BB%A4"><span class="nav-number">2.0.8.</span> <span class="nav-text">8. Redis持久化、keys命令</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%A9%E7%8C%ABJava%E4%B8%89%E9%9D%A2"><span class="nav-number">3.</span> <span class="nav-text">天猫Java三面</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%A4%A7%E5%9E%8B%E7%BD%91%E7%AB%99%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">3.0.1.</span> <span class="nav-text">1. 大型网站的分布式服务器集群部署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%A4%9A%E4%B8%AARPC%E8%AF%B7%E6%B1%82%E8%BF%9B%E6%9D%A5%EF%BC%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%80%8E%E4%B9%88%E5%A4%84%E7%90%86%E5%B9%B6%E5%8F%91"><span class="nav-number">3.0.2.</span> <span class="nav-text">2. 多个RPC请求进来，服务器怎么处理并发</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Redis%E7%9A%84%E5%93%A8%E5%85%B5%E6%9C%BA%E5%88%B6%EF%BC%88%E6%98%AF%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%EF%BC%89"><span class="nav-number">3.0.3.</span> <span class="nav-text">3. Redis的哨兵机制（是一个分布式系统）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%95%B0%E6%8D%AE%E5%BA%93%E5%88%86%E5%BA%93%E5%88%86%E8%A1%A8%E4%B8%80%E8%88%AC%E5%A4%9A%E5%A4%A7%E6%95%B0%E6%8D%AE%E9%87%8F%E6%89%8D%E9%9C%80%E8%A6%81"><span class="nav-number">3.0.4.</span> <span class="nav-text">3. 数据库分库分表一般多大数据量才需要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8Eredis%E7%BC%93%E5%AD%98%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4"><span class="nav-number">3.0.5.</span> <span class="nav-text">4. 如何保证数据库与redis缓存数据一致</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9A%84%E4%BD%BF%E7%94%A8%E3%80%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.0.6.</span> <span class="nav-text">5. 消息队列的使用、应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-JVM%E7%9B%B8%E5%85%B3%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E3%80%81%E5%85%B7%E4%BD%93%E7%9A%84%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.0.7.</span> <span class="nav-text">6. JVM相关分析工具、具体的性能调优步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-MySQL%E7%9A%84%E6%85%A2sql%E4%BC%98%E5%8C%96"><span class="nav-number">3.0.8.</span> <span class="nav-text">7. MySQL的慢sql优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-%E7%A7%92%E6%9D%80%E5%9C%BA%E6%99%AF%E7%9A%84%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.0.9.</span> <span class="nav-text">8. 秒杀场景的设计</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>
