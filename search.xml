@@ -8613,7 +8613,7 @@ Remapped       100              011              100              011
     <content><![CDATA[<p>wireshark 常见的命令</p>
 <span id="more"></span>
 
-<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">ip<span class="selector-class">.addr</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>  <span class="comment">// 源或目的IP</span></span><br><span class="line">ip<span class="selector-class">.src</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>   <span class="comment">// 源IP</span></span><br><span class="line">ip<span class="selector-class">.dst</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>   <span class="comment">// 目的IP</span></span><br><span class="line"></span><br><span class="line">tcp port <span class="number">21</span> <span class="comment">// 端口过滤</span></span><br><span class="line"></span><br><span class="line">tcp<span class="selector-class">.flags</span><span class="selector-class">.reset</span> eq <span class="number">1</span>     <span class="comment">// TCP 的 RST 报文</span></span><br><span class="line">tcp<span class="selector-class">.seq</span> eq <span class="number">1</span> and tcp<span class="selector-class">.ack</span> eq <span class="number">1</span>   <span class="comment">// TCP 的 seq 和 ack 都是1 的报文 (or 表示或，not 表示取反)</span></span><br><span class="line">frame<span class="selector-class">.time</span> &gt;= <span class="string">&quot;may 02, 2023 18:30:00&quot;</span> and frame<span class="selector-class">.time</span> &lt;= <span class="string">&quot;may 02, 2023 18:35:00&quot;</span> <span class="comment">// 过滤时间</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line">ip<span class="selector-class">.addr</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>  <span class="comment">// 源或目的IP</span></span><br><span class="line">ip<span class="selector-class">.src</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>   <span class="comment">// 源IP</span></span><br><span class="line">ip<span class="selector-class">.dst</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>   <span class="comment">// 目的IP</span></span><br><span class="line"></span><br><span class="line">tcp port <span class="number">21</span> <span class="comment">// 端口过滤</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tcp<span class="selector-class">.flags</span><span class="selector-class">.reset</span> eq <span class="number">1</span>     <span class="comment">// TCP 的 RST 报文</span></span><br><span class="line">tcp<span class="selector-class">.seq</span> eq <span class="number">1</span> and tcp<span class="selector-class">.ack</span> eq <span class="number">1</span>   <span class="comment">// TCP 的 seq 和 ack 都是1 的报文 (or 表示或，not 表示取反)</span></span><br><span class="line">frame<span class="selector-class">.time</span> &gt;= <span class="string">&quot;may 02, 2023 18:30:00&quot;</span> and frame<span class="selector-class">.time</span> &lt;= <span class="string">&quot;may 02, 2023 18:35:00&quot;</span> <span class="comment">// 过滤时间</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>在wireshark中，如何从一个报文，找到它所在整个TCP流的所有其他报文？</p>
 <blockquote>
@@ -11514,9 +11514,10 @@ Remapped       100              011              100              011
   <entry>
     <title>机床数据采集</title>
     <url>/2022/02/25/%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<p>数采、DNC等</p>
+<span id="more"></span>
 
-<p>国内常见的数控系统（CNC）：fanuc(发那科)，siemens（西门子）,Mitsubishi（三菱），mazak（马扎克），Heidenhain（海德汉），HASS(哈斯)，brother(兄弟)，OKUMA（大隈），Toshiba（东芝)，丰田等，国内品牌：华中数控，广州数控，台湾新代等。</p>
+<h1 id="数采"><a href="#数采" class="headerlink" title="数采"></a>数采</h1><p>国内常见的数控系统（CNC）：fanuc(发那科)，siemens（西门子）,Mitsubishi（三菱），mazak（马扎克），Heidenhain（海德汉），HASS(哈斯)，brother(兄弟)，OKUMA（大隈），Toshiba（东芝)，丰田等，国内品牌：华中数控，广州数控，台湾新代等。</p>
 <p>数采分三个方面：</p>
 <ol>
 <li><p>PLC 设备</p>
@@ -11543,6 +11544,24 @@ Remapped       100              011              100              011
 <ol>
 <li>以太网接口</li>
 <li>串口</li>
+</ol>
+<h1 id="DNC"><a href="#DNC" class="headerlink" title="DNC"></a>DNC</h1><h2 id="西门子"><a href="#西门子" class="headerlink" title="西门子"></a>西门子</h2><ol>
+<li>西门子828D中，nckfs目录有什么用?</li>
+</ol>
+<p>在西门子828D系统中，nckfs目录是NC Kern File System的缩写，是NC核心文件系统目录。该目录下存放了与机床数控核心相关的系统文件和数据。具体来说，nckfs目录下包括：</p>
+<ul>
+<li>NC核心文件：如核心程序文件（core），文件系统镜像文件（image），日志文件（log）等。</li>
+<li>程序、数据等应用文件：如NC程序文件（.NC），宏程序文件（.MPF）、数据文件（.DAT）等。</li>
+<li>一些配置文件：如开关机程序文件（autoexec.nc）、用户管理文件（user.dat）等。</li>
+</ul>
+<p>这些文件都是机床控制系统正常运行的必备文件，因此nckfs目录及其下面的文件都非常重要。在一些情况下，如系统升级或备份，可能需要访问或备份这些文件，但建议仅在了解系统操作和相关知识的情况下进行操作，以免意外损坏文件导致系统故障。</p>
+<ol start="2">
+<li><p>西门子828D中，NCPROG是外接文件系统吗<br>在西门子828D系统中，NCPROG 是机床控制器中的一个文件系统，用于存储数控程序文件。它通常是通过外部设备（如USB存储设备）进行管理和维护，但本身并不是外接文件系统。NCPROG 文件系统可以通过西门子编程软件，如ShopMill 或ShopTurn 进行编程和编辑。</p>
+</li>
+<li><p>西门子828D中，<code>nckfs/_N_SPF_DIR</code>目录有什么用<br>西门子828D系统中，<code>nckfs/_N_SPF_DIR</code>是用于存储NC程序的目录。其中，NCK程序的名称必须符合<code>*.spf</code>格式，否则将无法在系统中识别。该目录还包括两个文件：一个是目录文件夹<code>_N_SPF_DIR</code>，另一个是缩略图<code>_N_SPF_DIR.THM</code>。这些文件的作用是在NC程序选择器中提供缩略图和NC程序名称的信息。</p>
+</li>
+<li><p>西门子828D中，<code>nckfs/_N_MPF_DIR/</code>目录有什么用<br>在西门子828D系统中，<code>nckfs/_N_MPF_DIR/</code>目录存储的是主程序文件，即NC文件。这些文件通常是通过NCK面板或通过FTP传输到数控系统中，然后由系统加载以执行加工程序。在该目录下可以存储多个NC文件，按照文件名的字母顺序排列。一般来说，数控系统会自动加载最新的NC文件，如果需要运行其他NC文件，可以通过NCK面板进行选择，或通过程序代码进行切换。</p>
+</li>
 </ol>
 ]]></content>
       <categories>

@@ -102,7 +102,7 @@
 <meta property="og:description" content="wireshark 常见的命令">
 <meta property="og:locale">
 <meta property="article:published_time" content="2023-05-02T10:21:54.000Z">
-<meta property="article:modified_time" content="2023-05-08T16:36:56.838Z">
+<meta property="article:modified_time" content="2023-05-08T17:00:55.155Z">
 <meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
 <meta property="article:tag" content="computer network">
 <meta name="twitter:card" content="summary">
@@ -422,7 +422,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2023-05-09 00:36:56" itemprop="dateModified" datetime="2023-05-09T00:36:56+08:00">2023-05-09</time>
+                <time title="Modified: 2023-05-09 01:00:55" itemprop="dateModified" datetime="2023-05-09T01:00:55+08:00">2023-05-09</time>
               
             
           </span>
@@ -485,7 +485,7 @@
         <p>wireshark 常见的命令</p>
 <span id="more"></span>
 
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ip<span class="selector-class">.addr</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>  <span class="comment">// 源或目的IP</span></span><br><span class="line">ip<span class="selector-class">.src</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>   <span class="comment">// 源IP</span></span><br><span class="line">ip<span class="selector-class">.dst</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>   <span class="comment">// 目的IP</span></span><br><span class="line"></span><br><span class="line">tcp port <span class="number">21</span> <span class="comment">// 端口过滤</span></span><br><span class="line"></span><br><span class="line">tcp<span class="selector-class">.flags</span><span class="selector-class">.reset</span> eq <span class="number">1</span>     <span class="comment">// TCP 的 RST 报文</span></span><br><span class="line">tcp<span class="selector-class">.seq</span> eq <span class="number">1</span> and tcp<span class="selector-class">.ack</span> eq <span class="number">1</span>   <span class="comment">// TCP 的 seq 和 ack 都是1 的报文 (or 表示或，not 表示取反)</span></span><br><span class="line">frame<span class="selector-class">.time</span> &gt;= <span class="string">&quot;may 02, 2023 18:30:00&quot;</span> and frame<span class="selector-class">.time</span> &lt;= <span class="string">&quot;may 02, 2023 18:35:00&quot;</span> <span class="comment">// 过滤时间</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ip<span class="selector-class">.addr</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>  <span class="comment">// 源或目的IP</span></span><br><span class="line">ip<span class="selector-class">.src</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>   <span class="comment">// 源IP</span></span><br><span class="line">ip<span class="selector-class">.dst</span> eq <span class="number">192.168</span>.<span class="number">50.1</span>   <span class="comment">// 目的IP</span></span><br><span class="line"></span><br><span class="line">tcp port <span class="number">21</span> <span class="comment">// 端口过滤</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tcp<span class="selector-class">.flags</span><span class="selector-class">.reset</span> eq <span class="number">1</span>     <span class="comment">// TCP 的 RST 报文</span></span><br><span class="line">tcp<span class="selector-class">.seq</span> eq <span class="number">1</span> and tcp<span class="selector-class">.ack</span> eq <span class="number">1</span>   <span class="comment">// TCP 的 seq 和 ack 都是1 的报文 (or 表示或，not 表示取反)</span></span><br><span class="line">frame<span class="selector-class">.time</span> &gt;= <span class="string">&quot;may 02, 2023 18:30:00&quot;</span> and frame<span class="selector-class">.time</span> &lt;= <span class="string">&quot;may 02, 2023 18:35:00&quot;</span> <span class="comment">// 过滤时间</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>在wireshark中，如何从一个报文，找到它所在整个TCP流的所有其他报文？</p>
 <blockquote>

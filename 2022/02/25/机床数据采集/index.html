@@ -94,15 +94,15 @@
 
 
 
-  <meta name="description" content="国内常见的数控系统（CNC）：fanuc(发那科)，siemens（西门子）,Mitsubishi（三菱），mazak（马扎克），Heidenhain（海德汉），HASS(哈斯)，brother(兄弟)，OKUMA（大隈），Toshiba（东芝)，丰田等，国内品牌：华中数控，广州数控，台湾新代等。 数采分三个方面：  PLC 设备 PLC 设备呢，通信来讲比较简单，原因是资料较多，很多协议是可">
+  <meta name="description" content="数采、DNC等">
 <meta property="og:type" content="article">
 <meta property="og:title" content="机床数据采集">
 <meta property="og:url" content="http://yoursite.com/2022/02/25/%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="国内常见的数控系统（CNC）：fanuc(发那科)，siemens（西门子）,Mitsubishi（三菱），mazak（马扎克），Heidenhain（海德汉），HASS(哈斯)，brother(兄弟)，OKUMA（大隈），Toshiba（东芝)，丰田等，国内品牌：华中数控，广州数控，台湾新代等。 数采分三个方面：  PLC 设备 PLC 设备呢，通信来讲比较简单，原因是资料较多，很多协议是可">
+<meta property="og:description" content="数采、DNC等">
 <meta property="og:locale">
 <meta property="article:published_time" content="2022-02-25T02:06:59.000Z">
-<meta property="article:modified_time" content="2023-05-08T16:33:08.895Z">
+<meta property="article:modified_time" content="2023-05-09T09:47:36.972Z">
 <meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
 <meta property="article:tag" content="javaWeb">
 <meta name="twitter:card" content="summary">
@@ -422,7 +422,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+                <time title="Modified: 2023-05-09 17:47:36" itemprop="dateModified" datetime="2023-05-09T17:47:36+08:00">2023-05-09</time>
               
             
           </span>
@@ -482,9 +482,10 @@
       
 
       
-        <span id="more"></span>
+        <p>数采、DNC等</p>
+<span id="more"></span>
 
-<p>国内常见的数控系统（CNC）：fanuc(发那科)，siemens（西门子）,Mitsubishi（三菱），mazak（马扎克），Heidenhain（海德汉），HASS(哈斯)，brother(兄弟)，OKUMA（大隈），Toshiba（东芝)，丰田等，国内品牌：华中数控，广州数控，台湾新代等。</p>
+<h1 id="数采"><a href="#数采" class="headerlink" title="数采"></a>数采</h1><p>国内常见的数控系统（CNC）：fanuc(发那科)，siemens（西门子）,Mitsubishi（三菱），mazak（马扎克），Heidenhain（海德汉），HASS(哈斯)，brother(兄弟)，OKUMA（大隈），Toshiba（东芝)，丰田等，国内品牌：华中数控，广州数控，台湾新代等。</p>
 <p>数采分三个方面：</p>
 <ol>
 <li><p>PLC 设备</p>
@@ -511,6 +512,24 @@
 <ol>
 <li>以太网接口</li>
 <li>串口</li>
+</ol>
+<h1 id="DNC"><a href="#DNC" class="headerlink" title="DNC"></a>DNC</h1><h2 id="西门子"><a href="#西门子" class="headerlink" title="西门子"></a>西门子</h2><ol>
+<li>西门子828D中，nckfs目录有什么用?</li>
+</ol>
+<p>在西门子828D系统中，nckfs目录是NC Kern File System的缩写，是NC核心文件系统目录。该目录下存放了与机床数控核心相关的系统文件和数据。具体来说，nckfs目录下包括：</p>
+<ul>
+<li>NC核心文件：如核心程序文件（core），文件系统镜像文件（image），日志文件（log）等。</li>
+<li>程序、数据等应用文件：如NC程序文件（.NC），宏程序文件（.MPF）、数据文件（.DAT）等。</li>
+<li>一些配置文件：如开关机程序文件（autoexec.nc）、用户管理文件（user.dat）等。</li>
+</ul>
+<p>这些文件都是机床控制系统正常运行的必备文件，因此nckfs目录及其下面的文件都非常重要。在一些情况下，如系统升级或备份，可能需要访问或备份这些文件，但建议仅在了解系统操作和相关知识的情况下进行操作，以免意外损坏文件导致系统故障。</p>
+<ol start="2">
+<li><p>西门子828D中，NCPROG是外接文件系统吗<br>在西门子828D系统中，NCPROG 是机床控制器中的一个文件系统，用于存储数控程序文件。它通常是通过外部设备（如USB存储设备）进行管理和维护，但本身并不是外接文件系统。NCPROG 文件系统可以通过西门子编程软件，如ShopMill 或ShopTurn 进行编程和编辑。</p>
+</li>
+<li><p>西门子828D中，<code>nckfs/_N_SPF_DIR</code>目录有什么用<br>西门子828D系统中，<code>nckfs/_N_SPF_DIR</code>是用于存储NC程序的目录。其中，NCK程序的名称必须符合<code>*.spf</code>格式，否则将无法在系统中识别。该目录还包括两个文件：一个是目录文件夹<code>_N_SPF_DIR</code>，另一个是缩略图<code>_N_SPF_DIR.THM</code>。这些文件的作用是在NC程序选择器中提供缩略图和NC程序名称的信息。</p>
+</li>
+<li><p>西门子828D中，<code>nckfs/_N_MPF_DIR/</code>目录有什么用<br>在西门子828D系统中，<code>nckfs/_N_MPF_DIR/</code>目录存储的是主程序文件，即NC文件。这些文件通常是通过NCK面板或通过FTP传输到数控系统中，然后由系统加载以执行加工程序。在该目录下可以存储多个NC文件，按照文件名的字母顺序排列。一般来说，数控系统会自动加载最新的NC文件，如果需要运行其他NC文件，可以通过NCK面板进行选择，或通过程序代码进行切换。</p>
+</li>
 </ol>
 
       
@@ -618,8 +637,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -781,6 +809,23 @@
         </div>
       </div>
 
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E9%87%87"><span class="nav-number">1.</span> <span class="nav-text">数采</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNC"><span class="nav-number">2.</span> <span class="nav-text">DNC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A5%BF%E9%97%A8%E5%AD%90"><span class="nav-number">2.1.</span> <span class="nav-text">西门子</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
       
 
       
