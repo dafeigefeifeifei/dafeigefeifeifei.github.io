@@ -11556,13 +11556,58 @@ Remapped       100              011              100              011
 </ul>
 <p>这些文件都是机床控制系统正常运行的必备文件，因此nckfs目录及其下面的文件都非常重要。在一些情况下，如系统升级或备份，可能需要访问或备份这些文件，但建议仅在了解系统操作和相关知识的情况下进行操作，以免意外损坏文件导致系统故障。</p>
 <ol start="2">
-<li><p>西门子828D中，NCPROG是外接文件系统吗<br>在西门子828D系统中，NCPROG 是机床控制器中的一个文件系统，用于存储数控程序文件。它通常是通过外部设备（如USB存储设备）进行管理和维护，但本身并不是外接文件系统。NCPROG 文件系统可以通过西门子编程软件，如ShopMill 或ShopTurn 进行编程和编辑。</p>
+<li><p>西门子828D中，NCPROG是外接文件系统吗<br>在西门子828D系统中，NCPROG 是机床控制器中的一个文件系统，用于存储数控程序文件。它通常是通过外部设备（如USB存储设备）进行管理和维护，但本身并不是外接文件系统。</p>
 </li>
-<li><p>西门子828D中，<code>nckfs/_N_SPF_DIR</code>目录有什么用<br>西门子828D系统中，<code>nckfs/_N_SPF_DIR</code>是用于存储NC程序的目录。其中，NCK程序的名称必须符合<code>*.spf</code>格式，否则将无法在系统中识别。该目录还包括两个文件：一个是目录文件夹<code>_N_SPF_DIR</code>，另一个是缩略图<code>_N_SPF_DIR.THM</code>。这些文件的作用是在NC程序选择器中提供缩略图和NC程序名称的信息。</p>
+<li><p>西门子828D中，<code>nckfs/_N_SPF_DIR</code>目录有什么用<br>【存疑】西门子828D系统中，<code>nckfs/_N_SPF_DIR</code>是用于存储子程序的目录。其中，NCK程序的名称必须符合<code>*.spf</code>格式，否则将无法在系统中识别。该目录还包括两个文件：一个是目录文件夹<code>_N_SPF_DIR</code>，另一个是缩略图<code>_N_SPF_DIR.THM</code>。这些文件的作用是在NC程序选择器中提供缩略图和NC程序名称的信息。</p>
 </li>
-<li><p>西门子828D中，<code>nckfs/_N_MPF_DIR/</code>目录有什么用<br>在西门子828D系统中，<code>nckfs/_N_MPF_DIR/</code>目录存储的是主程序文件，即NC文件。这些文件通常是通过NCK面板或通过FTP传输到数控系统中，然后由系统加载以执行加工程序。在该目录下可以存储多个NC文件，按照文件名的字母顺序排列。一般来说，数控系统会自动加载最新的NC文件，如果需要运行其他NC文件，可以通过NCK面板进行选择，或通过程序代码进行切换。</p>
+<li><p>西门子828D中，<code>nckfs/_N_MPF_DIR/</code>目录有什么用<br>【存疑】在西门子828D系统中，<code>nckfs/_N_MPF_DIR/</code>目录存储的是主程序文件，即NC文件。这些文件通常是通过NCK面板或通过FTP传输到数控系统中，然后由系统加载以执行加工程序。在该目录下可以存储多个NC文件，按照文件名的字母顺序排列。一般来说，数控系统会自动加载最新的NC文件，如果需要运行其他NC文件，可以通过NCK面板进行选择，或通过程序代码进行切换。</p>
+</li>
+<li><p>DNC中Tap是什么类型文件<br>Tap（.tap）是一种ASCII格式的CNC程序文件，通常用于数字控制系统（DNC）中。它是一种纯文本文件，可以由任何文本编辑器打开和编辑。Tap文件包含机器指令，用于控制CNC机床的运动。这些文件可以通过串行端口或网络连接发送到CNC控制器，以便实现自动化的CNC编程和加工过程。</p>
 </li>
 </ol>
+<p>实际文件 <code>/nckfs/_N_MPF_DIR/_N_O88889_MPF</code> ，对应面板 <code>NC/零件程序/O88889</code></p>
+<ol start="6">
+<li>西门子828D中，零件程序、子程序、工件各自是什么意思？该怎么区分？</li>
+</ol>
+<ul>
+<li>零件程序是直接加工某个零件所需的完整程序。</li>
+<li>子程序是一部分程序，可以在多个工件程序中重复使用。</li>
+<li>工件程序是由一个或多个零件程序和子程序组成的完整程序，用于加工整个工件。<ul>
+<li>文件名：零件程序以“.mpf”为后缀名，子程序以“.spf”为后缀名，工件通常没有特定的后缀名。</li>
+<li>调用子程序时，要以<code>//B</code> 开头，<code>//END</code>结尾，中间SUB(Identifier) ，其中Identifier是子程序的程序名</li>
+</ul>
+</li>
+</ul>
+<h3 id="程序存储"><a href="#程序存储" class="headerlink" title="程序存储"></a>程序存储</h3><p><img src="/2022/02/25/%E6%9C%BA%E5%BA%8A%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/1.png"></p>
+<blockquote>
+<ol>
+<li>NC；2. 本地驱动（CompactFlash卡或硬盘驱动器）；3. USB设备；4. 网络驱动</li>
+</ol>
+</blockquote>
+<ol start="7">
+<li><p>放置在828D外部U盘中的NC程序，能直接被执行吗？<br>【存疑】是的，828D控制器可以直接执行存储在外部U盘中的NC程序。您只需确保将NC程序正确地放置在U盘根目录下的“PROGRAM”文件夹中，然后在机床控制面板上进入NCPROG菜单，即可在NC程序列表中看到已经添加的NC程序。从列表中选择程序并运行即可执行NC程序。</p>
+</li>
+<li><p>接上，但是来自官方文档《SINUMERIK, Manual, Mold-Making with 3- to 5-Axis Simultaneous Milling》P33：例如主程序中的SAMPLE。根据控件和数据存储位置的不同，调用会有所不同。</p>
+</li>
+</ol>
+<ul>
+<li>子程序在HMI用户存储器（NC）上：CALL“SAMPLE”。</li>
+<li>子程序在CompactFlash卡上的目录中：EXTCALL“CF_card:&#x2F;PROGRAMS&#x2F;SAMPLE.SPF”。</li>
+<li>子程序在本地驱动器上：EXTCALL”local_drive:&#x2F;PROGRAMS&#x2F;SAMPLE.SPF“。</li>
+<li>子程序在U盘上：EXTCALL”USB:&#x2F;MOLD_DDIE&#x2F;CAM_ROUGH.SPF“。</li>
+<li>与以太网连接的网络和机器数据SD 42700中的路径，例如在服务器“&#x2F;&#x2F;R4711&#x2F;工件&#x2F;子程序”上。默认设置是可选的。使用EXTCALL进行调用时，可以首先指定目录：EXTCALL“SAMPLE.SPF”。</li>
+</ul>
+<p>【存疑】CF_CARD: &#x2F;MPF.DIR&#x2F;XYZ.MPF (points to &#x2F;user&#x2F;sinumerik&#x2F;data&#x2F;prog)</p>
+<h3 id="《SINUMERIK-Integrate-Run-MyScreens-Programming-Manual-》"><a href="#《SINUMERIK-Integrate-Run-MyScreens-Programming-Manual-》" class="headerlink" title="《SINUMERIK Integrate Run MyScreens Programming Manual 》"></a>《SINUMERIK Integrate Run MyScreens Programming Manual 》</h3><p>P365目录</p>
+<p>P1038～P1050<br>调用子程序</p>
+<figure class="highlight abnf"><table><tr><td class="code"><pre><span class="line">//B(PROG1) <span class="comment">; Block start</span></span><br><span class="line">SUB(UP1) <span class="comment">; Start of subprogram</span></span><br><span class="line">  ...  </span><br><span class="line">  REG[<span class="number">0</span>] <span class="operator">=</span> <span class="number">5</span> <span class="comment">; Assign value 5 to register 0</span></span><br><span class="line">  ...  </span><br><span class="line">END_SUB <span class="comment">; End of subprogram</span></span><br><span class="line">SUB(UP2) <span class="comment">; Start of subprogram</span></span><br><span class="line">  IF VAR1.val<span class="operator">=</span><span class="operator">=</span><span class="string">&quot;Otto&quot;</span>  </span><br><span class="line">    VAR1.val<span class="operator">=</span><span class="string">&quot;Hans&quot;</span>  </span><br><span class="line">    RETURN  </span><br><span class="line">  ENDIF  </span><br><span class="line">  VAR1.val<span class="operator">=</span><span class="string">&quot;Otto&quot;</span>  </span><br><span class="line">END_SUB <span class="comment">; End of subprogram</span></span><br><span class="line">//END <span class="comment">; Block end</span></span><br></pre></td></tr></table></figure>
+
+
+<p>复制程序</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">//</span> Flash内部传</span><br><span class="line">CP(<span class="string">&quot;//NC/MPF.DIR/HOHO.MPF&quot;</span>,<span class="string">&quot;//NC/MPF.DIR/ASLAN.MPF&quot;</span>,VAR1)</span><br><span class="line"><span class="regexp">//</span> 从CF拷贝到Flash</span><br><span class="line">CP(<span class="string">&quot;CF_CARD:/wks.dir/MESS_BILD.WPD/MESS_BILD.MPF&quot;</span>,<span class="string">&quot;//NC/WKS.DIR/AAA.WPD/HOHO2.MPF&quot;</span>,VAR1)</span><br><span class="line"><span class="regexp">//</span> Flash内部传</span><br><span class="line">CP(<span class="string">&quot;//NC/MPF.DIR/HOHO.MPF&quot;</span>,<span class="string">&quot;//NC/MPF.DIR/ASLAN.MPF&quot;</span>) ; WPD must exist</span><br></pre></td></tr></table></figure>
+
+
+
 ]]></content>
       <categories>
         <category>edge</category>
