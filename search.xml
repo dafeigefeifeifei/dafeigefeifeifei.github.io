@@ -6147,6 +6147,10 @@ Remapped       100              011              100              011
 </blockquote>
 <figure class="highlight objectivec"><table><tr><td class="code"><pre><span class="line">作为一个PlantUML活动图生成器，你需要根据我的提示内容生成一个上位机DNC与PLC交互的活动图，并输出相应的PlantUML代码。这个流程图需要包括操作工人、PLC、上位机等角色扮演的活动步骤，流程如下:</span><br><span class="line"><span class="number">1.</span><span class="built_in">CNC</span>加工完成后，向PLC申请上下料。</span><br><span class="line"><span class="number">2.</span>PLC完成自主下料动作</span><br><span class="line"><span class="number">3.</span>等待工人装卸料完成</span><br><span class="line"><span class="number">4.</span>工人在【中转区】通过上位机系统对新料完成扫码，并进行确认</span><br><span class="line"><span class="number">5.</span>此时物料数据由上位机传递给PLC，PLC自主调度工作台发往空闲加工中心完成上料。</span><br><span class="line"><span class="number">6.</span>PLC上下料完成后，将产品条码和机床号传给上位机，请求下发<span class="built_in">CNC</span>代码</span><br><span class="line"><span class="number">7.</span>上位机根据工件条码下发机床对应的<span class="built_in">CNC</span>代码</span><br><span class="line"><span class="number">8.</span>上位机通知PLC代码下发完成</span><br><span class="line"><span class="number">9.</span>最后人工在机床操作面板审核<span class="built_in">CNC</span>代码准确性</span><br><span class="line"><span class="number">9.2</span>异常流程备注：<span class="built_in">CNC</span>程序由人工拷贝到机床</span><br><span class="line"><span class="number">10.</span>PLC启动机床加工</span><br></pre></td></tr></table></figure>
 
+<h5 id="补充PlantUML小语法："><a href="#补充PlantUML小语法：" class="headerlink" title="补充PlantUML小语法："></a>补充PlantUML小语法：</h5><p>在“@startuml”后添加以下内容，修改文字大小，添加”&#x2F;n”帮文字换行。</p>
+<figure class="highlight puppet"><table><tr><td class="code"><pre><span class="line">skinparam <span class="keyword">activity</span>  &#123;</span><br><span class="line"></span><br><span class="line">	<span class="string">&#x27;菱形图字体大小</span></span><br><span class="line"><span class="string">	DiamondFontSize 20</span></span><br><span class="line"><span class="string">	&#x27;</span>箭头上的字体大小</span><br><span class="line">	ArrowFontSize <span class="number">20</span></span><br><span class="line">	<span class="string">&#x27;框图内字体大小</span></span><br><span class="line"><span class="string">	FontSize 20</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
 
 <h3 id="生成PPT"><a href="#生成PPT" class="headerlink" title="生成PPT"></a>生成PPT</h3><ol>
 <li>根据chatGPT生成符合闪击PPT格式的文本</li>
@@ -11622,7 +11626,7 @@ Remapped       100              011              100              011
 <figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">//</span> Flash内部传</span><br><span class="line">CP(<span class="string">&quot;//NC/MPF.DIR/HOHO.MPF&quot;</span>,<span class="string">&quot;//NC/MPF.DIR/ASLAN.MPF&quot;</span>,VAR1)</span><br><span class="line"><span class="regexp">//</span> 从CF拷贝到Flash</span><br><span class="line">CP(<span class="string">&quot;CF_CARD:/wks.dir/MESS_BILD.WPD/MESS_BILD.MPF&quot;</span>,<span class="string">&quot;//NC/WKS.DIR/AAA.WPD/HOHO2.MPF&quot;</span>,VAR1)</span><br><span class="line"><span class="regexp">//</span> Flash内部传</span><br><span class="line">CP(<span class="string">&quot;//NC/MPF.DIR/HOHO.MPF&quot;</span>,<span class="string">&quot;//NC/MPF.DIR/ASLAN.MPF&quot;</span>) ; WPD must exist</span><br></pre></td></tr></table></figure>
 
 
-
+<h3 id="《SINUMERIK-840D-sl通用型》"><a href="#《SINUMERIK-840D-sl通用型》" class="headerlink" title="《SINUMERIK 840D sl通用型》"></a>《SINUMERIK 840D sl通用型》</h3><p>P331</p>
 ]]></content>
       <categories>
         <category>edge</category>
