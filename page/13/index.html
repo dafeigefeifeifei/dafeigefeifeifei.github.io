@@ -360,6 +360,212 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/13/Note-for-Computer-Network-3/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/13/Note-for-Computer-Network-3/" class="post-title-link" itemprop="url">Note for Computer Network 3</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-13 14:58:56" itemprop="dateCreated datePublished" datetime="2018-07-13T14:58:56+08:00">2018-07-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="协议栈如何处理数据发送请求"><a href="#协议栈如何处理数据发送请求" class="headerlink" title="协议栈如何处理数据发送请求"></a>协议栈如何处理数据发送请求</h1><p>副标题：阅读《网络是怎么连接的（户根勤）》读书笔记3</p>
+<p><img src="/2018/07/13/Note-for-Computer-Network-3/1.png" alt="1"></p>
+<p>Tips:</p>
+<ul>
+<li>IEEE802.3&#x2F;802.2因长度太长、效率降低并未完全普及，更古老的以太网DIX规格仍在使用</li>
+<li>TCP&#x2F;IP协议以前是合为一体的，现在分开成两个</li>
+<li>像浏览器、邮件等一般的应用程序都是使用TCP收发数据的，而像 DNS 查询等收发较短的控制数据的时候则使用UDP</li>
+<li>ICMP用于告知网络包传送过程中产生的错误以及各种控制消息，ARP 用于根据IP地址查询相应的以太网MAC地址</li>
+<li>套接字的实体就是通信控制信息：IP地址、端口号、通信操作的进行状态、是否收到响应、执行发送操作后经过了多长时间等</li>
+</ul>
+<p><img src="/2018/07/13/Note-for-Computer-Network-3/2.png" alt="2"></p>
+<ul>
+<li>图2.3的步骤1中，协议栈申请内存空间准备存放套接字（控制信息），刚刚创建时，数据收发操作还未开始，故写入初始状态的控制信息；之后将套接字描述符告知应用程序</li>
+<li>步骤2的连接是指双方交换控制信息，必要的信息放在了网络包的头部，另一类放在套接字内存区<ul>
+<li>将浏览器查到的对方IP和端口号等告知协议栈</li>
+<li>服务器创建套接字（其实一般在服务器启动时已经创建好了），客户端将本机IP和端口号等告知服务器</li>
+<li>创建一块缓存区，用于临时存放收发的数据</li>
+<li>connect详见后面段落</li>
+</ul>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/13/Note-for-Computer-Network-3/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/06/Pictures-play-in-turn/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2207,224 +2413,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/notes-for-HeadFirstServletsAndJsp3/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/14/notes-for-HeadFirstServletsAndJsp3/" class="post-title-link" itemprop="url">notes_for_HeadFirstServletsAndJsp3</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-05-14 09:17:03" itemprop="dateCreated datePublished" datetime="2018-05-14T09:17:03+08:00">2018-05-14</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Head-First-Servlets-amp-JSP-读书笔记-3"><a href="#Head-First-Servlets-amp-JSP-读书笔记-3" class="headerlink" title="Head First Servlets&amp;JSP 读书笔记_3"></a>Head First Servlets&amp;JSP 读书笔记_3</h1><h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
-<li><p>J2EE：Java 2 Enterprise Edition，包含了Web容器和EJB(Enterprise JavaBean)容器，而tomcat只是一种Web容器，不是完整的J2EE应用服务器</p>
-</li>
-<li><p>独立的EJB容器？独立的EJB容器已经过时，目前所有的EJB容器都作为完整J2EE的一部分</p>
-</li>
-<li><p>POJO：Plain Old Java Object，普通的java对象。与JavaBean的区别是，POJO可以有属性和getter&#x2F;setter方法，可以有简单的运算属性，但不允许有业务方法和connection之类方法</p>
-</li>
-<li><p>scriptlet代码：</p>
-<blockquote>
-<p>In JavaServer Pages (JSP) technology, a scriptlet is a piece of Java-code embedded in the HTML-like JSP code. The scriptlet is everything inside the &lt;%  %&gt; tags. Between these the user can add any valid Scriptlet i.e. any valid Java Code.<br>  [译]JSP中的scriptlet是指在类HTML的JSP中的标准java代码段，使用”&lt;% %&gt;”的格式。</p>
-</blockquote>
-</li>
-<li><p>请求分派机制：容器机制，容器管理的一个组件调用另一个组件</p>
-</li>
-</ul>
-<h2 id="web与MVC"><a href="#web与MVC" class="headerlink" title="web与MVC"></a>web与MVC</h2><p>[理解]MVC：将Servlet中做业务逻辑的功能（查询DB，插入DB，把HTML输出到响应流返回客户）搬到业务层和持久层。业务逻辑本身应该作为一个可重用的Java类，让业务逻辑根本不知道有表现的存在。</p>
-<ol>
-<li><p>原本Servlet完成的输出HTML的工作，现在Servlet将请求转发给适当的JSP，再由JSP建立响应HTML，并将其返回。</p>
- <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用ssm的controller凑合理解一下。。</span></span><br><span class="line"><span class="comment">//从这个url（admin_category_list）进来</span></span><br><span class="line">@<span class="constructor">RequestMapping(<span class="string">&quot;admin_category_list&quot;</span>)</span></span><br><span class="line">public String <span class="built_in">list</span>(Model model,Page page) &#123;</span><br><span class="line">	List&lt;Category&gt; cs=categoryService.<span class="built_in">list</span>(page);</span><br><span class="line">	<span class="built_in">int</span> total=categoryService.total<span class="literal">()</span>;</span><br><span class="line">	page.set<span class="constructor">Total(<span class="params">total</span>)</span>;</span><br><span class="line">	model.add<span class="constructor">Attribute(<span class="string">&quot;cs&quot;</span>,<span class="params">cs</span>)</span>;</span><br><span class="line">	model.add<span class="constructor">Attribute(<span class="string">&quot;page&quot;</span>,<span class="params">page</span>)</span>;</span><br><span class="line">	<span class="comment">//视图跳转到listCategory.jsp文件</span></span><br><span class="line">	return <span class="string">&quot;admin/listCategory&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>功能分隔：</p>
-<blockquote>
-<ul>
-<li>视图：负责表示方面。它从控制器得到模型的状态。另外视图还要获得用户的输入，并交给控制器。</li>
-<li>控制器：从请求获得用户输入，并明确这些输入对模型有什么影响。告诉模型自行更新，并且让视图（JSP）能得到新的模型状态。</li>
-<li>模型：包含具体的业务逻辑和状态。即模型知道用什么规则来得到和更新状态。购物车的内容（和处理购物车内容的规则）就属于MVC中的模型。系统中只有这部分与数据库通信（不过它可能会使用另一个对象完成具体的数据库通信，但这种模式以后再讲）。</li>
-</ul>
-</blockquote></li></ol>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/05/14/notes-for-HeadFirstServletsAndJsp3/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/12/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/14/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2467,7 +2460,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-count">141</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2589,7 +2582,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                    <span class="site-state-item-count">30</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

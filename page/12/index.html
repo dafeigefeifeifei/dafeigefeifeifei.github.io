@@ -360,6 +360,202 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/25/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BB%83%E4%B9%A0/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/25/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BB%83%E4%B9%A0/" class="post-title-link" itemprop="url">操作系统第一章练习</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-08-25 09:09:02" itemprop="dateCreated datePublished" datetime="2018-08-25T09:09:02+08:00">2018-08-25</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="操作系统概述"><a href="#操作系统概述" class="headerlink" title="操作系统概述"></a>操作系统概述</h1><h4 id="1-操作系统的概念、特征、功能"><a href="#1-操作系统的概念、特征、功能" class="headerlink" title="1. 操作系统的概念、特征、功能"></a>1. 操作系统的概念、特征、功能</h4><ul>
+<li>概念：<strong>控制和管理</strong>整个计算机系统的硬件和软件资源，并<strong>合理地组织调度</strong>计算机的工作和资源的分配，以提供给用户和其他软件方便的接口和环境的<strong>程序集合</strong>。</li>
+<li>特征：<strong>并发、共享</strong>、虚拟、异步。<ul>
+<li>并发。多个事件在同一个时间间隔内（时间段）发生，通过分时（引入进程）实现。</li>
+<li>共享。系统中的资源可供多个并发执行的进程共同使用。分为互斥共享和同时访问两种方式。前者指进程独占资源，此时的独占资源也被称为临界资源；举例：物理设备、软件的栈、变量等。后者指宏观上多进程使用同一个资源，但微观上可能仍然是交替使用（分时共享）；举例：磁盘设备的多进程读入。</li>
+<li>虚拟。一个物理上的实体变为若干个逻辑上的对应物。比如一个CPU虚拟为多个逻辑上的CPU，让每一个终端用户都感觉到有一个CPU在专门为他服务。举例：虚拟CPU、虚拟内存、虚拟I&#x2F;O外设等。</li>
+<li>异步。因为进程的并发执行，所以可能导致进程产生与时间有关的错误（执行顺序等），但操作系统必须保证，只要运行环境相同，都必须获得相同的结果。</li>
+</ul>
+</li>
+<li>功能：处理机管理、存储器管理、设备管理（主要是I&#x2F;O请求）、文件管理、为用户提供接口（命令接口和程序接口，命令接口又分为联机命令接口和脱机命令接口，比如终端命令等，程序接口则是由系统调用（请求系统服务）组成，比如键鼠的键入或点击的交互等）。</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/25/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BB%83%E4%B9%A0/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BB%83%E4%B9%A0/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2203,217 +2399,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/13/Note-for-Computer-Network-3/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/07/13/Note-for-Computer-Network-3/" class="post-title-link" itemprop="url">Note for Computer Network 3</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-07-13 14:58:56" itemprop="dateCreated datePublished" datetime="2018-07-13T14:58:56+08:00">2018-07-13</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="协议栈如何处理数据发送请求"><a href="#协议栈如何处理数据发送请求" class="headerlink" title="协议栈如何处理数据发送请求"></a>协议栈如何处理数据发送请求</h1><p>副标题：阅读《网络是怎么连接的（户根勤）》读书笔记3</p>
-<p><img src="/2018/07/13/Note-for-Computer-Network-3/1.png" alt="1"></p>
-<p>Tips:</p>
-<ul>
-<li>IEEE802.3&#x2F;802.2因长度太长、效率降低并未完全普及，更古老的以太网DIX规格仍在使用</li>
-<li>TCP&#x2F;IP协议以前是合为一体的，现在分开成两个</li>
-<li>像浏览器、邮件等一般的应用程序都是使用TCP收发数据的，而像 DNS 查询等收发较短的控制数据的时候则使用UDP</li>
-<li>ICMP用于告知网络包传送过程中产生的错误以及各种控制消息，ARP 用于根据IP地址查询相应的以太网MAC地址</li>
-<li>套接字的实体就是通信控制信息：IP地址、端口号、通信操作的进行状态、是否收到响应、执行发送操作后经过了多长时间等</li>
-</ul>
-<p><img src="/2018/07/13/Note-for-Computer-Network-3/2.png" alt="2"></p>
-<ul>
-<li>图2.3的步骤1中，协议栈申请内存空间准备存放套接字（控制信息），刚刚创建时，数据收发操作还未开始，故写入初始状态的控制信息；之后将套接字描述符告知应用程序</li>
-<li>步骤2的连接是指双方交换控制信息，必要的信息放在了网络包的头部，另一类放在套接字内存区<ul>
-<li>将浏览器查到的对方IP和端口号等告知协议栈</li>
-<li>服务器创建套接字（其实一般在服务器启动时已经创建好了），客户端将本机IP和端口号等告知服务器</li>
-<li>创建一块缓存区，用于临时存放收发的数据</li>
-<li>connect详见后面段落</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/07/13/Note-for-Computer-Network-3/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2456,7 +2446,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">140</span>
+                    <span class="site-state-item-count">141</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2578,7 +2568,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                    <span class="site-state-item-count">30</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
