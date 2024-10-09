@@ -360,6 +360,210 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/14/Note-for-Computer-Network-4/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/14/Note-for-Computer-Network-4/" class="post-title-link" itemprop="url">Note for Computer Network 4</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-14 10:05:27" itemprop="dateCreated datePublished" datetime="2018-07-14T10:05:27+08:00">2018-07-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="包收发操作"><a href="#包收发操作" class="headerlink" title="包收发操作"></a>包收发操作</h1><p>副标题：阅读《网络是怎么连接的（户根勤）》读书笔记4</p>
+<h2 id="IP模块如何将包发给对方"><a href="#IP模块如何将包发给对方" class="headerlink" title="IP模块如何将包发给对方"></a>IP模块如何将包发给对方</h2><h3 id="通用流程"><a href="#通用流程" class="headerlink" title="通用流程"></a>通用流程</h3><ol>
+<li>发送方的网络设备负责创建包，即生成含控制信息的头部，然后附上要发送的数据</li>
+<li>接着，包被发往最近的网络转发设备</li>
+<li>然后转发设备会根据头部信息判断接下来应该发往哪里，这个过程会用到一张表，按照头部记录的目的地址在表里查询，根据查到的信息判断接下来应该发往哪个方向</li>
+<li>转发设备层层接力，最后到达接收方</li>
+<li>发送方和接收方统称为终端节点，转发设备称为转发节点或中间节点</li>
+</ol>
+<h3 id="扩展流程——TCP-x2F-IP网络，用以太网规则传输包"><a href="#扩展流程——TCP-x2F-IP网络，用以太网规则传输包" class="headerlink" title="扩展流程——TCP&#x2F;IP网络，用以太网规则传输包"></a>扩展流程——TCP&#x2F;IP网络，用以太网规则传输包</h3><ul>
+<li>转发设备包括路由器和集线器两种</li>
+<li>路由器根据目标地址判断下一个路由器的位置，是按照IP规则传输包的设备</li>
+<li>集线器在子网中将网络包传递给下一个路由，是按照以太网规则传输包的设备</li>
+<li>TCP&#x2F;IP包包含<code>MAC头部</code>和<code>IP头部</code>、<code>TCP头部和数据块</code>，IP头部存入下一级路由器的IP地址，MAC头部存入下一级路由器的MAC地址(即以太网地址，是IP协议写入的，使用ARP广播的形式获取)，<strong>MAC地址也叫物理地址(Physical Address)</strong></li>
+<li>例：<ol>
+<li>客户端向服务器发包，先经集线器配合自己的一张表读取<code>MAC头部</code>获取下一个路由器甲的MAC地址，根据MAC地址，让以太网进行包的传输</li>
+<li>包会到达下一个路由器甲，路由器有一张IP协议的表，再读取<code>IP头部</code>获取再下一个路由器乙的IP地址，为了将包发给再下一个路由器，就必须要下一个路由器乙的MAC地址，并记录到MAC头部</li>
+</ol>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/14/Note-for-Computer-Network-4/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/13/Note-for-Computer-Network-3/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2212,207 +2416,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/Multithread-and-ThreadPool/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/17/Multithread-and-ThreadPool/" class="post-title-link" itemprop="url">Multithread and ThreadPool</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-05-17 09:54:27" itemprop="dateCreated datePublished" datetime="2018-05-17T09:54:27+08:00">2018-05-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="多线程与线程池"><a href="#多线程与线程池" class="headerlink" title="多线程与线程池"></a>多线程与线程池</h1><p>参考博客 ：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b8197dd2934c">孙福生简书</a>，<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAxOTc0NzExNg==&mid=2665514609&idx=1&sn=ba61f8b37acc79b1a17871fc7ec5c353&chksm=80d67e32b7a1f724242c38502b9aad8ad398b6b5c56c4e980c802a880ec1c70e5dfdcaafd9ae&scene=38#wechat_redirect">码农翻身</a></p>
-<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
-<li>进程（process）：<strong>计算机已运行程序的实体</strong>。程序本身只是指令、数据及其组织形式的描述，进程才是程序（那些指令和数据）的真正运行实例。<strong>用户下达运行程序的命令后，就会产生进程</strong>。同一程序可产生多个进程（一对多关系），以允许同时有多位用户运行同一程序，却不会相冲突。<strong>进程是拥有资源的基本单位</strong>。进程需要一些资源才能完成工作，如CPU使用时间、存储器、文件以及I&#x2F;O设备，且为依序逐一进行，也就是每个CPU核心任何时间内仅能运行一项进程。进程之间是资源隔离的，如果在进程间共享内容&#x2F;消息传递代价较大。</li>
-<li>线程：进程中负责程序执行的执行单元，<strong>线程是独立调度（CPU调度）和分派的基本单位</strong>，OS做调度时处理的是线程。一个进程中至少有一个线程，每个线程执行的都是进程代码中的某个片段。每个线程都拥有单独的栈内容来做存储本地数据。</li>
-<li>Java有没有多进程编程？否！java程序运行在JVM中，JVM本身就是java.exe运行起来，所以对OS而言，JVM是一个进程，其中无法进行多进程编程。</li>
-<li>多线程：多条线程同时存在，例如写word时，一边输入一边自动保存，就需要两条线程来分别完成。关键技术：线程间通信，线程间共用资源。</li>
-<li>线程池：一种线程使用模式。使用少量线程并让线程保持忙碌。以避免每个用户的请求都反复创建线程的开销。当线程池的线程刚创建时，让他们进入阻塞状态，等到任务来了唤醒即可。可用线程数量应该取决于可用的并发处理器、处理器内核、内存、网络sockets等的数量。</li>
-</ul>
-<h2 id="有关线程你该知道的"><a href="#有关线程你该知道的" class="headerlink" title="有关线程你该知道的"></a>有关线程你该知道的</h2><h3 id="创建线程的两种方式："><a href="#创建线程的两种方式：" class="headerlink" title="创建线程的两种方式："></a>创建线程的两种方式：</h3><ol>
-<li>继承Thread类，扩展线程；</li>
-<li>实现Runnable接口，java不支持多类继承，所以要继承其他类时调用Runnable接口更好。<br><br>具体代码及解释参考文首孙富生简书链接。</li>
-</ol>
-<h3 id="Thread类中的start-和run-方法区别"><a href="#Thread类中的start-和run-方法区别" class="headerlink" title="Thread类中的start()和run()方法区别"></a>Thread类中的start()和run()方法区别</h3><ul>
-<li>调用run()方法，用当前线程去执行一个普通方法，并没有创建新线程；</li>
-<li>调用start()方法才会启动新线程，该方法会做一些准备工作：设置好这个线程的上下文，比如这个线程的栈（用于函数调用），线程的状态，这个线程的PC(Program Counter）等等一系列信息以后，这个线程才可以被调度，一旦被调度，就会执行那个run()方法了。</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/05/17/Multithread-and-ThreadPool/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2460,7 +2463,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">141</span>
+                    <span class="site-state-item-count">142</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2623,7 +2626,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2023</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
