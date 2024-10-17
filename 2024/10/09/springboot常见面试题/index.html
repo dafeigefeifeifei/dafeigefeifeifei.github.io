@@ -102,7 +102,7 @@
 <meta property="og:description" content="链接：Spring Boot面试题 什么是 Spring Boot？ Spring Boot 是 Spring 开源组织下的子项目，是 Spring 组件一站式解决方案，主要是简化了使用 Spring 的难度，简省了繁重的配置，提供了各种启动器，使开发者能快速上手。 为什么要用SpringBoot 快速开发，快速整合，配置简化、内嵌服务containers SpringBoot与SpringClo">
 <meta property="og:locale">
 <meta property="article:published_time" content="2024-10-09T09:46:45.000Z">
-<meta property="article:modified_time" content="2024-10-09T10:03:12.747Z">
+<meta property="article:modified_time" content="2024-10-17T08:20:28.728Z">
 <meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
 <meta property="article:tag" content="javaWeb">
 <meta name="twitter:card" content="summary">
@@ -405,12 +405,24 @@
                 
               
 
-              <time title="Created: 2024-10-09 17:46:45 / Modified: 18:03:12" itemprop="dateCreated datePublished" datetime="2024-10-09T17:46:45+08:00">2024-10-09</time>
+              <time title="Created: 2024-10-09 17:46:45" itemprop="dateCreated datePublished" datetime="2024-10-09T17:46:45+08:00">2024-10-09</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2024-10-17 16:20:28" itemprop="dateModified" datetime="2024-10-17T16:20:28+08:00">2024-10-17</time>
               
             
           </span>
@@ -477,6 +489,262 @@
 <p>快速开发，快速整合，配置简化、内嵌服务containers</p>
 <p>SpringBoot与SpringCloud 区别</p>
 <p>SpringBoot是快速开发的Spring框架，SpringCloud是完整的微服务框架，SpringCloud依赖于SpringBoot。</p>
+<span id="more"></span>
+
+<p>以下是50道关于Spring Boot的面试题目及其标准答案：</p>
+<ol>
+<li><p><strong>什么是Spring Boot？</strong></p>
+<ul>
+<li>Spring Boot是一个基于Spring框架的项目初始化工具，旨在简化Spring应用程序的创建和部署。它通过自动配置、内嵌服务器、生产就绪特性等，减少了开发和配置的复杂性。</li>
+</ul>
+</li>
+<li><p><strong>为什么要用Spring Boot？</strong></p>
+<ul>
+<li>Spring Boot提供自动配置、内嵌服务器、简化的项目结构和生产级别的监控和管理功能，显著减少了开发时间和配置复杂度。</li>
+</ul>
+</li>
+<li><p><strong>Spring Boot的核心注解是哪个？</strong></p>
+<ul>
+<li><code>@SpringBootApplication</code>，它是一个组合注解，包含 <code>@Configuration</code>、<code>@EnableAutoConfiguration</code> 和 <code>@ComponentScan</code>。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中定义多套不同环境配置？</strong></p>
+<ul>
+<li>使用配置文件如 <code>application-&#123;profile&#125;.properties</code> 或 <code>application-&#123;profile&#125;.yaml</code>，并通过 <code>spring.profiles.active</code> 属性激活特定环境的配置。</li>
+</ul>
+</li>
+<li><p><strong>Spring Boot支持哪些外部配置？</strong></p>
+<ul>
+<li>支持properties文件、YAML文件、环境变量、系统属性和命令行参数等。</li>
+</ul>
+</li>
+<li><p><strong>Spring Boot的配置文件加载顺序是怎样的？</strong></p>
+<ul>
+<li>默认加载顺序为：命令行参数 &gt; <code>application.properties</code> &gt; <code>application-&#123;profile&#125;.properties</code> &gt; <code>application.yaml</code> &gt; <code>application-&#123;profile&#125;.yaml</code>。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot启动时运行一些特定的代码？</strong></p>
+<ul>
+<li>实现 <code>CommandLineRunner</code> 或 <code>ApplicationRunner</code> 接口，并在 <code>run</code> 方法中编写启动时执行的代码。</li>
+</ul>
+</li>
+<li><p><strong>如何实现Spring Boot应用程序的安全性？</strong></p>
+<ul>
+<li>使用Spring Security进行身份验证和授权，通过配置类或注解如 <code>@EnableWebSecurity</code> 和 <code>@Configuration</code> 来实现安全配置。</li>
+</ul>
+</li>
+<li><p><strong>Spring Boot中的监视器是什么？</strong></p>
+<ul>
+<li>Spring Boot Actuator提供了一组生产级别的监控和管理功能，包括健康检查、指标监控、审计和应用程序信息等。</li>
+</ul>
+</li>
+<li><p><strong>如何使用Spring Boot实现分页和排序？</strong></p>
+<ul>
+<li>使用Spring Data JPA提供的 <code>Pageable</code> 和 <code>Sort</code> 接口，通过方法签名中的参数实现分页和排序功能。</li>
+</ul>
+</li>
+<li><p><strong>什么是Spring Boot Starter？</strong></p>
+<ul>
+<li>Starter是一组方便的依赖描述符，帮助快速搭建项目。例如，<code>spring-boot-starter-web</code> 包含了构建web应用所需的所有依赖。</li>
+</ul>
+</li>
+<li><p><strong>Spring Boot如何实现热部署？</strong></p>
+<ul>
+<li>可以使用 <code>spring-boot-devtools</code> 依赖来实现热部署。</li>
+</ul>
+</li>
+<li><p><strong>Spring Boot的自动配置原理是什么？</strong></p>
+<ul>
+<li>Spring Boot的自动配置基于 <code>@EnableAutoConfiguration</code> 注解，通过扫描 <code>META-INF/spring.factories</code> 文件，加载相应的自动配置类。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中设置支持跨域请求？</strong></p>
+<ul>
+<li>可以在配置类中使用 <code>@CrossOrigin</code> 注解，或者通过配置 <code>CorsRegistry</code>：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebConfig</span> <span class="keyword">implements</span> <span class="title class_">WebMvcConfigurer</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">addCorsMappings</span><span class="params">(CorsRegistry registry)</span> &#123;</span><br><span class="line">        registry.addMapping(<span class="string">&quot;/**&quot;</span>).allowedOrigins(<span class="string">&quot;*&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中禁用默认Web服务器？</strong></p>
+<ul>
+<li>在 <code>application.properties</code> 文件中设置以下属性：<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring.main.web-application-type</span>=<span class="string">none</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中替换或覆盖嵌入式Tomcat服务器？</strong></p>
+<ul>
+<li>排除默认的Tomcat依赖，并添加新的服务器依赖（如Jetty或Undertow）：<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-tomcat<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-jetty<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中启用HTTP&#x2F;2支持？</strong></p>
+<ul>
+<li>在 <code>application.properties</code> 文件中添加以下配置：<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server.http2.enabled</span>=<span class="string">true</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中定义属性？</strong></p>
+<ul>
+<li>可以在 <code>application.properties</code> 或 <code>application.yml</code> 文件中定义属性。例如：<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">数据库.主机</span>=<span class="string">本地主机</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中访问应用程序中定义的值？</strong></p>
+<ul>
+<li>使用 <code>@Value</code> 注解来访问在 <code>application.properties</code> 文件中定义的属性。例如：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value(&quot;$&#123;custom.value&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String customVal;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>什么是Spring Boot Actuator？</strong></p>
+<ul>
+<li>Spring Boot Actuator是一个子项目，提供了一系列生产级的监控和管理功能，如健康检查、度量收集、环境信息、日志级别管理等。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现异常处理？</strong></p>
+<ul>
+<li>使用 <code>@ControllerAdvice</code> 注解创建一个全局异常处理类，并使用 <code>@ExceptionHandler</code> 注解处理特定异常。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中集成Swagger2？</strong></p>
+<ul>
+<li>添加Swagger2依赖，并配置Swagger：<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.9.2<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger2</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SwaggerConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> Docket <span class="title function_">api</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Docket</span>(DocumentationType.SWAGGER_2)</span><br><span class="line">                .select()</span><br><span class="line">                .apis(RequestHandlerSelectors.basePackage(<span class="string">&quot;com.example.package&quot;</span>))</span><br><span class="line">                .paths(PathSelectors.any())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中配置数据源？</strong></p>
+<ul>
+<li>在 <code>application.properties</code> 文件中配置数据库连接信息：<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring.datasource.url</span>=<span class="string">jdbc:mysql://localhost:3306/yourdatabase</span></span><br><span class="line"><span class="attr">spring.datasource.username</span>=<span class="string">yourusername</span></span><br><span class="line"><span class="attr">spring.datasource.password</span>=<span class="string">yourpassword</span></span><br><span class="line"><span class="attr">spring.jpa.hibernate.ddl-auto</span>=<span class="string">update</span></span><br><span class="line"><span class="attr">spring.jpa.show-sql</span>=<span class="string">true</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中使用JPA进行数据库操作？</strong></p>
+<ul>
+<li>创建实体类并使用JPA注解标注，创建Repository接口并继承 <code>JpaRepository</code>，在服务层或控制器中注入Repository并使用其方法进行数据库操作。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现文件上传和下载？</strong></p>
+<ul>
+<li>使用 <code>MultipartFile</code> 接口处理文件上传，使用 <code>ResponseEntity</code> 返回文件下载响应。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现定时任务？</strong></p>
+<ul>
+<li>使用 <code>@EnableScheduling</code> 注解启用定时任务支持，并使用 <code>@Scheduled</code> 注解定义定时任务方法。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现缓存？</strong></p>
+<ul>
+<li>使用 <code>@EnableCaching</code> 注解启用缓存支持，并使用 <code>@Cacheable</code>、<code>@CachePut</code> 和 <code>@CacheEvict</code> 注解管理缓存。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现国际化（i18n）？</strong></p>
+<ul>
+<li>在 <code>src/main/resources</code> 目录下创建国际化资源文件（如 <code>messages.properties</code>、<code>messages_en.properties</code>），并在配置类中配置 <code>LocaleResolver</code>。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现异步处理？</strong></p>
+<ul>
+<li>使用 <code>@EnableAsync</code> 注解启用异步支持，并使用 <code>@Async</code> 注解标注异步方法。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现WebSocket通信？</strong></p>
+<ul>
+<li>使用 <code>@EnableWebSocket</code> 注解启用WebSocket支持，并配置 <code>WebSocketConfigurer</code> 实现类。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现分布式事务管理？</strong></p>
+<ul>
+<li>使用Spring Cloud中的消息中间件（如RabbitMQ或Kafka）实现Saga模式，或使用Atomikos、Bitronix等分布式事务管理器实现两阶段提交（2PC）。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现API版本控制？</strong></p>
+<ul>
+<li>在控制器类或方法上使用 <code>@RequestMapping</code> 注解中的 <code>value</code> 属性指定版本号（如 <code>/api/v1/resource</code>）。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现日志管理？</strong></p>
+<ul>
+<li>使用Spring Boot默认的Logback日志框架，并在 <code>application.properties</code> 文件中配置日志级别和输出格式。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现邮件发送功能？</strong></p>
+<ul>
+<li>添加 <code>spring-boot-starter-mail</code> 依赖，并配置邮件服务器设置。使用 <code>JavaMailSender</code> 发送邮件。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现数据验证？</strong></p>
+<ul>
+<li>使用JSR-303&#x2F;JSR-380注解（如 <code>@NotNull</code>、<code>@Size</code>）标注实体类属性，并在控制器方法中使用 <code>MethodArgumentNotValidException</code> 处理验证错误。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现自定义异常处理？</strong></p>
+<ul>
+<li>使用 <code>@ControllerAdvice</code> 注解创建全局异常处理类，并使用 <code>@ExceptionHandler</code> 注解处理特定异常。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现单元测试？</strong></p>
+<ul>
+<li>使用 <code>@SpringBootTest</code> 注解启动Spring Boot测试环境，并使用 <code>@Test</code>、<code>@MockBean</code> 等注解进行单元测试。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现集成测试？</strong></p>
+<ul>
+<li>使用 <code>@SpringBootTest</code> 注解启动Spring Boot测试环境，并使用 <code>@Test</code>、<code>@AutoConfigureMockMvc</code> 等注解进行集成测试。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现性能测试？</strong></p>
+<ul>
+<li>使用JMeter、Gatling等性能测试工具进行性能测试。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现安全性测试？</strong></p>
+<ul>
+<li>使用OWASP ZAP、Fortify等安全扫描工具进行安全性测试。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现端到端测试？</strong></p>
+<ul>
+<li>使用Selenium、Cypress等自动化测试工具进行端到端测试。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现API文档管理？</strong></p>
+<ul>
+<li>使用Swagger、Redoc等工具生成API文档。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现微服务架构？</strong></p>
+<ul>
+<li>使用Spring Cloud、Docker、Kubernetes等技术构建微服务架构。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现服务注册与发现？</strong></p>
+<ul>
+<li>使用Eureka、Consul等服务注册中心进行服务注册与发现。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现API网关？</strong></p>
+<ul>
+<li>使用Zuul、Gateway等API网关进行请求路由、过滤和聚合。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现配置中心？</strong></p>
+<ul>
+<li>使用Spring Cloud Config、Apollo等配置中心进行集中配置管理。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现分布式链路追踪？</strong></p>
+<ul>
+<li>使用Spring Cloud Sleuth、Zipkin等工具进行分布式链路追踪。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现服务熔断？</strong></p>
+<ul>
+<li>使用Hystrix、Resilience4j等熔断器实现服务熔断。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现服务降级？</strong></p>
+<ul>
+<li>使用Hystrix、Resilience4j等熔断器实现服务降级。</li>
+</ul>
+</li>
+<li><p><strong>如何在Spring Boot中实现容器化部署？</strong></p>
+<ul>
+<li>使用Docker、Kubernetes等容器化技术进行部署。</li>
+</ul>
+</li>
+</ol>
 <p>Spring Boot 有哪些优点？</p>
 <p>Spring Boot 主要有如下优点：</p>
 <p>容易上手，提升开发efficiency，为 Spring 开发提供一个更快、更简单的开发framework。<br>开箱即用，远离繁琐的配置。<br>提供了一系列大型项目通用的非业务性功能，例如：内嵌服务器、security管理、运行数据监控、运行状况检查和外部化配置等。<br>SpringBootsummarizes就是使编码变简单、配置变简单、部署变简单、监控变简单等等</p>
