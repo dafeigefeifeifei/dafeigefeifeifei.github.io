@@ -17846,4 +17846,48 @@ Remapped       100              011              100              011
         <tag>javaWeb</tag>
       </tags>
   </entry>
+  <entry>
+    <title>使用PyQt5,pyinstaller开发跨平台小工具</title>
+    <url>/2025/03/03/%E4%BD%BF%E7%94%A8PyQt5-pyinstaller%E5%BC%80%E5%8F%91%E8%B7%A8%E5%B9%B3%E5%8F%B0%E5%B0%8F%E5%B7%A5%E5%85%B7/</url>
+    <content><![CDATA[<p>使用 <strong>PyQt5</strong> 进行 GUI 开发，并通过 <strong>PyInstaller</strong> 打包为可执行文件</p>
+<span id="more"></span>
+
+<h2 id="一、PyQt5-GUI-开发示例"><a href="#一、PyQt5-GUI-开发示例" class="headerlink" title="一、PyQt5 GUI 开发示例"></a><strong>一、PyQt5 GUI 开发示例</strong></h2><h3 id="1-安装-PyQt5"><a href="#1-安装-PyQt5" class="headerlink" title="1. 安装 PyQt5"></a><strong>1. 安装 PyQt5</strong></h3><p>首先，安装 PyQt5 及其 UI 设计工具：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">pip install pyqt5 PyQt5-tools</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-创建简单的-PyQt5-界面"><a href="#2-创建简单的-PyQt5-界面" class="headerlink" title="2. 创建简单的 PyQt5 界面"></a><strong>2. 创建简单的 PyQt5 界面</strong></h3><p>假设我们开发一个简单的<strong>工资计算器</strong>，用户输入基本工资、绩效奖金后，点击按钮计算总工资。</p>
+<h4 id="（1）使用-Qt-Designer-设计-UI"><a href="#（1）使用-Qt-Designer-设计-UI" class="headerlink" title="（1）使用 Qt Designer 设计 UI"></a><strong>（1）使用 Qt Designer 设计 UI</strong></h4><p>PyQt5 提供了一个可视化 UI 设计工具 <strong>Qt Designer</strong>，可以使用以下命令打开它（Windows）：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">pyqt5-tools designer</span><br></pre></td></tr></table></figure>
+
+<p>在 Qt Designer 里：</p>
+<ol>
+<li>创建一个 <code>QWidget</code> 窗口。</li>
+<li>添加 <code>QLineEdit</code> 用于输入基本工资和绩效奖金。</li>
+<li>添加 <code>QPushButton</code> 按钮用于计算工资。</li>
+<li>添加 <code>QLabel</code> 显示计算结果。</li>
+<li>保存 UI 文件，如 <code>salary_calculator.ui</code>。</li>
+</ol>
+<h4 id="（2）转换-ui-文件为-Python-代码"><a href="#（2）转换-ui-文件为-Python-代码" class="headerlink" title="（2）转换 .ui 文件为 Python 代码"></a><strong>（2）转换 <code>.ui</code> 文件为 Python 代码</strong></h4><p>使用 <code>pyuic5</code> 将 UI 文件转换为 Python 代码：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">pyuic5 -o ui_salary.py salary_calculator.ui</span><br></pre></td></tr></table></figure>
+
+<h4 id="（3）编写主逻辑代码"><a href="#（3）编写主逻辑代码" class="headerlink" title="（3）编写主逻辑代码"></a><strong>（3）编写主逻辑代码</strong></h4><p>创建 <code>main.py</code>，并编写工资计算逻辑：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">python</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> PyQt5.QtWidgets <span class="keyword">import</span> QApplication, QMainWindow</span><br><span class="line"><span class="keyword">from</span> ui_salary <span class="keyword">import</span> Ui_MainWindow  <span class="comment"># 导入转换后的 UI 代码</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SalaryCalculator</span>(QMainWindow, Ui_MainWindow):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__()</span><br><span class="line">        self.setupUi(self)</span><br><span class="line">        self.calculate_button.clicked.connect(self.calculate_salary)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">calculate_salary</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            base_salary = <span class="built_in">float</span>(self.base_salary_input.text())</span><br><span class="line">            bonus = <span class="built_in">float</span>(self.bonus_input.text())</span><br><span class="line">            total_salary = base_salary + bonus</span><br><span class="line">            self.result_label.setText(<span class="string">f&quot;总工资: <span class="subst">&#123;total_salary:<span class="number">.2</span>f&#125;</span> 元&quot;</span>)</span><br><span class="line">        <span class="keyword">except</span> ValueError:</span><br><span class="line">            self.result_label.setText(<span class="string">&quot;请输入有效数字！&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    app = QApplication(sys.argv)</span><br><span class="line">    window = SalaryCalculator()</span><br><span class="line">    window.show()</span><br><span class="line">    sys.exit(app.exec_())</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="二、使用-PyInstaller-进行打包"><a href="#二、使用-PyInstaller-进行打包" class="headerlink" title="二、使用 PyInstaller 进行打包"></a><strong>二、使用 PyInstaller 进行打包</strong></h2><h3 id="1-安装-PyInstaller"><a href="#1-安装-PyInstaller" class="headerlink" title="1. 安装 PyInstaller"></a><strong>1. 安装 PyInstaller</strong></h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash</span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">pip install pyinstaller</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-生成可执行文件"><a href="#2-生成可执行文件" class="headerlink" title="2. 生成可执行文件"></a><strong>2. 生成可执行文件</strong></h3><p>在终端运行以下命令，将 <code>main.py</code> 打包成 Windows 可执行文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">bash</span><br><span class="line"><span class="comment"># 指定配置文件settings.json</span></span><br><span class="line"><span class="comment"># win上打包：</span></span><br><span class="line">pyinstaller --onefile --add-data=settings.json;. -w -D main.py</span><br><span class="line"><span class="comment"># mac上打包：</span></span><br><span class="line">pyinstaller --onefile --add-data=settings.json:. -w -D main.py</span><br></pre></td></tr></table></figure>
+
+<p><strong>打包成功后</strong>，Windows 用户会在 <code>dist</code> 目录下找到 <code>main.exe</code>，macOS 用户会得到 <code>.app</code> 应用包。</p>
+<p>注意：<strong>打包要在目标平台进行</strong>：Windows 上打包 Windows 应用，macOS 上打包 macOS 应用。</p>
+]]></content>
+      <categories>
+        <category>Operation</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+      </tags>
+  </entry>
 </search>
