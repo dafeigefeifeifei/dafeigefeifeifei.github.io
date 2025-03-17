@@ -102,7 +102,7 @@
 <meta property="og:description" content="使用 PyQt5 进行 GUI 开发，并通过 PyInstaller 打包为可执行文件">
 <meta property="og:locale">
 <meta property="article:published_time" content="2025-03-03T01:51:50.000Z">
-<meta property="article:modified_time" content="2025-03-03T02:26:45.278Z">
+<meta property="article:modified_time" content="2025-03-17T11:11:06.606Z">
 <meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
 <meta property="article:tag" content="tool">
 <meta name="twitter:card" content="summary">
@@ -405,12 +405,24 @@
                 
               
 
-              <time title="Created: 2025-03-03 09:51:50 / Modified: 10:26:45" itemprop="dateCreated datePublished" datetime="2025-03-03T09:51:50+08:00">2025-03-03</time>
+              <time title="Created: 2025-03-03 09:51:50" itemprop="dateCreated datePublished" datetime="2025-03-03T09:51:50+08:00">2025-03-03</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2025-03-17 19:11:06" itemprop="dateModified" datetime="2025-03-17T19:11:06+08:00">2025-03-17</time>
               
             
           </span>
@@ -499,7 +511,7 @@
 <h2 id="二、使用-PyInstaller-进行打包"><a href="#二、使用-PyInstaller-进行打包" class="headerlink" title="二、使用 PyInstaller 进行打包"></a><strong>二、使用 PyInstaller 进行打包</strong></h2><h3 id="1-安装-PyInstaller"><a href="#1-安装-PyInstaller" class="headerlink" title="1. 安装 PyInstaller"></a><strong>1. 安装 PyInstaller</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bash</span><br><span class="line"></span><br><span class="line">复制编辑</span><br><span class="line">pip install pyinstaller</span><br></pre></td></tr></table></figure>
 
 <h3 id="2-生成可执行文件"><a href="#2-生成可执行文件" class="headerlink" title="2. 生成可执行文件"></a><strong>2. 生成可执行文件</strong></h3><p>在终端运行以下命令，将 <code>main.py</code> 打包成 Windows 可执行文件：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bash</span><br><span class="line"><span class="comment"># 指定配置文件settings.json</span></span><br><span class="line"><span class="comment"># win上打包：</span></span><br><span class="line">pyinstaller --onefile --add-data=settings.json;. -w -D main.py</span><br><span class="line"><span class="comment"># mac上打包：</span></span><br><span class="line">pyinstaller --onefile --add-data=settings.json:. -w -D main.py</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">bash</span><br><span class="line"><span class="comment"># 指定配置文件settings.json</span></span><br><span class="line"><span class="comment"># win上打包：</span></span><br><span class="line">pyinstaller --onefile --add-data=settings.json;. -w main.py</span><br><span class="line"><span class="comment"># mac上打包：</span></span><br><span class="line">pyinstaller --onefile --add-data=settings.json:. -w main.py</span><br></pre></td></tr></table></figure>
 
 <p><strong>打包成功后</strong>，Windows 用户会在 <code>dist</code> 目录下找到 <code>main.exe</code>，macOS 用户会得到 <code>.app</code> 应用包。</p>
 <p>注意：<strong>打包要在目标平台进行</strong>：Windows 上打包 Windows 应用，macOS 上打包 macOS 应用。</p>
