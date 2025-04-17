@@ -102,7 +102,7 @@
 <meta property="og:description" content="我用docker运行了nocobase，并配置了系统，现在我想将该修改后的系统通过docker部署到云服务器上，是否需要打镜像？该如何操作？">
 <meta property="og:locale">
 <meta property="article:published_time" content="2025-04-17T03:15:57.000Z">
-<meta property="article:modified_time" content="2025-04-17T03:32:56.121Z">
+<meta property="article:modified_time" content="2025-04-17T07:28:13.490Z">
 <meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -405,7 +405,7 @@
                 
               
 
-              <time title="Created: 2025-04-17 11:15:57 / Modified: 11:32:56" itemprop="dateCreated datePublished" datetime="2025-04-17T11:15:57+08:00">2025-04-17</time>
+              <time title="Created: 2025-04-17 11:15:57 / Modified: 15:28:13" itemprop="dateCreated datePublished" datetime="2025-04-17T11:15:57+08:00">2025-04-17</time>
             
 
             
@@ -572,6 +572,98 @@
 </tbody></table>
 <hr>
 <p>你可以根据实际需要选择方式。如果你是初次部署，<strong>推荐用方法二（数据迁移+官方镜像）</strong>，更便于未来维护。如果你已经本地装了很多插件、改了很多文件，不方便复现，就选方法一。</p>
+<hr>
+<h2 id="CentOS上安装docker"><a href="#CentOS上安装docker" class="headerlink" title="CentOS上安装docker"></a>CentOS上安装docker</h2><h2 id="官方仓库安装"><a href="#官方仓库安装" class="headerlink" title="官方仓库安装"></a>官方仓库安装</h2><p>在 CentOS 上安装 Docker 的步骤如下：</p>
+<ol>
+<li><p><strong>更新系统</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum update -y</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装必要的依赖</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>添加 Docker 仓库</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>安装 Docker</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y docker-ce docker-ce-cli containerd.io</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>启动并启用 Docker 服务</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>验证安装</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker --version</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>（可选）允许非 root 用户运行 Docker</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure>
+<p>注销并重新登录以应用权限。</p>
+</li>
+</ol>
+<h3 id="2-安装必要的依赖时可能遇到报错：Error-Failed-to-download-metadata-for-repo-‘appstream’"><a href="#2-安装必要的依赖时可能遇到报错：Error-Failed-to-download-metadata-for-repo-‘appstream’" class="headerlink" title="2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘appstream’"></a>2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘appstream’</h3><p>表明无法解析 mirrorlist.centos.org，可能是网络问题或 CentOS 8 仓库已停止维护，可以使用<strong>阿里云镜像</strong></p>
+<ul>
+<li>备份仓库配置：</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mv /etc/yum.repos.d/CentOS-Linux-AppStream.repo /etc/yum.repos.d/CentOS-Linux-AppStream.repo.bak</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建新的 AppStream 仓库文件：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi /etc/yum.repos.d/CentOS-Linux-AppStream.repo</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[appstream] </span><br><span class="line">name=CentOS-8 - AppStream </span><br><span class="line">baseurl=http://mirrors.aliyun.com/centos/8/AppStream/x86_64/os/ </span><br><span class="line">gpgcheck=1 </span><br><span class="line">enabled=1 </span><br><span class="line">gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-8</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>清理并更新缓存：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum clean all </span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1-安装必要的依赖时可能遇到报错：Error-Failed-to-download-metadata-for-repo-‘baseos’"><a href="#2-1-安装必要的依赖时可能遇到报错：Error-Failed-to-download-metadata-for-repo-‘baseos’" class="headerlink" title="2-1. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘baseos’:"></a>2-1. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘baseos’:</h3><p>报错显示 baseos 仓库仍然尝试访问已停止维护的 mirrorlist.centos.org，导致无法下载元数据。AppStream 仓库已成功切换，但 BaseOS 仓库仍需修复。可以使用<strong>阿里云镜像</strong>。</p>
+<ul>
+<li><p>备份现有 BaseOS 仓库配置：</p>
+<p><code>sudo mv /etc/yum.repos.d/CentOS-Linux-BaseOS.repo /etc/yum.repos.d/CentOS-Linux-BaseOS.repo.bak</code></p>
+</li>
+<li><p>创建新的 BaseOS 仓库文件：</p>
+<p><code>sudo vi /etc/yum.repos.d/CentOS-Linux-BaseOS.repo</code></p>
+<p>添加：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[baseos]</span><br><span class="line">name=CentOS-8 - BaseOS</span><br><span class="line">baseurl=http://mirrors.aliyun.com/centos/8/BaseOS/x86_64/os/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清理并更新缓存</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum clean all </span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="2-2-安装必要的依赖时可能遇到报错：Error-Failed-to-download-metadata-for-repo-‘extras’"><a href="#2-2-安装必要的依赖时可能遇到报错：Error-Failed-to-download-metadata-for-repo-‘extras’" class="headerlink" title="2-2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘extras’:"></a>2-2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘extras’:</h3><p>报错表明 BaseOS 和 AppStream 仓库已成功切换到阿里云镜像，但 extras 仓库仍然指向已停止维护的 mirrorlist.centos.org，导致元数据下载失败。需要更新 extras 仓库的配置。可以使用<strong>阿里云镜像</strong>。</p>
+<ul>
+<li><p>备份现有 BaseOS 仓库配置：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mv <span class="regexp">/etc/yum</span>.repos.d<span class="regexp">/CentOS-Linux-Extras.repo /</span>etc<span class="regexp">/yum.repos.d/</span>CentOS-Linux-Extras.repo.bak</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建新的 BaseOS 仓库文件：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi <span class="regexp">/etc/yum</span>.repos.d/CentOS-Linux-Extras.repo</span><br></pre></td></tr></table></figure>
+
+<p>添加：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[extras]</span><br><span class="line">name=CentOS-8 - Extras</span><br><span class="line">baseurl=http://mirrors.aliyun.com/centos/8/extras/x86_64/os/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-8</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清理并更新缓存</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo yum clean all </span><br><span class="line">sudo yum makecache</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-重试安装命令"><a href="#3-重试安装命令" class="headerlink" title="3. 重试安装命令"></a>3. <strong>重试安装命令</strong></h3><p>修复仓库后，重新运行以下命令，也可以回到第二步骤：</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install -y yum-utils device-mapper-persistent-data lvm2</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-后续安装-Docker"><a href="#4-后续安装-Docker" class="headerlink" title="4. 后续安装 Docker"></a>4. <strong>后续安装 Docker</strong></h3><p>如果以上步骤成功，继续安装 Docker：</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</span><br><span class="line">sudo yum install -y docker-ce docker-ce-cli containerd.io</span><br><span class="line">sudo systemctl start docker</span><br><span class="line">sudo systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+
+<h3 id="5-更换-Docker-镜像源"><a href="#5-更换-Docker-镜像源" class="headerlink" title="5. 更换 Docker 镜像源"></a>5. 更换 Docker 镜像源</h3><p>   如果 Docker Hub 访问受限（例如在中国大陆可能因网络限制导致），可以配置国内镜像源（如阿里云、华为云）加速拉取镜像。</p>
+<ul>
+<li>配置阿里云镜像源</li>
+</ul>
+<ul>
+<li><p>编辑 Docker 配置文件</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p <span class="regexp">/etc/</span>docker sudo vi <span class="regexp">/etc/</span>docker/daemon.json</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加以下内容（替换your-aliyun-id为你的阿里云账号 ID 或使用公共镜像地址）</p>
+</li>
+</ul>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;registry-mirrors&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;https://registry.cn-hangzhou.aliyuncs.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;https://docker.m.daocloud.io&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;https://mirror.ccs.tencentyun.com&quot;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -867,7 +959,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E6%89%93%E5%8C%85%E4%B8%BA%E9%95%9C%E5%83%8F%EF%BC%8C%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E9%80%82%E5%90%88%E5%8F%AF%E5%A4%8D%E5%88%B6%E9%83%A8%E7%BD%B2%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">✅ 方法一：打包为镜像，部署到云服务器（适合可复制部署）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E9%80%82%E5%90%88%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">🧠 适合场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%93%A6-%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">📦 步骤如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%89%BE%E5%88%B0%E4%BD%A0%E5%BD%93%E5%89%8D%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%82%E8%BD%BD%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 找到你当前容器运行的数据挂载方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%8F%90%E5%8F%96%E5%BD%93%E5%89%8D%E5%AE%B9%E5%99%A8%E7%8A%B6%E6%80%81%E5%B9%B6%E6%89%93%E5%8C%85%E4%B8%BA%E9%95%9C%E5%83%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 提取当前容器状态并打包为镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%B0%86%E9%95%9C%E5%83%8F%E4%BF%9D%E5%AD%98%E4%B8%BA%E6%96%87%E4%BB%B6%EF%BC%88%E5%8F%AF%E4%BC%A0%E8%BE%93%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 将镜像保存为文件（可传输）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%9C%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%BC%E5%85%A5%E5%B9%B6%E8%BF%90%E8%A1%8C"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 在云服务器导入并运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E6%89%93%E5%8C%85%E6%95%B0%E6%8D%AE-%E9%85%8D%E7%BD%AE%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9%E9%95%9C%E5%83%8F%E9%87%8D%E5%BB%BA%EF%BC%88%E9%80%82%E5%90%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">✅ 方法二：打包数据+配置，使用官方镜像重建（适合持续更新）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E9%80%82%E5%90%88%E5%9C%BA%E6%99%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">🧠 适合场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%EF%BC%9A"><span class="nav-number">2.2.1.</span> <span class="nav-text">前提：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%9C%80%E8%A6%81%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.2.</span> <span class="nav-text">本地需要的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.2.3.</span> <span class="nav-text">操作步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">2.2.4.</span> <span class="nav-text">docker-compose.yml</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%80%BB%E7%BB%93%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">✅ 总结对比</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E6%89%93%E5%8C%85%E4%B8%BA%E9%95%9C%E5%83%8F%EF%BC%8C%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E9%80%82%E5%90%88%E5%8F%AF%E5%A4%8D%E5%88%B6%E9%83%A8%E7%BD%B2%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">✅ 方法一：打包为镜像，部署到云服务器（适合可复制部署）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E9%80%82%E5%90%88%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">🧠 适合场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%93%A6-%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">📦 步骤如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%89%BE%E5%88%B0%E4%BD%A0%E5%BD%93%E5%89%8D%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%82%E8%BD%BD%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 找到你当前容器运行的数据挂载方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%8F%90%E5%8F%96%E5%BD%93%E5%89%8D%E5%AE%B9%E5%99%A8%E7%8A%B6%E6%80%81%E5%B9%B6%E6%89%93%E5%8C%85%E4%B8%BA%E9%95%9C%E5%83%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 提取当前容器状态并打包为镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%B0%86%E9%95%9C%E5%83%8F%E4%BF%9D%E5%AD%98%E4%B8%BA%E6%96%87%E4%BB%B6%EF%BC%88%E5%8F%AF%E4%BC%A0%E8%BE%93%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 将镜像保存为文件（可传输）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%9C%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%BC%E5%85%A5%E5%B9%B6%E8%BF%90%E8%A1%8C"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 在云服务器导入并运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E6%89%93%E5%8C%85%E6%95%B0%E6%8D%AE-%E9%85%8D%E7%BD%AE%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9%E9%95%9C%E5%83%8F%E9%87%8D%E5%BB%BA%EF%BC%88%E9%80%82%E5%90%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">✅ 方法二：打包数据+配置，使用官方镜像重建（适合持续更新）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E9%80%82%E5%90%88%E5%9C%BA%E6%99%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">🧠 适合场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%EF%BC%9A"><span class="nav-number">2.2.1.</span> <span class="nav-text">前提：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%9C%80%E8%A6%81%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.2.</span> <span class="nav-text">本地需要的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.2.3.</span> <span class="nav-text">操作步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">2.2.4.</span> <span class="nav-text">docker-compose.yml</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%80%BB%E7%BB%93%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">✅ 总结对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS%E4%B8%8A%E5%AE%89%E8%A3%85docker"><span class="nav-number">4.</span> <span class="nav-text">CentOS上安装docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E4%BB%93%E5%BA%93%E5%AE%89%E8%A3%85"><span class="nav-number">5.</span> <span class="nav-text">官方仓库安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E6%97%B6%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E6%8A%A5%E9%94%99%EF%BC%9AError-Failed-to-download-metadata-for-repo-%E2%80%98appstream%E2%80%99"><span class="nav-number">5.1.</span> <span class="nav-text">2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘appstream’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E6%97%B6%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E6%8A%A5%E9%94%99%EF%BC%9AError-Failed-to-download-metadata-for-repo-%E2%80%98baseos%E2%80%99"><span class="nav-number">5.2.</span> <span class="nav-text">2-1. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘baseos’:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E6%97%B6%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E6%8A%A5%E9%94%99%EF%BC%9AError-Failed-to-download-metadata-for-repo-%E2%80%98extras%E2%80%99"><span class="nav-number">5.3.</span> <span class="nav-text">2-2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘extras’:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%87%8D%E8%AF%95%E5%AE%89%E8%A3%85%E5%91%BD%E4%BB%A4"><span class="nav-number">5.4.</span> <span class="nav-text">3. 重试安装命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%90%8E%E7%BB%AD%E5%AE%89%E8%A3%85-Docker"><span class="nav-number">5.5.</span> <span class="nav-text">4. 后续安装 Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%9B%B4%E6%8D%A2-Docker-%E9%95%9C%E5%83%8F%E6%BA%90"><span class="nav-number">5.6.</span> <span class="nav-text">5. 更换 Docker 镜像源</span></a></li></ol></li></ol></div>
             
 
           </div>
