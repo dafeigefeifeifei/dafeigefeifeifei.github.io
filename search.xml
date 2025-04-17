@@ -18263,4 +18263,117 @@ Remapped       100              011              100              011
         <tag>finance</tag>
       </tags>
   </entry>
+  <entry>
+    <title>nocobase部署笔记</title>
+    <url>/2025/04/17/nocobase%E9%83%A8%E7%BD%B2%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p>我用docker运行了nocobase，并配置了系统，现在我想将该修改后的系统通过docker部署到云服务器上，是否需要打镜像？该如何操作？</p>
+<span id="more"></span>
+
+<p><strong>以下是ChatGPT的回答，其中方法二我已经验证可行。</strong></p>
+<p>你已经在本地通过 Docker 运行并配置了 NocoBase，现在希望将<strong>当前的系统状态（包括配置、插件、数据等）迁移并部署到云服务器上</strong>，这可以通过以下两种方式实现：</p>
+<hr>
+<h2 id="✅-方法一：打包为镜像，部署到云服务器（适合可复制部署）"><a href="#✅-方法一：打包为镜像，部署到云服务器（适合可复制部署）" class="headerlink" title="✅ 方法一：打包为镜像，部署到云服务器（适合可复制部署）"></a>✅ 方法一：打包为镜像，部署到云服务器（适合可复制部署）</h2><h3 id="🧠-适合场景"><a href="#🧠-适合场景" class="headerlink" title="🧠 适合场景"></a>🧠 适合场景</h3><p>你希望将本地环境“打包”成一个镜像，在其他服务器上直接部署成一样的系统，且不会频繁变动。</p>
+<h3 id="📦-步骤如下："><a href="#📦-步骤如下：" class="headerlink" title="📦 步骤如下："></a>📦 步骤如下：</h3><h4 id="1-找到你当前容器运行的数据挂载方式"><a href="#1-找到你当前容器运行的数据挂载方式" class="headerlink" title="1. 找到你当前容器运行的数据挂载方式"></a>1. 找到你当前容器运行的数据挂载方式</h4><p>你可能是用 <code>docker run</code> 或 <code>docker-compose</code> 启动的，需要确认数据是否保存在容器内部还是挂载到本地卷中。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker inspect &lt;你的容器名或ID&gt;</span><br></pre></td></tr></table></figure>
+
+<p>查看 <code>Mounts</code> 部分，如果是本地挂载的目录（bind mount 或 volume），则需要把这些数据一起打包。</p>
+<hr>
+<h4 id="2-提取当前容器状态并打包为镜像"><a href="#2-提取当前容器状态并打包为镜像" class="headerlink" title="2. 提取当前容器状态并打包为镜像"></a>2. 提取当前容器状态并打包为镜像</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit &lt;正在运行的容器ID&gt; my-nocobase-image:v1</span><br></pre></td></tr></table></figure>
+
+<p>这个命令会把当前容器的文件系统“快照”成一个新的镜像。</p>
+<hr>
+<h4 id="3-将镜像保存为文件（可传输）"><a href="#3-将镜像保存为文件（可传输）" class="headerlink" title="3. 将镜像保存为文件（可传输）"></a>3. 将镜像保存为文件（可传输）</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker save -o my-nocobase-image.tar my-nocobase-image:v1</span><br></pre></td></tr></table></figure>
+
+<p>把 <code>my-nocobase-image.tar</code> 拷贝（用 scp 或 rsync）到你的云服务器。</p>
+<hr>
+<h4 id="4-在云服务器导入并运行"><a href="#4-在云服务器导入并运行" class="headerlink" title="4. 在云服务器导入并运行"></a>4. 在云服务器导入并运行</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i my-nocobase-image.tar</span><br><span class="line">docker run -d -p 8000:80 my-nocobase-image:v1</span><br></pre></td></tr></table></figure>
+
+<p>根据你的配置调整端口、挂载路径或环境变量。</p>
+<hr>
+<h2 id="✅-方法二：打包数据-配置，使用官方镜像重建（适合持续更新）"><a href="#✅-方法二：打包数据-配置，使用官方镜像重建（适合持续更新）" class="headerlink" title="✅ 方法二：打包数据+配置，使用官方镜像重建（适合持续更新）"></a>✅ 方法二：打包数据+配置，使用官方镜像重建（适合持续更新）</h2><h3 id="🧠-适合场景-1"><a href="#🧠-适合场景-1" class="headerlink" title="🧠 适合场景"></a>🧠 适合场景</h3><p>你使用的是官方 NocoBase 镜像，只是更改了配置（比如添加插件、修改数据等），不希望打包镜像，只想备份数据并迁移。</p>
+<hr>
+<h3 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h3><h4 id="前提："><a href="#前提：" class="headerlink" title="前提："></a>前提：</h4><ol>
+<li><p>该项目有两个容器，镜像为：nocobase和mysql。故，项目迁移到云服务器时，需要同时迁移 <strong>应用镜像 + 数据库数据</strong>，推荐备份数据+docker compose部署。</p>
+</li>
+<li><p>执行docker inspect container-name后，发现Mounts中使用了bind 挂载。故，NocoBase 项目中有一部分关键数据（如上传文件、缓存、插件存储等）<strong>存放在本地挂载目录中</strong>，并不会包含在 <code>docker commit</code> 镜像中。</p>
+</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="attr">&quot;Mounts&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;Type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bind&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;Source&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/Users/colinlee/Documents/software/xc_project/storage&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;Destination&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/app/nocobase/storage&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;Mode&quot;</span><span class="punctuation">:</span> <span class="string">&quot;rw&quot;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;RW&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;Propagation&quot;</span><span class="punctuation">:</span> <span class="string">&quot;rprivate&quot;</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
+
+<p>本地目录：&#x2F;Users&#x2F;colinlee&#x2F;Documents&#x2F;software&#x2F;xc_project&#x2F;storage</p>
+<p>容器内路径：&#x2F;app&#x2F;nocobase&#x2F;storage</p>
+<h4 id="本地需要的文件"><a href="#本地需要的文件" class="headerlink" title="本地需要的文件"></a>本地需要的文件</h4><ol>
+<li>docker-compose.yml</li>
+<li>mysql_backup.sql</li>
+<li>storage&#x2F;文件夹</li>
+</ol>
+<h4 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h4><ol>
+<li><strong>备份数据库</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -i mysql-1 mysqldump -uroot -p<span class="string">&#x27;yourpassword&#x27;</span> --all-databases &gt; mysql_backup.sql</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>复制本地挂载目录</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cp</span> -r /Users/colinlee/Documents/software/xc_project/storage .</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>上传所有文件到云服务器</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">scp -r docker-compose.yml mysql_backup.sql storage/ user@your-server-ip:/home/user/nocobase-deploy/</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><strong>在云服务器运行容器</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> /home/user/nocobase-deploy/</span><br><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><strong>还原 MySQL 数据库</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -i mysql-1 mysql -uroot -p<span class="string">&#x27;yourpassword&#x27;</span> &lt; mysql_backup.sql</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="docker-compose-yml"><a href="#docker-compose-yml" class="headerlink" title="docker-compose.yml"></a>docker-compose.yml</h4><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">nocobase:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mysql:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:8.0</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">XXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="attr">MYSQL_DATABASE:</span> <span class="string">nocobase</span></span><br><span class="line">      <span class="attr">MYSQL_USER:</span> <span class="string">nocobase</span></span><br><span class="line">      <span class="attr">MYSQL_PASSWORD:</span> <span class="string">XXXXXXXXXXXXXXXXX</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;3306:3306&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql_data:/var/lib/mysql</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">registry.cn-shanghai.aliyuncs.com/nocobase/nocobase:latest</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">APP_KEY=XXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_DIALECT=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_HOST=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_DATABASE=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_USER=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_PASSWORD=XXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_UNDERSCORED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NOCOBASE_PKG_USERNAME=</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NOCOBASE_PKG_PASSWORD=</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./storage:/app/nocobase/storage</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;13000:80&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">mysql_data:</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+<hr>
+<h2 id="✅-总结对比"><a href="#✅-总结对比" class="headerlink" title="✅ 总结对比"></a>✅ 总结对比</h2><table>
+<thead>
+<tr>
+<th>方式</th>
+<th>是否打镜像</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>方法一：打包镜像</td>
+<td>✅</td>
+<td>简单快速、完全保留现场</td>
+<td>镜像大，不便频繁更新</td>
+</tr>
+<tr>
+<td>方法二：迁移数据</td>
+<td>❌</td>
+<td>更灵活、便于版本管理</td>
+<td>需要理解 NocoBase 的数据存储结构</td>
+</tr>
+</tbody></table>
+<hr>
+<p>你可以根据实际需要选择方式。如果你是初次部署，<strong>推荐用方法二（数据迁移+官方镜像）</strong>，更便于未来维护。如果你已经本地装了很多插件、改了很多文件，不方便复现，就选方法一。</p>
+]]></content>
+      <categories>
+        <category>nocobase</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
 </search>
