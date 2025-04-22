@@ -360,6 +360,202 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/31/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2/" class="post-title-link" itemprop="url">InnoDB 读书笔记 2</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-31 07:43:28" itemprop="dateCreated datePublished" datetime="2018-07-31T07:43:28+08:00">2018-07-31</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="缓冲池"><a href="#缓冲池" class="headerlink" title="缓冲池"></a>缓冲池</h1><p>副标题：姜承尧《MySQL技术内幕 InnoDB存储引擎》读书笔记 2</p>
+<h2 id="缓冲池的简介"><a href="#缓冲池的简介" class="headerlink" title="缓冲池的简介"></a>缓冲池的简介</h2><ul>
+<li><p>InnoDB引擎是基于磁盘存储的，并将其中的记录按照页的方式进行管理</p>
+</li>
+<li><p>缓冲池是一块内存区域，在数据库进行读取页的操作，首先将磁盘读到的页放在缓冲池中，称为将页“FIX”在缓冲池。下一次读到相同页时，首先判断该页是否在缓冲池中，若是则直接在缓冲池中读取该页，否则，读取磁盘上的页</p>
+</li>
+<li><p>对于数据库中页的修改操作，首先修改在缓冲池中的页，然后以一定的频率刷新到磁盘上。但并不是每一次修改都会触发刷回数据的操作，而是按照一种称为checkpoint的机制进行</p>
+</li>
+<li><p>缓冲池的大小直接影响数据库的整体性能，32位操作系统下，该值最多可以设置为3G，此外用户可以打开操作系统的PAE选项来获得32位OS下最大64G内存的支持</p>
+  <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//查看缓冲池的大小，以下134217728B表示128MB</span><br><span class="line">mysql&gt; show variables like &#x27;innodb<span class="emphasis">_buffer_</span>pool<span class="emphasis">_size&#x27;\G;</span></span><br><span class="line"><span class="emphasis"><span class="strong">****</span><span class="strong">****</span><span class="strong">****</span><span class="strong">****</span><span class="strong">****</span><span class="strong">****</span><span class="strong">*** 1. row **</span><span class="strong">****</span><span class="strong">****</span><span class="strong">****</span><span class="strong">****</span><span class="strong">****</span><span class="strong">****</span>*</span></span><br><span class="line"><span class="emphasis">Variable_</span>name: innodb<span class="emphasis">_buffer_</span>pool<span class="emphasis">_size</span></span><br><span class="line"><span class="emphasis">        Value: 134217728</span></span><br><span class="line"><span class="emphasis">1 row in set (0.00 sec)</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/31/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/30/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-1/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2240,235 +2436,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/02/notes-for-HeadFirstServletsAndJsp4/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/02/notes-for-HeadFirstServletsAndJsp4/" class="post-title-link" itemprop="url">notes_for_HeadFirstServletsAndJsp4</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-06-02 14:22:04" itemprop="dateCreated datePublished" datetime="2018-06-02T14:22:04+08:00">2018-06-02</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Head-First-Servlets-amp-JSP-读书笔记-4"><a href="#Head-First-Servlets-amp-JSP-读书笔记-4" class="headerlink" title="Head First Servlets&amp;JSP 读书笔记_4"></a>Head First Servlets&amp;JSP 读书笔记_4</h1><h2 id="HttpServletRequest接口扩展了ServletRequest接口，发生了什么？"><a href="#HttpServletRequest接口扩展了ServletRequest接口，发生了什么？" class="headerlink" title="HttpServletRequest接口扩展了ServletRequest接口，发生了什么？"></a>HttpServletRequest接口扩展了ServletRequest接口，发生了什么？</h2><p>与上同理的还有HttpServletResponse接口扩展了ServletResponse接口。以ServletRequest接口为例解释如下：</p>
-<blockquote>
-<p>avax.servlet  Interface ServletRequest<br>Defines an object to provide client request information to a servlet. The servlet container creates a ServletRequest object and passes it as an argument to the servlet’s service method.<br>[扩展译]当Servlet容器接收到客户端要求访问特定Servlet的请求时，容器先解析客户端的原始请求数据，把它包装成一个ServletRequest对象。当容器调用Servlet对象的service()方法时，就可以把ServletRequest对象呢作为参数传给service()方法。</p>
-</blockquote>
-<blockquote>
-<p>A ServletRequest object provides data including parameter name and values, attributes, and an input stream. Interfaces that extend ServletRequest can provide additional protocol-specific data (for example, HTTP data is provided by HttpServletRequest.<br>[译]ServletRequest对象提供参数名、参数值、属性、输入流等数据。其扩展接口（比如HttpServletRequest会提供Http数据）会格外增加特定的协议数据。</p>
-</blockquote>
-<p>Http协议数据主要有如下：</p>
-<table>
-<thead>
-<tr>
-<th align="center">method</th>
-<th align="center">description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">getContextPath():String</td>
-<td align="center">Returns the portion of the request URI that indicates the context of the request.[译]获得Request中传入的URI部分（注：URI标记了资源，未给出资源地址，故只是URL的一部分，参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/simplebam/article/details/72644094">Web基础-Uri跟Url的区别</a>）</td>
-</tr>
-<tr>
-<td align="center">getCookies():Cookie[]</td>
-<td align="center">Returns an array containing all of the Cookie objects the client sent with this request.[译]获得Request相关的cookie数组</td>
-</tr>
-<tr>
-<td align="center">getHeader(String name):String</td>
-<td align="center">Returns the value of the specified request header as a String.[译]获得客户的平台和浏览信息</td>
-</tr>
-<tr>
-<td align="center">getSession():HttpSession</td>
-<td align="center">Returns the current session associated with this request, or if the request does not have a session, creates one.[译]返回客户相关的Session会话</td>
-</tr>
-<tr>
-<td align="center">getInputStream():ServletInputStream</td>
-<td align="center">Retrieves the body of the request as binary data using a ServletInputStream[译]返回请求体中的二进制内容（请求体若要处理计算机驱动，可能包含二进制）[注]此为ServletRequest的方法</td>
-</tr>
-<tr>
-<td align="center">…</td>
-<td align="center">…</td>
-</tr>
-<tr>
-<td align="center">其他参数参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011159417/article/details/54020827">Servlet技术浅析（三）之—–ServletRequest接口和HttpServletRequest接口</a></td>
-<td align="center"></td>
-</tr>
-</tbody></table>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/06/02/notes-for-HeadFirstServletsAndJsp4/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2516,7 +2483,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">145</span>
+                    <span class="site-state-item-count">146</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

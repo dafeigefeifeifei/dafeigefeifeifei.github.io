@@ -360,6 +360,211 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/24/JVM%EF%BC%881%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/09/24/JVM%EF%BC%881%EF%BC%89/" class="post-title-link" itemprop="url">JVM（1）</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-09-24 09:26:05" itemprop="dateCreated datePublished" datetime="2018-09-24T09:26:05+08:00">2018-09-24</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Java-amp-内存相关"><a href="#Java-amp-内存相关" class="headerlink" title="Java &amp; 内存相关"></a>Java &amp; 内存相关</h1><p>副标题：《深入理解 Java 虚拟机》读书笔记（1）</p>
+<h2 id="一、Java-须知"><a href="#一、Java-须知" class="headerlink" title="一、Java 须知"></a>一、Java 须知</h2><h3 id="1-1-组成"><a href="#1-1-组成" class="headerlink" title="1.1 组成"></a>1.1 组成</h3><ul>
+<li>Java 技术体系组成：<ol>
+<li>① Java 程序设计语言；</li>
+<li>② 各种硬件平台上的Java 虚拟机；</li>
+<li>③ Class 文件格式；</li>
+<li>④ Java API 类库；</li>
+<li>⑤ 第三方 Java 类库（商业机构&#x2F;开源社区）；</li>
+</ol>
+</li>
+<li>JDK &#x3D;	①+②+④，是进行 Java 程序开发的最小环境；</li>
+<li>JRE &#x3D; ②+④中的部分子集（Java SE API），是支持Java程序运行的标准环境。</li>
+<li>Java 技术体系平台：<ol>
+<li>Java Card：支持一些 Java 小程序运行在小内存设备的平台（用在SIM卡、提款卡上）；</li>
+<li>Java ME（micro edition）：支持 Java 程序运行在移动端的平台，使用精简后的 Java API，也被称为 J2ME（用在手机、PDA 上）；</li>
+<li>Java SE（standard edition）：支持面向桌面级应用的平台，使用完整的 Java 核心 API，也被称为 J2SE（用在桌面软件）；</li>
+<li>Java EE（Enterprise edition）：支持使用<a target="_blank" rel="noopener" href="https://blog.csdn.net/Zuocheng_Liu/article/details/45048091">多层架构</a>的企业应用(如常见的 MVC 等)的平台，除了 Java SE API 外，还做了扩充，称为 J2EE（用在 ERP、CRM 应用）。</li>
+</ol>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/09/24/JVM%EF%BC%881%EF%BC%89/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/18/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E5%85%AD%E7%AB%A0/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2169,200 +2374,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/30/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%90%AF%E5%8A%A8uwsgi%E5%92%8CRedis/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/30/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%90%AF%E5%8A%A8uwsgi%E5%92%8CRedis/" class="post-title-link" itemprop="url">Linux服务器设置自启动uwsgi和Redis</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-08-30 17:39:37" itemprop="dateCreated datePublished" datetime="2018-08-30T17:39:37+08:00">2018-08-30</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/debug/" itemprop="url" rel="index"><span itemprop="name">debug</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="在Linux服务器上设置uwsgi和redis自启动"><a href="#在Linux服务器上设置uwsgi和redis自启动" class="headerlink" title="在Linux服务器上设置uwsgi和redis自启动"></a>在Linux服务器上设置uwsgi和redis自启动</h1><h3 id="参考博客"><a href="#参考博客" class="headerlink" title="参考博客"></a>参考博客</h3><ul>
-<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/kross/p/3236231.html">linux自启动、定时启动脚本</a></li>
-<li><a target="_blank" rel="noopener" href="https://yq.aliyun.com/ask/30398">rc.local配置uwsgi启动</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wanggangabc111/article/details/78133170">Redis 如何在系统启动时设置为开机自启</a></li>
-</ul>
-<h3 id="人为启动"><a href="#人为启动" class="headerlink" title="人为启动"></a>人为启动</h3><ul>
-<li>uwsgi：进入uwsgi.ini路径（本系统中为&#x2F;usr&#x2F;local&#x2F;python-uwsgi&#x2F;）<code>uwsgi uwsgi.ini</code>可以启动uwsgi；</li>
-<li>redis：进入redis路径（本系统中为&#x2F;usr&#x2F;local&#x2F;redis&#x2F;bin）<code>./redis-server</code>可以启动redis；</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/08/30/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E7%BD%AE%E8%87%AA%E5%90%AF%E5%8A%A8uwsgi%E5%92%8CRedis/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2410,7 +2421,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">145</span>
+                    <span class="site-state-item-count">146</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

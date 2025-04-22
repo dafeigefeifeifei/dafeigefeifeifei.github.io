@@ -102,7 +102,7 @@
 <meta property="og:description" content="我用docker运行了nocobase，并配置了系统，现在我想将该修改后的系统通过docker部署到云服务器上，是否需要打镜像？该如何操作？">
 <meta property="og:locale">
 <meta property="article:published_time" content="2025-04-17T03:15:57.000Z">
-<meta property="article:modified_time" content="2025-04-18T03:37:02.229Z">
+<meta property="article:modified_time" content="2025-04-22T08:25:14.034Z">
 <meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -422,7 +422,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2025-04-18 11:37:02" itemprop="dateModified" datetime="2025-04-18T11:37:02+08:00">2025-04-18</time>
+                <time title="Modified: 2025-04-22 16:25:14" itemprop="dateModified" datetime="2025-04-22T16:25:14+08:00">2025-04-22</time>
               
             
           </span>
@@ -682,200 +682,16 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload sudo systemctl restart docker</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>验证镜像源是否生效：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info --format <span class="string">&#x27;&#123;&#123;.RegistryConfig.Mirrors&#125;&#125;&#x27;</span></span><br></pre></td></tr></table></figure>
-<p>测试镜像拉取<br>重新运行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker info --format <span class="string">&#x27;&#123;&#123;.RegistryConfig.Mirrors&#125;&#125;&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>测试镜像拉取,重新运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose down &amp;&amp; docker compose up -d</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h2 id="在无法联网的生产环境部署"><a href="#在无法联网的生产环境部署" class="headerlink" title="在无法联网的生产环境部署"></a><strong>在无法联网的生产环境</strong>部署</h2><blockquote>
-<p>我用docker运行了nocobase，并配置了系统，现在我想将该修改后的系统通过docker部署到云服务器上，已知该项目有两个容器，镜像为：nocobase和mysql，同时通过查看docker inspect，发现Mounts中使用了bind 挂载，有一部分关键数据（如上传文件、缓存、插件存储等）存放在本地挂载目录中。按照“打包数据+配置，使用官方镜像重建”的方法，我已经成功部署到测试用云服务器上了，但我遇到新的问题：生产环境是不连接外网的，需要使用U盘拷贝等方式完成部署，我如何按照此方法：“打包为镜像，部署到云服务器”进行部署，要拷贝哪些东西，并分情况告诉我具体的部署实施步骤，情况1:linux服务器已安装好了docker；情况2:linux服务器没有安装docker。</p>
-</blockquote>
-<p>明白了，既然你现在要<strong>在无法联网的生产环境</strong>部署，并且已经在测试环境验证成功，接下来确实建议使用我之前提到的 <strong>方法一：打包为镜像，携带本地挂载的数据，完成离线部署</strong>。</p>
-<p>我将从两个生产环境情况出发（已安装 Docker &#x2F; 未安装 Docker），<strong>详细给你清单+步骤</strong>，并告诉你需要拷贝哪些内容。</p>
-<hr>
-<h2 id="✅-你当前系统结构复述（帮助对照）"><a href="#✅-你当前系统结构复述（帮助对照）" class="headerlink" title="✅ 你当前系统结构复述（帮助对照）"></a>✅ 你当前系统结构复述（帮助对照）</h2><table>
-<thead>
-<tr>
-<th>容器</th>
-<th>镜像名</th>
-<th>数据持久化方式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>app</td>
-<td><code>registry.cn-shanghai.aliyuncs.com/nocobase/nocobase:latest</code></td>
-<td>bind 挂载本地 <code>./storage/</code></td>
-</tr>
-<tr>
-<td>mysql</td>
-<td><code>mysql:8.0</code></td>
-<td>使用 volume（或可导出 .sql）</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="🧳-你需要拷贝的内容清单（U盘或其他离线介质）"><a href="#🧳-你需要拷贝的内容清单（U盘或其他离线介质）" class="headerlink" title="🧳 你需要拷贝的内容清单（U盘或其他离线介质）"></a>🧳 你需要拷贝的内容清单（U盘或其他离线介质）</h2><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>文件&#x2F;路径</th>
-<th>用途说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>镜像文件 <code>.tar</code></td>
-<td><code>nocobase.tar</code>、<code>mysql.tar</code></td>
-<td>打包后的 Docker 镜像</td>
-</tr>
-<tr>
-<td>bind 数据目录</td>
-<td><code>storage/</code></td>
-<td>NocoBase 的插件、上传文件等持久数据</td>
-</tr>
-<tr>
-<td>MySQL 备份（推荐）</td>
-<td><code>mysql_backup.sql</code></td>
-<td>数据库内容导出（比迁移 volume 更方便）</td>
-</tr>
-<tr>
-<td><code>docker-compose.yml</code></td>
-<td>原 compose 配置文件</td>
-<td>保持部署一致性</td>
-</tr>
-<tr>
-<td>安装脚本（可选）</td>
-<td><code>install_docker.sh</code></td>
-<td>如生产环境未安装 Docker，用于快速安装</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="📦-第一步：在联网机器上打包内容"><a href="#📦-第一步：在联网机器上打包内容" class="headerlink" title="📦 第一步：在联网机器上打包内容"></a>📦 第一步：在联网机器上打包内容</h2><h3 id="1-打包-Docker-镜像"><a href="#1-打包-Docker-镜像" class="headerlink" title="1. 打包 Docker 镜像"></a>1. 打包 Docker 镜像</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker save -o nocobase.tar registry.cn-shanghai.aliyuncs.com/nocobase/nocobase:latest</span><br><span class="line">docker save -o mysql.tar mysql:8.0</span><br></pre></td></tr></table></figure>
+<h3 id="6-其他常见docker命令"><a href="#6-其他常见docker命令" class="headerlink" title="6. 其他常见docker命令"></a>6. 其他常见docker命令</h3><h4 id="容器操作"><a href="#容器操作" class="headerlink" title="容器操作"></a>容器操作</h4><figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker ps - 列出 Docker 容器</span><br><span class="line">docker <span class="keyword">inspect</span> - 获取 Docker 对象（容器、镜像、卷、网络等）的详细信息。</span><br></pre></td></tr></table></figure>
+<h4 id="本地镜像管理"><a href="#本地镜像管理" class="headerlink" title="本地镜像管理"></a>本地镜像管理</h4><figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker images - 列出本地的 Docker 镜像。</span><br><span class="line">docker build - 从 Dockerfile 构建 Docker 镜像。</span><br><span class="line">docker <span class="keyword">save</span> - 将一个或多个 Docker 镜像保存到一个 tar 归档文件中。</span><br><span class="line">docker <span class="keyword">load</span> - 从由 docker <span class="keyword">save</span> 命令生成的 tar 文件中加载 Docker 镜像。</span><br></pre></td></tr></table></figure>
 
-<h3 id="2-导出数据库（推荐）"><a href="#2-导出数据库（推荐）" class="headerlink" title="2. 导出数据库（推荐）"></a>2. 导出数据库（推荐）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -i mysql mysqldump -unocobase -pnocobase nocobase &gt; mysql_backup.sql</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>若你使用了 <code>docker volume</code> 保存 MySQL，也可以用 <code>docker run --rm -v &lt;volume&gt;:/data busybox tar czf - /data &gt; mysql_volume_backup.tar.gz</code> 打包整个 volume，但建议优先使用 SQL。</p>
-</blockquote>
-<h3 id="3-拷贝-storage-文件夹-docker-compose-yml"><a href="#3-拷贝-storage-文件夹-docker-compose-yml" class="headerlink" title="3. 拷贝 storage 文件夹 + docker-compose.yml"></a>3. 拷贝 storage 文件夹 + <code>docker-compose.yml</code></h3><p>确保把 <code>storage/</code> 文件夹拷贝出来：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 若在 compose 目录运行</span></span><br><span class="line"><span class="built_in">cp</span> -r storage /some/usb/path/</span><br><span class="line"><span class="built_in">cp</span> docker-compose.yml /some/usb/path/</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="🎯-情况一：Linux-服务器已安装-Docker"><a href="#🎯-情况一：Linux-服务器已安装-Docker" class="headerlink" title="🎯 情况一：Linux 服务器已安装 Docker"></a>🎯 情况一：Linux 服务器已安装 Docker</h2><h3 id="💡-步骤如下："><a href="#💡-步骤如下：" class="headerlink" title="💡 步骤如下："></a>💡 步骤如下：</h3><ol>
-<li><p>把以下文件从 U 盘拷到服务器，例如 <code>/home/user/nocobase_offline/</code>：</p>
-<ul>
-<li><code>nocobase.tar</code></li>
-<li><code>mysql.tar</code></li>
-<li><code>storage/</code></li>
-<li><code>mysql_backup.sql</code></li>
-<li><code>docker-compose.yml</code></li>
-</ul>
-</li>
-<li><p>导入 Docker 镜像：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker load -i nocobase.tar</span><br><span class="line">docker load -i mysql.tar</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>准备 <code>docker-compose.yml</code></p>
-</li>
-</ol>
-<p>确保文件中使用的挂载路径为当前目录下的 <code>./storage</code>：</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">./storage:/app/nocobase/storage</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>启动容器（第一次启动时数据库是空的）：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose up -d</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>导入数据库内容：</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -i mysql mysql -unocobase -pnocobase nocobase &lt; mysql_backup.sql</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="🎯-情况二：Linux-服务器未安装-Docker"><a href="#🎯-情况二：Linux-服务器未安装-Docker" class="headerlink" title="🎯 情况二：Linux 服务器未安装 Docker"></a>🎯 情况二：Linux 服务器未安装 Docker</h2><p>你需要提前准备一个安装脚本或在本地下载 Docker 安装包。</p>
-<h3 id="方案-1：使用在线安装脚本（若能短暂连外网）"><a href="#方案-1：使用在线安装脚本（若能短暂连外网）" class="headerlink" title="方案 1：使用在线安装脚本（若能短暂连外网）"></a>方案 1：使用在线安装脚本（若能短暂连外网）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fsSL https://get.docker.com | bash</span><br></pre></td></tr></table></figure>
-
-<h3 id="方案-2：纯离线安装（无外网）"><a href="#方案-2：纯离线安装（无外网）" class="headerlink" title="方案 2：纯离线安装（无外网）"></a>方案 2：纯离线安装（无外网）</h3><ol>
-<li><p>在联网机器上下载：</p>
-<ul>
-<li>Docker CE <code>.deb</code> 包（或 <code>.rpm</code>，取决于目标机器）</li>
-<li>Docker Compose 二进制文件</li>
-</ul>
-</li>
-<li><p>打包成目录结构：</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">offline_docker_install/</span><br><span class="line">├── docker-ce_xxx<span class="selector-class">.deb</span></span><br><span class="line">├── docker-cli_xxx<span class="selector-class">.deb</span></span><br><span class="line">├── containerd<span class="selector-class">.io_xxx</span><span class="selector-class">.deb</span></span><br><span class="line">└── docker-compose</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在目标服务器上执行安装：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i *.deb</span><br><span class="line">sudo <span class="built_in">cp</span> docker-compose /usr/local/bin/</span><br><span class="line">sudo <span class="built_in">chmod</span> +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure></li>
-</ol>
-<hr>
-<h2 id="✅-总结部署流程图（简略版）"><a href="#✅-总结部署流程图（简略版）" class="headerlink" title="✅ 总结部署流程图（简略版）"></a>✅ 总结部署流程图（简略版）</h2><figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">联网电脑 ——&gt; 打包镜像 + 数据 + 配置</span><br><span class="line">             <span class="string">|</span></span><br><span class="line">             ↓</span><br><span class="line">          拷贝到U盘</span><br><span class="line">             ↓</span><br><span class="line">        插入目标服务器</span><br><span class="line">     ┌──────────────────────┐</span><br><span class="line">     │ 情况一：已安装Docker │ → load镜像 → 启动compose → 导入DB</span><br><span class="line">     └──────────────────────┘</span><br><span class="line">     ┌──────────────────────┐</span><br><span class="line">     │ 情况二：无Docker环境 │ → 离线安装 → 同上</span><br><span class="line">     └──────────────────────┘</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h2 id="使用的是-Docker-MySQL-官方-NocoBase-镜像，还对-NocoBase-界面做了一些配置。下面详细介绍该备份哪些内容，如何备份，以及如何恢复"><a href="#使用的是-Docker-MySQL-官方-NocoBase-镜像，还对-NocoBase-界面做了一些配置。下面详细介绍该备份哪些内容，如何备份，以及如何恢复" class="headerlink" title="使用的是 Docker + MySQL + 官方 NocoBase 镜像，还对 NocoBase 界面做了一些配置。下面详细介绍该备份哪些内容，如何备份，以及如何恢复"></a>使用的是 Docker + MySQL + 官方 NocoBase 镜像，还对 NocoBase 界面做了一些配置。下面详细介绍该<strong>备份哪些内容</strong>，<strong>如何备份</strong>，以及<strong>如何恢复</strong></h2><hr>
-<h2 id="✅-一、你需要备份的内容"><a href="#✅-一、你需要备份的内容" class="headerlink" title="✅ 一、你需要备份的内容"></a>✅ 一、你需要备份的内容</h2><table>
-<thead>
-<tr>
-<th>内容</th>
-<th>说明</th>
-<th>如何备份</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1. MySQL 数据</td>
-<td>包括用户、设备、事件等所有数据表</td>
-<td>使用 <code>mysqldump</code> 备份 SQL 文件</td>
-</tr>
-<tr>
-<td>2. NocoBase 配置（界面配置、字段等）</td>
-<td>存储在容器挂载路径 <code>./storage</code> 目录下</td>
-<td>直接备份该文件夹内容</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="🛠-二、如何操作备份"><a href="#🛠-二、如何操作备份" class="headerlink" title="🛠 二、如何操作备份"></a>🛠 二、如何操作备份</h2><h3 id="1-备份-MySQL-数据"><a href="#1-备份-MySQL-数据" class="headerlink" title="1. 备份 MySQL 数据"></a>1. 备份 MySQL 数据</h3><p>先确定你的容器名（例如是 <code>mysql</code>），然后执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> mysql sh -c <span class="string">&#x27;exec mysqldump -unocobase -pnocobase nocobase&#x27;</span> &gt; mysql_backup.sql</span><br></pre></td></tr></table></figure>
-
-<p>此命令会将数据库 <code>nocobase</code> 中的所有内容导出到当前目录的 <code>mysql_backup.sql</code> 文件中。</p>
-<h3 id="2-备份-NocoBase-界面配置等资料"><a href="#2-备份-NocoBase-界面配置等资料" class="headerlink" title="2. 备份 NocoBase 界面配置等资料"></a>2. 备份 NocoBase 界面配置等资料</h3><p>你的 docker-compose 文件中已经把配置挂载到本地 <code>./storage:/app/nocobase/storage</code>，所以只需备份本地的 <code>./storage</code> 文件夹即可。</p>
-<h4 id="如果你在当前目录下部署的："><a href="#如果你在当前目录下部署的：" class="headerlink" title="如果你在当前目录下部署的："></a>如果你在当前目录下部署的：</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cp</span> -r ./storage ./storage_backup</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="♻️-三、如何恢复备份"><a href="#♻️-三、如何恢复备份" class="headerlink" title="♻️ 三、如何恢复备份"></a>♻️ 三、如何恢复备份</h2><h3 id="1-恢复-MySQL-数据"><a href="#1-恢复-MySQL-数据" class="headerlink" title="1. 恢复 MySQL 数据"></a>1. 恢复 MySQL 数据</h3><p>确保你的 MySQL 容器已运行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -i mysql sh -c <span class="string">&#x27;exec mysql -unocobase -pnocobase nocobase&#x27;</span> &lt; mysql_backup.sql</span><br></pre></td></tr></table></figure>
-
-<p>这会将 <code>mysql_backup.sql</code> 中的数据重新导入数据库中。</p>
-<h3 id="2-恢复-NocoBase-配置"><a href="#2-恢复-NocoBase-配置" class="headerlink" title="2. 恢复 NocoBase 配置"></a>2. 恢复 NocoBase 配置</h3><p>只需要把 <code>storage_backup</code> 文件夹重新覆盖回 <code>./storage</code> 即可：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rm</span> -rf ./storage</span><br><span class="line"><span class="built_in">cp</span> -r ./storage_backup ./storage</span><br></pre></td></tr></table></figure>
-
-<p>然后重启你的容器：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker-compose down</span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="📦-推荐打包备份命令（可选）"><a href="#📦-推荐打包备份命令（可选）" class="headerlink" title="📦 推荐打包备份命令（可选）"></a>📦 推荐打包备份命令（可选）</h2><p>你也可以打一个压缩包：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar czvf nocobase_full_backup_$(<span class="built_in">date</span> +%Y%m%d).tar.gz mysql_backup.sql storage/</span><br></pre></td></tr></table></figure>
-
-<hr>
-<h2 id="✅-总结"><a href="#✅-总结" class="headerlink" title="✅ 总结"></a>✅ 总结</h2><table>
-<thead>
-<tr>
-<th>操作</th>
-<th>目的</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>mysqldump</code> 导出 <code>.sql</code></td>
-<td>保留全部数据库数据</td>
-</tr>
-<tr>
-<td>备份 <code>./storage/</code> 目录</td>
-<td>保留 NocoBase 自定义配置</td>
-</tr>
-<tr>
-<td>重启容器前恢复这两部分</td>
-<td>完整恢复到之前状态</td>
-</tr>
-</tbody></table>
-<p>如你不确定容器名或存储路径，可以把 <code>docker ps</code> 输出发我，我可以进一步帮你确认。需要我帮你写一个一键备份脚本也可以说一声~</p>
-
+<h4 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h4><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker compose build - 构建 docker compose 文件。</span><br><span class="line">docker compose <span class="keyword">up</span> - 运行 docker compose 文件。</span><br><span class="line">docker compose <span class="keyword">ls</span> - 列出 docker compose 服务。</span><br></pre></td></tr></table></figure>
+<h4 id="网络命令"><a href="#网络命令" class="headerlink" title="网络命令"></a>网络命令</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker network <span class="built_in">ls</span>: 列出所有网络。</span><br></pre></td></tr></table></figure>
+<h4 id="卷命令"><a href="#卷命令" class="headerlink" title="卷命令"></a>卷命令</h4><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="keyword">volume</span><span class="language-bash"> <span class="built_in">ls</span>: 列出所有卷。</span></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -933,6 +749,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2025/04/22/%E5%9C%A8%E6%97%A0%E6%B3%95%E8%81%94%E7%BD%91%E7%9A%84%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2nocobase/" rel="prev" title="在无法联网的生产环境部署nocobase">
+                在无法联网的生产环境部署nocobase <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -1002,7 +822,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">145</span>
+                    <span class="site-state-item-count">146</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1170,7 +990,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E6%89%93%E5%8C%85%E4%B8%BA%E9%95%9C%E5%83%8F%EF%BC%8C%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E9%80%82%E5%90%88%E5%8F%AF%E5%A4%8D%E5%88%B6%E9%83%A8%E7%BD%B2%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">✅ 方法一：打包为镜像，部署到云服务器（适合可复制部署）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E9%80%82%E5%90%88%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">🧠 适合场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%93%A6-%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">📦 步骤如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%89%BE%E5%88%B0%E4%BD%A0%E5%BD%93%E5%89%8D%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%82%E8%BD%BD%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 找到你当前容器运行的数据挂载方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%8F%90%E5%8F%96%E5%BD%93%E5%89%8D%E5%AE%B9%E5%99%A8%E7%8A%B6%E6%80%81%E5%B9%B6%E6%89%93%E5%8C%85%E4%B8%BA%E9%95%9C%E5%83%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 提取当前容器状态并打包为镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%B0%86%E9%95%9C%E5%83%8F%E4%BF%9D%E5%AD%98%E4%B8%BA%E6%96%87%E4%BB%B6%EF%BC%88%E5%8F%AF%E4%BC%A0%E8%BE%93%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 将镜像保存为文件（可传输）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%9C%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%BC%E5%85%A5%E5%B9%B6%E8%BF%90%E8%A1%8C"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 在云服务器导入并运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E6%89%93%E5%8C%85%E6%95%B0%E6%8D%AE-%E9%85%8D%E7%BD%AE%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9%E9%95%9C%E5%83%8F%E9%87%8D%E5%BB%BA%EF%BC%88%E9%80%82%E5%90%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">✅ 方法二：打包数据+配置，使用官方镜像重建（适合持续更新）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E9%80%82%E5%90%88%E5%9C%BA%E6%99%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">🧠 适合场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%EF%BC%9A"><span class="nav-number">2.2.1.</span> <span class="nav-text">前提：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%9C%80%E8%A6%81%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.2.</span> <span class="nav-text">本地需要的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.2.3.</span> <span class="nav-text">操作步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">2.2.4.</span> <span class="nav-text">docker-compose.yml</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%80%BB%E7%BB%93%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">✅ 总结对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS%E4%B8%8A%E5%AE%89%E8%A3%85docker"><span class="nav-number">4.</span> <span class="nav-text">CentOS上安装docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E4%BB%93%E5%BA%93%E5%AE%89%E8%A3%85"><span class="nav-number">5.</span> <span class="nav-text">官方仓库安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E6%97%B6%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E6%8A%A5%E9%94%99%EF%BC%9AError-Failed-to-download-metadata-for-repo-%E2%80%98appstream%E2%80%99"><span class="nav-number">5.1.</span> <span class="nav-text">2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘appstream’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E6%97%B6%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E6%8A%A5%E9%94%99%EF%BC%9AError-Failed-to-download-metadata-for-repo-%E2%80%98baseos%E2%80%99"><span class="nav-number">5.2.</span> <span class="nav-text">2-1. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘baseos’:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E6%97%B6%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E6%8A%A5%E9%94%99%EF%BC%9AError-Failed-to-download-metadata-for-repo-%E2%80%98extras%E2%80%99"><span class="nav-number">5.3.</span> <span class="nav-text">2-2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘extras’:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%87%8D%E8%AF%95%E5%AE%89%E8%A3%85%E5%91%BD%E4%BB%A4"><span class="nav-number">5.4.</span> <span class="nav-text">3. 重试安装命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%90%8E%E7%BB%AD%E5%AE%89%E8%A3%85-Docker"><span class="nav-number">5.5.</span> <span class="nav-text">4. 后续安装 Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%9B%B4%E6%8D%A2-Docker-%E9%95%9C%E5%83%8F%E6%BA%90"><span class="nav-number">5.6.</span> <span class="nav-text">5. 更换 Docker 镜像源</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E6%97%A0%E6%B3%95%E8%81%94%E7%BD%91%E7%9A%84%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2"><span class="nav-number">6.</span> <span class="nav-text">在无法联网的生产环境部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E4%BD%A0%E5%BD%93%E5%89%8D%E7%B3%BB%E7%BB%9F%E7%BB%93%E6%9E%84%E5%A4%8D%E8%BF%B0%EF%BC%88%E5%B8%AE%E5%8A%A9%E5%AF%B9%E7%85%A7%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">✅ 你当前系统结构复述（帮助对照）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%A7%B3-%E4%BD%A0%E9%9C%80%E8%A6%81%E6%8B%B7%E8%B4%9D%E7%9A%84%E5%86%85%E5%AE%B9%E6%B8%85%E5%8D%95%EF%BC%88U%E7%9B%98%E6%88%96%E5%85%B6%E4%BB%96%E7%A6%BB%E7%BA%BF%E4%BB%8B%E8%B4%A8%EF%BC%89"><span class="nav-number">8.</span> <span class="nav-text">🧳 你需要拷贝的内容清单（U盘或其他离线介质）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%A6-%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%9C%A8%E8%81%94%E7%BD%91%E6%9C%BA%E5%99%A8%E4%B8%8A%E6%89%93%E5%8C%85%E5%86%85%E5%AE%B9"><span class="nav-number">9.</span> <span class="nav-text">📦 第一步：在联网机器上打包内容</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%89%93%E5%8C%85-Docker-%E9%95%9C%E5%83%8F"><span class="nav-number">9.1.</span> <span class="nav-text">1. 打包 Docker 镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AF%BC%E5%87%BA%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89"><span class="nav-number">9.2.</span> <span class="nav-text">2. 导出数据库（推荐）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%8B%B7%E8%B4%9D-storage-%E6%96%87%E4%BB%B6%E5%A4%B9-docker-compose-yml"><span class="nav-number">9.3.</span> <span class="nav-text">3. 拷贝 storage 文件夹 + docker-compose.yml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%8E%AF-%E6%83%85%E5%86%B5%E4%B8%80%EF%BC%9ALinux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B7%B2%E5%AE%89%E8%A3%85-Docker"><span class="nav-number">10.</span> <span class="nav-text">🎯 情况一：Linux 服务器已安装 Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%92%A1-%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">10.1.</span> <span class="nav-text">💡 步骤如下：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%8E%AF-%E6%83%85%E5%86%B5%E4%BA%8C%EF%BC%9ALinux-%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9C%AA%E5%AE%89%E8%A3%85-Docker"><span class="nav-number">11.</span> <span class="nav-text">🎯 情况二：Linux 服务器未安装 Docker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88-1%EF%BC%9A%E4%BD%BF%E7%94%A8%E5%9C%A8%E7%BA%BF%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC%EF%BC%88%E8%8B%A5%E8%83%BD%E7%9F%AD%E6%9A%82%E8%BF%9E%E5%A4%96%E7%BD%91%EF%BC%89"><span class="nav-number">11.1.</span> <span class="nav-text">方案 1：使用在线安装脚本（若能短暂连外网）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B9%E6%A1%88-2%EF%BC%9A%E7%BA%AF%E7%A6%BB%E7%BA%BF%E5%AE%89%E8%A3%85%EF%BC%88%E6%97%A0%E5%A4%96%E7%BD%91%EF%BC%89"><span class="nav-number">11.2.</span> <span class="nav-text">方案 2：纯离线安装（无外网）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%80%BB%E7%BB%93%E9%83%A8%E7%BD%B2%E6%B5%81%E7%A8%8B%E5%9B%BE%EF%BC%88%E7%AE%80%E7%95%A5%E7%89%88%EF%BC%89"><span class="nav-number">12.</span> <span class="nav-text">✅ 总结部署流程图（简略版）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E6%98%AF-Docker-MySQL-%E5%AE%98%E6%96%B9-NocoBase-%E9%95%9C%E5%83%8F%EF%BC%8C%E8%BF%98%E5%AF%B9-NocoBase-%E7%95%8C%E9%9D%A2%E5%81%9A%E4%BA%86%E4%B8%80%E4%BA%9B%E9%85%8D%E7%BD%AE%E3%80%82%E4%B8%8B%E9%9D%A2%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D%E8%AF%A5%E5%A4%87%E4%BB%BD%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9%EF%BC%8C%E5%A6%82%E4%BD%95%E5%A4%87%E4%BB%BD%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E6%81%A2%E5%A4%8D"><span class="nav-number">13.</span> <span class="nav-text">使用的是 Docker + MySQL + 官方 NocoBase 镜像，还对 NocoBase 界面做了一些配置。下面详细介绍该备份哪些内容，如何备份，以及如何恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E4%B8%80%E3%80%81%E4%BD%A0%E9%9C%80%E8%A6%81%E5%A4%87%E4%BB%BD%E7%9A%84%E5%86%85%E5%AE%B9"><span class="nav-number">14.</span> <span class="nav-text">✅ 一、你需要备份的内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%9B%A0-%E4%BA%8C%E3%80%81%E5%A6%82%E4%BD%95%E6%93%8D%E4%BD%9C%E5%A4%87%E4%BB%BD"><span class="nav-number">15.</span> <span class="nav-text">🛠 二、如何操作备份</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%A4%87%E4%BB%BD-MySQL-%E6%95%B0%E6%8D%AE"><span class="nav-number">15.1.</span> <span class="nav-text">1. 备份 MySQL 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%A4%87%E4%BB%BD-NocoBase-%E7%95%8C%E9%9D%A2%E9%85%8D%E7%BD%AE%E7%AD%89%E8%B5%84%E6%96%99"><span class="nav-number">15.2.</span> <span class="nav-text">2. 备份 NocoBase 界面配置等资料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E4%BD%A0%E5%9C%A8%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95%E4%B8%8B%E9%83%A8%E7%BD%B2%E7%9A%84%EF%BC%9A"><span class="nav-number">15.2.1.</span> <span class="nav-text">如果你在当前目录下部署的：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%99%BB%EF%B8%8F-%E4%B8%89%E3%80%81%E5%A6%82%E4%BD%95%E6%81%A2%E5%A4%8D%E5%A4%87%E4%BB%BD"><span class="nav-number">16.</span> <span class="nav-text">♻️ 三、如何恢复备份</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E6%81%A2%E5%A4%8D-MySQL-%E6%95%B0%E6%8D%AE"><span class="nav-number">16.1.</span> <span class="nav-text">1. 恢复 MySQL 数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E6%81%A2%E5%A4%8D-NocoBase-%E9%85%8D%E7%BD%AE"><span class="nav-number">16.2.</span> <span class="nav-text">2. 恢复 NocoBase 配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%F0%9F%93%A6-%E6%8E%A8%E8%8D%90%E6%89%93%E5%8C%85%E5%A4%87%E4%BB%BD%E5%91%BD%E4%BB%A4%EF%BC%88%E5%8F%AF%E9%80%89%EF%BC%89"><span class="nav-number">17.</span> <span class="nav-text">📦 推荐打包备份命令（可选）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%80%BB%E7%BB%93"><span class="nav-number">18.</span> <span class="nav-text">✅ 总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%E6%89%93%E5%8C%85%E4%B8%BA%E9%95%9C%E5%83%8F%EF%BC%8C%E9%83%A8%E7%BD%B2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E9%80%82%E5%90%88%E5%8F%AF%E5%A4%8D%E5%88%B6%E9%83%A8%E7%BD%B2%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">✅ 方法一：打包为镜像，部署到云服务器（适合可复制部署）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E9%80%82%E5%90%88%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">🧠 适合场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%93%A6-%E6%AD%A5%E9%AA%A4%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="nav-number">1.2.</span> <span class="nav-text">📦 步骤如下：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E6%89%BE%E5%88%B0%E4%BD%A0%E5%BD%93%E5%89%8D%E5%AE%B9%E5%99%A8%E8%BF%90%E8%A1%8C%E7%9A%84%E6%95%B0%E6%8D%AE%E6%8C%82%E8%BD%BD%E6%96%B9%E5%BC%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. 找到你当前容器运行的数据挂载方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%8F%90%E5%8F%96%E5%BD%93%E5%89%8D%E5%AE%B9%E5%99%A8%E7%8A%B6%E6%80%81%E5%B9%B6%E6%89%93%E5%8C%85%E4%B8%BA%E9%95%9C%E5%83%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">2. 提取当前容器状态并打包为镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E5%B0%86%E9%95%9C%E5%83%8F%E4%BF%9D%E5%AD%98%E4%B8%BA%E6%96%87%E4%BB%B6%EF%BC%88%E5%8F%AF%E4%BC%A0%E8%BE%93%EF%BC%89"><span class="nav-number">1.2.3.</span> <span class="nav-text">3. 将镜像保存为文件（可传输）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E5%9C%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AF%BC%E5%85%A5%E5%B9%B6%E8%BF%90%E8%A1%8C"><span class="nav-number">1.2.4.</span> <span class="nav-text">4. 在云服务器导入并运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%E6%89%93%E5%8C%85%E6%95%B0%E6%8D%AE-%E9%85%8D%E7%BD%AE%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%AE%98%E6%96%B9%E9%95%9C%E5%83%8F%E9%87%8D%E5%BB%BA%EF%BC%88%E9%80%82%E5%90%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">✅ 方法二：打包数据+配置，使用官方镜像重建（适合持续更新）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%A7%A0-%E9%80%82%E5%90%88%E5%9C%BA%E6%99%AF-1"><span class="nav-number">2.1.</span> <span class="nav-text">🧠 适合场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="nav-number">2.2.</span> <span class="nav-text">步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8D%E6%8F%90%EF%BC%9A"><span class="nav-number">2.2.1.</span> <span class="nav-text">前提：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%9C%80%E8%A6%81%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.2.</span> <span class="nav-text">本地需要的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.2.3.</span> <span class="nav-text">操作步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-compose-yml"><span class="nav-number">2.2.4.</span> <span class="nav-text">docker-compose.yml</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E6%80%BB%E7%BB%93%E5%AF%B9%E6%AF%94"><span class="nav-number">3.</span> <span class="nav-text">✅ 总结对比</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CentOS%E4%B8%8A%E5%AE%89%E8%A3%85docker"><span class="nav-number">4.</span> <span class="nav-text">CentOS上安装docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E4%BB%93%E5%BA%93%E5%AE%89%E8%A3%85"><span class="nav-number">5.</span> <span class="nav-text">官方仓库安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E6%97%B6%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E6%8A%A5%E9%94%99%EF%BC%9AError-Failed-to-download-metadata-for-repo-%E2%80%98appstream%E2%80%99"><span class="nav-number">5.1.</span> <span class="nav-text">2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘appstream’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E6%97%B6%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E6%8A%A5%E9%94%99%EF%BC%9AError-Failed-to-download-metadata-for-repo-%E2%80%98baseos%E2%80%99"><span class="nav-number">5.2.</span> <span class="nav-text">2-1. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘baseos’:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E5%AE%89%E8%A3%85%E5%BF%85%E8%A6%81%E7%9A%84%E4%BE%9D%E8%B5%96%E6%97%B6%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E6%8A%A5%E9%94%99%EF%BC%9AError-Failed-to-download-metadata-for-repo-%E2%80%98extras%E2%80%99"><span class="nav-number">5.3.</span> <span class="nav-text">2-2. 安装必要的依赖时可能遇到报错：Error: Failed to download metadata for repo ‘extras’:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%87%8D%E8%AF%95%E5%AE%89%E8%A3%85%E5%91%BD%E4%BB%A4"><span class="nav-number">5.4.</span> <span class="nav-text">3. 重试安装命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%90%8E%E7%BB%AD%E5%AE%89%E8%A3%85-Docker"><span class="nav-number">5.5.</span> <span class="nav-text">4. 后续安装 Docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E6%9B%B4%E6%8D%A2-Docker-%E9%95%9C%E5%83%8F%E6%BA%90"><span class="nav-number">5.6.</span> <span class="nav-text">5. 更换 Docker 镜像源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E5%85%B6%E4%BB%96%E5%B8%B8%E8%A7%81docker%E5%91%BD%E4%BB%A4"><span class="nav-number">5.7.</span> <span class="nav-text">6. 其他常见docker命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E6%93%8D%E4%BD%9C"><span class="nav-number">5.7.1.</span> <span class="nav-text">容器操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86"><span class="nav-number">5.7.2.</span> <span class="nav-text">本地镜像管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Docker-Compose"><span class="nav-number">5.7.3.</span> <span class="nav-text">Docker Compose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%91%BD%E4%BB%A4"><span class="nav-number">5.7.4.</span> <span class="nav-text">网络命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B7%E5%91%BD%E4%BB%A4"><span class="nav-number">5.7.5.</span> <span class="nav-text">卷命令</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
