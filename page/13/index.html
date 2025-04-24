@@ -360,6 +360,205 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/Java%E5%AE%9E%E7%8E%B0WEB-SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/08/10/Java%E5%AE%9E%E7%8E%B0WEB-SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/" class="post-title-link" itemprop="url">Java实现WEB-SSO单点登录</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-08-10 08:14:36" itemprop="dateCreated datePublished" datetime="2018-08-10T08:14:36+08:00">2018-08-10</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="SSO的基本原理与Java代码实现"><a href="#SSO的基本原理与Java代码实现" class="headerlink" title="SSO的基本原理与Java代码实现"></a>SSO的基本原理与Java代码实现</h1><p>推荐阅读:<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ywlaker/p/6113927.html">单点登录原理与简单实现</a></p>
+<h3 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h3><ul>
+<li><p>Http无状态协议。浏览器使用http协议对服务器发出的每一次请求，服务器都会独立处理，不与之前或之后的请求产生关联，即无状态。所以为了保护服务器的某些资源，必须限制浏览器请求，鉴定请求的合法性。既然http无状态，就让服务器和浏览器共同维护一个状态，即会话机制。</p>
+</li>
+<li><p>会话。浏览器第一次请求服务器，服务器创建一个会话，并将会话的id作为响应的一部分发送给浏览器。浏览器存储该id，并在第二次第三次请求时带上该id，服务器取得请求中的会话id就知道是不是同一个用户了。</p>
+</li>
+<li><p>会话机制。服务器在内存中保存session对象。浏览器在cookie中保存sessionId，在Tomcat中sessionId用的是<code>JSESSIONID</code>，流程如下：</p>
+<p>  <img src="/2018/08/10/Java%E5%AE%9E%E7%8E%B0WEB-SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/1.png"></p>
+</li>
+<li><p>浏览器第一次输入帐密，服务器拿到帐密去数据库比对，比对正确说明是合法用户，将该会话标记为“已授权”或“已登录”的状态，该会话状态被服务器保存在会话对象中，当用户再次访问时，服务器在会话对象中查看登录状态，判断是否合法，合法后才允许访问。</p>
+</li>
+<li><p>单系统登录解决方案的核心是cookie，cookie携带会话id在浏览器和服务器之间维护会话状态，但cookie受到域的限制（通常对应网站的域名）。浏览器在发送http请求时会自动携带与该域匹配的cookie，而不是所有cookie。。需要注意的是，曾经流行过的顶级域名的方式虽然可行，但面临着应用群域名不统一，技术不同，共享cookie无法跨语言平台登录，cookie本身不安全等诸多问题。</p>
+</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/08/10/Java%E5%AE%9E%E7%8E%B0WEB-SSO%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/InnoDB-%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-2/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2241,201 +2440,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/notes-for-HeadFirstServletsAndJsp5/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/06/08/notes-for-HeadFirstServletsAndJsp5/" class="post-title-link" itemprop="url">notes_for_HeadFirstServletsAndJsp5</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-06-08 14:53:32" itemprop="dateCreated datePublished" datetime="2018-06-08T14:53:32+08:00">2018-06-08</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Head-First-Servlets-amp-JSP-读书笔记-5"><a href="#Head-First-Servlets-amp-JSP-读书笔记-5" class="headerlink" title="Head First Servlets&amp;JSP 读书笔记_5"></a>Head First Servlets&amp;JSP 读书笔记_5</h1><h2 id="如何将某些参数写在DD中，而非写死在类中"><a href="#如何将某些参数写在DD中，而非写死在类中" class="headerlink" title="如何将某些参数写在DD中，而非写死在类中"></a>如何将某些参数写在DD中，而非写死在类中</h2><p>初版解决办法（以Email地址为例）：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//DD中：</span><br><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">init-param</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">param-name</span>&gt;</span>adminEmail<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">param-value</span>&gt;</span>***@163.com<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>同时</p>
-<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//servlet中：</span></span><br><span class="line">	get<span class="constructor">ServletConfig()</span>.get<span class="constructor">InitParameter(<span class="string">&quot;adminEmail&quot;</span>)</span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>一般<code>Servlet</code>都是继承自<code>HttpServlet</code>，而<code>HttpServlet</code>是<code>GenericServlet</code>的子类。<code>getInitParameter()</code>方法来自于<code>GenericServlet</code>，所以Servlet可以调用此方法去获取web.xml配置文件中的配置信息。</li>
-<li>容器初始化一个servlet时，会为这个servlet建一个唯一的ServletConfig。其出场顺序为：先由容器加载servlet类，然后init()初始化，初始化完成前得到了ServletConfig对象，同时可以调用getInitParameter方法，从DD中读取初始化参数，经由ServletConfig传递给init()方法。</li>
-<li><strong>划重点</strong>：先 <code>init()</code>，后得到<code>ServletConfig</code>，同时使用<code>初始化参数（只能读一次）</code>！可参考<a target="_blank" rel="noopener" href="http://likehui.fun/2018/05/14/notes-for-HeadFirstServletsAndJsp3/">Head First Servlets&amp;JSP 读书笔记_3</a>中关于init()方法的讲解</li>
-<li>以上的代码只是专属于此Servlet的初始化参数，无法全局使用；若采取保存下来的方式，又必须使此Servlet最早先运行，这么一来可维护性极差</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/06/08/notes-for-HeadFirstServletsAndJsp5/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2483,7 +2487,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">146</span>
+                    <span class="site-state-item-count">147</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

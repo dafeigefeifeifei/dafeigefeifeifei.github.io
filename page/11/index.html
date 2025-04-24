@@ -360,6 +360,205 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/26/JVM%EF%BC%882%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/09/26/JVM%EF%BC%882%EF%BC%89/" class="post-title-link" itemprop="url">JVM（2）</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-09-26 14:35:18" itemprop="dateCreated datePublished" datetime="2018-09-26T14:35:18+08:00">2018-09-26</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="一、GC-背景知识"><a href="#一、GC-背景知识" class="headerlink" title="一、GC 背景知识"></a>一、GC 背景知识</h1><p>副标题：《深入理解 Java 虚拟机》读书笔记（2）</p>
+<p>推荐阅读：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lfs2640666960/p/9297176.html">面试必问之JVM篇</a></p>
+<h2 id="1-1-GC-背景"><a href="#1-1-GC-背景" class="headerlink" title="1.1  GC 背景"></a>1.1  GC 背景</h2><p>GC：garbage collection。<br>程序计数器、虚拟机栈、本地方法栈这三个区域随线程生灭，所以不需要过多考虑内存的回收问题。而 Java 堆和方法区则不同，不同之处在于：</p>
+<ul>
+<li>一个接口的多个实现类需要的内存可能不一样；</li>
+<li>一个方法的多个分支需要的内存可能不一样。</li>
+</ul>
+<p>只有程序运行期间时才能知道会创建哪些对象，这部分内存分配是动态的，是垃圾收集器所关注的部分。</p>
+<h2 id="1-2-四种引用类型"><a href="#1-2-四种引用类型" class="headerlink" title="1.2 四种引用类型"></a>1.2 四种引用类型</h2><ul>
+<li>强引用，Strong Reference。类似<code>Dog dog = new Dog();</code>。</li>
+<li>软引用，Soft Reference。只有内存不足时，JVM 才会回收该对象。属于<code>java.lang.ref.SoftReference</code>，一般用来实现缓存（如图片缓存、网页缓存，有用但非必须）。</li>
+<li>弱引用，Weak Reference。当 JVM 进行 GC 时，无论内存充足与否，都会被回收的对象。属于<code>java.lang.ref.WeakReference</code>，一般用来在回调函数中防止内存泄漏。</li>
+<li>虚引用，Phantom Reference。仅用在，这个对象呗收集器回收时收到一个系统通知。</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/09/26/JVM%EF%BC%882%EF%BC%89/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/24/JVM%EF%BC%881%EF%BC%89/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2151,229 +2350,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0-3/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/08/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0-3/" class="post-title-link" itemprop="url">计算机网络第三章-3</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-08-31 18:27:28" itemprop="dateCreated datePublished" datetime="2018-08-31T18:27:28+08:00">2018-08-31</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="计算机网络——数据链路层（3）"><a href="#计算机网络——数据链路层（3）" class="headerlink" title="计算机网络——数据链路层（3）"></a>计算机网络——数据链路层（3）</h1><table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center">广域网</th>
-<th align="center">局域网</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">覆盖范围</td>
-<td align="center">很广，通常跨区域</td>
-<td align="center">较小，通常在一个区域内</td>
-</tr>
-<tr>
-<td align="center">连接方式</td>
-<td align="center">节点之间都是点对点连接，但为了提高网络的可靠性，一个结点交换机往往与多个结点交换机相连</td>
-<td align="center">普遍采用多点接入技术</td>
-</tr>
-<tr>
-<td align="center">OSI层次</td>
-<td align="center">三层：物理层、数据链路层，网络层</td>
-<td align="center">两层：物理层，数据链路层</td>
-</tr>
-<tr>
-<td align="center">联系和相似点</td>
-<td align="center">1.广域网和局域网都是互联网的重要组成构件，从互联网的角度上看，二者平等（不是包含关系）；</td>
-<td align="center">2.连接在一个广域网或一个局域网上的主机在该网内进行通信时，只需要使用其网络的物理地址即可</td>
-</tr>
-<tr>
-<td align="center">着重点</td>
-<td align="center">强调资源共享</td>
-<td align="center">强调数据传输</td>
-</tr>
-</tbody></table>
-<ul>
-<li>局域网使用的协议主要在数据链路层（少量在物理层），即数据的控制信息主要是数据链路层协议的控制信息。广域网协议主要在网络层。</li>
-</ul>
-<h2 id="局域网"><a href="#局域网" class="headerlink" title="局域网"></a>局域网</h2><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><p>在一个较小的地理范围内，将各种计算机、外部设备和数据库系统等通过双绞线、同轴电缆等连接介质互相连接起来，组成资源和信息共享的的计算机互联网络。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/08/31/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0-3/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2421,7 +2397,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">146</span>
+                    <span class="site-state-item-count">147</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>

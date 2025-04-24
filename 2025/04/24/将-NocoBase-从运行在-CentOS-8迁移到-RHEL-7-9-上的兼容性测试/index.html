@@ -94,17 +94,17 @@
 
 
 
-  <meta name="description" content="计算机网络第二章——物理层1. 什么是奈氏准则，什么是香农定理? 推荐阅读：奈氏准则和香农公式 奈氏准则： 在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。 比特率bps（bit pe">
+  <meta name="description" content="前情提要： nocobase部署笔记 在无法联网的生产环境部署nocobase 现在遇到一个问题，开发环境的操作系统&#x2F;Docker都用最新版本，但是生产环境的基础软件版本太低，你要怎么办？">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机网络第二章练习">
-<meta property="og:url" content="http://yoursite.com/2018/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BB%83%E4%B9%A0/index.html">
+<meta property="og:title" content="将 NocoBase 从运行在 CentOS 8迁移到 RHEL 7.9 上的兼容性测试">
+<meta property="og:url" content="http://yoursite.com/2025/04/24/%E5%B0%86-NocoBase-%E4%BB%8E%E8%BF%90%E8%A1%8C%E5%9C%A8-CentOS-8%E8%BF%81%E7%A7%BB%E5%88%B0-RHEL-7-9-%E4%B8%8A%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:site_name" content="To the moon">
-<meta property="og:description" content="计算机网络第二章——物理层1. 什么是奈氏准则，什么是香农定理? 推荐阅读：奈氏准则和香农公式 奈氏准则： 在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。 比特率bps（bit pe">
+<meta property="og:description" content="前情提要： nocobase部署笔记 在无法联网的生产环境部署nocobase 现在遇到一个问题，开发环境的操作系统&#x2F;Docker都用最新版本，但是生产环境的基础软件版本太低，你要怎么办？">
 <meta property="og:locale">
-<meta property="article:published_time" content="2018-08-23T02:04:22.000Z">
-<meta property="article:modified_time" content="2023-05-08T16:33:08.907Z">
+<meta property="article:published_time" content="2025-04-24T08:38:59.000Z">
+<meta property="article:modified_time" content="2025-04-24T09:26:24.890Z">
 <meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
-<meta property="article:tag" content="computer network">
+<meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
 
 
@@ -112,7 +112,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/23/计算机网络第二章练习/"/>
+  <link rel="canonical" href="http://yoursite.com/2025/04/24/将-NocoBase-从运行在-CentOS-8迁移到-RHEL-7-9-上的兼容性测试/"/>
 
 
 
@@ -122,7 +122,7 @@
   };
 </script>
 
-  <title>计算机网络第二章练习 | To the moon</title>
+  <title>将 NocoBase 从运行在 CentOS 8迁移到 RHEL 7.9 上的兼容性测试 | To the moon</title>
   
 
 
@@ -362,7 +362,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E7%BB%83%E4%B9%A0/"/>
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2025/04/24/%E5%B0%86-NocoBase-%E4%BB%8E%E8%BF%90%E8%A1%8C%E5%9C%A8-CentOS-8%E8%BF%81%E7%A7%BB%E5%88%B0-RHEL-7-9-%E4%B8%8A%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7%E6%B5%8B%E8%AF%95/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
@@ -379,7 +379,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">计算机网络第二章练习
+          <h1 class="post-title" itemprop="name headline">将 NocoBase 从运行在 CentOS 8迁移到 RHEL 7.9 上的兼容性测试
 
               
             
@@ -405,24 +405,12 @@
                 
               
 
-              <time title="Created: 2018-08-23 10:04:22" itemprop="dateCreated datePublished" datetime="2018-08-23T10:04:22+08:00">2018-08-23</time>
+              <time title="Created: 2025-04-24 16:38:59 / Modified: 17:26:24" itemprop="dateCreated datePublished" datetime="2025-04-24T16:38:59+08:00">2025-04-24</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
               
             
           </span>
@@ -439,7 +427,7 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/nocobase/" itemprop="url" rel="index"><span itemprop="name">nocobase</span></a></span>
 
                 
                 
@@ -482,168 +470,48 @@
       
 
       
-        <h1 id="计算机网络第二章——物理层"><a href="#计算机网络第二章——物理层" class="headerlink" title="计算机网络第二章——物理层"></a>计算机网络第二章——物理层</h1><h4 id="1-什么是奈氏准则，什么是香农定理"><a href="#1-什么是奈氏准则，什么是香农定理" class="headerlink" title="1. 什么是奈氏准则，什么是香农定理?"></a>1. 什么是奈氏准则，什么是香农定理?</h4><ul>
-<li>推荐阅读：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Dallin0408/article/details/59510405">奈氏准则和香农公式</a></li>
-<li>奈氏准则：<ul>
-<li>在理想低通（只允许低频通过）的信道中，极限码元传输率为2W Baud。W是理想低通信道的带宽，单位Hz；Baud是单位波特，一个Baud表示一秒一个码元（一秒变化一次电平，变化次数而非周期数）。整体理解就是：每赫带宽的理想低通信道的最高码元传输速率是每秒2个码元。</li>
-<li>比特率bps（bit per second），每秒传输数据的位数。</li>
-<li>比特率&#x3D;log(2)V×波特率</li>
-<li>极限数据传输率为2Wlog(2)V。一秒一个码元等价于一秒log(2)V个单位的数据，其中V是指每个码元离散电平的数量。</li>
-</ul>
-</li>
-<li>信道容量：<ul>
-<li>数据在信道中传输中，最高的比特率就叫做这个信道的容量，单位是bps</li>
-<li>口语中也会把信道容量叫做“带宽”的，比如“带宽10M的网络”，“网络带宽是10M”等等。所以这两个概念也很容易混淆：我们平常所说的“带宽”不是带宽，而是信道容量。</li>
-</ul>
-</li>
-<li>香农定理：<ul>
-<li>信道的极限数据传输速率&#x3D;Wlog(2)[1+S&#x2F;N]，单位b&#x2F;s。其中，W是信道的带宽，S为信道所传输信号的平均功率，N为信道内部的高斯噪声功率。S&#x2F;N表示信噪比，即信号的平均功率和噪声的平均功率之比，常用分贝dB来表示，信噪比&#x3D;10log(10)(S&#x2F;N)，当S&#x2F;N为10时，信噪比为10dB，当S&#x2F;N为1000时，信噪比为30dB。</li>
-<li>香农公式表明，信道的带宽或信道中的信噪比越大，信息的极限传输速率就越高。</li>
-<li>香农公式是用来估测，一个信道中能传输的数据的速度的上限</li>
-<li>香农定理可以解释现代各种无线制式由于带宽不同，所支持的单载波最大吞吐量的不同。</li>
-</ul>
-</li>
-</ul>
+        <p>前情提要：</p>
+<p><a target="_blank" rel="noopener" href="https://likehui.fun/2025/04/17/nocobase%E9%83%A8%E7%BD%B2%E7%AC%94%E8%AE%B0/">nocobase部署笔记</a></p>
+<p><a target="_blank" rel="noopener" href="https://likehui.fun/2025/04/22/%E5%9C%A8%E6%97%A0%E6%B3%95%E8%81%94%E7%BD%91%E7%9A%84%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2nocobase/">在无法联网的生产环境部署nocobase</a></p>
+<p>现在遇到一个问题，开发环境的操作系统&#x2F;Docker都用最新版本，但是生产环境的基础软件版本太低，你要怎么办？</p>
 <span id="more"></span>
 
-
+<blockquote>
+<p>将 NocoBase 从运行在 CentOS 8（内核 4.18）迁移到 RHEL 7.9 上（默认内核通常是 3.10.x）<strong>理论上可行，但你需要注意几个兼容性问题</strong>，尤其是内核和系统库的版本差异对 Docker 和某些依赖的影响。</p>
+</blockquote>
+<p>最优解：直接上生产上部署试一试，如果没办法上生产，那么可以使用模拟环境做一下测试</p>
+<h1 id="拉取-RHEL-7-9-容器模拟测试兼容性"><a href="#拉取-RHEL-7-9-容器模拟测试兼容性" class="headerlink" title="拉取 RHEL 7.9 容器模拟测试兼容性"></a>拉取 RHEL 7.9 容器模拟测试兼容性</h1><p>用 ubi7 镜像测试 NocoBase 镜像兼容性的 Dockerfile 和启动脚本，用以模拟目标环境里的构建行为</p>
 <hr>
-<h4 id="2-数据变成信号的四种情况："><a href="#2-数据变成信号的四种情况：" class="headerlink" title="2. 数据变成信号的四种情况："></a>2. 数据变成信号的四种情况：</h4><pre><code>数字数据/模拟数据 -&gt; 数字信号/模拟信号
-</code></pre>
-<ol>
-<li>数字数据编码为数字信号。<ul>
-<li>通常有非归零码(简单的高低位)、曼彻斯特编码(高低位与时钟信号异或，<strong>应用于以太网</strong>，一个数据两个电平，波特率是数据率的两倍，差分曼彻斯特也是如此  )、差分曼彻斯特编码（与前一个码元比较）、<a target="_blank" rel="noopener" href="https://www.cnblogs.com/laojie4321/archive/2012/04/09/2439470.html">4B&#x2F;5B编码</a>（用5bit表示4bit）</li>
-<li><strong>属于基带传输，是原始的电脉冲信号，不经过调制解调，信号以脉冲的形式在信道上传输，设备花费少，适用于较小范围的数据传输。</strong></li>
-</ul>
-</li>
-<li>数字数据调制为模拟信号<ul>
-<li>对应调制解调器，走模拟通信信道</li>
-<li>基本调制方法有：幅移键控（振幅，抗干扰能力差），频移键控（频率，应用较多），相移键控（相位，分绝对调相和相对调相），正交振幅调制（振幅和相位的结合叠加信号）</li>
-<li><strong>属于频带传输，对数字信号进行某种变换，将代表数据的二进制“1”和“0”，变换成具有一定频带范围的模拟信号，以适应在模拟信道上传输。长途信道是无法传输原始电脉冲信号的</strong></li>
-<li>最后还有一类叫做宽带传输，指比音频（4KHZ）带宽还要宽的频带，包括了大部分电磁波频谱的频带。使用这种宽频带进行传输的系统就称为宽带传输系统，它可以容纳所有的广播，并且还可以进行高速率的数据传输。</li>
-</ul>
-</li>
-<li>模拟数据编码为数字信号<ul>
-<li>常用的是对音频信号进行编码的脉码调制（PCM），应用采样定理</li>
-<li>脉冲编码调制PCM就是把一个时间连续，取值连续的模拟信号变换成时间离散，取值离散的数字信号后在信道中传输。脉冲编码调制就是对模拟信号先抽样，再对样值幅度量化，编码的过程。</li>
-<li>抽样，就是对模拟信号进行周期性扫描，把时间上连续的信号变成时间上离散的信号，抽样必须遵循奈奎斯特抽样定理（也叫采样定理）。该模拟信号经过抽样后还应当包含原信号中所有信息，也就是说能无失真的恢复原模拟信号。</li>
-<li>量化，就是把经过抽样得到的瞬时值将其幅度离散，即用一组规定的电平，把瞬时抽样值用最接近的电平值来表示,通常是用二进制表示。</li>
-<li>量化误差：量化后的信号和抽样信号的差值。量化误差在接收端表现为噪声，称为量化噪声。 量化级数越多误差越小，相应的二进制码位数越多，要求传输速率越高，频带越宽。 </li>
-<li>一个模拟信号经过抽样量化后，得到已量化的脉冲幅度调制信号，它仅为有限个数值。	</li>
-<li>编码，就是用一组二进制码组来表示每一个有固定电平的量化值。然而，实际上量化是在编码过程中同时完成的，故编码过程也称为模&#x2F;数变换，可记作A&#x2F;D。</li>
-</ul>
-</li>
-<li>模拟数据调制为模拟信号<ul>
-<li>频分（FDM）复用技术，电话机与本地交换机所传输的信号就是采用模拟信号传输模拟数据的编码方式。</li>
-</ul>
-</li>
+<h3 id="✅-功能列表"><a href="#✅-功能列表" class="headerlink" title="✅ 功能列表"></a>✅ 功能列表</h3><ol>
+<li><strong>构建 UBI7 容器基础镜像</strong>；</li>
+<li><strong>启动 NocoBase + MySQL + Flask 服务</strong>；</li>
+<li><strong>输出容器状态与运行日志</strong>；</li>
+<li><strong>验证端口监听情况（13000, 3306, 5000）</strong>；</li>
+<li>**添加容器级别的 <code>healthcheck</code>**；</li>
+<li><strong>检查 Flask 接口是否可用（curl 检测）</strong>；</li>
+<li><strong>最终输出整体运行状态报告</strong>。</li>
 </ol>
 <hr>
-<h4 id="3-比较电路交换、报文交换、分组交换"><a href="#3-比较电路交换、报文交换、分组交换" class="headerlink" title="3. 比较电路交换、报文交换、分组交换"></a>3. 比较电路交换、报文交换、分组交换</h4><ul>
-<li>电路交换。要先建立一条专用（双方独占）的物理通信路径，<strong>用户始终占用端到端的固定传输带宽</strong>，分为三个阶段：连接建立、数据传输、连接释放。<ul>
-<li>优点：通信时延小，有序传输，没有冲突，使用范围广（既适合模拟信号，又适合数字信号），实时性强，控制简单。</li>
-<li>缺点：建立连接时间长，线路独占使用效率低，灵活性差（出现故障必须重新拨号等），难以规格化难以进行差错控制（无法纠正传输过程中发生的数据差错，如为保证数据无差错地传送，不建议采用电路交换）。</li>
-<li>不采用存储转发的方式，任何中间结点都采用“直通式”收发数据。</li>
-</ul>
-</li>
-<li>报文交换。报文携带目标地址、源地址等信息，在各交换节点采用存储转发的机制。<ul>
-<li>优点：无需建立连接，动态分配线路，提高线路可靠性（故障时可更换线路），提高线路利用率，提供多目标服务（电路交换中很难做到）。不适合实时通信应用环境（如语音、视频等）。</li>
-<li>缺点：由于采用存储转发机制，所以存在转发时延（包括接受报文，检验正确性、排队、发送时间等），报文交换对报文大小没有限制，需要网络结点有较大的缓存空间。</li>
-</ul>
-</li>
-<li>分组交换。正在报文交换的基础上，解决了报文交换中大报文传输的问题。分组交换限制了每次传送的数据块大小的上限，把大的数据块分成合理大小的小数据块，并加上必要的控制信息。<ul>
-<li>优点：在报文交换的基础上，简化了存储管理，交换结点的缓冲区大小固定，管理简化。加速传输，后一个分组的存储操作与前一个分组的转发操作并行，这种流水线的方式减少了报文的传输时间，因缓冲区不足等待发送的几率和时间也必然小很多。减少了出错几率和重发数据量。</li>
-<li>缺点：传输时延比报文交换略短，但仍存在，而且结点交换机必须具有较强的处理能力。需要传输额外的信息量，总信息量多了5%~10%。当分组交换采用<strong>数据报</strong>的服务时，可能出现失序、丢失或重复分组，分组到达目的结点时，要对分组按编号进行排序等工作。若采用<strong>虚电报</strong>的服务，虽无失序问题，但有呼叫建立、数据传输和虚电路释放三个过程。</li>
-</ul>
-</li>
-<li>若传送数据量很大，且传送时间远大于呼叫时间，可以采用电路交换；当端到端的通路由很多段的链路组成时，采用分组交换较合适。针对计算机之间的突发式的数据通信，分组交换则更为合适。</li>
-</ul>
+<h3 id="📁-目录结构建议"><a href="#📁-目录结构建议" class="headerlink" title="📁 目录结构建议"></a>📁 目录结构建议</h3><figure class="highlight stata"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ubi_test/</span><br><span class="line">├── Dockerfile</span><br><span class="line">├── docker-compose.yml</span><br><span class="line">├── <span class="keyword">run</span>.<span class="keyword">sh</span></span><br><span class="line">├── flask_service/</span><br><span class="line">│   ├── Dockerfile</span><br><span class="line">│   ├── <span class="keyword">app</span>.py</span><br><span class="line">│   └── requirements.txt</span><br></pre></td></tr></table></figure>
+
 <hr>
-<h4 id="4-比较数据报和虚电路"><a href="#4-比较数据报和虚电路" class="headerlink" title="4. 比较数据报和虚电路"></a>4. 比较数据报和虚电路</h4><ul>
-<li>这两个服务都属于分组交换，虚电路结合了部分电路交换的特色。</li>
-<li>数据报服务：派出一堆小兵，每个带着双方地址，让他们独立送信。</li>
-<li>虚电路：先修路到目的地，让一堆骡子每个带着路号，无脑沿路送信。</li>
-<li>数据报中网络具有冗余路径，当故障时，可以相应地更新转发表。</li>
-<li>虚电路的通信分为三个阶段：虚电路建立（时间开销）、数据传输、虚电路释放（时间开销）。虚电路每个结点维持一张虚电路表，包括了接收链路和发送链路上的虚电路号、前一个后一个结点的标识。</li>
-<li>虚电路不只是临时性的，它提供的服务包括永久性虚电路（PVC）和交换性虚电路（SVC）。前者是提前定义好的，基本不需要任何建立时间的端点之间的连接；而后者是端点之间的一种临时性的连接，这些连接只持续所需的时间，并且当会话结束时就取消这种连接。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center">数据报服务</th>
-<th align="center">虚电路服务</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">连接的建立</td>
-<td align="center">不要</td>
-<td align="center">必须有</td>
-</tr>
-<tr>
-<td align="center">目的地址</td>
-<td align="center">每个分组都有完整的目的地址</td>
-<td align="center">仅在建立连接阶段使用，之后每个分组使用长度较短的虚电路号</td>
-</tr>
-<tr>
-<td align="center">路由选择</td>
-<td align="center">每个分组独立地进行路由选择和转发</td>
-<td align="center">属于同一条虚电路的分组按照同一路由转发</td>
-</tr>
-<tr>
-<td align="center">分组顺序</td>
-<td align="center">不保证分组的有序到达</td>
-<td align="center">保证分组的有序到达</td>
-</tr>
-<tr>
-<td align="center">可靠性</td>
-<td align="center">不保证可靠通信，可靠性由用户主机来保证</td>
-<td align="center">可靠性由网络保证</td>
-</tr>
-<tr>
-<td align="center">对网络故障的适应性</td>
-<td align="center">出故障的结点丢失分组，其他分组路径选择发生变化，可正常传输</td>
-<td align="center">所有经过故障结点的虚电路均不能正常工作</td>
-</tr>
-<tr>
-<td align="center">差错处理和流量控制</td>
-<td align="center">由用户主机进行流量控制，不保证数据报的可靠性</td>
-<td align="center">可由分组交换网负责，也可由用户主机负责</td>
-</tr>
-</tbody></table>
+<h2 id="✅-ubi-test-docker-compose-yml（增强版，含-Flask-healthcheck）"><a href="#✅-ubi-test-docker-compose-yml（增强版，含-Flask-healthcheck）" class="headerlink" title="✅ ubi_test/docker-compose.yml（增强版，含 Flask + healthcheck）"></a>✅ <code>ubi_test/docker-compose.yml</code>（增强版，含 Flask + healthcheck）</h2><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">nocobase:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mysql:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:8.0</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">XXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="attr">MYSQL_DATABASE:</span> <span class="string">nocobase</span></span><br><span class="line">      <span class="attr">MYSQL_USER:</span> <span class="string">nocobase</span></span><br><span class="line">      <span class="attr">MYSQL_PASSWORD:</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;3306:3306&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql_data:/var/lib/mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./uploads:/var/lib/mysql-files</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">--secure-file-priv=/var/lib/mysql-files</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;mysqladmin&quot;</span>, <span class="string">&quot;ping&quot;</span>, <span class="string">&quot;-h&quot;</span>, <span class="string">&quot;localhost&quot;</span>]</span><br><span class="line">      <span class="attr">interval:</span> <span class="string">10s</span></span><br><span class="line">      <span class="attr">timeout:</span> <span class="string">5s</span></span><br><span class="line">      <span class="attr">retries:</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">registry.cn-shanghai.aliyuncs.com/nocobase/nocobase:latest</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="attr">mysql:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">service_healthy</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">APP_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_DIALECT=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_HOST=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_DATABASE=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_USER=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_PASSWORD=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_UNDERSCORED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./storage:/app/nocobase/storage</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;13000:80&quot;</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;http://localhost&quot;</span>]</span><br><span class="line">      <span class="attr">interval:</span> <span class="string">15s</span></span><br><span class="line">      <span class="attr">timeout:</span> <span class="string">5s</span></span><br><span class="line">      <span class="attr">retries:</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">flask:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./flask_service</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">excel-importer</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_HOST=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_PORT=3306</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_USER=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_PASSWORD=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_DATABASE=nocobase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./uploads:/app/uploads</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;5000:5000&quot;</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="attr">mysql:</span></span><br><span class="line">        <span class="attr">condition:</span> <span class="string">service_healthy</span></span><br><span class="line">    <span class="attr">healthcheck:</span></span><br><span class="line">      <span class="attr">test:</span> [<span class="string">&quot;CMD&quot;</span>, <span class="string">&quot;curl&quot;</span>, <span class="string">&quot;-f&quot;</span>, <span class="string">&quot;http://localhost:5000/health&quot;</span>]</span><br><span class="line">      <span class="attr">interval:</span> <span class="string">10s</span></span><br><span class="line">      <span class="attr">timeout:</span> <span class="string">5s</span></span><br><span class="line">      <span class="attr">retries:</span> <span class="number">5</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">mysql_data:</span></span><br></pre></td></tr></table></figure>
+
 <hr>
-<h4 id="5-主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms"><a href="#5-主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms" class="headerlink" title="5. 主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms"></a>5. 主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms</h4><ul>
-<li>对于报文交换，在结点处一次全文发送耗时为800ms，因为中间经过一次转发，所以总耗时为1600ms；</li>
-<li>对于分组交换，分组分成800份；每份在结点处发送一次耗时为1ms，虽然存在中间结点，但源结点的发送和中间结点的转发并行，所以经过800ms后，最后一个组从源结点发出，再经过1ms到达目标结点，所以总耗时为801ms。</li>
-</ul>
+<h2 id="✅-Flask-示例（路径：flask-service-app-py）"><a href="#✅-Flask-示例（路径：flask-service-app-py）" class="headerlink" title="✅ Flask 示例（路径：flask_service/app.py）"></a>✅ Flask 示例（路径：<code>flask_service/app.py</code>）</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/health&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">health</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;OK&quot;</span>, <span class="number">200</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;Flask is running.&quot;</span></span><br></pre></td></tr></table></figure>
+
 <hr>
-<h4 id="6-物理层传输介质"><a href="#6-物理层传输介质" class="headerlink" title="6. 物理层传输介质"></a>6. 物理层传输介质</h4><ul>
-<li>导向传输介质：双绞线、同轴电缆、光纤。<ul>
-<li>双绞线分为含金属丝屏蔽层的屏蔽双绞线（STP），无屏蔽层的非屏蔽双绞线（UTP）。双绞线的带宽取决于铜线的粗细和传输的距离。模拟传输和数字传输都可以使用双绞线。</li>
-<li>同轴电缆因为有外导体屏蔽层，其抗干扰能力较好，被广泛应用于较高速率的数据（更高屏蔽性，抗噪性高）。分为50Ω的基带同轴电缆和75Ω的宽带同轴电缆，前者主要用在局域网，后者用在有线电视系统。利用一根同轴电缆互联主机构成以太网，主机间是以半双工的方式通信。</li>
-<li>光纤的宽带范围极大。如果有多条不同入射角的光纤在一条光纤中传输，这种光纤成为多模光纤，多模光纤只适用于近距离传输。如果光纤的直径减小到只有一个光的波长，就不会产生多次反射，这种叫做单模光纤，衰耗较小，适合远距离传输。要求其光源是定向性很好的激光二极管。</li>
-</ul>
-</li>
-<li>非导向传输介质：无线电波、微波、红外线、激光。<ul>
-<li>无线电波具有较强的穿透能力，信号向所有方向散播，被应用于通信领域，如无线手机通信、无线局域网WLAN。</li>
-<li>微波、红外线和激光都是沿直线传播，具有很强的方向性。</li>
-<li>卫星通信就是利用同步卫星作为中继转发微波信号，优点是通信容量大、距离远、覆盖广，缺点是端到端的传播延迟时间较长，而且受气候影响大、保密性差、误码率较高等</li>
-</ul>
-</li>
-</ul>
+<h2 id="✅-Flask-requirements-txt"><a href="#✅-Flask-requirements-txt" class="headerlink" title="✅ Flask requirements.txt"></a>✅ Flask <code>requirements.txt</code></h2><figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">flask</span></span><br></pre></td></tr></table></figure>
+
 <hr>
-<h4 id="7-物理层接口的特性"><a href="#7-物理层接口的特性" class="headerlink" title="7. 物理层接口的特性"></a>7. 物理层接口的特性</h4><ul>
-<li>物理层要为数据链路层提供统一的服务，所以要尽可能屏蔽各种物理设备的差异，对于传输媒体的接口的特性进行相关的规定。</li>
-<li>机械特性：物理连接点，即接插设备。规定规格、引脚数量等。</li>
-<li>电气特定：规定电压高低、阻抗匹配、传输速率和距离限制等。</li>
-<li>功能特性：规定某一电平的电压表示何意义，接口部件的信号线的用途。</li>
-<li>规程特性：定义各条物理线路的工作规程和时序关系。</li>
-</ul>
-<h4 id="8-中继器和集线器"><a href="#8-中继器和集线器" class="headerlink" title="8. 中继器和集线器"></a>8. 中继器和集线器</h4><ul>
-<li>中继器，将从入口端进入的因噪声或其他原因造成失真和衰减的信号（数字信号，放大器处理的是模拟信号）进行信号再生，发送到出口端。中继器不能连接两个具有不同速率的局域网，中继器两端的网段一定是同一个协议（因为中继器没有存储转发功能）。中继器的个数遵守“5-4-3规则”：互相串联的中继器的个数不能超过4个，而且被4个中继器串联的5段通信介质中只有3个段可以挂接计算机，其余两个段只能用作扩展通信范围的链路段。</li>
-<li>集线器。多端口的中继器，将输入的信号，整形放大后转发到其他所有处于工作状态的端口上（没有寻址功能）。主要应用在使用双绞线组建的共享网络中，是解决从服务器连接到桌面最经济的方案。只能够在半双工下工作，网络吞吐量受限。集线器在物理层上扩大了物理网络的覆盖范围，无法解决冲突域（第二层交换机可解决）与广播域（第三层交换机可解决）的问题，而且使冲突的概率更大了。</li>
-<li>物理层设备还有转发器等</li>
-</ul>
+<h2 id="✅-Flask-Dockerfile（flask-service-Dockerfile）"><a href="#✅-Flask-Dockerfile（flask-service-Dockerfile）" class="headerlink" title="✅ Flask Dockerfile（flask_service/Dockerfile）"></a>✅ Flask <code>Dockerfile</code>（<code>flask_service/Dockerfile</code>）</h2><figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.9</span>-slim</span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;flask&quot;</span>, <span class="string">&quot;run&quot;</span>, <span class="string">&quot;--host=0.0.0.0&quot;</span>, <span class="string">&quot;--port=5000&quot;</span>]</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="✅-run-sh-脚本增强版"><a href="#✅-run-sh-脚本增强版" class="headerlink" title="✅ run.sh 脚本增强版"></a>✅ <code>run.sh</code> 脚本增强版</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="built_in">set</span> -e</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[1] 构建基础 ubi7 环境镜像（可选）&quot;</span></span><br><span class="line">docker build -t ubi7-env ./ubi_test</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[2] 启动 docker-compose 环境...&quot;</span></span><br><span class="line"><span class="built_in">cd</span> ubi_test</span><br><span class="line">docker compose up -d --build</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[3] 等待服务启动中（最长等待 60 秒）...&quot;</span></span><br><span class="line"><span class="built_in">timeout</span>=60</span><br><span class="line">interval=5</span><br><span class="line">elapsed=0</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> [ <span class="variable">$elapsed</span> -lt <span class="variable">$timeout</span> ]; <span class="keyword">do</span></span><br><span class="line">  status=$(docker compose ps --services --filter <span class="string">&quot;status=running&quot;</span> | <span class="built_in">wc</span> -l)</span><br><span class="line">  <span class="keyword">if</span> [ <span class="string">&quot;<span class="variable">$status</span>&quot;</span> -ge 3 ]; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;[✓] 所有服务已启动&quot;</span></span><br><span class="line">    <span class="built_in">break</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  <span class="built_in">sleep</span> <span class="variable">$interval</span></span><br><span class="line">  elapsed=$((elapsed + interval))</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;[…] 正在等待服务启动（已等待 <span class="variable">$&#123;elapsed&#125;</span>s）&quot;</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$elapsed</span> -ge <span class="variable">$timeout</span> ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;[✗] 启动超时，服务未全部运行&quot;</span></span><br><span class="line">  docker compose ps</span><br><span class="line">  <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[4] 服务健康检查：&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> service <span class="keyword">in</span> mysql app flask; <span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> -n <span class="string">&quot;  - <span class="variable">$service</span>: &quot;</span></span><br><span class="line">  health=$(docker inspect --format=<span class="string">&#x27;&#123;&#123;json .State.Health.Status&#125;&#125;&#x27;</span> <span class="string">&quot;ubi_test_<span class="variable">$service_1</span>&quot;</span>)</span><br><span class="line">  <span class="built_in">echo</span> <span class="variable">$health</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[5] 检查端口监听：&quot;</span></span><br><span class="line"><span class="keyword">for</span> port <span class="keyword">in</span> 13000 3306 5000; <span class="keyword">do</span></span><br><span class="line">  <span class="keyword">if</span> lsof -i :<span class="string">&quot;<span class="variable">$port</span>&quot;</span> &gt; /dev/null 2&gt;&amp;1; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;  - Port <span class="variable">$port</span> is listening ✅&quot;</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;  - Port <span class="variable">$port</span> is NOT listening ❌&quot;</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[6] 检查 Flask 服务接口响应：&quot;</span></span><br><span class="line"><span class="keyword">if</span> curl -fs http://localhost:5000/health &gt; /dev/null; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;  - Flask /health OK ✅&quot;</span></span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">&quot;  - Flask /health FAILED ❌&quot;</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[7] 输出 NocoBase 初始日志（前 30 行）：&quot;</span></span><br><span class="line">docker logs --<span class="built_in">tail</span>=30 ubi_test_app_1</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;[✓] 测试完毕，你可以访问：http://localhost:13000&quot;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="✅-使用方式："><a href="#✅-使用方式：" class="headerlink" title="✅ 使用方式："></a>✅ 使用方式：</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 进入 ubi_test 目录</span></span><br><span class="line"><span class="built_in">chmod</span> +x ubi_test/run.sh</span><br><span class="line">./ubi_test/run.sh</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -680,7 +548,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/computer-network/" rel="tag"><i class="fa fa-tag"></i> computer network</a>
+            <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
           
         </div>
       
@@ -693,8 +561,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/22/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%BB%83%E4%B9%A0%E9%A2%98%E4%B9%8B%E4%B8%80/" rel="next" title="计算机网络练习题之一">
-                <i class="fa fa-chevron-left"></i> 计算机网络练习题之一
+              <a href="/2025/04/22/%E5%9C%A8%E6%97%A0%E6%B3%95%E8%81%94%E7%BD%91%E7%9A%84%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2nocobase/" rel="next" title="在无法联网的生产环境部署nocobase">
+                <i class="fa fa-chevron-left"></i> 在无法联网的生产环境部署nocobase
               </a>
             
           </div>
@@ -702,10 +570,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/25/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%80%E7%AB%A0%E7%BB%83%E4%B9%A0/" rel="prev" title="操作系统第一章练习">
-                操作系统第一章练习 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -943,7 +807,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%8C%E7%AB%A0%E2%80%94%E2%80%94%E7%89%A9%E7%90%86%E5%B1%82"><span class="nav-number">1.</span> <span class="nav-text">计算机网络第二章——物理层</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E5%A5%88%E6%B0%8F%E5%87%86%E5%88%99%EF%BC%8C%E4%BB%80%E4%B9%88%E6%98%AF%E9%A6%99%E5%86%9C%E5%AE%9A%E7%90%86"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">1. 什么是奈氏准则，什么是香农定理?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%95%B0%E6%8D%AE%E5%8F%98%E6%88%90%E4%BF%A1%E5%8F%B7%E7%9A%84%E5%9B%9B%E7%A7%8D%E6%83%85%E5%86%B5%EF%BC%9A"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">2. 数据变成信号的四种情况：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E6%AF%94%E8%BE%83%E7%94%B5%E8%B7%AF%E4%BA%A4%E6%8D%A2%E3%80%81%E6%8A%A5%E6%96%87%E4%BA%A4%E6%8D%A2%E3%80%81%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">3. 比较电路交换、报文交换、分组交换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-%E6%AF%94%E8%BE%83%E6%95%B0%E6%8D%AE%E6%8A%A5%E5%92%8C%E8%99%9A%E7%94%B5%E8%B7%AF"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">4. 比较数据报和虚电路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-%E4%B8%BB%E6%9C%BA%E7%94%B2%E9%80%9A%E8%BF%871%E4%B8%AA%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%88%E5%AD%98%E5%82%A8%E8%BD%AC%E5%8F%91%E6%96%B9%E5%BC%8F%EF%BC%89%E4%B8%8E%E4%B8%BB%E6%9C%BA%E4%B9%99%E4%BA%92%E8%81%94%EF%BC%8C%E4%B8%A4%E6%AE%B5%E9%93%BE%E8%B7%AF%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%93%E9%80%9F%E7%8E%87%E5%9D%87%E5%9C%A810Mbps%EF%BC%8C%E4%B8%BB%E6%9C%BA%E7%94%B2%E5%88%86%E5%88%AB%E9%87%87%E7%94%A8%E6%8A%A5%E6%96%87%E4%BA%A4%E6%8D%A2%E5%92%8C%E5%88%86%E7%BB%84%E5%A4%A7%E5%B0%8F%E4%B8%BA10kb%E7%9A%84%E5%88%86%E7%BB%84%E4%BA%A4%E6%8D%A2%E5%90%91%E4%B8%BB%E6%9C%BA%E4%B9%99%E5%8F%91%E9%80%811%E4%B8%AA%E5%A4%A7%E5%B0%8F%E4%B8%BA8Mb%E7%9A%84%E6%8A%A5%E6%96%87%E3%80%82%E8%8B%A5%E5%BF%BD%E7%95%A5%E9%93%BE%E8%B7%AF%E4%BC%A0%E6%92%AD%E5%BB%B6%E8%BF%9F%E3%80%81%E5%88%86%E7%BB%84%E5%A4%B4%E5%BC%80%E9%94%80%E5%92%8C%E5%88%86%E7%BB%84%E6%8B%86%E8%A3%85%E6%97%B6%E9%97%B4%EF%BC%8C%E5%88%99%E4%B8%A4%E7%A7%8D%E4%BA%A4%E6%8D%A2%E6%96%B9%E5%BC%8F%E5%AE%8C%E6%88%90%E8%AF%A5%E6%8A%A5%E6%96%87%E4%BC%A0%E8%BE%93%E6%89%80%E9%9C%80%E7%9A%84%E6%80%BB%E6%97%B6%E9%97%B4%E5%88%86%E5%88%AB%E4%B8%BA%EF%BC%9A1600ms%E3%80%81801ms"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">5. 主机甲通过1个路由器（存储转发方式）与主机乙互联，两段链路的数据传输速率均在10Mbps，主机甲分别采用报文交换和分组大小为10kb的分组交换向主机乙发送1个大小为8Mb的报文。若忽略链路传播延迟、分组头开销和分组拆装时间，则两种交换方式完成该报文传输所需的总时间分别为：1600ms、801ms</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-%E7%89%A9%E7%90%86%E5%B1%82%E4%BC%A0%E8%BE%93%E4%BB%8B%E8%B4%A8"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">6. 物理层传输介质</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-%E7%89%A9%E7%90%86%E5%B1%82%E6%8E%A5%E5%8F%A3%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">7. 物理层接口的特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-%E4%B8%AD%E7%BB%A7%E5%99%A8%E5%92%8C%E9%9B%86%E7%BA%BF%E5%99%A8"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">8. 中继器和集线器</span></a></li></ol></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%89%E5%8F%96-RHEL-7-9-%E5%AE%B9%E5%99%A8%E6%A8%A1%E6%8B%9F%E6%B5%8B%E8%AF%95%E5%85%BC%E5%AE%B9%E6%80%A7"><span class="nav-number">1.</span> <span class="nav-text">拉取 RHEL 7.9 容器模拟测试兼容性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E2%9C%85-%E5%8A%9F%E8%83%BD%E5%88%97%E8%A1%A8"><span class="nav-number">1.0.1.</span> <span class="nav-text">✅ 功能列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%F0%9F%93%81-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84%E5%BB%BA%E8%AE%AE"><span class="nav-number">1.0.2.</span> <span class="nav-text">📁 目录结构建议</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-ubi-test-docker-compose-yml%EF%BC%88%E5%A2%9E%E5%BC%BA%E7%89%88%EF%BC%8C%E5%90%AB-Flask-healthcheck%EF%BC%89"><span class="nav-number">1.1.</span> <span class="nav-text">✅ ubi_test&#x2F;docker-compose.yml（增强版，含 Flask + healthcheck）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-Flask-%E7%A4%BA%E4%BE%8B%EF%BC%88%E8%B7%AF%E5%BE%84%EF%BC%9Aflask-service-app-py%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">✅ Flask 示例（路径：flask_service&#x2F;app.py）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-Flask-requirements-txt"><span class="nav-number">1.3.</span> <span class="nav-text">✅ Flask requirements.txt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-Flask-Dockerfile%EF%BC%88flask-service-Dockerfile%EF%BC%89"><span class="nav-number">1.4.</span> <span class="nav-text">✅ Flask Dockerfile（flask_service&#x2F;Dockerfile）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-run-sh-%E8%84%9A%E6%9C%AC%E5%A2%9E%E5%BC%BA%E7%89%88"><span class="nav-number">1.5.</span> <span class="nav-text">✅ run.sh 脚本增强版</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%9C%85-%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%EF%BC%9A"><span class="nav-number">1.6.</span> <span class="nav-text">✅ 使用方式：</span></a></li></ol></li></ol></div>
             
 
           </div>

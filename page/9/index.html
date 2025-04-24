@@ -360,6 +360,215 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%863/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%863/" class="post-title-link" itemprop="url">面经整理3</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-14 09:05:49" itemprop="dateCreated datePublished" datetime="2018-12-14T09:05:49+08:00">2018-12-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>部分题目来源：<a target="_blank" rel="noopener" href="https://www.nowcoder.com/discuss/108195">美团 java 后台 哈尔滨现场面试面经</a></p>
+<h4 id="1-数据库主从同步、读写分离"><a href="#1-数据库主从同步、读写分离" class="headerlink" title="1. 数据库主从同步、读写分离"></a>1. 数据库主从同步、读写分离</h4><p>主要用来提升数据库的并发负载能力。</p>
+<ul>
+<li>数据的热备；</li>
+<li>架构的扩展；</li>
+<li>支持更大的并发；</li>
+</ul>
+<p>主从复制的步骤：</p>
+<ol>
+<li>从库生成两个线程，一个 IO 线程，一个 SQL 线程；</li>
+<li>IO 线程去请求主库的 binlog，并将得到的 binlog 日志写入 relay log 文件中。主库会生成一个 binlog dump 线程，用来给从库的 IO 线程传 binlog；<ul>
+<li>binlog是一个二进制格式的文件，用于记录用户对数据库更新的SQL语句信息（查询不会有记录，只记录增删改）。在 my.cnf 中增加<code>log_bin</code>参数即可开启。</li>
+</ul>
+</li>
+<li>SQL 线程，会读取 relay log 文件中的日志（从 Exec_Master_Log_Pos 位置开始执行），并解析成具体操作，来实现主从的操作一致，而最终数据一致。</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>数据的实时性较差；</li>
+<li>数据量大时，同步效率差；</li>
+<li>同时连接多个数据库，容易引起混乱；</li>
+<li>读具有高性能高可靠性和可伸缩。只读服务器因为没有写操作，大大减轻磁盘 IO 等性能问题；多个只读服务器可以采用负载均衡的方式实现可伸缩性。</li>
+<li>写数据的分配一般采用哈希映射。</li>
+</ol>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/12/14/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%863/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/13/%E9%9D%A2%E7%BB%8F%E6%95%B4%E7%90%862/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2097,204 +2306,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/UML%EF%BC%886%EF%BC%89/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/12/UML%EF%BC%886%EF%BC%89/" class="post-title-link" itemprop="url">UML（6）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-12 16:07:43" itemprop="dateCreated datePublished" datetime="2018-11-12T16:07:43+08:00">2018-11-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/UML/" itemprop="url" rel="index"><span itemprop="name">UML</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="面向对象系统分析与设计（6）"><a href="#面向对象系统分析与设计（6）" class="headerlink" title="面向对象系统分析与设计（6）"></a>面向对象系统分析与设计（6）</h1><h2 id="1-系统设计"><a href="#1-系统设计" class="headerlink" title="1. 系统设计"></a>1. 系统设计</h2><ul>
-<li>定义：将分析模型的逻辑结构加以实现前的准备过程。</li>
-</ul>
-<p>哪些工作内容：</p>
-<ol>
-<li>考虑非功能性需求的弊端；</li>
-<li>考虑全局设计问题；</li>
-<li>考虑实现的环境 —— implement environment；</li>
-<li>补充 classes 的所有属性和操作；</li>
-<li>将 implementation 的工作分成可执行的小块；</li>
-<li>为 subsystems 间建立接口。</li>
-</ol>
-<p>当可以从“分析模式”平滑过渡到“设计模式”时（即无需大改时），就是开始系统设计的最佳时刻。</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/11/12/UML%EF%BC%886%EF%BC%89/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2342,7 +2353,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">146</span>
+                    <span class="site-state-item-count">147</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
