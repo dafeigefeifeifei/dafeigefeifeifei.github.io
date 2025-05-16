@@ -18731,4 +18731,97 @@ Remapped       100              011              100              011
         <tag>docker</tag>
       </tags>
   </entry>
+  <entry>
+    <title>快速熟悉一个系统</title>
+    <url>/2025/05/16/%E5%BF%AB%E9%80%9F%E7%86%9F%E6%82%89%E4%B8%80%E4%B8%AA%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<h1 id="快速熟悉一个系统（模版）"><a href="#快速熟悉一个系统（模版）" class="headerlink" title="快速熟悉一个系统（模版）"></a>快速熟悉一个系统（模版）</h1><span id="more"></span>
+
+<h2 id="业务熟悉"><a href="#业务熟悉" class="headerlink" title="业务熟悉"></a>业务熟悉</h2><ul>
+<li>行业情况：系统所在的行业的情况是怎么样的</li>
+<li>目标用户：系统的目标用户是谁？比如做给公司高管做决策用？给运营查数据用？互联网用户用？用户画像？</li>
+<li>使用情况：平均有多少人在使用？高峰期有多少人在用？各端的活跃分布人群？</li>
+<li>业务价值：系统有什么业务价值？有哪些指标可以衡量系统的价值？</li>
+<li>功能模块：系统有哪些功能模块？关键业务流程有哪些？</li>
+<li>系统指标：系统的非功能性能需求有哪些？如功能性、质量、扩展性、安全性？</li>
+<li>未来规划：系统未来的发展规划是怎样？</li>
+</ul>
+<h3 id="业务架构"><a href="#业务架构" class="headerlink" title="业务架构"></a>业务架构</h3><ul>
+<li>有哪些子系统或模块？系统之间是什么样的关系？</li>
+<li>对外上下游接口有哪些？干系人是谁？</li>
+<li>关键业务流程怎么实现的？用类图，时序图的方式表达出来</li>
+</ul>
+<h2 id="技术熟悉"><a href="#技术熟悉" class="headerlink" title="技术熟悉"></a>技术熟悉</h2><h3 id="开发架构"><a href="#开发架构" class="headerlink" title="开发架构"></a>开发架构</h3><ul>
+<li>代码在哪里？怎么批量搞下来，后续方便搜代码</li>
+<li>包怎么划分的？怎么分层？如项目目录结构</li>
+<li>用了什么框架？如rpc、springcloud？</li>
+<li>用了哪些工具包？如context</li>
+<li>用了哪些中间件？如redis、kafka、mysql</li>
+<li>依赖了哪些平台？如k8s、coding、蓝盾</li>
+</ul>
+<h3 id="运行架构"><a href="#运行架构" class="headerlink" title="运行架构"></a>运行架构</h3><ul>
+<li>系统能支撑多少qps？峰值qps多少？</li>
+<li>与上下游系统怎么交互的？rpc？http？异步同步？</li>
+</ul>
+<h3 id="物理架构"><a href="#物理架构" class="headerlink" title="物理架构"></a>物理架构</h3><ul>
+<li>系统都有什么环境，如果发布部署，发布时间窗口？</li>
+<li>系统有多少服务？</li>
+<li>多少机房部署？</li>
+<li>网站的cicd流程？</li>
+</ul>
+<h3 id="数据架构"><a href="#数据架构" class="headerlink" title="数据架构"></a>数据架构</h3><ul>
+<li><p>数据用什么数据库存储？</p>
+</li>
+<li><p>关系型：梳理完整ER图？数据量有多少？归档逻辑怎么样？</p>
+</li>
+<li><p>非关系型：梳理表设计，数据量有多少？归档逻辑怎么样？</p>
+</li>
+<li><p>数据同步任务有啥量？具体怎么执行传的？</p>
+</li>
+<li><p>大数据框架如何使用的？数据流架构梳理？</p>
+</li>
+</ul>
+<h3 id="系统运维"><a href="#系统运维" class="headerlink" title="系统运维"></a>系统运维</h3><ul>
+<li><p>关键功能是否有监控？系统配置了哪些告警项？监控了哪些方面？</p>
+</li>
+<li><p>出了问题怎么解决？日志在哪里？是否有全链路追踪？是否有紧急操作，比如开关配置、降级、限流配置等</p>
+</li>
+<li><p>系统都有哪些坑？找开发人员回顾历史问题，以免踩坑</p>
+</li>
+<li><p>运维、客服反馈常见问题有哪些？</p>
+</li>
+</ul>
+<h2 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h2><ul>
+<li>需求开发</li>
+<li>bugfix</li>
+<li>系统重构</li>
+</ul>
+<h2 id="成熟度评估"><a href="#成熟度评估" class="headerlink" title="成熟度评估"></a>成熟度评估</h2><h3 id="研发流程"><a href="#研发流程" class="headerlink" title="研发流程"></a>研发流程</h3><ul>
+<li>CI</li>
+<li>CD</li>
+<li>CO</li>
+</ul>
+<h3 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h3><ul>
+<li>技术架构</li>
+<li>数据架构</li>
+</ul>
+<h3 id="现网运维"><a href="#现网运维" class="headerlink" title="现网运维"></a>现网运维</h3><ul>
+<li>日志标准化</li>
+<li>监控告警</li>
+<li>容量评估</li>
+<li>应急预案</li>
+<li>故障演练</li>
+</ul>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><ul>
+<li>API文档</li>
+<li>性能指标</li>
+<li>波测</li>
+</ul>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+      </tags>
+  </entry>
 </search>

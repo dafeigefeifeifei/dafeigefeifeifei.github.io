@@ -360,6 +360,220 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/A-simple-demo-Web-page-layout/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/05/A-simple-demo-Web-page-layout/" class="post-title-link" itemprop="url">A simple demo _Web page layout</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-05 09:17:18" itemprop="dateCreated datePublished" datetime="2018-07-05T09:17:18+08:00">2018-07-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/imooc/" itemprop="url" rel="index"><span itemprop="name">imooc</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="javaweb之网站布局demo"><a href="#javaweb之网站布局demo" class="headerlink" title="javaweb之网站布局demo"></a>javaweb之网站布局demo</h1><p>demo课程来源：<a target="_blank" rel="noopener" href="https://class.imooc.com/lesson/430#mid=9040">慕课网javaweb课程</a><br>分析：实现了静态网页的展示效果。<br>效果图：<br><img src="/2018/07/05/A-simple-demo-Web-page-layout/1.png" alt="1"><br><img src="/2018/07/05/A-simple-demo-Web-page-layout/2.png" alt="2"><br><img src="/2018/07/05/A-simple-demo-Web-page-layout/3.png" alt="3"><br><img src="/2018/07/05/A-simple-demo-Web-page-layout/4.png" alt="4"><br><img src="/2018/07/05/A-simple-demo-Web-page-layout/add.png" alt="add"></p>
+<h2 id="绘制概述："><a href="#绘制概述：" class="headerlink" title="绘制概述："></a>绘制概述：</h2><ol>
+<li>将备用图片新建image文件夹，与html和css文件置于同一目录下<br><img src="/2018/07/05/A-simple-demo-Web-page-layout/5.png" alt="5"></li>
+<li>将整个网页6个区域，找6个盒子对应<ul>
+<li>标题及导航区</li>
+<li>横幅栏</li>
+<li>about区</li>
+<li>picture-word区</li>
+<li>gallery区</li>
+<li>footer区</li>
+</ul>
+</li>
+<li>按照不同区特点，设计css样式，主要涉及知识点：盒子模型、定位、浮动、遮罩、hover等</li>
+</ol>
+<h2 id="步骤详解"><a href="#步骤详解" class="headerlink" title="步骤详解"></a>步骤详解</h2><h3 id="一、标题及导航区"><a href="#一、标题及导航区" class="headerlink" title="一、标题及导航区"></a>一、标题及导航区</h3><p><img src="/2018/07/05/A-simple-demo-Web-page-layout/6.png" alt="6"></p>
+<ul>
+<li>html指向外部css文件</li>
+<li>header由logo及nav两部分构成</li>
+<li>nav细分出六个小导航</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--html文件--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Career Builder<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">type</span>=<span class="string">&quot;text/css&quot;</span> <span class="attr">href</span>=<span class="string">&quot;index.css&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;header&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;logo&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;images/logo.png&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav-li&quot;</span>&gt;</span>HOME<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav-li&quot;</span>&gt;</span>ABOUT<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav-li&quot;</span>&gt;</span>GALLERY<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav-li&quot;</span>&gt;</span>FACULTY<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav-li&quot;</span>&gt;</span>EVENTS<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;nav-li&quot;</span>&gt;</span>CONTACT<span class="tag">&lt;/<span class="name">div</span>&gt;</span>    </span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span>       </span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>消除浏览器默认边距,设置微软雅黑字体</li>
+<li>logo设置左浮动</li>
+<li>nav设置右浮动</li>
+<li>nav-li设置左浮动，同时调整间距，垂直居中对齐</li>
+<li>nav-li设置hover效果，悬浮时nav-li块出现黑色背景效果，鼠标变为“小手”效果</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/05/A-simple-demo-Web-page-layout/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/08/notes-for-HeadFirstServletsAndJsp5/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2179,196 +2393,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/notes-for-HeadFirstServletsAndJsp1/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/07/notes-for-HeadFirstServletsAndJsp1/" class="post-title-link" itemprop="url">notes_for_HeadFirstServletsAndJsp1</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-05-07 17:39:46" itemprop="dateCreated datePublished" datetime="2018-05-07T17:39:46+08:00">2018-05-07</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Head-First-Servlets-amp-JSP-读书笔记-1"><a href="#Head-First-Servlets-amp-JSP-读书笔记-1" class="headerlink" title="Head First Servlets&amp;JSP 读书笔记_1"></a>Head First Servlets&amp;JSP 读书笔记_1</h1><h2 id="开篇思考"><a href="#开篇思考" class="headerlink" title="开篇思考"></a>开篇思考</h2><p>Q：web的体系结构？<br>A：请求到来时，必须要有人实例化servlet，或至少新建一个线程处理这个请求。必须有人调用servlet的doPost（）和doGet（）方法。必须有人把请求和响应交给servlet。有人管理servlet的生与死和servlet的资源。————由容器来完成。</p>
-<p>Q：servlet要做的工作？<br>A：为客户服务。得到一个客户的请求，再发回一个响应。</p>
-<p>Q：会话状态的作用是什么？<br>A：因为web服务器没有短期记忆（发送了响应，web服务器就会忘记你是谁，下次你再发出请求时，web服务器不会认识你），此时就需要会话来完成这项工作。</p>
-<p>Q：JSP与servlet的关系？<br>A：Jsp会编程servlet。容器会查看jsp，把它转换成java源代码，再编译成完成的java servlet类。</p>
-<p>Q：Jsp转换成servlet过程有哪些是程序员需要知道的？<br>A：需要知道转换过程，需要知道怎么在jsp中写java代码，需要知道如何编写jsp。需要学习EL，学习JSTL，学习过滤器…</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/05/07/notes-for-HeadFirstServletsAndJsp1/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2416,7 +2440,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">147</span>
+                    <span class="site-state-item-count">148</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
