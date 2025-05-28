@@ -18532,8 +18532,28 @@ Remapped       100              011              100              011
 <li><p><strong>（仅情况2）下载Docker和docker-compose安装包</strong></p>
 <ul>
 <li>如果生产服务器未安装Docker，需下载以下安装包：<ul>
-<li>Docker安装包：例如 <code>docker-ce_xxx.deb</code>（适用于Debian&#x2F;Ubuntu系统，可从Docker官网下载）。</li>
-<li>docker-compose二进制文件：例如 <code>docker-compose-Linux-x86_64</code>（从GitHub Releases下载）。</li>
+<li><p>Docker安装包：例如 <code>docker-ce_xxx.deb</code>（适用于Debian&#x2F;Ubuntu系统，可从Docker官网下载）。</p>
+<blockquote>
+<p>针对rhel7.9，离线安装docker需要9个rpm文件(建议全装，更保险)</p>
+<p><a href="https://tsn.miraclelinux.com/system/files/AXS7/x86_64/UPDATE/RPMS/container-selinux-2.119.2-1.911c772.el7.noarch.rpm">container-selinux-2.119.2-1.911c772.el7.noarch.rpm</a></p>
+<p><a href="https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/containerd.io-1.6.21-3.1.el7.x86_64.rpm">containerd.io-1.6.21-3.1.el7.x86_64.rpm</a></p>
+<p><a href="https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/docker-ce-20.10.24-3.el7.x86_64.rpm">docker-ce-20.10.24-3.el7.x86_64.rpm</a></p>
+<p><a href="https://mirrors.aliyun.com/docker-ce/linux/centos/7/x86_64/stable/Packages/docker-ce-cli-20.10.24-3.el7.x86_64.rpm">docker-ce-cli-20.10.24-3.el7.x86_64.rpm</a></p>
+<p><a href="https://download.docker.com/linux/centos/7/x86_64/stable/Packages/docker-ce-rootless-extras-20.10.24-3.el7.x86_64.rpm">docker-ce-rootless-extras-20.10.24-3.el7.x86_64.rpm</a></p>
+<p><a href="https://rpm.pbone.net/info_idpl_70031445_distro_centos_7_com_fuse-overlayfs-0.7.2-6.el7_8.x86_64.rpm.html">fuse-overlayfs-0.7.2-6.el7_8.x86_64.rpm</a></p>
+<p><a href="https://rpm.pbone.net/info_idpl_74016102_distro_centos7_com_fuse3-libs-3.6.1-4.el7.x86_64.rpm.html">fuse3-libs-3.6.1-4.el7.x86_64.rpm</a></p>
+<p><a href="https://rpm.pbone.net/info_idpl_73980784_distro_centos7_com_libcgroup-0.41-21.el7.x86_64.rpm.html">libcgroup-0.41-19.el8.x86_64.rpm</a></p>
+<p><a href="https://rpm.pbone.net/info_idpl_74016281_distro_centos7_com_slirp4netns-0.4.3-4.el7_8.x86_64.rpm.html">slirp4netns-0.4.3-4.el7_8.x86_64.rpm</a></p>
+</blockquote>
+</li>
+<li><p>docker-compose二进制文件：例如 <code>docker-compose-Linux-x86_64</code>（从GitHub Releases下载）。</p>
+<blockquote>
+<p>针对rhel7.9，离线安装docker-compose需要<a href="https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Linux-x86_64">docker-compose-Linux-x86_64</a></p>
+<blockquote>
+<p><strong>下载后记得赋予执行权限：</strong></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x docker-compose-Linux-x86_64</span><br><span class="line"><span class="built_in">mv</span> docker-compose-Linux-x86_64 /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure></blockquote>
+</li>
 </ul>
 </li>
 </ul>
@@ -18548,6 +18568,7 @@ Remapped       100              011              100              011
 <li><code>flask-service.tar</code>（Flask服务镜像）</li>
 <li><code>nocobase_backup.sql</code>（MySQL数据库备份）</li>
 <li><code>storage.tar.gz</code>（本地挂载目录压缩包）</li>
+<li><code>app.py</code>（Flask服务挂载文件）</li>
 <li><code>docker-compose.yml</code>（服务配置文件）</li>
 </ul>
 </li>
@@ -18568,13 +18589,28 @@ Remapped       100              011              100              011
 <li><p><strong>加载Docker镜像</strong></p>
 <ul>
 <li><p>将保存的镜像加载到服务器的Docker环境中：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i nocobase.tar</span><br><span class="line">docker load -i mysql.tar</span><br><span class="line">docker load -i flask-service.tar</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i nocobase.tar</span><br><span class="line">docker load -i mysql.tar</span><br><span class="line">docker load -i flask-service.tar</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>1⃣️因flask-service是</p>
+<ul>
+<li><p><strong>开发环境</strong>（联网）：通过 build 配置从 flask_service 目录构建 flask-service 镜像，允许开发者修改代码并重新构建。</p>
+</li>
+<li><p><strong>生产环境</strong>（离线）：使用已导入的 flask-service.tar 镜像（通过 docker load），不依赖联网拉取基础镜像（python:3.11-slim）或重新构建。</p>
+</li>
 </ul>
 </li>
-<li><p><strong>解压storage目录</strong></p>
-<ul>
-<li><p>解压挂载目录到指定路径：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tar -xzvf storage.tar.gz -C /root/nocobase_deploy/</span><br></pre></td></tr></table></figure></li>
+<li><p>2⃣️所以在生产环境中，修改 docker-compose.yml</p>
+</li>
+<li><pre><code class="yml">build:
+  context: ./flask_service
+  dockerfile: Dockerfile
+  
+改为
+
+image: flask-service:latest
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">3.</span> <span class="strong">**解压storage目录**</span></span><br><span class="line"></span><br><span class="line"><span class="bullet">   -</span> 解压挂载目录到指定路径：</span><br><span class="line"></span><br><span class="line"><span class="code">     ```bash</span></span><br><span class="line"><span class="code">     tar -xzvf storage.tar.gz -C /root/nocobase_deploy/</span></span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
 </ul>
 </li>
 <li><p><strong>调整docker-compose.yml</strong></p>
@@ -18603,16 +18639,16 @@ Remapped       100              011              100              011
 <h5 id="情况2：Linux服务器没有安装Docker"><a href="#情况2：Linux服务器没有安装Docker" class="headerlink" title="情况2：Linux服务器没有安装Docker"></a>情况2：Linux服务器没有安装Docker</h5><ol>
 <li><p><strong>传输文件</strong></p>
 <ul>
-<li>使用U盘将情况1的所有文件以及 <code>docker-ce_xxx.deb</code> 和 <code>docker-compose</code> 拷贝到云服务器，例如放置在 <code>/root/nocobase_deploy</code> 目录下。</li>
+<li>使用U盘将情况1的所有文件以及 <code>docker-ce_xxx.rpm</code> 和 <code>docker-compose</code> 拷贝到云服务器，例如放置在 <code>/root/nocobase_deploy</code> 目录下。</li>
 </ul>
 </li>
 <li><p><strong>安装Docker</strong></p>
 <ul>
 <li><p>安装Docker软件包：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">dpkg -i docker-ce_xxx.deb</span><br><span class="line">apt-get install -f  <span class="comment"># 解决可能的依赖问题</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum localinstall -y *.rpm</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>验证安装：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker --version</span><br></pre></td></tr></table></figure></li>
+<li><p>安装成功后，继续启动 Docker：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> docker</span><br><span class="line">systemctl start docker</span><br><span class="line">docker version</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
 <li><p><strong>安装docker-compose</strong></p>
@@ -18666,13 +18702,57 @@ Remapped       100              011              100              011
 <figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">docker cp <span class="regexp">/path/</span>to<span class="regexp">/local/</span>app.py my_container:<span class="regexp">/path/</span>to<span class="regexp">/container/</span>app.py</span><br></pre></td></tr></table></figure>
 
 
-<h3 id="附件一：docker-compose-yml文件"><a href="#附件一：docker-compose-yml文件" class="headerlink" title="附件一：docker-compose.yml文件"></a>附件一：docker-compose.yml文件</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">nocobase:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mysql:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:8.0</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">XXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="attr">MYSQL_DATABASE:</span> <span class="string">nocobase</span></span><br><span class="line">      <span class="attr">MYSQL_USER:</span> <span class="string">nocobase</span></span><br><span class="line">      <span class="attr">MYSQL_PASSWORD:</span> <span class="string">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;3306:3306&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql_data:/var/lib/mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/root/lee/nocobase/storage/uploads/python_statistic:/var/lib/mysql-files</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">--secure-file-priv=/var/lib/mysql-files</span></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">registry.cn-shanghai.aliyuncs.com/nocobase/nocobase:latest</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">APP_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_DIALECT=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_HOST=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_DATABASE=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_USER=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_UNDERSCORED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NOCOBASE_PKG_USERNAME=</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NOCOBASE_PKG_PASSWORD=</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./storage:/app/nocobase/storage</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;13000:80&quot;</span></span><br><span class="line">  <span class="attr">flask:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./flask_service</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">excel-importer</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_HOST=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_PORT=3306</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_USER=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_DATABASE=nocobase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/root/lee/nocobase/storage/uploads/python_statistic:/app/uploads</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;5000:5000&quot;</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">mysql_data:</span></span><br></pre></td></tr></table></figure>
+<h3 id="附件一：docker-compose-yml文件"><a href="#附件一：docker-compose-yml文件" class="headerlink" title="附件一：docker-compose.yml文件"></a>附件一：docker-compose.yml文件</h3><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="attr">networks:</span></span><br><span class="line">  <span class="attr">nocobase:</span></span><br><span class="line">    <span class="attr">driver:</span> <span class="string">bridge</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mysql:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:8.0</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="string">XXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="attr">MYSQL_DATABASE:</span> <span class="string">nocobase</span></span><br><span class="line">      <span class="attr">MYSQL_USER:</span> <span class="string">nocobase</span></span><br><span class="line">      <span class="attr">MYSQL_PASSWORD:</span> <span class="string">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;3306:3306&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql_data:/var/lib/mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/root/lee/nocobase/storage/uploads/python_statistic:/var/lib/mysql-files</span></span><br><span class="line">    <span class="attr">command:</span> <span class="string">--secure-file-priv=/var/lib/mysql-files</span></span><br><span class="line">  <span class="attr">app:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">registry.cn-shanghai.aliyuncs.com/nocobase/nocobase:latest</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">APP_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_DIALECT=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_HOST=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_DATABASE=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_USER=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">DB_UNDERSCORED=true</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">TZ=Asia/Shanghai</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NOCOBASE_PKG_USERNAME=</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">NOCOBASE_PKG_PASSWORD=</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">./storage:/app/nocobase/storage</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;13000:80&quot;</span></span><br><span class="line">  <span class="attr">flask:</span></span><br><span class="line">    <span class="attr">build:</span></span><br><span class="line">      <span class="attr">context:</span> <span class="string">./flask_service</span></span><br><span class="line">      <span class="attr">dockerfile:</span> <span class="string">Dockerfile</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">excel-importer</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">nocobase</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_HOST=mysql</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_PORT=3306</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_USER=nocobase</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_PASSWORD=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">MYSQL_DATABASE=nocobase</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/root/lee/nocobase/storage/uploads/python_statistic:/app/uploads</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;5000:5000&quot;</span></span><br><span class="line">    <span class="attr">depends_on:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql</span></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">mysql_data:</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="附件二：flask服务的Dockerfile"><a href="#附件二：flask服务的Dockerfile" class="headerlink" title="附件二：flask服务的Dockerfile"></a>附件二：flask服务的Dockerfile</h3><figure class="highlight dockerfile"><table><tr><td class="code"><pre><span class="line"><span class="keyword">FROM</span> python:<span class="number">3.11</span>-bullseye</span><br><span class="line"><span class="comment"># 使用清华源，加速 apt</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> sed -i <span class="string">&#x27;s|http://deb.debian.org|https://mirrors.tuna.tsinghua.edu.cn|g&#x27;</span> /etc/apt/sources.list &amp;&amp; \</span></span><br><span class="line"><span class="language-bash">    apt-get update &amp;&amp; apt-get install -y \</span></span><br><span class="line"><span class="language-bash">    gcc \</span></span><br><span class="line"><span class="language-bash">    libpq-dev \</span></span><br><span class="line"><span class="language-bash">    python3-dev \</span></span><br><span class="line"><span class="language-bash">    build-essential \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; apt-get clean \</span></span><br><span class="line"><span class="language-bash">    &amp;&amp; <span class="built_in">rm</span> -rf /var/lib/apt/lists/*</span></span><br><span class="line"><span class="keyword">WORKDIR</span><span class="language-bash"> /app</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> requirements.txt .</span></span><br><span class="line"><span class="keyword">RUN</span><span class="language-bash"> pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</span></span><br><span class="line"><span class="keyword">COPY</span><span class="language-bash"> . .</span></span><br><span class="line"><span class="keyword">CMD</span><span class="language-bash"> [<span class="string">&quot;python&quot;</span>, <span class="string">&quot;app.py&quot;</span>]</span></span><br></pre></td></tr></table></figure>
 
 
 
-]]></content>
+<p>相关问答</p>
+<ol>
+<li><p>我使用root用户安装docker成功了，切换成普通用户执行 docker load -i时报错权限不足</p>
+<blockquote>
+<p>这是因为默认情况下，<strong>普通用户不能访问 Docker 守护进程（dockerd）</strong></p>
+<p>方法：将普通用户加入 <code>docker</code> 用户组</p>
+<ol>
+<li><strong>创建 <code>docker</code> 组（如果不存在）</strong>：</li>
+</ol>
+  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo groupadd docker</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>将当前用户添加到 <code>docker</code> 组</strong>：</li>
+</ol>
+  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sudo usermod -aG docker your_username</span><br></pre></td></tr></table></figure>
+
+<p>  请将 <code>your_username</code> 替换成你的普通用户名。</p>
+<ol start="3">
+<li><strong>重新登录当前用户</strong>（重要！必须重新登录或重启 shell 才能生效）：</li>
+</ol>
+<ul>
+<li>可以使用 <code>su - your_username</code> 重新登录，或直接重新 SSH 登录。</li>
+</ul>
+<ol start="4">
+<li><strong>测试是否能成功运行 docker 命令</strong>：</li>
+</ol>
+  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker load -i your_image.tar</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>没有 <code>/usr/local/bin/</code> 的写权限，怎么安装docker-compose</p>
+<blockquote>
+<p>解决方法：安装到本地用户目录（无需 root 权限）<br>你可以将文件放在自己的用户目录下的 <code>bin/</code> 文件夹，并将其加入 PATH：</p>
+   <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p ~/bin</span><br><span class="line"><span class="built_in">mv</span> docker-compose-Linux-x86_64 ~/bin/docker-compose</span><br><span class="line"><span class="built_in">chmod</span> +x ~/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p>   然后在 <code>~/.bashrc</code> 或 <code>~/.bash_profile</code> 中添加如下行（如果尚未添加）：<br>   <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure><br>   执行以下命令使其立即生效：<br>   <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure><br>   然后你就可以通过 <code>docker-compose</code> 命令使用它了（注意路径）：<br>   <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker-compose version</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</li>
+<li><p>root用户能否将某路径的文件权限向普通用户开放</p>
+<blockquote>
+<p>把某个路径（例如 <code>/opt/docker_images</code>）及其 <strong>所有子文件和子文件夹</strong> 的所有权转交给用户 <code>user1</code>，可以使用下面这个命令：一次性更改整个路径及其所有子项的所有者：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">&gt;<span class="built_in">chown</span> -R user1:user1 /opt/docker_images</span><br></pre></td></tr></table></figure>
+
+</blockquote>
+</li>
+</ol>
+<h6 id="-1"><a href="#-1" class="headerlink" title></a></h6>]]></content>
       <categories>
         <category>nocobase</category>
       </categories>
