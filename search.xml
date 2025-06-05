@@ -19050,4 +19050,100 @@ image: flask-service:latest
         <tag>tool</tag>
       </tags>
   </entry>
+  <entry>
+    <title>python 在venv 环境下运行简单的jupyter notebook</title>
+    <url>/2025/06/05/python-%E5%9C%A8venv-%E7%8E%AF%E5%A2%83%E4%B8%8B%E8%BF%90%E8%A1%8C%E7%AE%80%E5%8D%95%E7%9A%84jupyter-notebook/</url>
+    <content><![CDATA[<p>在 Python 的 <code>venv</code> 虚拟环境中运行一个简单的 Jupyter Notebook，你可以按照以下步骤操作：</p>
+<hr>
+<h2 id="✅-一、创建并激活-venv-环境"><a href="#✅-一、创建并激活-venv-环境" class="headerlink" title="✅ 一、创建并激活 venv 环境"></a>✅ 一、创建并激活 venv 环境</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建虚拟环境（如：venv）</span></span><br><span class="line">python -m venv venv</span><br><span class="line"></span><br><span class="line"><span class="comment"># Windows 激活方式</span></span><br><span class="line">venv\Scripts\activate</span><br><span class="line"></span><br><span class="line"><span class="comment"># macOS/Linux 激活方式</span></span><br><span class="line"><span class="built_in">source</span> venv/bin/activate</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="✅-二、安装-Jupyter-Notebook（或-JupyterLab）"><a href="#✅-二、安装-Jupyter-Notebook（或-JupyterLab）" class="headerlink" title="✅ 二、安装 Jupyter Notebook（或 JupyterLab）"></a>✅ 二、安装 Jupyter Notebook（或 JupyterLab）</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install notebook  <span class="comment"># 经典 Notebook</span></span><br><span class="line"><span class="comment"># 或者：</span></span><br><span class="line">pip install jupyterlab  <span class="comment"># 更现代的界面</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="✅-三、安装内核（可选，但推荐）"><a href="#✅-三、安装内核（可选，但推荐）" class="headerlink" title="✅ 三、安装内核（可选，但推荐）"></a>✅ 三、安装内核（可选，但推荐）</h2><p>安装 <code>ipykernel</code>，并将当前 venv 注册为一个内核：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install ipykernel</span><br><span class="line">python -m ipykernel install --user --name=venv --display-name <span class="string">&quot;Python (venv)&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>这样你在 Jupyter 中就能看到 <code>Python (venv)</code> 内核选项。</p>
+<hr>
+<h2 id="✅-四、启动-Notebook-服务"><a href="#✅-四、启动-Notebook-服务" class="headerlink" title="✅ 四、启动 Notebook 服务"></a>✅ 四、启动 Notebook 服务</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">jupyter notebook</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">jupyter lab</span><br></pre></td></tr></table></figure>
+
+<p>启动后会自动打开浏览器页面，你就可以新建 notebook 并运行 Python 代码了。</p>
+<hr>
+<h2 id="✅-五、验证环境是否正确"><a href="#✅-五、验证环境是否正确" class="headerlink" title="✅ 五、验证环境是否正确"></a>✅ 五、验证环境是否正确</h2><p>在 Notebook 新建一个 Cell，输入：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">!which python  <span class="comment"># macOS/Linux</span></span><br><span class="line"><span class="comment"># 或</span></span><br><span class="line">!where python  <span class="comment"># Windows</span></span><br></pre></td></tr></table></figure>
+
+<p>输出路径应指向你的虚拟环境中的 Python，例如：</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">/path/</span>to<span class="regexp">/venv/</span>bin/python</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="安装-ipykernel-并注册当前虚拟环境为-Jupyter-内核的意义"><a href="#安装-ipykernel-并注册当前虚拟环境为-Jupyter-内核的意义" class="headerlink" title="安装 ipykernel 并注册当前虚拟环境为 Jupyter 内核的意义"></a>安装 ipykernel 并注册当前虚拟环境为 Jupyter 内核的意义</h2><blockquote>
+<p>Jupyter 是独立于虚拟环境运行的；<br>虽然你在命令行激活了 venv，但 Jupyter 不知道你用了哪个环境；<br>安装 ipykernel 并注册后，Jupyter 就能识别你这个虚拟环境，才能在 notebook 里正确地运行、加载库，否则 notebook 会“用错解释器”。</p>
+</blockquote>
+<p>用<strong>更通俗直白</strong>的方式解释一下：</p>
+<hr>
+<h2 id="🌰-场景比喻：Jupyter-是饭店，venv-是你的家"><a href="#🌰-场景比喻：Jupyter-是饭店，venv-是你的家" class="headerlink" title="🌰 场景比喻：Jupyter 是饭店，venv 是你的家"></a>🌰 场景比喻：Jupyter 是饭店，venv 是你的家</h2><ul>
+<li><strong>Jupyter Notebook</strong> 就像一个饭店，你进去可以点菜（写代码）。</li>
+<li>但这个饭店默认只认识“官方菜单”（系统 Python 环境）。</li>
+<li>你有一个特别定制的菜单（比如你家厨房安装了特殊库：<code>pandas==1.5.3</code>、<code>numpy==1.19</code>），这个菜单在 <strong>虚拟环境 venv 里</strong>。</li>
+<li>如果你不告诉饭店你有这个菜单，Jupyter 是<strong>看不到你 venv 里的东西的</strong>，也就没法给你做这顿饭。</li>
+</ul>
+<hr>
+<h2 id="💡-为什么要安装-ipykernel-并注册？"><a href="#💡-为什么要安装-ipykernel-并注册？" class="headerlink" title="💡 为什么要安装 ipykernel 并注册？"></a>💡 为什么要安装 <code>ipykernel</code> 并注册？</h2><blockquote>
+<p>安装 <code>ipykernel</code> 就是 <strong>让你的厨房能与饭店通讯</strong>；</p>
+<p>注册内核就是 <strong>告诉饭店“这是我家的菜单”，你以后可以选用它来做菜。</strong></p>
+</blockquote>
+<p>换句话说：</p>
+<ul>
+<li><strong>Jupyter 是独立于虚拟环境运行的</strong>；</li>
+<li>虽然你在命令行激活了 venv，但 Jupyter 不知道你用了哪个环境；</li>
+<li>安装 <code>ipykernel</code> 并注册后，Jupyter 就能识别你这个环境，才能在 notebook 里正确地运行、加载库。</li>
+</ul>
+<hr>
+<h2 id="🎯-举个真实用例（最常见的情况）："><a href="#🎯-举个真实用例（最常见的情况）：" class="headerlink" title="🎯 举个真实用例（最常见的情况）："></a>🎯 举个真实用例（最常见的情况）：</h2><p>你有两个项目：</p>
+<table>
+<thead>
+<tr>
+<th>项目名</th>
+<th>虚拟环境</th>
+<th>依赖库</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>项目 A</td>
+<td><code>venv_a</code></td>
+<td><code>pandas==1.5</code></td>
+</tr>
+<tr>
+<td>项目 B</td>
+<td><code>venv_b</code></td>
+<td><code>pandas==2.2</code></td>
+</tr>
+</tbody></table>
+<p>如果你不给这两个环境注册内核，打开 Jupyter 后，它只认识一个系统环境，运行 notebook 时：</p>
+<ul>
+<li>项目 A 的代码报错（因为系统里是 2.2，不兼容）</li>
+<li>项目 B 的 notebook 运行错地方（因为 Jupyter 根本没用你的 venv）</li>
+</ul>
+<p>你就会很抓狂。</p>
+<hr>
+<h2 id="✅-安装并注册后："><a href="#✅-安装并注册后：" class="headerlink" title="✅ 安装并注册后："></a>✅ 安装并注册后：</h2><p>你打开 Jupyter，左上角就能选择内核，能看到这些选项：</p>
+<ul>
+<li>Python 3 (系统默认)</li>
+<li>Python (venv_a)</li>
+<li>Python (venv_b)</li>
+</ul>
+<p>这时你就能根据项目自由选择对应的环境，确保运行正确的依赖。</p>
+<hr>
+<h2 id="🔚-总结一句话："><a href="#🔚-总结一句话：" class="headerlink" title="🔚 总结一句话："></a>🔚 总结一句话：</h2><blockquote>
+<p>安装 <code>ipykernel</code> 并注册内核，就是 <strong>让你的虚拟环境能被 Jupyter Notebook 正确识别和使用</strong>，否则 notebook 会“用错解释器”。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>ML</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+      </tags>
+  </entry>
 </search>

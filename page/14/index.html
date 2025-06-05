@@ -360,6 +360,235 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/Note-for-Computer-Network-2/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/05/Note-for-Computer-Network-2/" class="post-title-link" itemprop="url">Note for Computer Network 2</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-05 15:13:03" itemprop="dateCreated datePublished" datetime="2018-07-05T15:13:03+08:00">2018-07-05</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Note-for-Computer-Network-2"><a href="#Note-for-Computer-Network-2" class="headerlink" title="Note for Computer Network 2"></a>Note for Computer Network 2</h1><p><strong>副标题：阅读《网络是怎么连接的（户根勤）》读书笔记2</strong></p>
+<h2 id="生成-HTTP-请求消息"><a href="#生成-HTTP-请求消息" class="headerlink" title="生成 HTTP 请求消息"></a>生成 HTTP 请求消息</h2><p>动作：对URL 进行解析<br>效果：浏览器确定了 Web 服务器和文件名<br>后续：根据这些信息来生成 HTTP 请求消息</p>
+<p><img src="/2018/07/05/Note-for-Computer-Network-2/1.png" alt="1"></p>
+<ul>
+<li>消息头存放“请求行没说清楚的”额外信息，消息头的规格中定义了很多项目，如日期、客户端支持的数据类型、语言、压缩格式、客户端和服务器的软件名称和版本、数据有效期和最后更新时间等。比如Date、Pragma、Cache-control、Connection、Transfer-Encoding、Via等，参考<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/HTTP%E5%A4%B4%E5%AD%97%E6%AE%B5">HTTP头字段-wiki百科</a></li>
+<li>写完消息头之后，还需要添加一个完全没有内容的空行，然后写上需要发送的数据（即消息体）</li>
+</ul>
+<p><img src="/2018/07/05/Note-for-Computer-Network-2/2.png" alt="2"></p>
+<ul>
+<li>响应消息与请求消息差别仅在第一行，内容为状态码和响应短语，用来表示请求的执行结果是成功还是出错。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">状态码</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">1xx</td>
+<td align="center">告知请求的处理进度和情况</td>
+</tr>
+<tr>
+<td align="center">2xx</td>
+<td align="center">成功</td>
+</tr>
+<tr>
+<td align="center">3xx</td>
+<td align="center">表示需要进一步操作</td>
+</tr>
+<tr>
+<td align="center">4xx</td>
+<td align="center">客户端错误</td>
+</tr>
+<tr>
+<td align="center">5xx</td>
+<td align="center">服务器错误</td>
+</tr>
+</tbody></table>
+<ul>
+<li>返回响应消息之后，浏览器会将数据提取出来并显示在屏幕上，我们就能够看到网页的样子了。如果网页的内容只有文字，那么到这里就全部处理完毕了，但如果网页中还包括图片等资源，则还有下文</li>
+<li>当网页中包含图片时，会在网页中的相应位置<strong>嵌入</strong>表示图片文件的标签的<strong>控制信息</strong>。浏览器会在显示文字时搜索相应的标签，当遇到图片相关的标签时，会在屏幕上留出用来显示图片的空间，然后<strong>再次访问</strong> Web服务器，按照标签中指定的文件名向Web服务器请求获取相应的图片并显示在预留的空间中<br>  [扩展思考]就是因为图文的异步，所以可以考虑采用多线程的方式，先刷出文字，后刷出图片，提升浏览器阅读体验</li>
+<li>由于每条请求消息中只能写 1 个 URI，所以每次只能获取 1 个文件，如果需要获取多个文件，必须对每个文件单独发送 1 条请求。即，3张图片&#x3D;&#x3D;额外3次request</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/05/Note-for-Computer-Network-2/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/05/A-simple-demo-Web-page-layout/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2201,198 +2430,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/10/How-to-send-files-to-cloud-server/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/10/How-to-send-files-to-cloud-server/" class="post-title-link" itemprop="url">How to send files to cloud server</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-05-10 20:52:51" itemprop="dateCreated datePublished" datetime="2018-05-10T20:52:51+08:00">2018-05-10</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/method/" itemprop="url" rel="index"><span itemprop="name">method</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>
-              采用scp的方式，scp的更多用法参考scp命令
-从mac向linux服务器发送文件&#x2F;目录发送文件scp /Users/lee/Desktop/z1.png root@***.**.***.***:/usr/local
-解释 ：scp  local_file  remote_usernam
-              ...
-            </p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/05/10/How-to-send-files-to-cloud-server/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2440,7 +2477,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">148</span>
+                    <span class="site-state-item-count">149</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
