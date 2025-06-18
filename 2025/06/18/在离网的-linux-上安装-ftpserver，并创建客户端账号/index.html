@@ -102,7 +102,7 @@
 <meta property="og:description" content="下载vsftp 和 lftpvsftpd（Very Secure FTP Daemon）是 RHEL 7.9 上常用的 FTP 服务器，lftp 本身是一个命令行 FTP&#x2F;SFTP 客户端工具，通常用于文件传输。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2025-06-18T07:18:04.000Z">
-<meta property="article:modified_time" content="2025-06-18T07:33:31.895Z">
+<meta property="article:modified_time" content="2025-06-18T07:41:51.318Z">
 <meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
 <meta property="article:tag" content="shell">
 <meta name="twitter:card" content="summary">
@@ -405,7 +405,7 @@
                 
               
 
-              <time title="Created: 2025-06-18 15:18:04 / Modified: 15:33:31" itemprop="dateCreated datePublished" datetime="2025-06-18T15:18:04+08:00">2025-06-18</time>
+              <time title="Created: 2025-06-18 15:18:04 / Modified: 15:41:51" itemprop="dateCreated datePublished" datetime="2025-06-18T15:18:04+08:00">2025-06-18</time>
             
 
             
@@ -480,9 +480,17 @@
 
 <h3 id="配置-vsftpd-服务持续运行"><a href="#配置-vsftpd-服务持续运行" class="headerlink" title="配置 vsftpd 服务持续运行"></a>配置 vsftpd 服务持续运行</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">//</span> 启动 vsftpd 服务：</span><br><span class="line">systemctl start vsftpd</span><br><span class="line"><span class="regexp">//</span> 设置开机自启：</span><br><span class="line">systemctl enable vsftpd</span><br></pre></td></tr></table></figure>
 <p>应该会报错，这是因为还没有配置 &#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf ，但不要急，可以先把账号等先创建好再说</p>
-<h3 id="创建客户端账号-x2F-密码"><a href="#创建客户端账号-x2F-密码" class="headerlink" title="创建客户端账号&#x2F;密码"></a>创建客户端账号&#x2F;密码</h3><p>useradd -m -d &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files -s &#x2F;bin&#x2F;bash szftp<br>passwd szftp<br>输入密码两次 XXX</p>
-<h3 id="创建共享用户组，并赋予文件权限"><a href="#创建共享用户组，并赋予文件权限" class="headerlink" title="创建共享用户组，并赋予文件权限"></a>创建共享用户组，并赋予文件权限</h3><p>groupadd ftp_shared<br>usermod -a -G ftp_shared swyhzhbs<br>usermod -a -G ftp_shared szftp</p>
-<p>&#x2F;&#x2F; 设置目标目录权限<br>chown swyhzhbs:ftp_shared &#x2F;home&#x2F;swyhzhbs&#x2F; &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F; &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files<br>chmod 770 &#x2F;home&#x2F;swyhzhbs&#x2F; &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;<br>chmod 775 &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files<br>&#x2F;&#x2F; 确保新文件继承组权限<br>chmod g+s &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files</p>
+<h3 id="创建客户端账号-x2F-密码"><a href="#创建客户端账号-x2F-密码" class="headerlink" title="创建客户端账号&#x2F;密码"></a>创建客户端账号&#x2F;密码</h3><p>说明：</p>
+<ol>
+<li>&#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files是计划分配给 ftp 的文件目录.</li>
+<li>swyhzhbs是该目录本身的所有者。</li>
+<li>szftp&#x2F;XXX 是我打算创建的客户端账号密码.</li>
+</ol>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">useradd -m -d <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/data/</span>files -s <span class="regexp">/bin/</span>bash szftp</span><br><span class="line">passwd szftp</span><br><span class="line">输入密码两次 XXX</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建共享用户组，并赋予文件权限"><a href="#创建共享用户组，并赋予文件权限" class="headerlink" title="创建共享用户组，并赋予文件权限"></a>创建共享用户组，并赋予文件权限</h3><p>使用用户组来管理 ftp 的文件目录权限，如果没设置好，lftp 测试时会报错：<code>500 OOPS: cannot change directory:/home/swyhzhbs/data/files</code></p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">groupadd ftp_shared</span><br><span class="line">usermod -a -G ftp_shared swyhzhbs</span><br><span class="line">usermod -a -G ftp_shared szftp</span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span> 设置目标目录权限</span><br><span class="line">chown swyhzhbs:ftp_shared <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/ /</span>home<span class="regexp">/swyhzhbs/</span>data<span class="regexp">/ /</span>home<span class="regexp">/swyhzhbs/</span>data/files</span><br><span class="line">chmod <span class="number">770</span> <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/ /</span>home<span class="regexp">/swyhzhbs/</span>data/</span><br><span class="line">chmod <span class="number">775</span> <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/data/</span>files</span><br><span class="line"><span class="regexp">//</span> 确保新文件继承组权限</span><br><span class="line">chmod g+s <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/data/</span>files</span><br></pre></td></tr></table></figure>
+
 <h3 id="修改配置，重新执行配置服务"><a href="#修改配置，重新执行配置服务" class="headerlink" title="修改配置，重新执行配置服务"></a>修改配置，重新执行配置服务</h3><p>   <code> vi /etc/vsftpd/vsftpd.conf</code><br>修改：anonymous_enable&#x3D;NO</p>
 <figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="params">system</span>ctl start vsftpd</span><br><span class="line"><span class="params">system</span>ctl enable vsftpd</span><br></pre></td></tr></table></figure>
 
