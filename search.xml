@@ -19146,4 +19146,31 @@ image: flask-service:latest
         <tag>tool</tag>
       </tags>
   </entry>
+  <entry>
+    <title>在离网的 linux 上安装 ftpserver，并创建客户端账号</title>
+    <url>/2025/06/18/%E5%9C%A8%E7%A6%BB%E7%BD%91%E7%9A%84-linux-%E4%B8%8A%E5%AE%89%E8%A3%85-ftpserver%EF%BC%8C%E5%B9%B6%E5%88%9B%E5%BB%BA%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B4%A6%E5%8F%B7/</url>
+    <content><![CDATA[<h3 id="下载vsftp-和-lftp"><a href="#下载vsftp-和-lftp" class="headerlink" title="下载vsftp 和 lftp"></a>下载vsftp 和 lftp</h3><p>vsftpd（Very Secure FTP Daemon）是 RHEL 7.9 上常用的 FTP 服务器，lftp 本身是一个命令行 FTP&#x2F;SFTP 客户端工具，通常用于文件传输。</p>
+<span id="more"></span>
+
+<p>已知我的环境是rhel7.9，而且是离线安装，先下载服务端和客户端<br><a href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/vsftpd-3.0.2-28.el7.x86_64.rpm">vsftpd-3.0.2-28.el7.x86_64.rpm</a><br><a href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/lftp-4.4.8-12.el7_8.1.x86_64.rpm">lftp-4.4.8-12.el7_8.1.x86_64.rpm</a></p>
+<h3 id="安装-vsftp-和-lftp"><a href="#安装-vsftp-和-lftp" class="headerlink" title="安装 vsftp 和 lftp"></a>安装 vsftp 和 lftp</h3><p>直接 yum localinstall 即可，没有额外的依赖</p>
+<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">//</span> 查看版本</span><br><span class="line">vsftp -version </span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span> 手动运行，之后查看进程即可</span><br><span class="line"><span class="regexp">/usr/</span>sbin<span class="regexp">/vsftpd /</span>etc<span class="regexp">/vsftpd/</span>vsftpd.conf</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="配置-vsftpd-服务持续运行"><a href="#配置-vsftpd-服务持续运行" class="headerlink" title="配置 vsftpd 服务持续运行"></a>配置 vsftpd 服务持续运行</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">//</span> 启动 vsftpd 服务：</span><br><span class="line">systemctl start vsftpd</span><br><span class="line"><span class="regexp">//</span> 设置开机自启：</span><br><span class="line">systemctl enable vsftpd</span><br></pre></td></tr></table></figure>
+<p>应该会报错，这是因为还没有配置 &#x2F;etc&#x2F;vsftpd&#x2F;vsftpd.conf ，但不要急，可以先把账号等先创建好再说</p>
+<h3 id="创建客户端账号-x2F-密码"><a href="#创建客户端账号-x2F-密码" class="headerlink" title="创建客户端账号&#x2F;密码"></a>创建客户端账号&#x2F;密码</h3><p>useradd -m -d &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files -s &#x2F;bin&#x2F;bash szftp<br>passwd szftp<br>输入密码两次 XXX</p>
+<h3 id="创建共享用户组，并赋予文件权限"><a href="#创建共享用户组，并赋予文件权限" class="headerlink" title="创建共享用户组，并赋予文件权限"></a>创建共享用户组，并赋予文件权限</h3><p>groupadd ftp_shared<br>usermod -a -G ftp_shared swyhzhbs<br>usermod -a -G ftp_shared szftp</p>
+<p>&#x2F;&#x2F; 设置目标目录权限<br>chown swyhzhbs:ftp_shared &#x2F;home&#x2F;swyhzhbs&#x2F; &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F; &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files<br>chmod 770 &#x2F;home&#x2F;swyhzhbs&#x2F; &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;<br>chmod 775 &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files<br>&#x2F;&#x2F; 确保新文件继承组权限<br>chmod g+s &#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files</p>
+<h3 id="修改配置，重新执行配置服务"><a href="#修改配置，重新执行配置服务" class="headerlink" title="修改配置，重新执行配置服务"></a>修改配置，重新执行配置服务</h3><p>   <code> vi /etc/vsftpd/vsftpd.conf</code><br>修改：anonymous_enable&#x3D;NO</p>
+<figure class="highlight nsis"><table><tr><td class="code"><pre><span class="line"><span class="params">system</span>ctl start vsftpd</span><br><span class="line"><span class="params">system</span>ctl enable vsftpd</span><br></pre></td></tr></table></figure>
+
+<h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lftp -u szftp,XXX localhost</span><br><span class="line"><span class="built_in">ls</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Operation</category>
+      </categories>
+      <tags>
+        <tag>shell</tag>
+      </tags>
+  </entry>
 </search>
