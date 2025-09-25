@@ -19152,7 +19152,7 @@ image: flask-service:latest
     <content><![CDATA[<h3 id="下载vsftp-和-lftp"><a href="#下载vsftp-和-lftp" class="headerlink" title="下载vsftp 和 lftp"></a>下载vsftp 和 lftp</h3><p>vsftpd（Very Secure FTP Daemon）是 RHEL 7.9 上常用的 FTP 服务器，lftp 本身是一个命令行 FTP&#x2F;SFTP 客户端工具，通常用于文件传输。</p>
 <span id="more"></span>
 
-<p>已知我的环境是rhel7.9，而且是离线安装，先下载服务端和客户端<br><a href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/vsftpd-3.0.2-28.el7.x86_64.rpm">vsftpd-3.0.2-28.el7.x86_64.rpm</a><br><a href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/lftp-4.4.8-12.el7_8.1.x86_64.rpm">lftp-4.4.8-12.el7_8.1.x86_64.rpm</a></p>
+<p>已知我的环境是rhel7.9，而且是离线安装，先下载服务端和客户端(装客户端是为了验证服务端配置是否完成，也可以选择不装)<br><a href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/vsftpd-3.0.2-28.el7.x86_64.rpm">vsftpd-3.0.2-28.el7.x86_64.rpm</a><br><a href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/lftp-4.4.8-12.el7_8.1.x86_64.rpm">lftp-4.4.8-12.el7_8.1.x86_64.rpm</a></p>
 <h3 id="安装-vsftp-和-lftp"><a href="#安装-vsftp-和-lftp" class="headerlink" title="安装 vsftp 和 lftp"></a>安装 vsftp 和 lftp</h3><p>直接 yum localinstall 即可，没有额外的依赖</p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">//</span> 查看版本</span><br><span class="line">vsftp -version </span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span> 手动运行，之后查看进程即可</span><br><span class="line"><span class="regexp">/usr/</span>sbin<span class="regexp">/vsftpd /</span>etc<span class="regexp">/vsftpd/</span>vsftpd.conf</span><br></pre></td></tr></table></figure>
 
@@ -19169,16 +19169,144 @@ image: flask-service:latest
 
 <h3 id="创建共享用户组，并赋予文件权限"><a href="#创建共享用户组，并赋予文件权限" class="headerlink" title="创建共享用户组，并赋予文件权限"></a>创建共享用户组，并赋予文件权限</h3><p>使用用户组来管理 ftp 的文件目录权限，如果没设置好，lftp 测试时会报错：<code>500 OOPS: cannot change directory:/home/swyhzhbs/data/files</code></p>
 <figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">groupadd ftp_shared</span><br><span class="line">usermod -a -G ftp_shared swyhzhbs</span><br><span class="line">usermod -a -G ftp_shared szftp</span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span> 设置目标目录权限</span><br><span class="line">chown swyhzhbs:ftp_shared <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/ /</span>home<span class="regexp">/swyhzhbs/</span>data<span class="regexp">/ /</span>home<span class="regexp">/swyhzhbs/</span>data/files</span><br><span class="line">chmod <span class="number">770</span> <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/ /</span>home<span class="regexp">/swyhzhbs/</span>data/</span><br><span class="line">chmod <span class="number">775</span> <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/data/</span>files</span><br><span class="line"><span class="regexp">//</span> 确保新文件继承组权限</span><br><span class="line">chmod g+s <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/data/</span>files</span><br></pre></td></tr></table></figure>
-
+<p>注意，修改权限不会影响&#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files下的存量文件，建议把文件夹删了重新创建</p>
 <h3 id="修改配置，重新执行配置服务"><a href="#修改配置，重新执行配置服务" class="headerlink" title="修改配置，重新执行配置服务"></a>修改配置，重新执行配置服务</h3><p>   <code> vi /etc/vsftpd/vsftpd.conf</code><br>修改：anonymous_enable&#x3D;NO</p>
 <figure class="highlight nsis"><table><tr><td class="code"><pre><span class="line"><span class="params">system</span>ctl start vsftpd</span><br><span class="line"><span class="params">system</span>ctl enable vsftpd</span><br></pre></td></tr></table></figure>
 
-<h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lftp -u szftp,XXX localhost</span><br><span class="line"><span class="built_in">ls</span></span><br></pre></td></tr></table></figure>]]></content>
+<h3 id="使用客户端验证："><a href="#使用客户端验证：" class="headerlink" title="使用客户端验证："></a>使用客户端验证：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lftp -u szftp,XXX localhost</span><br><span class="line"><span class="built_in">ls</span></span><br></pre></td></tr></table></figure>]]></content>
       <categories>
         <category>Operation</category>
       </categories>
       <tags>
         <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>launchd——macOS自动调度神器</title>
+    <url>/2025/09/25/launchd%E2%80%94%E2%80%94macOS%E8%87%AA%E5%8A%A8%E8%B0%83%E5%BA%A6%E7%A5%9E%E5%99%A8/</url>
+    <content><![CDATA[<p>launchd 是macOS（以前的Mac OS X）中的一个系统级进程管理框架，它负责启动、停止和管理系统和用户级别的进程、服务（守护进程）和脚本。可以将其视为类似Linux 系统下的systemd 或supervisor，它通过解析位于特定目录下的XML 格式的 .plist 配置文件来定义要执行的任务。</p>
+<span id="more"></span>
+
+<h1 id="macOS-launchd-通用教程"><a href="#macOS-launchd-通用教程" class="headerlink" title="macOS launchd 通用教程"></a>macOS <code>launchd</code> 通用教程</h1><blockquote>
+<p>macOS <code>launchd</code> 通用教程**，适合你以后自己写定时任务或服务。内容分为 <strong>基础概念 → 常见用法 → 常见问题 → 调试技巧</strong>，这样你可以按需选择写合适的 shell 脚本来跑。</p>
+</blockquote>
+<h2 id="1-基础概念"><a href="#1-基础概念" class="headerlink" title="1. 基础概念"></a>1. 基础概念</h2><ul>
+<li><p><strong>launchd</strong>：macOS 的系统任务调度器，Apple 用它替代了 <code>cron</code>。</p>
+</li>
+<li><p><strong>plist 文件</strong>：任务的配置文件，扩展名 <code>.plist</code>，用 XML 格式写。</p>
+</li>
+<li><p><strong>位置</strong>：</p>
+<ul>
+<li><code>~/Library/LaunchAgents/</code> → 用户级任务（推荐放这里）</li>
+<li><code>/Library/LaunchAgents/</code> → 所有用户可用</li>
+<li><code>/Library/LaunchDaemons/</code> → 系统级任务，需要 root</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-plist-文件结构"><a href="#2-plist-文件结构" class="headerlink" title="2. plist 文件结构"></a>2. plist 文件结构</h2><p>一个最小可运行的 plist 文件长这样：</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">plist</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> </span></span><br><span class="line"><span class="meta"> <span class="string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 唯一标识 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Label<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>com.example.task<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 执行命令（必须用绝对路径） --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>ProgramArguments<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>/bin/sh<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/you/scripts/my_task.sh<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 定时方式之一：每隔多少秒执行一次 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>StartInterval<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">integer</span>&gt;</span>300<span class="tag">&lt;/<span class="name">integer</span>&gt;</span> <span class="comment">&lt;!-- 每 300 秒执行一次 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="3-定时方式"><a href="#3-定时方式" class="headerlink" title="3. 定时方式"></a>3. 定时方式</h2><p>launchd 有几种常见的定时触发方式：</p>
+<h3 id="方式-1：间隔执行"><a href="#方式-1：间隔执行" class="headerlink" title="方式 1：间隔执行"></a>方式 1：间隔执行</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>StartInterval<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">integer</span>&gt;</span>300<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>→ 每 5 分钟执行一次。</p>
+<h3 id="方式-2：指定时间点执行"><a href="#方式-2：指定时间点执行" class="headerlink" title="方式 2：指定时间点执行"></a>方式 2：指定时间点执行</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>StartCalendarInterval<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Hour<span class="tag">&lt;/<span class="name">key</span>&gt;</span><span class="tag">&lt;<span class="name">integer</span>&gt;</span>9<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>Minute<span class="tag">&lt;/<span class="name">key</span>&gt;</span><span class="tag">&lt;<span class="name">integer</span>&gt;</span>0<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>→ 每天 09:00 执行一次。<br>支持的键有：<code>Minute</code> <code>Hour</code> <code>Day</code> <code>Weekday</code> <code>Month</code>。</p>
+<h3 id="方式-3：登录时执行"><a href="#方式-3：登录时执行" class="headerlink" title="方式 3：登录时执行"></a>方式 3：登录时执行</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>RunAtLoad<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="方式-4：文件变化触发"><a href="#方式-4：文件变化触发" class="headerlink" title="方式 4：文件变化触发"></a>方式 4：文件变化触发</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>WatchPaths<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/Users/you/Documents/target_folder<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>→ 目录变化时执行。</p>
+<hr>
+<h2 id="4-常用配置项"><a href="#4-常用配置项" class="headerlink" title="4. 常用配置项"></a>4. 常用配置项</h2><ul>
+<li><strong>日志</strong>（推荐加上，方便调试）</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardOutPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>/tmp/my_task.out<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>StandardErrorPath<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>/tmp/my_task.err<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>环境变量</strong>（如果需要）</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>EnvironmentVariables<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>PATH<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>/usr/local/bin:/usr/bin:/bin:/Users/you/.local/bin<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="5-操作命令"><a href="#5-操作命令" class="headerlink" title="5. 操作命令"></a>5. 操作命令</h2><h3 id="加载任务"><a href="#加载任务" class="headerlink" title="加载任务"></a>加载任务</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">launchctl load ~/Library/LaunchAgents/com.example.task.plist</span><br></pre></td></tr></table></figure>
+
+<h3 id="卸载任务"><a href="#卸载任务" class="headerlink" title="卸载任务"></a>卸载任务</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">launchctl unload ~/Library/LaunchAgents/com.example.task.plist</span><br></pre></td></tr></table></figure>
+
+<h3 id="立即运行一次"><a href="#立即运行一次" class="headerlink" title="立即运行一次"></a>立即运行一次</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">launchctl start com.example.task</span><br></pre></td></tr></table></figure>
+
+<h3 id="停止正在运行的任务"><a href="#停止正在运行的任务" class="headerlink" title="停止正在运行的任务"></a>停止正在运行的任务</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">launchctl stop com.example.task</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看任务是否存在"><a href="#查看任务是否存在" class="headerlink" title="查看任务是否存在"></a>查看任务是否存在</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">launchctl list | grep example</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="6-常见问题-amp-解决方法"><a href="#6-常见问题-amp-解决方法" class="headerlink" title="6. 常见问题 &amp; 解决方法"></a>6. 常见问题 &amp; 解决方法</h2><ol>
+<li><p><strong>脚本没执行？</strong></p>
+<ul>
+<li>检查是否用绝对路径（脚本、python、venv）。</li>
+<li>检查脚本是否 <code>chmod +x</code>。</li>
+</ul>
+</li>
+<li><p><strong>命令找不到？</strong></p>
+<ul>
+<li>加 <code>EnvironmentVariables</code> 或在脚本里写绝对路径。</li>
+</ul>
+</li>
+<li><p><strong>运行了但没效果？</strong></p>
+<ul>
+<li>打开 <code>/tmp/my_task.out</code> <code>/tmp/my_task.err</code> 看日志。</li>
+</ul>
+</li>
+<li><p><strong>plist 文件修改后没生效？</strong></p>
+<ul>
+<li>先 <code>launchctl unload</code> 再 <code>launchctl load</code>。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="7-调试技巧"><a href="#7-调试技巧" class="headerlink" title="7. 调试技巧"></a>7. 调试技巧</h2><ul>
+<li><p>在脚本开头打印环境：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">env</span> &gt;&gt; /tmp/my_task.env.log</span><br><span class="line"><span class="built_in">which</span> python &gt;&gt; /tmp/my_task.env.log</span><br></pre></td></tr></table></figure></li>
+<li><p>用 <code>log show</code> 查看系统日志：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">log</span> show --predicate <span class="string">&#x27;process == &quot;sh&quot;&#x27;</span> --last 1h</span><br></pre></td></tr></table></figure></li>
+<li><p>简单测试：把任务改成 <code>echo &quot;Hello&quot; &gt;&gt; /tmp/test.log</code>，确认 <code>launchd</code> 能正常运行。</p>
+</li>
+</ul>
+<hr>
+<h2 id="8-踩坑记录"><a href="#8-踩坑记录" class="headerlink" title="8. 踩坑记录"></a>8. 踩坑记录</h2><h2 id="在-macOS-10-15-及以上版本（Catalina、Big-Sur、Ventura-等），访问-Documents、Desktop、Downloads-或外部磁盘-的文件，需要-TCC（透明访问控制）授权。解决方案：改脚本目录（最简单），远离Documents、Desktop、Downloads-或外部磁盘"><a href="#在-macOS-10-15-及以上版本（Catalina、Big-Sur、Ventura-等），访问-Documents、Desktop、Downloads-或外部磁盘-的文件，需要-TCC（透明访问控制）授权。解决方案：改脚本目录（最简单），远离Documents、Desktop、Downloads-或外部磁盘" class="headerlink" title="在 macOS 10.15 及以上版本（Catalina、Big Sur、Ventura 等），访问 Documents、Desktop、Downloads 或外部磁盘 的文件，需要 TCC（透明访问控制）授权。解决方案：改脚本目录（最简单），远离Documents、Desktop、Downloads 或外部磁盘"></a>在 macOS 10.15 及以上版本（Catalina、Big Sur、Ventura 等），访问 Documents、Desktop、Downloads 或外部磁盘 的文件，需要 TCC（透明访问控制）授权。<br><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">比如你的脚本在 ~<span class="regexp">/Documents/</span>software<span class="regexp">/XXX/</span> 目录下</span><br><span class="line">launchd 以 GUI 用户身份运行，但 没有权限访问 Documents</span><br><span class="line">手动在终端运行可以成功，因为终端已经在你的用户会话下，有访问权限</span><br><span class="line">launchd 运行时 环境不同，TCC 会拦截，导致 Operation not permitted</span><br></pre></td></tr></table></figure><br>解决方案：改脚本目录（最简单），远离Documents、Desktop、Downloads 或外部磁盘</h2><p>✅ 总结：</p>
+<ul>
+<li><strong>cron → 用 launchd</strong>（Apple 推荐）</li>
+<li><strong>绝对路径 &gt; 环境变量</strong>（最稳妥）</li>
+<li><strong>调试靠日志</strong>（<code>StandardOutPath</code>&#x2F;<code>StandardErrorPath</code>）</li>
+</ul>
+]]></content>
+      <categories>
+        <category>task</category>
+      </categories>
+      <tags>
+        <tag>tool</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>seo笔记</title>
+    <url>/2025/07/04/seo%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><a href="https://makemedollar.com/seo-course/">啤酒罐的数字游民笔记</a></p>
+<span id="more"></span>
+
+<p>强推：<br><a href="https://makemedollar.com/keyword-research-tutorial/">关键词研究教程</a></p>
+<p>适合查找谷歌SEO关键词的工具有很多，常用的有：</p>
+<p>常用关键词查询工具：<a href="https://search.google.com/search-console/about">Google Search Console</a>、<a href="https://ads.google.cn/intl/zh-CN_cn/home/tools/keyword-planner/">Google Adwords</a>、<a href="https://trends.google.com/trends/?geo=US">Google Trends</a>。<br>Google关键词规划工具：<a href="https://neilpatel.com/cn/ubersuggest/">UberSuggest</a>、<a href="https://keywordseverywhere.com/">Keywordseverywhere</a>、<a href="https://keywordtool.io/">Keywordtool</a>、<a href="https://keywordtool.io/">Keywordsheeter</a>、<a href="https://lsigraph.com/">Lsigraph</a>。<br>文章架构思维导图生成器：<a href="https://answerthepublic.com/">Answerthepublic</a>、<a href="https://alsoasked.com/">Alsoasked</a>。</p>
+<p><a href="https://neilpatel.com/cn/ubersuggest/">ubersuggest</a><br><a href="https://keywordsheeter.com/">Keywordsheeter</a>：可生成生成成百上千个读者正在搜索的关键词<br><a href="https://keywordtool.io/">keywordtool</a>：跟Keywordsheeter类似<br><a href="https://alsoasked.com/">AlsoAsked</a>: 搜索人们经常问的相关键词问题</p>
+<p><a href="https://makemedollar.com/find-blog-niche-market/">如何寻找利基市场-10个受欢迎且有利可图的博客利基</a></p>
+]]></content>
+      <categories>
+        <category>SEO</category>
+      </categories>
+      <tags>
+        <tag>web</tag>
       </tags>
   </entry>
 </search>

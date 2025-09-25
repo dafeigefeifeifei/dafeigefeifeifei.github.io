@@ -102,7 +102,7 @@
 <meta property="og:description" content="下载vsftp 和 lftpvsftpd（Very Secure FTP Daemon）是 RHEL 7.9 上常用的 FTP 服务器，lftp 本身是一个命令行 FTP&#x2F;SFTP 客户端工具，通常用于文件传输。">
 <meta property="og:locale">
 <meta property="article:published_time" content="2025-06-18T07:18:04.000Z">
-<meta property="article:modified_time" content="2025-06-18T07:41:51.318Z">
+<meta property="article:modified_time" content="2025-06-19T07:44:45.226Z">
 <meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
 <meta property="article:tag" content="shell">
 <meta name="twitter:card" content="summary">
@@ -405,12 +405,24 @@
                 
               
 
-              <time title="Created: 2025-06-18 15:18:04 / Modified: 15:41:51" itemprop="dateCreated datePublished" datetime="2025-06-18T15:18:04+08:00">2025-06-18</time>
+              <time title="Created: 2025-06-18 15:18:04" itemprop="dateCreated datePublished" datetime="2025-06-18T15:18:04+08:00">2025-06-18</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2025-06-19 15:44:45" itemprop="dateModified" datetime="2025-06-19T15:44:45+08:00">2025-06-19</time>
               
             
           </span>
@@ -473,7 +485,7 @@
         <h3 id="下载vsftp-和-lftp"><a href="#下载vsftp-和-lftp" class="headerlink" title="下载vsftp 和 lftp"></a>下载vsftp 和 lftp</h3><p>vsftpd（Very Secure FTP Daemon）是 RHEL 7.9 上常用的 FTP 服务器，lftp 本身是一个命令行 FTP&#x2F;SFTP 客户端工具，通常用于文件传输。</p>
 <span id="more"></span>
 
-<p>已知我的环境是rhel7.9，而且是离线安装，先下载服务端和客户端<br><a target="_blank" rel="noopener" href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/vsftpd-3.0.2-28.el7.x86_64.rpm">vsftpd-3.0.2-28.el7.x86_64.rpm</a><br><a target="_blank" rel="noopener" href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/lftp-4.4.8-12.el7_8.1.x86_64.rpm">lftp-4.4.8-12.el7_8.1.x86_64.rpm</a></p>
+<p>已知我的环境是rhel7.9，而且是离线安装，先下载服务端和客户端(装客户端是为了验证服务端配置是否完成，也可以选择不装)<br><a target="_blank" rel="noopener" href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/vsftpd-3.0.2-28.el7.x86_64.rpm">vsftpd-3.0.2-28.el7.x86_64.rpm</a><br><a target="_blank" rel="noopener" href="https://vault.centos.org/7.9.2009/os/x86_64/Packages/lftp-4.4.8-12.el7_8.1.x86_64.rpm">lftp-4.4.8-12.el7_8.1.x86_64.rpm</a></p>
 <h3 id="安装-vsftp-和-lftp"><a href="#安装-vsftp-和-lftp" class="headerlink" title="安装 vsftp 和 lftp"></a>安装 vsftp 和 lftp</h3><p>直接 yum localinstall 即可，没有额外的依赖</p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">//</span> 查看版本</span><br><span class="line">vsftp -version </span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span> 手动运行，之后查看进程即可</span><br><span class="line"><span class="regexp">/usr/</span>sbin<span class="regexp">/vsftpd /</span>etc<span class="regexp">/vsftpd/</span>vsftpd.conf</span><br></pre></td></tr></table></figure>
 
@@ -490,11 +502,11 @@
 
 <h3 id="创建共享用户组，并赋予文件权限"><a href="#创建共享用户组，并赋予文件权限" class="headerlink" title="创建共享用户组，并赋予文件权限"></a>创建共享用户组，并赋予文件权限</h3><p>使用用户组来管理 ftp 的文件目录权限，如果没设置好，lftp 测试时会报错：<code>500 OOPS: cannot change directory:/home/swyhzhbs/data/files</code></p>
 <figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">groupadd ftp_shared</span><br><span class="line">usermod -a -G ftp_shared swyhzhbs</span><br><span class="line">usermod -a -G ftp_shared szftp</span><br><span class="line"></span><br><span class="line"><span class="regexp">//</span> 设置目标目录权限</span><br><span class="line">chown swyhzhbs:ftp_shared <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/ /</span>home<span class="regexp">/swyhzhbs/</span>data<span class="regexp">/ /</span>home<span class="regexp">/swyhzhbs/</span>data/files</span><br><span class="line">chmod <span class="number">770</span> <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/ /</span>home<span class="regexp">/swyhzhbs/</span>data/</span><br><span class="line">chmod <span class="number">775</span> <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/data/</span>files</span><br><span class="line"><span class="regexp">//</span> 确保新文件继承组权限</span><br><span class="line">chmod g+s <span class="regexp">/home/</span>swyhzhbs<span class="regexp">/data/</span>files</span><br></pre></td></tr></table></figure>
-
+<p>注意，修改权限不会影响&#x2F;home&#x2F;swyhzhbs&#x2F;data&#x2F;files下的存量文件，建议把文件夹删了重新创建</p>
 <h3 id="修改配置，重新执行配置服务"><a href="#修改配置，重新执行配置服务" class="headerlink" title="修改配置，重新执行配置服务"></a>修改配置，重新执行配置服务</h3><p>   <code> vi /etc/vsftpd/vsftpd.conf</code><br>修改：anonymous_enable&#x3D;NO</p>
 <figure class="highlight nsis"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="params">system</span>ctl start vsftpd</span><br><span class="line"><span class="params">system</span>ctl enable vsftpd</span><br></pre></td></tr></table></figure>
 
-<h3 id="验证："><a href="#验证：" class="headerlink" title="验证："></a>验证：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lftp -u szftp,XXX localhost</span><br><span class="line"><span class="built_in">ls</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用客户端验证："><a href="#使用客户端验证：" class="headerlink" title="使用客户端验证："></a>使用客户端验证：</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lftp -u szftp,XXX localhost</span><br><span class="line"><span class="built_in">ls</span></span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -552,6 +564,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2025/07/04/seo%E7%AC%94%E8%AE%B0/" rel="prev" title="seo笔记">
+                seo笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -621,7 +637,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">150</span>
+                    <span class="site-state-item-count">152</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -676,7 +692,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">21</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -789,7 +809,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDvsftp-%E5%92%8C-lftp"><span class="nav-number">1.</span> <span class="nav-text">下载vsftp 和 lftp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-vsftp-%E5%92%8C-lftp"><span class="nav-number">2.</span> <span class="nav-text">安装 vsftp 和 lftp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-vsftpd-%E6%9C%8D%E5%8A%A1%E6%8C%81%E7%BB%AD%E8%BF%90%E8%A1%8C"><span class="nav-number">3.</span> <span class="nav-text">配置 vsftpd 服务持续运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B4%A6%E5%8F%B7-x2F-%E5%AF%86%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">创建客户端账号&#x2F;密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%85%B1%E4%BA%AB%E7%94%A8%E6%88%B7%E7%BB%84%EF%BC%8C%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90"><span class="nav-number">5.</span> <span class="nav-text">创建共享用户组，并赋予文件权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%EF%BC%8C%E9%87%8D%E6%96%B0%E6%89%A7%E8%A1%8C%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">6.</span> <span class="nav-text">修改配置，重新执行配置服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%EF%BC%9A"><span class="nav-number">7.</span> <span class="nav-text">验证：</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BDvsftp-%E5%92%8C-lftp"><span class="nav-number">1.</span> <span class="nav-text">下载vsftp 和 lftp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-vsftp-%E5%92%8C-lftp"><span class="nav-number">2.</span> <span class="nav-text">安装 vsftp 和 lftp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-vsftpd-%E6%9C%8D%E5%8A%A1%E6%8C%81%E7%BB%AD%E8%BF%90%E8%A1%8C"><span class="nav-number">3.</span> <span class="nav-text">配置 vsftpd 服务持续运行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%B4%A6%E5%8F%B7-x2F-%E5%AF%86%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">创建客户端账号&#x2F;密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%85%B1%E4%BA%AB%E7%94%A8%E6%88%B7%E7%BB%84%EF%BC%8C%E5%B9%B6%E8%B5%8B%E4%BA%88%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90"><span class="nav-number">5.</span> <span class="nav-text">创建共享用户组，并赋予文件权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE%EF%BC%8C%E9%87%8D%E6%96%B0%E6%89%A7%E8%A1%8C%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">6.</span> <span class="nav-text">修改配置，重新执行配置服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%AA%8C%E8%AF%81%EF%BC%9A"><span class="nav-number">7.</span> <span class="nav-text">使用客户端验证：</span></a></li></ol></div>
             
 
           </div>

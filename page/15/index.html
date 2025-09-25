@@ -360,6 +360,420 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/17/Multithread-and-ThreadPool/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/17/Multithread-and-ThreadPool/" class="post-title-link" itemprop="url">Multithread and ThreadPool</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-17 09:54:27" itemprop="dateCreated datePublished" datetime="2018-05-17T09:54:27+08:00">2018-05-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="多线程与线程池"><a href="#多线程与线程池" class="headerlink" title="多线程与线程池"></a>多线程与线程池</h1><p>参考博客 ：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b8197dd2934c">孙福生简书</a>，<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s?__biz=MzAxOTc0NzExNg==&mid=2665514609&idx=1&sn=ba61f8b37acc79b1a17871fc7ec5c353&chksm=80d67e32b7a1f724242c38502b9aad8ad398b6b5c56c4e980c802a880ec1c70e5dfdcaafd9ae&scene=38#wechat_redirect">码农翻身</a></p>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li>进程（process）：<strong>计算机已运行程序的实体</strong>。程序本身只是指令、数据及其组织形式的描述，进程才是程序（那些指令和数据）的真正运行实例。<strong>用户下达运行程序的命令后，就会产生进程</strong>。同一程序可产生多个进程（一对多关系），以允许同时有多位用户运行同一程序，却不会相冲突。<strong>进程是拥有资源的基本单位</strong>。进程需要一些资源才能完成工作，如CPU使用时间、存储器、文件以及I&#x2F;O设备，且为依序逐一进行，也就是每个CPU核心任何时间内仅能运行一项进程。进程之间是资源隔离的，如果在进程间共享内容&#x2F;消息传递代价较大。</li>
+<li>线程：进程中负责程序执行的执行单元，<strong>线程是独立调度（CPU调度）和分派的基本单位</strong>，OS做调度时处理的是线程。一个进程中至少有一个线程，每个线程执行的都是进程代码中的某个片段。每个线程都拥有单独的栈内容来做存储本地数据。</li>
+<li>Java有没有多进程编程？否！java程序运行在JVM中，JVM本身就是java.exe运行起来，所以对OS而言，JVM是一个进程，其中无法进行多进程编程。</li>
+<li>多线程：多条线程同时存在，例如写word时，一边输入一边自动保存，就需要两条线程来分别完成。关键技术：线程间通信，线程间共用资源。</li>
+<li>线程池：一种线程使用模式。使用少量线程并让线程保持忙碌。以避免每个用户的请求都反复创建线程的开销。当线程池的线程刚创建时，让他们进入阻塞状态，等到任务来了唤醒即可。可用线程数量应该取决于可用的并发处理器、处理器内核、内存、网络sockets等的数量。</li>
+</ul>
+<h2 id="有关线程你该知道的"><a href="#有关线程你该知道的" class="headerlink" title="有关线程你该知道的"></a>有关线程你该知道的</h2><h3 id="创建线程的两种方式："><a href="#创建线程的两种方式：" class="headerlink" title="创建线程的两种方式："></a>创建线程的两种方式：</h3><ol>
+<li>继承Thread类，扩展线程；</li>
+<li>实现Runnable接口，java不支持多类继承，所以要继承其他类时调用Runnable接口更好。<br><br>具体代码及解释参考文首孙富生简书链接。</li>
+</ol>
+<h3 id="Thread类中的start-和run-方法区别"><a href="#Thread类中的start-和run-方法区别" class="headerlink" title="Thread类中的start()和run()方法区别"></a>Thread类中的start()和run()方法区别</h3><ul>
+<li>调用run()方法，用当前线程去执行一个普通方法，并没有创建新线程；</li>
+<li>调用start()方法才会启动新线程，该方法会做一些准备工作：设置好这个线程的上下文，比如这个线程的栈（用于函数调用），线程的状态，这个线程的PC(Program Counter）等等一系列信息以后，这个线程才可以被调度，一旦被调度，就会执行那个run()方法了。</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/05/17/Multithread-and-ThreadPool/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/14/notes-for-HeadFirstServletsAndJsp3/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/05/14/notes-for-HeadFirstServletsAndJsp3/" class="post-title-link" itemprop="url">notes_for_HeadFirstServletsAndJsp3</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-05-14 09:17:03" itemprop="dateCreated datePublished" datetime="2018-05-14T09:17:03+08:00">2018-05-14</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Head-First-Servlets-amp-JSP-读书笔记-3"><a href="#Head-First-Servlets-amp-JSP-读书笔记-3" class="headerlink" title="Head First Servlets&amp;JSP 读书笔记_3"></a>Head First Servlets&amp;JSP 读书笔记_3</h1><h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li><p>J2EE：Java 2 Enterprise Edition，包含了Web容器和EJB(Enterprise JavaBean)容器，而tomcat只是一种Web容器，不是完整的J2EE应用服务器</p>
+</li>
+<li><p>独立的EJB容器？独立的EJB容器已经过时，目前所有的EJB容器都作为完整J2EE的一部分</p>
+</li>
+<li><p>POJO：Plain Old Java Object，普通的java对象。与JavaBean的区别是，POJO可以有属性和getter&#x2F;setter方法，可以有简单的运算属性，但不允许有业务方法和connection之类方法</p>
+</li>
+<li><p>scriptlet代码：</p>
+<blockquote>
+<p>In JavaServer Pages (JSP) technology, a scriptlet is a piece of Java-code embedded in the HTML-like JSP code. The scriptlet is everything inside the &lt;%  %&gt; tags. Between these the user can add any valid Scriptlet i.e. any valid Java Code.<br>  [译]JSP中的scriptlet是指在类HTML的JSP中的标准java代码段，使用”&lt;% %&gt;”的格式。</p>
+</blockquote>
+</li>
+<li><p>请求分派机制：容器机制，容器管理的一个组件调用另一个组件</p>
+</li>
+</ul>
+<h2 id="web与MVC"><a href="#web与MVC" class="headerlink" title="web与MVC"></a>web与MVC</h2><p>[理解]MVC：将Servlet中做业务逻辑的功能（查询DB，插入DB，把HTML输出到响应流返回客户）搬到业务层和持久层。业务逻辑本身应该作为一个可重用的Java类，让业务逻辑根本不知道有表现的存在。</p>
+<ol>
+<li><p>原本Servlet完成的输出HTML的工作，现在Servlet将请求转发给适当的JSP，再由JSP建立响应HTML，并将其返回。</p>
+ <figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用ssm的controller凑合理解一下。。</span></span><br><span class="line"><span class="comment">//从这个url（admin_category_list）进来</span></span><br><span class="line">@<span class="constructor">RequestMapping(<span class="string">&quot;admin_category_list&quot;</span>)</span></span><br><span class="line">public String <span class="built_in">list</span>(Model model,Page page) &#123;</span><br><span class="line">	List&lt;Category&gt; cs=categoryService.<span class="built_in">list</span>(page);</span><br><span class="line">	<span class="built_in">int</span> total=categoryService.total<span class="literal">()</span>;</span><br><span class="line">	page.set<span class="constructor">Total(<span class="params">total</span>)</span>;</span><br><span class="line">	model.add<span class="constructor">Attribute(<span class="string">&quot;cs&quot;</span>,<span class="params">cs</span>)</span>;</span><br><span class="line">	model.add<span class="constructor">Attribute(<span class="string">&quot;page&quot;</span>,<span class="params">page</span>)</span>;</span><br><span class="line">	<span class="comment">//视图跳转到listCategory.jsp文件</span></span><br><span class="line">	return <span class="string">&quot;admin/listCategory&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>功能分隔：</p>
+<blockquote>
+<ul>
+<li>视图：负责表示方面。它从控制器得到模型的状态。另外视图还要获得用户的输入，并交给控制器。</li>
+<li>控制器：从请求获得用户输入，并明确这些输入对模型有什么影响。告诉模型自行更新，并且让视图（JSP）能得到新的模型状态。</li>
+<li>模型：包含具体的业务逻辑和状态。即模型知道用什么规则来得到和更新状态。购物车的内容（和处理购物车内容的规则）就属于MVC中的模型。系统中只有这部分与数据库通信（不过它可能会使用另一个对象完成具体的数据库通信，但这种模式以后再讲）。</li>
+</ul>
+</blockquote></li></ol>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/05/14/notes-for-HeadFirstServletsAndJsp3/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/13/notes-for-HeadFirstServletsAndJsp2/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1916,411 +2330,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/04/javaweb-forQuery2/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/04/javaweb-forQuery2/" class="post-title-link" itemprop="url">javaweb_forQuery2</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-05-04 10:03:30" itemprop="dateCreated datePublished" datetime="2018-05-04T10:03:30+08:00">2018-05-04</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="/2018/05/04/javaweb-forQuery2/forquery.png" alt="forquery.png"></p>
-<h1 id="学习内容："><a href="#学习内容：" class="headerlink" title="学习内容："></a>学习内容：</h1><ol>
-<li>接着forQuery1的内容,思路见上图</li>
-<li>新增add功能，URL为tmall_ssm&#x2F;admin_category_list</li>
-<li>实现图片上传</li>
-</ol>
-<h1 id="实现思路："><a href="#实现思路：" class="headerlink" title="实现思路："></a>实现思路：</h1><ol>
-<li>首先在 CategoryMapper.xml中增加id&#x3D;”add”的sql语句，使用keyProperty和useGeneratedKeys属性，将自动递增的id值设置在Category对象上</li>
-</ol>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">insert</span> id=&quot;add&quot; keyProperty=&quot;id&quot; useGeneratedKeys=&quot;true&quot; parameterType=&quot;Category&quot;&gt;</span><br><span class="line">	<span class="keyword">insert</span> <span class="keyword">into</span> category (<span class="type">name</span>) <span class="keyword">values</span> (#&#123;<span class="type">name</span>&#125;)</span><br><span class="line">&lt;/<span class="keyword">insert</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p>[注] <a target="_blank" rel="noopener" href="http://www.mybatis.org/mybatis-3/zh/sqlmap-xml.html">Mapper  XML的Insert, Update, Delete ‘s Attributes</a></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/05/04/javaweb-forQuery2/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/03/javaweb-forQuery/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/03/javaweb-forQuery/" class="post-title-link" itemprop="url">javaweb_forQuery</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-05-03 20:26:44" itemprop="dateCreated datePublished" datetime="2018-05-03T20:26:44+08:00">2018-05-03</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="学习内容链接"><a href="#学习内容链接" class="headerlink" title="学习内容链接"></a>学习内容链接</h1><p><a target="_blank" rel="noopener" href="http://how2j.cn/k/tmall_ssm/tmall_ssm-1516/1516.html">http://how2j.cn/k/tmall_ssm/tmall_ssm-1516/1516.html</a></p>
-<h1 id="总体思路"><a href="#总体思路" class="headerlink" title="总体思路"></a>总体思路</h1><p>使用<strong>springMVC+spring+mybatis</strong>的方式打通表现层&#x2F;业务层&#x2F;持久层。从浏览器接收访问路径开始，经过数据库调取数据（只做查询），最后从浏览器显示视图的全部简易流程。</p>
-<h1 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h1><ul>
-<li>Eclipse oxygen</li>
-<li>tomcat 8.5</li>
-<li>Apache maven 3.5.3</li>
-<li>mysql</li>
-</ul>
-<h1 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h1><ol>
-<li>环境配置完成后，启动Maven新建webapp项目</li>
-<li>在pom.xml中添加依赖（依赖来源：<a target="_blank" rel="noopener" href="http://mvnrepository.com/">Maven Repository</a>）</li>
-</ol>
-<h3 id="依赖清单："><a href="#依赖清单：" class="headerlink" title="依赖清单："></a>依赖清单：</h3><pre><code><figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">&lt;properties&gt;</span></span><br><span class="line">  <span class="section">&lt;spring.version&gt;</span><span class="attribute">4</span>.<span class="number">1</span>.<span class="number">3</span>.RELEASE&lt;/spring.version&gt;</span><br><span class="line">  <span class="section">&lt;pagehelper.version&gt;</span><span class="attribute">5</span>.<span class="number">1</span>.<span class="number">2</span>-beta&lt;/pagehelper.version&gt;</span><br><span class="line">  <span class="section">&lt;mysql.version&gt;</span><span class="attribute">5</span>.<span class="number">1</span>.<span class="number">6</span>&lt;/mysql.version&gt;</span><br><span class="line">  <span class="section">&lt;mybatis.spring.version&gt;</span><span class="attribute">1</span>.<span class="number">2</span>.<span class="number">3</span>&lt;/mybatis.spring.version&gt;</span><br><span class="line">  <span class="section">&lt;mybatis.version&gt;</span><span class="attribute">3</span>.<span class="number">1</span>.<span class="number">1</span>&lt;/mybatis.version&gt;</span><br><span class="line">  <span class="section">&lt;junit.version&gt;</span><span class="attribute">4</span>.<span class="number">12</span>&lt;/junit.version&gt;</span><br><span class="line">  <span class="section">&lt;jstl.version&gt;</span><span class="attribute">1</span>.<span class="number">2</span>&lt;/jstl.version&gt;</span><br><span class="line">  <span class="section">&lt;jsqlparser.version&gt;</span><span class="attribute">1</span>.<span class="number">0</span>&lt;/jsqlparser.version&gt;</span><br><span class="line">  <span class="section">&lt;jackson.version&gt;</span><span class="attribute">1</span>.<span class="number">2</span>.<span class="number">7</span>&lt;/jackson.version&gt;</span><br><span class="line">  <span class="section">&lt;servlet-api.version&gt;</span><span class="attribute">3</span>.<span class="number">1</span>.<span class="number">0</span>&lt;/servlet-api.version&gt;</span><br><span class="line">  <span class="section">&lt;druid.version&gt;</span><span class="attribute">1</span>.<span class="number">0</span>.<span class="number">18</span>&lt;/druid.version&gt;</span><br><span class="line">  <span class="section">&lt;log4j.version&gt;</span><span class="attribute">1</span>.<span class="number">2</span>.<span class="number">16</span>&lt;/log4j.version&gt;</span><br><span class="line">  <span class="section">&lt;commons-logging.version&gt;</span><span class="attribute">1</span>.<span class="number">2</span>&lt;/commons-logging.version&gt;</span><br><span class="line">  <span class="section">&lt;commons-fileupload.version&gt;</span><span class="attribute">1</span>.<span class="number">2</span>.<span class="number">1</span>&lt;/commons-fileupload.version&gt;</span><br><span class="line">  <span class="section">&lt;commons-io.version&gt;</span><span class="attribute">1</span>.<span class="number">3</span>.<span class="number">2</span>&lt;/commons-io.version&gt;</span><br><span class="line">  <span class="section">&lt;commons-lang.version&gt;</span><span class="attribute">2</span>.<span class="number">6</span>&lt;/commons-lang.version&gt;</span><br><span class="line">  <span class="section">&lt;aopalliance.version&gt;</span><span class="attribute">1</span>.<span class="number">0</span>&lt;/aopalliance.version&gt;</span><br><span class="line">  <span class="section">&lt;mybatis-generator.version&gt;</span><span class="attribute">1</span>.<span class="number">3</span>.<span class="number">5</span>&lt;/mybatis-generator.version&gt;</span><br><span class="line"><span class="section">&lt;/properties&gt;</span></span><br></pre></td></tr></table></figure>
-</code></pre>
-<ol start="3">
-<li><p>创建实体类Category，定义了private的id和name，以及getter&#x2F;setter方法</p>
- <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Category</span> &#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="title class_">Integer</span> id;</span><br><span class="line">	<span class="keyword">private</span> <span class="title class_">String</span> name;</span><br><span class="line">	<span class="keyword">public</span> <span class="title class_">Integer</span> <span class="title function_">getId</span>(<span class="params"></span>)           &#123;		<span class="keyword">return</span> id;	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">void</span> <span class="title function_">setId</span>(<span class="params">Integer id</span>)    &#123;		<span class="variable language_">this</span>.<span class="property">id</span> = id;	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="title class_">String</span> <span class="title function_">getName</span>(<span class="params"></span>)          &#123;		<span class="keyword">return</span> name;	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="built_in">void</span> <span class="title function_">setName</span>(<span class="params"><span class="built_in">String</span> name</span>) &#123;		<span class="variable language_">this</span>.<span class="property">name</span> = name;	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/05/03/javaweb-forQuery/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span>
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2363,7 +2377,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">150</span>
+                    <span class="site-state-item-count">152</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2418,7 +2432,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">21</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>

@@ -360,6 +360,408 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/22/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E7%AC%94%E8%AE%B0/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/22/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">类加载机制笔记</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-22 09:16:51" itemprop="dateCreated datePublished" datetime="2018-12-22T09:16:51+08:00">2018-12-22</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="1-六种主动使用类的场景"><a href="#1-六种主动使用类的场景" class="headerlink" title="1. 六种主动使用类的场景"></a>1. 六种主动使用类的场景</h1><p>按照 JVM 规范，每个类或者接口被 Java 程序首次主动使用时，才会对其进行初始化。</p>
+<p>以下六种操作会导致类的初始化，除了这六种，其他情况都属于被动使用，不会导致类的加载和初始化。</p>
+<ol>
+<li>通过 new 关键词。</li>
+<li>访问类的静态变量（但 final 修饰的静态变量实质上是静态常量，不属于此范畴，不会初始化类）。</li>
+<li>访问类的静态方法。</li>
+<li>对类进行反射操作。</li>
+<li>初始化子类会导致父类的初始化。</li>
+<li>启动类。也就是 main 函数所在的类会被初始化。</li>
+</ol>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/12/22/%E7%B1%BB%E5%8A%A0%E8%BD%BD%E6%9C%BA%E5%88%B6%E7%AC%94%E8%AE%B0/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/19/HTTP-1-1/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/12/19/HTTP-1-1/" class="post-title-link" itemprop="url">HTTP-1-1</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-12-19 09:56:21" itemprop="dateCreated datePublished" datetime="2018-12-19T09:56:21+08:00">2018-12-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>推荐阅读：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000013028798">HTTP1.0 HTTP1.1 HTTP2.0 主要特性对比</a></p>
+<h2 id="比较-HTTP1-0-、HTTP1-1、-HTTP2-0"><a href="#比较-HTTP1-0-、HTTP1-1、-HTTP2-0" class="headerlink" title="比较 HTTP1.0 、HTTP1.1、 HTTP2.0"></a>比较 HTTP1.0 、HTTP1.1、 HTTP2.0</h2><p>共同点：</p>
+<ol>
+<li>都是应用层协议，基于 TCP&#x2F;IP 协议。</li>
+<li>无状态</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">HTTP1.0</th>
+<th align="center">HTTP1.1</th>
+<th align="center">HTTP2.0</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">特点</td>
+<td align="center">无连接、队头阻塞</td>
+<td align="center">长连接、管道化、缓存处理</td>
+<td align="center">二进制分帧、多路复用、头部压缩、服务器推送</td>
+</tr>
+</tbody></table>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/12/19/HTTP-1-1/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/17/vue-%E5%85%A5%E9%97%A8%E4%B8%80/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1897,408 +2299,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/25/%E5%A4%A7%E5%9E%8B%E7%BD%91%E7%AB%99%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/25/%E5%A4%A7%E5%9E%8B%E7%BD%91%E7%AB%99%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" class="post-title-link" itemprop="url">大型网站技术架构——读书笔记（1）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-25 15:20:53" itemprop="dateCreated datePublished" datetime="2018-11-25T15:20:53+08:00">2018-11-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>《大型网站技术架构——核心原理与案例分析》 李智慧</p>
-<p>读书笔记（1）</p>
-<h1 id="1-技术演化"><a href="#1-技术演化" class="headerlink" title="1. 技术演化"></a>1. 技术演化</h1><ol>
-<li>最初是应用程序、文件、数据库都在同一台服务器上完成最简单的网站结构。</li>
-<li>为解决存储空间不足的问题，出现应用服务器、文件服务器、数据库服务器职责分开的情况。<ul>
-<li>应用服务器主要处理业务逻辑，需要更快更强的 CPU；</li>
-<li>文件服务器需要存储用户上传的文件，需要更大的硬盘；</li>
-<li>数据库服务器需要快速磁盘检索和数据缓存，所以需要更快的硬盘和更大的内存。<ul>
-<li>网站使用的缓存分为两种：应用服务器上的本地缓存（特点：响应快，但数据量小，可能跟程序争用内存资源）、缓存在分布式缓存服务器上的远程缓存（可采用集群的方式，不受内存容量限制）。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/11/25/%E5%A4%A7%E5%9E%8B%E7%BD%91%E7%AB%99%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E2%80%94%E2%80%94%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/17/tinySpring-Aop-%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/17/tinySpring-Aop-%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89/" class="post-title-link" itemprop="url">tinySpring-Aop-分析笔记（2）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-11-17 19:27:50" itemprop="dateCreated datePublished" datetime="2018-11-17T19:27:50+08:00">2018-11-17</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="tinySpring-Aop-分析笔记（2）"><a href="#tinySpring-Aop-分析笔记（2）" class="headerlink" title="tinySpring Aop 分析笔记（2）"></a>tinySpring Aop 分析笔记（2）</h1><p>项目学习地址：<a target="_blank" rel="noopener" href="https://github.com/code4craft/tiny-spring/releases">code4craft&#x2F;tiny-spring</a></p>
-<h2 id="step-8-invite-pointcut-and-aspectj"><a href="#step-8-invite-pointcut-and-aspectj" class="headerlink" title="step-8-invite-pointcut-and-aspectj"></a>step-8-invite-pointcut-and-aspectj</h2><ul>
-<li>step-8 新增了对<code>AspectJExpressionPointcut</code>这个类。<ul>
-<li>它使用 AspectJ 表达式进行匹配。</li>
-<li>实现了<code>Pointcut, ClassFilter, MethodMatcher</code>三个接口。</li>
-<li>首先拿到一个<code>PointcutParser</code>，是用来解析 expression 的。</li>
-<li>解析传入的<code>expression</code>，拿到一个<code>PointcutExpression</code>的实现类。</li>
-<li>ClassFilter 表示与表达式匹配的类；</li>
-<li>MethodMatcher 查找与表达式匹配的方法；</li>
-<li>Pointcut 表示获取的是方法还是类。</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/11/17/tinySpring-Aop-%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2341,7 +2346,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">150</span>
+                    <span class="site-state-item-count">152</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2396,7 +2401,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">21</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>

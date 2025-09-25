@@ -360,6 +360,386 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/02/tiny-spring%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/02/tiny-spring%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89/" class="post-title-link" itemprop="url">tiny-spring分析笔记（2）</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-02 21:14:57" itemprop="dateCreated datePublished" datetime="2018-11-02T21:14:57+08:00">2018-11-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="tinySpring-分析笔记——IOC（2）"><a href="#tinySpring-分析笔记——IOC（2）" class="headerlink" title="tinySpring 分析笔记——IOC（2）"></a>tinySpring 分析笔记——IOC（2）</h1><p>学习项目 Github 地址：<a target="_blank" rel="noopener" href="https://github.com/code4craft/tiny-spring/releases">code4craft&#x2F;tiny-spring</a></p>
+<p>上一篇博客：<a target="_blank" rel="noopener" href="http://likehui.fun/2018/11/02/tiny-spring%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/">tiny-spring分析笔记（1）</a></p>
+<h2 id="step-4-config-beanfactory-with-xml"><a href="#step-4-config-beanfactory-with-xml" class="headerlink" title="step-4-config-beanfactory-with-xml"></a>step-4-config-beanfactory-with-xml</h2><ul>
+<li>在 step 3 中，“text”参数是直接写入 java 类中。</li>
+<li>step 4 的目标就是将参数的配置信息写入 xml 文件中，然后代码通过读取 xml 文件获得参数。</li>
+<li>参数放入<code>BeanDefinition</code>中，然后用<code>BeanFactory</code>将它们一一注册（包括 setBean），最终实现 getBean。</li>
+</ul>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/11/02/tiny-spring%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%882%EF%BC%89/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/02/tiny-spring%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/02/tiny-spring%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" class="post-title-link" itemprop="url">tiny-spring分析笔记（1）</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-02 15:17:33" itemprop="dateCreated datePublished" datetime="2018-11-02T15:17:33+08:00">2018-11-02</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/spring/" itemprop="url" rel="index"><span itemprop="name">spring</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="tinySpring-分析笔记——IOC（1）"><a href="#tinySpring-分析笔记——IOC（1）" class="headerlink" title="tinySpring 分析笔记——IOC（1）"></a>tinySpring 分析笔记——IOC（1）</h1><p>学习项目 Github 地址：<a target="_blank" rel="noopener" href="https://github.com/code4craft/tiny-spring/releases">code4craft&#x2F;tiny-spring</a></p>
+<h2 id="step-1-container-register-and-get"><a href="#step-1-container-register-and-get" class="headerlink" title="step-1-container-register-and-get"></a>step-1-container-register-and-get</h2><p>使用 map 当作 bean 的容器，避免间接 new ，代替直接 new。</p>
+<h4 id="1-1-HelloWorldService-java"><a href="#1-1-HelloWorldService-java" class="headerlink" title="1.1 HelloWorldService.java"></a>1.1 HelloWorldService.java</h4><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HelloWorldService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">helloWorld</span>()</span>&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">&quot;Hello World!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/11/02/tiny-spring%E5%88%86%E6%9E%90%E7%AC%94%E8%AE%B0%EF%BC%881%EF%BC%89/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/01/UML-2/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1957,408 +2337,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%882%EF%BC%89/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%882%EF%BC%89/" class="post-title-link" itemprop="url">操作系统第三章（2）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-09-12 19:29:28" itemprop="dateCreated datePublished" datetime="2018-09-12T19:29:28+08:00">2018-09-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="操作系统——内存管理（2）"><a href="#操作系统——内存管理（2）" class="headerlink" title="操作系统——内存管理（2）"></a>操作系统——内存管理（2）</h1><h2 id="虚拟内存技术"><a href="#虚拟内存技术" class="headerlink" title="虚拟内存技术"></a>虚拟内存技术</h2><ul>
-<li>背景：不采用虚拟内存技术的内存管理策略的缺点：<ul>
-<li>一次性。必须将作业一次性装入内存中，可能会不能全部装入从而作业无法运行；或者大量作业要求运行时，内存不能容纳导致仅少量作业在运行；</li>
-<li>驻留性。作业进入内存后会驻留在内存中，任何部分都不会被调出，直到作业结束。</li>
-</ul>
-</li>
-<li>局部性原理。原理不解释。采用此原理的技术有快表、页高速缓存、虚拟内存技术以及“goto语句有害”说法等。<ul>
-<li>时间局部性：刚执行的指令，不久之后很有可能再次执行。</li>
-<li>空间局部性：一旦访问了某个存储单元，不久之后附近的存储单元很有可能被访问。</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/09/12/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%882%EF%BC%89/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/09/09/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%881%EF%BC%89/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/09/09/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%881%EF%BC%89/" class="post-title-link" itemprop="url">操作系统第三章（1）</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-09-09 10:07:57" itemprop="dateCreated datePublished" datetime="2018-09-09T10:07:57+08:00">2018-09-09</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/examination/" itemprop="url" rel="index"><span itemprop="name">examination</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="操作系统——内存管理（1）"><a href="#操作系统——内存管理（1）" class="headerlink" title="操作系统——内存管理（1）"></a>操作系统——内存管理（1）</h1><h2 id="内存管理的功能及相关概念"><a href="#内存管理的功能及相关概念" class="headerlink" title="内存管理的功能及相关概念"></a>内存管理的功能及相关概念</h2><ul>
-<li>内存管理：OS对内存的划分和动态分配。</li>
-<li>功能：<ul>
-<li>1.地址转换：程序的逻辑地址与内存中的物理地址不一致，需要相关转换；</li>
-<li>2.内存空间的扩充：使用虚拟存储的技术或者自动覆盖技术，从逻辑上扩充内存；</li>
-<li>3.内存保护：各道作业在各自的存储空间内运行，互不干扰。</li>
-<li>4.（重点）内存空间的分配和回收：让程序员摆脱存储分配的麻烦，提高编程效率；<ul>
-<li>连续分配管理方式</li>
-<li>非连续分配管理方式</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="1-程序装入内存和链接"><a href="#1-程序装入内存和链接" class="headerlink" title="1. 程序装入内存和链接"></a>1. 程序装入内存和链接</h3><p>创建进程的第一步就是讲程序和数据装入内存，需要经过：编译、链接、装入三个阶段：</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/09/09/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%881%EF%BC%89/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -2401,7 +2384,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">150</span>
+                    <span class="site-state-item-count">152</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2456,7 +2439,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">21</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">23</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
