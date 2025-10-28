@@ -360,6 +360,210 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/18/Redis%E4%B8%93%E9%A2%98/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/02/18/Redis%E4%B8%93%E9%A2%98/" class="post-title-link" itemprop="url">Redis专题</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-02-18 10:18:24" itemprop="dateCreated datePublished" datetime="2019-02-18T10:18:24+08:00">2019-02-18</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/interview/" itemprop="url" rel="index"><span itemprop="name">interview</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Redis-专题"><a href="#Redis-专题" class="headerlink" title="Redis 专题"></a>Redis 专题</h1><h2 id="1-为什么要用-redis-而不用-map-x2F-guava-做缓存，Redis-跟-Memcached-的区别"><a href="#1-为什么要用-redis-而不用-map-x2F-guava-做缓存，Redis-跟-Memcached-的区别" class="headerlink" title="1. 为什么要用 redis 而不用 map&#x2F;guava 做缓存，Redis 跟 Memcached 的区别"></a>1. 为什么要用 redis 而不用 map&#x2F;guava 做缓存，Redis 跟 Memcached 的区别</h2><ol>
+<li>因为缓存分为本地缓存和分布式缓存，map&#x2F;guava 属于本地缓存，Redis&#x2F;Memcached 属于分布式缓存。</li>
+<li>本地缓存特点：轻量、快速，生命周期随 JVM 销毁而结束；在多实例下，每个实例保存着独立的缓存，相互不一致。</li>
+<li>分布式缓存特点：在多实例下，各实例共用一份缓存，具有一致性；要维护分布式服务高可用，程序架构复杂。</li>
+</ol>
+<p>Redis 与 Memcached 区别：</p>
+<ol>
+<li><p>Memcached 是多线程，非阻塞 IO 复用的网络模型；Redis 是单线程，多路 IO 复用的网络模型。</p>
+</li>
+<li><p>Memcached 只支持 String 类型；Redis 支持更丰富的数据类型（主要五种，String、hash、list、set、zset）。</p>
+<blockquote>
+<p>[官网] It supports data structures such as strings, hashes, lists, sets, sorted sets with range queries, bitmaps, hyperloglogs, geospatial indexes with radius queries and streams</p>
+</blockquote>
+</li>
+<li><p>Memcached 将数据全部存在内存中；Redis 支持数据的持久化。</p>
+</li>
+<li><p>Memcached 没有原生的集群模式，需要依靠客户端来实现往集群中分片写入数据；Redis 是原生支持 Cluster 模式的。</p>
+</li>
+</ol>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2019/02/18/Redis%E4%B8%93%E9%A2%98/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/17/%E7%AC%94%E7%BB%8F%E6%95%B4%E7%90%862/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2090,202 +2294,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/31/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B9%8Btime-clock-ordering/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/12/31/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B9%8Btime-clock-ordering/" class="post-title-link" itemprop="url">分布式系统之time clock ordering</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-12-31 12:08:57" itemprop="dateCreated datePublished" datetime="2018-12-31T12:08:57+08:00">2018-12-31</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>参考阅读：<br><a target="_blank" rel="noopener" href="http://www.cnblogs.com/bangerlee/p/5448766.html">分布式系统理论基础 - 时间、时钟和事件顺序</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/8500882ab38c">分布式系统的时间</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d888642ef72c?utm_campaign=maleskine&utm_content=note&utm_medium=seo_notes&utm_source=recommendation">分布式系统一致性的发展历史</a><br><a target="_blank" rel="noopener" href="https://36kr.com/p/5037166.html">分布式系统一致性的发展历史（一）</a></p>
-<h1 id="时间、时钟和事件顺序"><a href="#时间、时钟和事件顺序" class="headerlink" title="时间、时钟和事件顺序"></a>时间、时钟和事件顺序</h1><ul>
-<li>分布式系统使用<strong>逻辑时钟</strong>记录事件顺序关系。<ul>
-<li>采用物理时钟，在分布式系统中仍然会有毫秒级别的偏差。</li>
-</ul>
-</li>
-</ul>
-<h2 id="Lamport-timestamps"><a href="#Lamport-timestamps" class="headerlink" title="Lamport timestamps"></a>Lamport timestamps</h2><blockquote>
-<p>每个事件对应一个Lamport时间戳，初始值为0<br>如果事件在节点内发生，时间戳加1<br>如果事件属于发送事件，时间戳加1并在消息中带上该时间戳<br>如果事件属于接收事件，时间戳 &#x3D; Max(本地时间戳，消息中的时间戳) + 1</p>
-</blockquote>
-<p><strong>偏序关系 partial order</strong>，如下图方框内的编号：</p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/12/31/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E4%B9%8Btime-clock-ordering/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2333,7 +2341,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">152</span>
+                    <span class="site-state-item-count">153</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -2392,7 +2400,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">23</span>
+                      
+                    
+                    <span class="site-state-item-count">24</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -2469,7 +2479,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">32</span>
+                      
+                    
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

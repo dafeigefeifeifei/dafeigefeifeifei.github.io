@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="下面给你一份面向 XXX报送系统（信创平移、无功能增强） 的完整技术准备与对接检查清单。内容侧重 技术对接准备，包含系统关联梳理、对外（人行&#x2F;外汇局）申请与联调、网络&#x2F;VPN&#x2F;证书、开发&#x2F;测试&#x2F;生产资源准备、验收与上线准备等要点。为便于项目推进，我把每一项都写成可执行的交付物&#x2F;责任人&#x2F;验收标准，方便你作为技术项目经理分配和跟进。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="想将一个信创项目对接监管机构需要分几步">
+<meta property="og:url" content="http://yoursite.com/2025/10/28/%E6%83%B3%E5%B0%86%E4%B8%80%E4%B8%AA%E4%BF%A1%E5%88%9B%E9%A1%B9%E7%9B%AE%E5%AF%B9%E6%8E%A5%E7%9B%91%E7%AE%A1%E6%9C%BA%E6%9E%84%E9%9C%80%E8%A6%81%E5%88%86%E5%87%A0%E6%AD%A5/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="下面给你一份面向 XXX报送系统（信创平移、无功能增强） 的完整技术准备与对接检查清单。内容侧重 技术对接准备，包含系统关联梳理、对外（人行&#x2F;外汇局）申请与联调、网络&#x2F;VPN&#x2F;证书、开发&#x2F;测试&#x2F;生产资源准备、验收与上线准备等要点。为便于项目推进，我把每一项都写成可执行的交付物&#x2F;责任人&#x2F;验收标准，方便你作为技术项目经理分配和跟进。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2025-10-28T06:13:43.000Z">
+<meta property="article:modified_time" content="2025-10-28T06:50:03.650Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="step">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2025/10/28/想将一个信创项目对接监管机构需要分几步/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>想将一个信创项目对接监管机构需要分几步 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2025/10/28/%E6%83%B3%E5%B0%86%E4%B8%80%E4%B8%AA%E4%BF%A1%E5%88%9B%E9%A1%B9%E7%9B%AE%E5%AF%B9%E6%8E%A5%E7%9B%91%E7%AE%A1%E6%9C%BA%E6%9E%84%E9%9C%80%E8%A6%81%E5%88%86%E5%87%A0%E6%AD%A5/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">想将一个信创项目对接监管机构需要分几步
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2025-10-28 14:13:43 / Modified: 14:50:03" itemprop="dateCreated datePublished" datetime="2025-10-28T14:13:43+08:00">2025-10-28</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/bank/" itemprop="url" rel="index"><span itemprop="name">bank</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>下面给你一份面向 <strong>XXX报送系统（信创平移、无功能增强）</strong> 的完整技术准备与对接检查清单。内容侧重 <strong>技术对接准备</strong>，包含系统关联梳理、对外（人行&#x2F;外汇局）申请与联调、网络&#x2F;VPN&#x2F;证书、开发&#x2F;测试&#x2F;生产资源准备、验收与上线准备等要点。为便于项目推进，我把每一项都写成可执行的交付物&#x2F;责任人&#x2F;验收标准，方便你作为技术项目经理分配和跟进。</p>
+<span id="more"></span>
+
+<h1 id="一、总体说明（背景与原则）"><a href="#一、总体说明（背景与原则）" class="headerlink" title="一、总体说明（背景与原则）"></a>一、总体说明（背景与原则）</h1><ul>
+<li>项目性质：<strong>信创平移</strong>，功能不变，关注兼容性、网络与安全合规、数据准确性与与人行&#x2F;省分行的联调通过。</li>
+<li>目标：保证在不改功能前提下，系统在新环境下能<strong>稳定、安全</strong>、<strong>按人行&#x2F;外汇局要求</strong>完成报送并通过验收。</li>
+<li>你的角色（技术项目经理）：负责推动厂商落实技术准备、协调行内相关系统&#x2F;网络&#x2F;安全、对接人行&#x2F;省分行并监督联调与验收进度。</li>
+</ul>
+<h1 id="二、交付物总览（高层清单）"><a href="#二、交付物总览（高层清单）" class="headerlink" title="二、交付物总览（高层清单）"></a>二、交付物总览（高层清单）</h1><ol>
+<li>系统关联图（物理与逻辑两张图）＋数据流说明（交付）</li>
+<li>对外申请材料清单（提交给人行总行&#x2F;省分行&#x2F;外汇局）＋时间表（交付）</li>
+<li>网络接入方案（VPN&#x2F;专线&#x2F;防火墙策略）＋IP&#x2F;子网&#x2F;地址清单（交付）</li>
+<li>证书与密钥管理方案（含签名&#x2F;加密&#x2F;双向 TLS &#x2F; HSM）＋证书清单（交付）</li>
+<li>接口契约（消息格式、字段映射、批量&#x2F;实时频次、重传策略、异常码）＋示例文件（交付）</li>
+<li>开发&#x2F;测试&#x2F;生产环境准备清单（账号、权限、数据集、回放工具）</li>
+<li>联调计划（阶段、负责方、环境、测试用例）＋问题登记模板</li>
+<li>验收标准与验收用例（含对账&#x2F;一致性校验）</li>
+<li>运营准备（监控&#x2F;告警列表、联系人名单、应急流程&#x2F;演练脚本）</li>
+<li>风险清单与缓解措施（交付）</li>
+</ol>
+<h1 id="三、系统关联梳理（必须产出的图与内容）"><a href="#三、系统关联梳理（必须产出的图与内容）" class="headerlink" title="三、系统关联梳理（必须产出的图与内容）"></a>三、系统关联梳理（必须产出的图与内容）</h1><p>目标：让人行、行内运维和厂商都能清楚数据从哪来、经过哪些系统、到哪里去。</p>
+<p>必须产出（交付物）：</p>
+<ol>
+<li><strong>逻辑关联图</strong>：展示功能边界（报送系统）、上游数据源（核心账务、清算、交易收集、风控系统、接入层）、下游（归档、审计、运维告警、对账系统）、外部目标（人行报送接口&#x2F;外汇局）。标注数据格式、更新频率、延迟要求。</li>
+<li><strong>物理部署图</strong>：展示网络边界（内网区&#x2F;DMZ&#x2F;报送区&#x2F;外网）、主机&#x2F;虚拟机&#x2F;容器、数据库、消息中间件、文件中转目录、网关&#x2F;负载均衡、防火墙位置。</li>
+<li><strong>数据映射表</strong>：每个报送字段对应的源系统字段、抽取逻辑、脱敏&#x2F;屏蔽规则（测试数据时必须）、是否属于敏感信息。</li>
+<li><strong>依赖清单</strong>：列出所有联动系统（例如核心交易系统、证卡系统、外汇交易系统、对账系统、审计日志系统），每个依赖项注明接口负责人、SLA、变更窗口。</li>
+</ol>
+<p>验收标准：图件与表格被行内相关部门（业务&#x2F;网络&#x2F;安全&#x2F;运维）Review并签字确认。</p>
+<h1 id="四、对外（人行-x2F-省分行-x2F-外汇局）申请与流程（要做的事）"><a href="#四、对外（人行-x2F-省分行-x2F-外汇局）申请与流程（要做的事）" class="headerlink" title="四、对外（人行 &#x2F; 省分行 &#x2F; 外汇局）申请与流程（要做的事）"></a>四、对外（人行 &#x2F; 省分行 &#x2F; 外汇局）申请与流程（要做的事）</h1><p>说明：不同层级通常分为“总行登记&#x2F;审批”和“省分行对接&#x2F;测试”，你需要同时准备两类材料并跟进进度。</p>
+<p>核心工作（交付项 + 负责方）：</p>
+<ol>
+<li><p><strong>接入申请材料准备（提交给人行总行&#x2F;省分行）</strong></p>
+<ul>
+<li>系统接入申请表（系统信息、负责人、业务范围、预计报送频率&#x2F;数据量）。</li>
+<li>公司&#x2F;系统资质复印件、项目合规说明（信创平移说明）。</li>
+<li>网络接入申请（是否申请VPN&#x2F;专线&#x2F;静态IP&#x2F;端口白名单）。</li>
+<li>安全合规材料（安全测评、边界防护说明、访问控制说明）——如人行要求。<br>负责方：厂商准备（技术资料），你负责收集并提交、并跟进审批状态。</li>
+</ul>
+</li>
+<li><p><strong>证书&#x2F;账号申请</strong></p>
+<ul>
+<li>向人行&#x2F;省分行申请测试账号、测试证书（签名&#x2F;加密&#x2F;客户端证书）、测试环境访问权限。</li>
+<li>申请生产证书&#x2F;生产账号（通常在测试通过后申请并在上线窗切换）。<br>负责方：你牵头与人行对接，厂商配合提供CSR、公钥等。</li>
+</ul>
+</li>
+<li><p><strong>联调与测试排期申请</strong></p>
+<ul>
+<li>向人行申请联调窗口（测试开始&#x2F;结束时间）、是否需要提供回归测试样本。</li>
+<li>申请联调所需的网络通道（VPN账号&#x2F;客户机IP白名单），并在申请中列明测试IP、测试机器、联系人。<br>负责方：技术项目经理（你）申请并协调。</li>
+</ul>
+</li>
+<li><p><strong>安全与合规性检查</strong></p>
+<ul>
+<li>若人行&#x2F;外汇局要求，提交安全扫描&#x2F;测评报告或安排现场&#x2F;远程安全复核。<br>负责方：厂商配合，行内安全合规部门陪同。</li>
+</ul>
+</li>
+</ol>
+<p>备注：<strong>区分总行与省分行</strong>——总行做资质、审批与接口策略，省分行负责具体网络接入、联调协调与本地支持。你需同时向两端按要求提交材料并保持沟通记录。</p>
+<h1 id="五、网络接入与VPN（技术细化）"><a href="#五、网络接入与VPN（技术细化）" class="headerlink" title="五、网络接入与VPN（技术细化）"></a>五、网络接入与VPN（技术细化）</h1><p>目标：明确接入方式、白名单、路由、以及运维联络点。</p>
+<p>要点及交付：</p>
+<ol>
+<li><strong>确认接入方式</strong>（与人行&#x2F;省分行书面确认并存档）<br>常见方式（以最终审批为准）：IPsec VPN（站到站）、SSL VPN、专线&#x2F;租用链路、经由省分行网关转发。<strong>不要凭习惯选型</strong>，必须以人行指定或批准的方式为准。<br>交付：接入方式确认单（含备用方案）。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>系统名称</th>
+<th>网络接入方式（根据资料推测）</th>
+<th>我确信度（基于互联网资料）</th>
+<th>是否人工复核</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>统一监管报送平台／报送集市</td>
+<td>省联社网关汇聚，经 IPsec VPN 或 省级监管网转发</td>
+<td><strong>90%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>EAST 5.0／EAST系统改造</td>
+<td>IPsec VPN 专线直连人行EAST平台（生产＋测试）</td>
+<td><strong>95%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>“1104监管统计”系统</td>
+<td>省联社集中汇总，经 VPN 隧道至人行节点</td>
+<td><strong>85%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>金融基础数据报送系统</td>
+<td>IPsec VPN 或 省联社汇聚专线</td>
+<td><strong>85%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>客户风险报送系统</td>
+<td>省联社网关转发 + IPsec VPN</td>
+<td><strong>80%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>报表平台（统计报表）</td>
+<td>省联社汇聚统一VPN通道</td>
+<td><strong>90%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>反洗钱交易报送系统</td>
+<td>IPsec VPN 直连（人行报送节点）</td>
+<td><strong>95%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>银行卡境外交易报送系统</td>
+<td>经 省联社VPN 或 省级网关转发</td>
+<td><strong>95%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>外汇类／涉外收支报送系统</td>
+<td>专线（SAFE专网）或 IPsec VPN</td>
+<td><strong>95%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>清算／支付报送系统</td>
+<td>支付清算专线 (MPLS) 或 VPN 备份链路</td>
+<td><strong>95%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>年报／法人机构变化报送系统</td>
+<td>省联社VPN 汇聚后统一上传</td>
+<td><strong>80%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>专题监管／风险监测平台</td>
+<td>省联社内部VPN 隧道或 专线</td>
+<td><strong>75%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>人行大集中报送系统</td>
+<td>专线或 IPsec VPN 直连人行数据中心</td>
+<td><strong>95%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>14</td>
+<td>征信报送系统（企业&#x2F;个人）</td>
+<td>IPsec VPN 专线（省联社集中汇总）</td>
+<td><strong>100%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>反假币报送系统</td>
+<td>省联社汇聚VPN 通道</td>
+<td><strong>85%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>16</td>
+<td>银税报送系统</td>
+<td>IPsec VPN 经省联社统一出口</td>
+<td><strong>85%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>非居民涉税报送系统</td>
+<td>专线 或 VPN 通道</td>
+<td><strong>80%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>全国集中账管报送（对公／个人）</td>
+<td>IPsec VPN 或 省网关转发</td>
+<td><strong>95%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>人民币个人结算账户报送</td>
+<td>VPN 隧道（人行账户系统）</td>
+<td><strong>90%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>利率报备系统</td>
+<td>VPN 隧道 或 专线</td>
+<td><strong>85%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>支付信息统计系统</td>
+<td>专线 (MPLS) 主通道 + VPN 备通道</td>
+<td><strong>95%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>二代央企评级系统</td>
+<td>VPN 隧道 汇聚报送</td>
+<td><strong>80%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>二代货币发行报送系统</td>
+<td>专线 或 VPN 通道（对接国库／发行库）</td>
+<td><strong>90%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>精准扶贫系统报送</td>
+<td>省联社汇聚 + VPN 或 专线</td>
+<td><strong>85%</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>中小微企业资金流报送系统</td>
+<td>VPN 隧道 或 省网关转发</td>
+<td><strong>85%</strong></td>
+<td></td>
+</tr>
+</tbody></table>
+<ol start="2">
+<li><p><strong>网络边界清单（交付）</strong></p>
+<ul>
+<li>本行出口 IP（静态）与端口&#x2F;协议（说明用途）——留空由网络部门填写并回传。</li>
+<li>人行&#x2F;省分行端 IP&#x2F;访问网关（由人行提供）——用于防火墙白名单。</li>
+<li>双方网关联系人与变更流程（含SLA）。</li>
+</ul>
+</li>
+<li><p><strong>VPN 账号与证书</strong></p>
+<ul>
+<li>申请&#x2F;测试VPN账号并验证连通性（从测试环境、预生产&#x2F;生产环境均需验证）。</li>
+<li>保存VPN配置模板（包含加密算法&#x2F;密钥长度&#x2F;隧道拓扑）并由安全方审查。</li>
+</ul>
+</li>
+<li><p><strong>网络测试点</strong></p>
+<ul>
+<li>连通性测试（ping、traceroute、端到端TCP握手）、带宽&#x2F;延迟&#x2F;丢包测试（用于评估大批量上报时是否满足需求）。</li>
+<li>性能基线记录（测试时保存日志用于后续排障）。</li>
+</ul>
+</li>
+</ol>
+<p>验收标准：从测试环境到人行测试网的VPN&#x2F;专线在联调窗口内稳定连续运行 24-72 小时、并通过网络团队验收。</p>
+<h1 id="六、证书、加密、签名与密钥管理"><a href="#六、证书、加密、签名与密钥管理" class="headerlink" title="六、证书、加密、签名与密钥管理"></a>六、证书、加密、签名与密钥管理</h1><p>目标：满足报送方的身份校验、消息完整性、不可否认性等要求。</p>
+<p>要点（交付）：</p>
+<ol>
+<li><p><strong>证书类型清单</strong>（交付）</p>
+<ul>
+<li>服务器端 TLS 证书（用于双向 TLS 时双方互认证明）。</li>
+<li>客户端证书（用于接口方验证调用方身份）。</li>
+<li>报文签名证书（如果报文需做签名&#x2F;验签）。</li>
+<li>报文加密证书（如果需加密传输层外的报文）。</li>
+</ul>
+</li>
+<li><p><strong>证书申请与替换流程</strong>（交付）</p>
+<ul>
+<li>提交 CSR、获取测试证书、验证、获取生产证书、切换流程与回退计划。</li>
+<li>证书有效期管理（到期前 X 天提醒）、备份私钥的安全存储规范（如 HSM）。</li>
+</ul>
+</li>
+<li><p><strong>密钥管理与 HSM</strong></p>
+<ul>
+<li>是否必须使用 HSM（如果人行&#x2F;外汇局要求签名密钥驻留 HSM），如需要则厂商需说明支持情况并给出验收证据。</li>
+<li>私钥分级与操作审计（谁可以触及、操作日志）。</li>
+</ul>
+</li>
+<li><p><strong>报文签名&#x2F;验签实现细节</strong></p>
+<ul>
+<li>签名字段、签名算法、验签失败处理流程、重传策略。</li>
+<li>示例：用哪种摘要（SHA256）、是否使用 RSA&#x2F;ECC。<strong>（注：具体算法以人行接口规范为准）</strong></li>
+</ul>
+</li>
+</ol>
+<p>验收标准：测试环境能正确用测试证书完成握手、签名与验签；证书切换有回退方案并在预生产验证通过。</p>
+<h1 id="七、接口契约与数据准备（开发-x2F-测试准备）"><a href="#七、接口契约与数据准备（开发-x2F-测试准备）" class="headerlink" title="七、接口契约与数据准备（开发&#x2F;测试准备）"></a>七、接口契约与数据准备（开发&#x2F;测试准备）</h1><p>交付项与要点：</p>
+<ol>
+<li><p><strong>接口契约（必须）</strong></p>
+<ul>
+<li>报送文件&#x2F;消息格式（XML&#x2F;JSON&#x2F;固定宽度&#x2F;CSV）、字段说明、长度、编码（如 UTF-8 或 GBK）、必填与可选。</li>
+<li>传输协议（SFTP&#x2F;WebService&#x2F;HTTPS&#x2F;FTP）及交互方式（主动推送&#x2F;被动拉取&#x2F;双向交互）。</li>
+<li>消息响应示例、错误码说明、重试规则（比如 5 次、指数退避）与幂等要求（是否需幂等）。</li>
+</ul>
+</li>
+<li><p><strong>转换&#x2F;清洗规则表</strong>（交付）</p>
+<ul>
+<li>源字段-&gt;目标字段映射、数据类型转换、缺失值处理、默认值、枚举映射、业务规则（如境外交易口径）。</li>
+<li>对于平移项目，明确“平移后的字段值与现生产一致”的校验点。</li>
+</ul>
+</li>
+<li><p><strong>测试数据准备</strong></p>
+<ul>
+<li>构建代表性测试样本（正常、边界、异常、跨日、跨币种、大批量）并标注预期结果。</li>
+<li>敏感数据处理：生产脱敏、测试数据合规（不能使用真实持卡人敏感信息）。</li>
+</ul>
+</li>
+<li><p><strong>接口模拟&#x2F;回放工具</strong></p>
+<ul>
+<li>若人行提供模拟端口&#x2F;沙箱，配置并验证。若无，准备本地 Mock 服务或利用厂商工具回放历史报文进行联调。</li>
+</ul>
+</li>
+</ol>
+<p>验收标准：接口契约被人行&#x2F;省分行确认，测试样本被双方用作联调并记录预期&#x2F;实际对比。</p>
+<h1 id="八、开发-x2F-测试-x2F-生产资源准备（包含信创特殊注意点）"><a href="#八、开发-x2F-测试-x2F-生产资源准备（包含信创特殊注意点）" class="headerlink" title="八、开发&#x2F;测试&#x2F;生产资源准备（包含信创特殊注意点）"></a>八、开发&#x2F;测试&#x2F;生产资源准备（包含信创特殊注意点）</h1><p>交付与要点：</p>
+<ol>
+<li><p><strong>环境准备清单</strong>（交付）</p>
+<ul>
+<li>开发环境：可以复现生产问题的能力（同样的中间件版本、同样的 DB schema）。</li>
+<li>测试环境（联调环境）：网络可达性已验证、证书已部署、测试账号可用。</li>
+<li>预生产&#x2F;准生产：尽量与生产一致的配置和数据规模（用于性能&#x2F;并发&#x2F;批量验证）。</li>
+<li>生产：上线部署计划、切换时间窗、回退计划。</li>
+</ul>
+</li>
+<li><p><strong>信创平移关注点</strong></p>
+<ul>
+<li>平台&#x2F;中间件&#x2F;数据库在信创（国产软硬件）上的兼容性：确认厂商已在目标平台上完成安装验证，并提供兼容性测试报告（驱动、中间件性能、字符集、加密库可用性）。</li>
+<li>第三方依赖（如果有）在信创平台的替代&#x2F;兼容方案。</li>
+</ul>
+</li>
+<li><p><strong>接入测试账户与权限</strong></p>
+<ul>
+<li>安排测试账号（数据库只读&#x2F;写入权限按需分配）、操作账号、审计账号。</li>
+<li>按 Least Privilege 原则配置，并记录权限分配表。</li>
+</ul>
+</li>
+<li><p><strong>监控&#x2F;日志&#x2F;回溯能力</strong></p>
+<ul>
+<li>建议至少准备：传输日志、签名&#x2F;验签日志、失败重试日志、对账文件。并确保能按报送批次回溯。</li>
+</ul>
+</li>
+</ol>
+<p>验收标准：三个环境（测试&#x2F;预产&#x2F;产）按清单准备完毕并能被厂商用于联调。</p>
+<h1 id="九、联调测试计划（阶段化、用例、验收）"><a href="#九、联调测试计划（阶段化、用例、验收）" class="headerlink" title="九、联调测试计划（阶段化、用例、验收）"></a>九、联调测试计划（阶段化、用例、验收）</h1><p>阶段与内容（交付：联调&#x2F;测试计划、测试用例表、问题登记表）：</p>
+<ol>
+<li><p><strong>阶段 0 — 人行接口信息&#x2F;契约确认</strong>（准备期）</p>
+<ul>
+<li>输出：接口契约、网络配置单、证书申请清单。</li>
+</ul>
+</li>
+<li><p><strong>阶段 1 — 单元&#x2F;系统内部测试（厂商完成）</strong></p>
+<ul>
+<li>用例：字段级映射校验、签名&#x2F;验签、加密&#x2F;解密、异常场景。</li>
+<li>输出：测试报告与问题清单。</li>
+</ul>
+</li>
+<li><p><strong>阶段 2 — 联调（对接人行测试环境）</strong></p>
+<ul>
+<li>用例：正常批量报送、重试机制、并发发送、签名失败、网络异常模拟、断点续传、对账失败场景。</li>
+<li>需做对账验证：人行返回结果与本地报文对账一致。</li>
+<li>输出：联调通过记录（含截图&#x2F;日志）、未通过问题列表与修复回归记录。</li>
+</ul>
+</li>
+<li><p><strong>阶段 3 — 回归与压力测试（预生产）</strong></p>
+<ul>
+<li>用例：大批量报送（峰值模拟）、并发、稳定性（长时间运行）、端到端延迟统计。</li>
+<li>输出：性能基线报告、容量规划建议。</li>
+</ul>
+</li>
+<li><p><strong>阶段 4 — 上线验收（生产）</strong></p>
+<ul>
+<li>条件：联调通过 + 生产证书与账号准备好 + 生产网络已验证。</li>
+<li>验收场景：首日小批量试运行并关闭回归窗口，观察 24-72 小时。</li>
+<li>输出：验收确认单。</li>
+</ul>
+</li>
+</ol>
+<p>验收标准（示例）：</p>
+<ul>
+<li>功能：100% 必填字段在报送端无缺失；签名、验签通过。</li>
+<li>稳定性：连续 72 小时内报送成功率 ≥ 99.9%（或按双方约定）。</li>
+<li>对账：报送记录与人行回执对账 100% 一致或差错处理流程被验证。</li>
+</ul>
+<h1 id="十、对账与校验（重点）"><a href="#十、对账与校验（重点）" class="headerlink" title="十、对账与校验（重点）"></a>十、对账与校验（重点）</h1><ol>
+<li><strong>对账点</strong>：每批次报文的批号&#x2F;时间戳&#x2F;记录数&#x2F;总金额等关键字段必须与人行回执一致。</li>
+<li><strong>异常处理流程</strong>：当对账失败（记录数不符、金额不符、验签失败等）时的责任方、人工介入流程、补报或撤销流程。</li>
+<li><strong>对账自动化</strong>：交付一个对账脚本或模块，能自动抓取回执、比对、生成差异报告并触发告警。</li>
+</ol>
+<p>验收标准：对账脚本在联调阶段能正确发现并分类差异，并能触发相应处理（自动&#x2F;人工）。</p>
+<h1 id="十一、运营与应急（上线前必须制定）"><a href="#十一、运营与应急（上线前必须制定）" class="headerlink" title="十一、运营与应急（上线前必须制定）"></a>十一、运营与应急（上线前必须制定）</h1><p>交付项：</p>
+<ol>
+<li><p><strong>监控项清单</strong>（交付）</p>
+<ul>
+<li>报送成功率、平均延时、失败告警、VPN&#x2F;链路状态、证书到期提醒。</li>
+</ul>
+</li>
+<li><p><strong>联系人与支持矩阵</strong>（交付）</p>
+<ul>
+<li>行内：网络、安全、业务、DBA、运维。外部：人行&#x2F;省分行联络人、厂商支持。含电话&#x2F;邮件&#x2F;工单渠道与响应时间。</li>
+</ul>
+</li>
+<li><p><strong>应急演练脚本</strong>（交付）</p>
+<ul>
+<li>模拟网络中断、证书失效、对账不一致、报文被退回的处理流程并演练一次。</li>
+</ul>
+</li>
+<li><p><strong>SLA 与故障上报流程</strong>（交付）</p>
+<ul>
+<li>定义故障级别、响应时间与升级链路。</li>
+</ul>
+</li>
+</ol>
+<h1 id="十二、常见风险与缓解（给你做决策参考）"><a href="#十二、常见风险与缓解（给你做决策参考）" class="headerlink" title="十二、常见风险与缓解（给你做决策参考）"></a>十二、常见风险与缓解（给你做决策参考）</h1><ol>
+<li>网络不可达或延迟导致报送超时 —— 方案：备用链路、重试策略、分批上报。</li>
+<li>证书&#x2F;密钥到期或部署错误 —— 方案：证书到期提醒、预生产切换验证、HSM 备份。</li>
+<li>信创平台不兼容第三方组件 —— 方案：预先兼容性清单、厂商提供兼容测试报告、必要时替换组件。</li>
+<li>对账差异大（字段映射错误） —— 方案：加强源数据抽取与转换校验、生成逐字段对比报告。</li>
+<li>人行接口变更&#x2F;版本不一致 —— 方案：在联调阶段锁定接口版本，建立变更通知机制与补丁计划。</li>
+</ol>
+<h1 id="十三、责任分工（建议格式）"><a href="#十三、责任分工（建议格式）" class="headerlink" title="十三、责任分工（建议格式）"></a>十三、责任分工（建议格式）</h1><ul>
+<li><strong>你（技术项目经理）</strong>：协调人行申请、排期、对内对外沟通、验收推动、变更控制（非功能变更）。</li>
+<li><strong>厂商（交付）</strong>：完成平移部署、兼容性验证、接口实现、联调问题修复、提供测试报告与上线支持。</li>
+<li><strong>行内网络团队</strong>：配置防火墙、路由、VPN、IP白名单；做连通性测试。</li>
+<li><strong>行内安全合规</strong>：审查证书管理、密钥存储、是否需要 HSM、定期扫描。</li>
+<li><strong>业务&#x2F;对账</strong>：确认字段映射、对账规则、验收业务结果。</li>
+</ul>
+<h1 id="十四、项目推进样板时间线（示例，按现实情况调整）"><a href="#十四、项目推进样板时间线（示例，按现实情况调整）" class="headerlink" title="十四、项目推进样板时间线（示例，按现实情况调整）"></a>十四、项目推进样板时间线（示例，按现实情况调整）</h1><ul>
+<li>周 0–1：准备材料与系统关联图、提交接入申请给人行总行&#x2F;省分行。</li>
+<li>周 2–3：获取测试网络&#x2F;证书，厂商完成内部系统测试。</li>
+<li>周 4–6：联调阶段（与人行测试环境联调），修复问题并回归。</li>
+<li>周 7：性能&#x2F;回归测试（预生产）。</li>
+<li>周 8：申请生产证书、上生产网络白名单。</li>
+<li>周 9：生产试运行并验收。</li>
+</ul>
+<p>（注：具体天数视人行审批与联调窗口而变；提前提交材料可压缩总体周期。）</p>
+<h1 id="十五、你现在可以立刻推动的动作清单（优先级）"><a href="#十五、你现在可以立刻推动的动作清单（优先级）" class="headerlink" title="十五、你现在可以立刻推动的动作清单（优先级）"></a>十五、你现在可以立刻推动的动作清单（优先级）</h1><ol>
+<li>让厂商出具<strong>信创兼容性报告</strong>与生产&#x2F;预生产部署文档。</li>
+<li>输出并内部评审<strong>系统关联图</strong>与<strong>数据映射表</strong>（这是后续一切验证的基础）。</li>
+<li>整理并提交<strong>人行接入申请材料</strong>（申请网络、测试账号、证书），并列出联络清单。</li>
+<li>与行内网络&#x2F;安全约定好<strong>申请所需的网络信息项</strong>（测试 IP、出口 IP、联系人），准备待人行回填。</li>
+<li>与厂商一起制作代表性<strong>测试样本</strong>（含异常样例）并保存为联调包。</li>
+</ol>
+<h1 id="十六、验收清单（快速核对表）"><a href="#十六、验收清单（快速核对表）" class="headerlink" title="十六、验收清单（快速核对表）"></a>十六、验收清单（快速核对表）</h1><ul>
+<li><input disabled type="checkbox"> 人行&#x2F;省分行接入审批文件到位。</li>
+<li><input disabled type="checkbox"> 测试与生产证书&#x2F;账号准备并验证。</li>
+<li><input disabled type="checkbox"> VPN&#x2F;专线连通并通过压力&#x2F;丢包&#x2F;延时测试。</li>
+<li><input disabled type="checkbox"> 接口契约与测试用例被双方确认。</li>
+<li><input disabled type="checkbox"> 联调通过记录（含回执对账）并有问题关闭证明。</li>
+<li><input disabled type="checkbox"> 生产试运行 24-72 小时稳定（或按双方约定）。</li>
+<li><input disabled type="checkbox"> 运营手册、联系人名单、应急脚本到位并进行演练。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/step/" rel="tag"><i class="fa fa-tag"></i> step</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/09/25/launchd%E2%80%94%E2%80%94macOS%E8%87%AA%E5%8A%A8%E8%B0%83%E5%BA%A6%E7%A5%9E%E5%99%A8/" rel="next" title="launchd——macOS自动调度神器">
+                <i class="fa fa-chevron-left"></i> launchd——macOS自动调度神器
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">153</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%80%BB%E4%BD%93%E8%AF%B4%E6%98%8E%EF%BC%88%E8%83%8C%E6%99%AF%E4%B8%8E%E5%8E%9F%E5%88%99%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">一、总体说明（背景与原则）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BA%A4%E4%BB%98%E7%89%A9%E6%80%BB%E8%A7%88%EF%BC%88%E9%AB%98%E5%B1%82%E6%B8%85%E5%8D%95%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">二、交付物总览（高层清单）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%B3%BB%E7%BB%9F%E5%85%B3%E8%81%94%E6%A2%B3%E7%90%86%EF%BC%88%E5%BF%85%E9%A1%BB%E4%BA%A7%E5%87%BA%E7%9A%84%E5%9B%BE%E4%B8%8E%E5%86%85%E5%AE%B9%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">三、系统关联梳理（必须产出的图与内容）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%AF%B9%E5%A4%96%EF%BC%88%E4%BA%BA%E8%A1%8C-x2F-%E7%9C%81%E5%88%86%E8%A1%8C-x2F-%E5%A4%96%E6%B1%87%E5%B1%80%EF%BC%89%E7%94%B3%E8%AF%B7%E4%B8%8E%E6%B5%81%E7%A8%8B%EF%BC%88%E8%A6%81%E5%81%9A%E7%9A%84%E4%BA%8B%EF%BC%89"><span class="nav-number">4.</span> <span class="nav-text">四、对外（人行 &#x2F; 省分行 &#x2F; 外汇局）申请与流程（要做的事）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E7%BD%91%E7%BB%9C%E6%8E%A5%E5%85%A5%E4%B8%8EVPN%EF%BC%88%E6%8A%80%E6%9C%AF%E7%BB%86%E5%8C%96%EF%BC%89"><span class="nav-number">5.</span> <span class="nav-text">五、网络接入与VPN（技术细化）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E8%AF%81%E4%B9%A6%E3%80%81%E5%8A%A0%E5%AF%86%E3%80%81%E7%AD%BE%E5%90%8D%E4%B8%8E%E5%AF%86%E9%92%A5%E7%AE%A1%E7%90%86"><span class="nav-number">6.</span> <span class="nav-text">六、证书、加密、签名与密钥管理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E6%8E%A5%E5%8F%A3%E5%A5%91%E7%BA%A6%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87%EF%BC%88%E5%BC%80%E5%8F%91-x2F-%E6%B5%8B%E8%AF%95%E5%87%86%E5%A4%87%EF%BC%89"><span class="nav-number">7.</span> <span class="nav-text">七、接口契约与数据准备（开发&#x2F;测试准备）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%BC%80%E5%8F%91-x2F-%E6%B5%8B%E8%AF%95-x2F-%E7%94%9F%E4%BA%A7%E8%B5%84%E6%BA%90%E5%87%86%E5%A4%87%EF%BC%88%E5%8C%85%E5%90%AB%E4%BF%A1%E5%88%9B%E7%89%B9%E6%AE%8A%E6%B3%A8%E6%84%8F%E7%82%B9%EF%BC%89"><span class="nav-number">8.</span> <span class="nav-text">八、开发&#x2F;测试&#x2F;生产资源准备（包含信创特殊注意点）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E8%81%94%E8%B0%83%E6%B5%8B%E8%AF%95%E8%AE%A1%E5%88%92%EF%BC%88%E9%98%B6%E6%AE%B5%E5%8C%96%E3%80%81%E7%94%A8%E4%BE%8B%E3%80%81%E9%AA%8C%E6%94%B6%EF%BC%89"><span class="nav-number">9.</span> <span class="nav-text">九、联调测试计划（阶段化、用例、验收）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E3%80%81%E5%AF%B9%E8%B4%A6%E4%B8%8E%E6%A0%A1%E9%AA%8C%EF%BC%88%E9%87%8D%E7%82%B9%EF%BC%89"><span class="nav-number">10.</span> <span class="nav-text">十、对账与校验（重点）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%B8%80%E3%80%81%E8%BF%90%E8%90%A5%E4%B8%8E%E5%BA%94%E6%80%A5%EF%BC%88%E4%B8%8A%E7%BA%BF%E5%89%8D%E5%BF%85%E9%A1%BB%E5%88%B6%E5%AE%9A%EF%BC%89"><span class="nav-number">11.</span> <span class="nav-text">十一、运营与应急（上线前必须制定）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%BA%8C%E3%80%81%E5%B8%B8%E8%A7%81%E9%A3%8E%E9%99%A9%E4%B8%8E%E7%BC%93%E8%A7%A3%EF%BC%88%E7%BB%99%E4%BD%A0%E5%81%9A%E5%86%B3%E7%AD%96%E5%8F%82%E8%80%83%EF%BC%89"><span class="nav-number">12.</span> <span class="nav-text">十二、常见风险与缓解（给你做决策参考）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%B8%89%E3%80%81%E8%B4%A3%E4%BB%BB%E5%88%86%E5%B7%A5%EF%BC%88%E5%BB%BA%E8%AE%AE%E6%A0%BC%E5%BC%8F%EF%BC%89"><span class="nav-number">13.</span> <span class="nav-text">十三、责任分工（建议格式）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E5%9B%9B%E3%80%81%E9%A1%B9%E7%9B%AE%E6%8E%A8%E8%BF%9B%E6%A0%B7%E6%9D%BF%E6%97%B6%E9%97%B4%E7%BA%BF%EF%BC%88%E7%A4%BA%E4%BE%8B%EF%BC%8C%E6%8C%89%E7%8E%B0%E5%AE%9E%E6%83%85%E5%86%B5%E8%B0%83%E6%95%B4%EF%BC%89"><span class="nav-number">14.</span> <span class="nav-text">十四、项目推进样板时间线（示例，按现实情况调整）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E4%BA%94%E3%80%81%E4%BD%A0%E7%8E%B0%E5%9C%A8%E5%8F%AF%E4%BB%A5%E7%AB%8B%E5%88%BB%E6%8E%A8%E5%8A%A8%E7%9A%84%E5%8A%A8%E4%BD%9C%E6%B8%85%E5%8D%95%EF%BC%88%E4%BC%98%E5%85%88%E7%BA%A7%EF%BC%89"><span class="nav-number">15.</span> <span class="nav-text">十五、你现在可以立刻推动的动作清单（优先级）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%81%E5%85%AD%E3%80%81%E9%AA%8C%E6%94%B6%E6%B8%85%E5%8D%95%EF%BC%88%E5%BF%AB%E9%80%9F%E6%A0%B8%E5%AF%B9%E8%A1%A8%EF%BC%89"><span class="nav-number">16.</span> <span class="nav-text">十六、验收清单（快速核对表）</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2025</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>
