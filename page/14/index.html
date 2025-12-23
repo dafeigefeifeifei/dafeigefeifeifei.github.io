@@ -360,6 +360,229 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/29/Note-for-Computer-Network-6/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/07/29/Note-for-Computer-Network-6/" class="post-title-link" itemprop="url">Note for Computer Network 6</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-07-29 19:53:27" itemprop="dateCreated datePublished" datetime="2018-07-29T19:53:27+08:00">2018-07-29</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="路由器、ADSL、FTTH"><a href="#路由器、ADSL、FTTH" class="headerlink" title="路由器、ADSL、FTTH"></a>路由器、ADSL、FTTH</h1><p>副标题：阅读《网络是怎么连接的（户根勤）》读书笔记6</p>
+<h2 id="路由器基础知识"><a href="#路由器基础知识" class="headerlink" title="路由器基础知识"></a>路由器基础知识</h2><ul>
+<li>路由器分为<code>转发模块</code>和<code>端口模块</code>两部分</li>
+<li><code>转发模块</code>负责，判断包的转发目的地</li>
+<li><code>端口模块</code>负责，进行包的收发操作</li>
+<li>如果路由器的端口模块安装了支持无线局域网的硬件，就可以支持无线局域网了</li>
+</ul>
+<h2 id="路由器基本原理"><a href="#路由器基本原理" class="headerlink" title="路由器基本原理"></a>路由器基本原理</h2><ol>
+<li>接收。路由器在转发包时，会通过端口将发过来的包接收进来，采取以太网规范或者无线局域网规范来接收</li>
+<li>查找目标地址。转发模块根据收到的包的IP头部中记录的接收方IP地址，在路由表中进行查询，以此判断转发目标</li>
+<li>转发模块将包转移到转发目标对应的端口，再按照硬件的规则（委托端口模块）将包发送出去</li>
+<li>注：端口模块会根据相应通信技术的规范来执行包收发的操作，意味着端口模块具备了发送方或接收方的身份。以以太网端口为例，端口具有MAC地址、IP地址，此时可以理解为实现了<strong>网卡</strong>的功能</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th align="center">目标地址</th>
+<th align="center">子网掩码</th>
+<th align="center">网关</th>
+<th align="center">接口</th>
+<th align="center">跃点数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">10.10.1.0</td>
+<td align="center">255.255.255.0</td>
+<td align="center">-</td>
+<td align="center">e2</td>
+<td align="center">1</td>
+</tr>
+<tr>
+<td align="center">10.10.1.101</td>
+<td align="center">255.255.255.255</td>
+<td align="center">-</td>
+<td align="center">e2</td>
+<td align="center">1</td>
+</tr>
+</tbody></table>
+          <!--noindex-->
+          
+            <div class="post-button text-center">
+              <a class="btn" href="/2018/07/29/Note-for-Computer-Network-6/" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/14/Note-for-Computer-Network-5/"/>
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2230,202 +2453,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/29/notes-for-statistical-learning-1/"/>
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
-      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="To the moon"/>
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/05/29/notes-for-statistical-learning-1/" class="post-title-link" itemprop="url">notes for statistical learning 1</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-05-29 11:08:25" itemprop="dateCreated datePublished" datetime="2018-05-29T11:08:25+08:00">2018-05-29</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2023-05-09 00:33:08" itemprop="dateModified" datetime="2023-05-09T00:33:08+08:00">2023-05-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/notes/" itemprop="url" rel="index"><span itemprop="name">notes</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="统计学习方法入门学习笔记1"><a href="#统计学习方法入门学习笔记1" class="headerlink" title="统计学习方法入门学习笔记1"></a>统计学习方法入门学习笔记1</h1><h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
-<li>统计学习：即统计机器学习，目的是对数据进行预测和分析；以方法为中心，统计学习方法1.构建模型2.应用模型进行预测和分析；系统通过数据及统计方法提高系统性能的机器学习，即是统计学习。</li>
-<li>统计学习的前提：同类数据具有一定的统计规律性。</li>
-<li>统计学习三要素：模型，策略（模型选择的准则），算法（求解最优模型的方法）。</li>
-<li>监督学习：从training data出发，由算法实现最优模型的选取，使它对training data和test data在给定评价准则下有最优的预测（假设两种 data独立同分布）。学习一个由输入到输出的映射，这一映射由模型来表示。换句话说，学习的目的就在于找到最好的这样的模型。<strong>由人工给出训练集，所以是监督学习</strong>。</li>
-<li>模型f(X)：属于由输入空间到输出空间的<strong>映射的集合</strong>，此集合就是假设空间。模型一般由P(Y|X)或Y&#x3D;f(X)表示，前者是条件概率分布，后者是决策函数。<blockquote>
-<p>决策函数：非概率模型,类似y&#x3D;f(x)即Label&#x3D;f（Features），</p>
-</blockquote>
-  <figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">def classify(<span class="built_in">features</span>):</span><br><span class="line"># <span class="keyword">do</span> <span class="built_in">some</span> logic</span><br><span class="line">	<span class="built_in">return</span> <span class="built_in">label</span></span><br></pre></td></tr></table></figure></li>
-<li>假设空间：假设‘要学习的模型属于某个函数’的集合，是<strong>理论上所有可能属性值构成的集合空间</strong>，一般有无穷多个。</li>
-</ul>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/05/29/notes-for-statistical-learning-1/" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-<!--以下为新增 -->
-<div>
-  
-</div>
-
-<!--以上为新增 -->
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2473,7 +2500,7 @@
                 
                   <a href="/archives/%20%7C%7C%20archive">
                 
-                    <span class="site-state-item-count">153</span>
+                    <span class="site-state-item-count">154</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
