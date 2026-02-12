@@ -19173,7 +19173,8 @@ image: flask-service:latest
 <h3 id="修改配置，重新执行配置服务"><a href="#修改配置，重新执行配置服务" class="headerlink" title="修改配置，重新执行配置服务"></a>修改配置，重新执行配置服务</h3><p>   <code> vi /etc/vsftpd/vsftpd.conf</code><br>修改：anonymous_enable&#x3D;NO</p>
 <figure class="highlight nsis"><table><tr><td class="code"><pre><span class="line"><span class="params">system</span>ctl start vsftpd</span><br><span class="line"><span class="params">system</span>ctl enable vsftpd</span><br></pre></td></tr></table></figure>
 
-<h3 id="使用客户端验证："><a href="#使用客户端验证：" class="headerlink" title="使用客户端验证："></a>使用客户端验证：</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">lftp -u szftp,XXX localhost</span><br><span class="line"><span class="built_in">ls</span></span><br></pre></td></tr></table></figure>]]></content>
+<h3 id="使用客户端验证："><a href="#使用客户端验证：" class="headerlink" title="使用客户端验证："></a>使用客户端验证：</h3><figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">lftp -u szftp,XXX localhost</span><br><span class="line">ls</span><br><span class="line"></span><br><span class="line"><span class="comment"># 不使用客户端，仅使用curl验证</span></span><br><span class="line">测试连接和列目录：</span><br><span class="line">curl -u xxx:你的密码 ftp:<span class="regexp">//</span>你的服务器IP/</span><br><span class="line"></span><br><span class="line">下载文件：</span><br><span class="line">curl -u xxx:你的密码 -O ftp:<span class="regexp">//</span>你的服务器IP/某个文件</span><br><span class="line"></span><br><span class="line">上传文件：</span><br><span class="line">curl -u xxx:你的密码 -T 本地测试文件 ftp:<span class="regexp">//</span>你的服务器IP/</span><br></pre></td></tr></table></figure>
+]]></content>
       <categories>
         <category>Operation</category>
       </categories>
@@ -19850,6 +19851,72 @@ image: flask-service:latest
       </categories>
       <tags>
         <tag>shell</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>openclaw 个人部署踩坑记录</title>
+    <url>/2026/02/12/openclaw-%E4%B8%AA%E4%BA%BA%E9%83%A8%E7%BD%B2%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/</url>
+    <content><![CDATA[<h1 id="在linux服务器上部署openclaw-zh汉化版"><a href="#在linux服务器上部署openclaw-zh汉化版" class="headerlink" title="在linux服务器上部署openclaw-zh汉化版"></a>在linux服务器上部署openclaw-zh汉化版</h1><p>有以下前置条件：</p>
+<ol>
+<li>linux上已有docker，所以我将按照docker的方式部署openclaw</li>
+<li>飞书上已创建个人应用，链接：<a href="https://www.feishu.cn/content/article/7602519239445974205">飞书对接指南</a></li>
+<li>使用美团的longcat作为模型，链接： <a href="https://longcat.chat/platform/docs/zh/OpenClaw.html">OpenClaw 配置</a></li>
+</ol>
+<span id="more"></span>
+
+<h2 id="部署openclaw的完整必要步骤"><a href="#部署openclaw的完整必要步骤" class="headerlink" title="部署openclaw的完整必要步骤"></a>部署openclaw的完整必要步骤</h2><p>OpenClaw（原 Clawdbot&#x2F;Moltbot）是一个强大的开源个人 AI Agent 平台，支持接入 Claude&#x2F;ChatGPT 等大模型、多平台聊天机器人（如 Telegram&#x2F;WhatsApp），汉化版（openclaw-zh）界面全中文，更适合国内用户。</p>
+<p>我在服务器（华为云 ECS，amd64 架构）上部署时，踩了无数坑：  </p>
+<ul>
+<li>镜像架构不匹配导致 exec format error  </li>
+<li>配置未生效，gateway 闪退（Missing config &#x2F; no token）  </li>
+<li>远程访问 disconnected (1008) 安全上下文错误  </li>
+<li>端口冲突、防火墙、安全组、bind 配置遗漏  </li>
+<li>volume 挂载路径写错导致数据丢失或不生效</li>
+</ul>
+<p>最终成功方案如下（已亲测稳定运行）。全文命令均基于 Docker + bind mount 宿主机目录方式（<code>/root/lee/openclaw/.openclaw</code>），避免 named volume 迁移麻烦。</p>
+<h3 id="完整部署脚本（复制粘贴即可）"><a href="#完整部署脚本（复制粘贴即可）" class="headerlink" title="完整部署脚本（复制粘贴即可）"></a>完整部署脚本（复制粘贴即可）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># OpenClaw-zh Docker 部署脚本（bind mount 方式，2026 年版）</span></span><br><span class="line"><span class="comment"># 作者：你的名字/博客链接</span></span><br><span class="line"><span class="comment"># 使用前：确保 Docker 已安装，服务器有公网 IP，端口 13004 已开放安全组/防火墙</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -e  <span class="comment"># 遇到错误立即退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 0. 前置检查 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 0. 前置检查 ===&quot;</span></span><br><span class="line"><span class="keyword">if</span> ! <span class="built_in">command</span> -v docker &amp;&gt; /dev/null; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;错误：Docker 未安装！请先安装 Docker。&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查镜像是否已拉取（可选加速器已配置）</span></span><br><span class="line">docker images | grep 1186258278/openclaw-zh || &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;拉取镜像（强制 amd64 平台）...&quot;</span></span><br><span class="line">    docker pull --platform linux/amd64 1186258278/openclaw-zh:latest</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 1. 准备宿主机目录 ====================</span></span><br><span class="line">HOST_DIR=<span class="string">&quot;/root/lee/openclaw/.openclaw&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 1. 创建并授权宿主机目录 ===&quot;</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span></span><br><span class="line"><span class="built_in">chmod</span> 700 <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>          <span class="comment"># 严格权限，防止泄露 token/配置</span></span><br><span class="line"><span class="built_in">chown</span> root:root <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>    <span class="comment"># 确保 root 拥有（容器内以 root 运行）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 2. 清理旧容器（避免名字冲突） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 2. 清理旧 openclaw 容器 ===&quot;</span></span><br><span class="line">docker stop openclaw 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">docker <span class="built_in">rm</span> openclaw 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 3. 首次初始化 setup（必须） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 3. 执行 openclaw setup（交互式，耐心等待） ===&quot;</span></span><br><span class="line">docker run -it --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  --platform linux/amd64 \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw setup</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 4. 核心配置（顺序重要！） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 4. 设置必要配置 ===&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gateway.mode 必须为 local（否则闪退）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.mode <span class="built_in">local</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 允许远程访问（默认 loopback 只本地）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.bind lan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决 HTTP disconnected (1008) 错误（允许不安全认证，token-only）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.controlUi.allowInsecureAuth <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动修复常见问题 + 生成 token（强烈推荐！）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;运行 doctor --fix 生成 token（输出中会显示 token，请复制保存）&quot;</span></span><br><span class="line">docker run -it --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw doctor --fix</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 token（备用）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;查看当前 gateway token（用于访问 URL）:&quot;</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config get gateway.auth.token</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 5. 正式启动 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 5. 启动 OpenClaw gateway ===&quot;</span></span><br><span class="line">docker run -d \</span><br><span class="line">  --name openclaw \</span><br><span class="line">  --restart unless-stopped \</span><br><span class="line">  --platform linux/amd64 \</span><br><span class="line">  -p 13004:18789 \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw gateway run</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 6. 验证 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 6. 验证运行状态 ===&quot;</span></span><br><span class="line"><span class="built_in">sleep</span> 5  <span class="comment"># 等待启动</span></span><br><span class="line">docker ps | grep openclaw || &#123; <span class="built_in">echo</span> <span class="string">&quot;容器未运行！请检查 docker logs openclaw&quot;</span>; <span class="built_in">exit</span> 1; &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;查看日志（按 Ctrl+C 退出）：&quot;</span></span><br><span class="line">docker logs -f openclaw</span><br></pre></td></tr></table></figure>
+
+<h3 id="常见踩坑-amp-注意事项（博客核心内容）"><a href="#常见踩坑-amp-注意事项（博客核心内容）" class="headerlink" title="常见踩坑 &amp; 注意事项（博客核心内容）"></a>常见踩坑 &amp; 注意事项（博客核心内容）</h3><ol>
+<li><p><strong>镜像架构必须匹配</strong><br>服务器 amd64，但 nightly&#x2F;latest 版有时默认拉 arm64 → <code>exec format error</code>。<br>解决：始终加 <code>--platform linux/amd64</code>。</p>
+</li>
+<li><p><strong>volume 挂载路径写错最致命</strong><br>错误示例：<code>-v ~/.openclaw:...</code> 或多挂载 → 配置不生效、数据丢失。<br>正确：用绝对路径 <code>/root/xxx/...:/root/.openclaw</code>，且只挂载一个。</p>
+</li>
+<li><p><strong>gateway.mode 未设 local → 闪退</strong><br>日志：Missing config…<br>必须先 setup，再 set local。</p>
+</li>
+<li><p><strong>token 配置缺失 → Gateway auth error</strong><br>默认 token 模式但无值 → 启动失败。<br>用 <code>doctor --fix</code> 自动生成，或手动 <code>config set gateway.auth.token &quot;xxx&quot;</code>。</p>
+</li>
+<li><p><strong>远程访问 disconnected (1008)</strong><br>浏览器安全上下文要求 HTTPS 或 localhost。<br>解决：  </p>
+<ul>
+<li><code>gateway.controlUi.allowInsecureAuth true</code>（token-only，适合内网&#x2F;测试）  </li>
+<li>公网强烈推荐 Tailscale Serve &#x2F; Nginx + HTTPS 反代（更安全）  </li>
+<li>访问时必须带 token：<code>http://IP:13004/?token=你的token</code></li>
+</ul>
+</li>
+<li><p><strong>端口&#x2F;防火墙&#x2F;安全组</strong>  </p>
+<ul>
+<li>服务器本地：<code>ss -tuln | grep 13004</code> 看到监听  </li>
+<li>云控制台安全组 + firewalld&#x2F;ufw 必须放行 13004&#x2F;tcp  </li>
+<li>否则 curl&#x2F;telnet 超时，浏览器 Connection refused。</li>
+</ul>
+</li>
+<li><p><strong>其他高频坑</strong>  </p>
+<ul>
+<li>首次 dashboard 需 pairing：日志显示 request id，用 <code>openclaw pairing approve &lt;id&gt;</code> 批准（或用带 token 的 URL 自动）。  </li>
+<li>配置不生效？删目录重 init（备份先！）。  </li>
+<li>弱服务器：pull&#x2F;setup 阶段 CPU&#x2F;IO 高，耐心等，别 Ctrl+C 中断。  </li>
+<li>升级镜像：先 <code>docker pull</code> 新版，再重启容器（数据在宿主机目录，不丢）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="安全提醒"><a href="#安全提醒" class="headerlink" title="安全提醒"></a>安全提醒</h3><ul>
+<li>定期备份 <code>/root/lee/openclaw/.openclaw</code> 目录。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>ML</category>
+      </categories>
+      <tags>
+        <tag>chatGPT</tag>
       </tags>
   </entry>
 </search>

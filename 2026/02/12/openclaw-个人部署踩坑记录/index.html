@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2"/>
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.0"/>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Mist',
+    version: '7.0.0',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="在linux服务器上部署openclaw-zh汉化版有以下前置条件：  linux上已有docker，所以我将按照docker的方式部署openclaw 飞书上已创建个人应用，链接：飞书对接指南 使用美团的longcat作为模型，链接： OpenClaw 配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openclaw 个人部署踩坑记录">
+<meta property="og:url" content="http://yoursite.com/2026/02/12/openclaw-%E4%B8%AA%E4%BA%BA%E9%83%A8%E7%BD%B2%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="To the moon">
+<meta property="og:description" content="在linux服务器上部署openclaw-zh汉化版有以下前置条件：  linux上已有docker，所以我将按照docker的方式部署openclaw 飞书上已创建个人应用，链接：飞书对接指南 使用美团的longcat作为模型，链接： OpenClaw 配置">
+<meta property="og:locale">
+<meta property="article:published_time" content="2026-02-12T01:43:33.000Z">
+<meta property="article:modified_time" content="2026-02-12T01:58:11.571Z">
+<meta property="article:author" content="Harrison Lee &#x2F; Email (harrisonli60@163.com)">
+<meta property="article:tag" content="chatGPT">
+<meta name="twitter:card" content="summary">
+
+
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2026/02/12/openclaw-个人部署踩坑记录/"/>
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>openclaw 个人部署踩坑记录 | To the moon</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband">
+    
+<!-- 以下修改 -->
+    <a target="_blank" rel="noopener" href="https://github.com/dafeigefeifeifei"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub"></a>
+
+</div>
+<!-- 以上修改 -->
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">To the moon</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">A Coder,a Programmer,a Developer</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>Categories</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>Archives</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br/>Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2026/02/12/openclaw-%E4%B8%AA%E4%BA%BA%E9%83%A8%E7%BD%B2%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/"/>
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Harrison Lee / Email (harrisonli60@163.com)"/>
+      <meta itemprop="description" content="It is never too late to learn a new skill, even a challenging one."/>
+      <meta itemprop="image" content="/images/avatar.gif"/>
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="To the moon"/>
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">openclaw 个人部署踩坑记录
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2026-02-12 09:43:33 / Modified: 09:58:11" itemprop="dateCreated datePublished" datetime="2026-02-12T09:43:33+08:00">2026-02-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/ML/" itemprop="url" rel="index"><span itemprop="name">ML</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             Views:  
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="在linux服务器上部署openclaw-zh汉化版"><a href="#在linux服务器上部署openclaw-zh汉化版" class="headerlink" title="在linux服务器上部署openclaw-zh汉化版"></a>在linux服务器上部署openclaw-zh汉化版</h1><p>有以下前置条件：</p>
+<ol>
+<li>linux上已有docker，所以我将按照docker的方式部署openclaw</li>
+<li>飞书上已创建个人应用，链接：<a target="_blank" rel="noopener" href="https://www.feishu.cn/content/article/7602519239445974205">飞书对接指南</a></li>
+<li>使用美团的longcat作为模型，链接： <a target="_blank" rel="noopener" href="https://longcat.chat/platform/docs/zh/OpenClaw.html">OpenClaw 配置</a></li>
+</ol>
+<span id="more"></span>
+
+<h2 id="部署openclaw的完整必要步骤"><a href="#部署openclaw的完整必要步骤" class="headerlink" title="部署openclaw的完整必要步骤"></a>部署openclaw的完整必要步骤</h2><p>OpenClaw（原 Clawdbot&#x2F;Moltbot）是一个强大的开源个人 AI Agent 平台，支持接入 Claude&#x2F;ChatGPT 等大模型、多平台聊天机器人（如 Telegram&#x2F;WhatsApp），汉化版（openclaw-zh）界面全中文，更适合国内用户。</p>
+<p>我在服务器（华为云 ECS，amd64 架构）上部署时，踩了无数坑：  </p>
+<ul>
+<li>镜像架构不匹配导致 exec format error  </li>
+<li>配置未生效，gateway 闪退（Missing config &#x2F; no token）  </li>
+<li>远程访问 disconnected (1008) 安全上下文错误  </li>
+<li>端口冲突、防火墙、安全组、bind 配置遗漏  </li>
+<li>volume 挂载路径写错导致数据丢失或不生效</li>
+</ul>
+<p>最终成功方案如下（已亲测稳定运行）。全文命令均基于 Docker + bind mount 宿主机目录方式（<code>/root/lee/openclaw/.openclaw</code>），避免 named volume 迁移麻烦。</p>
+<h3 id="完整部署脚本（复制粘贴即可）"><a href="#完整部署脚本（复制粘贴即可）" class="headerlink" title="完整部署脚本（复制粘贴即可）"></a>完整部署脚本（复制粘贴即可）</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># OpenClaw-zh Docker 部署脚本（bind mount 方式，2026 年版）</span></span><br><span class="line"><span class="comment"># 作者：你的名字/博客链接</span></span><br><span class="line"><span class="comment"># 使用前：确保 Docker 已安装，服务器有公网 IP，端口 13004 已开放安全组/防火墙</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -e  <span class="comment"># 遇到错误立即退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 0. 前置检查 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 0. 前置检查 ===&quot;</span></span><br><span class="line"><span class="keyword">if</span> ! <span class="built_in">command</span> -v docker &amp;&gt; /dev/null; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;错误：Docker 未安装！请先安装 Docker。&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查镜像是否已拉取（可选加速器已配置）</span></span><br><span class="line">docker images | grep 1186258278/openclaw-zh || &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;拉取镜像（强制 amd64 平台）...&quot;</span></span><br><span class="line">    docker pull --platform linux/amd64 1186258278/openclaw-zh:latest</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 1. 准备宿主机目录 ====================</span></span><br><span class="line">HOST_DIR=<span class="string">&quot;/root/lee/openclaw/.openclaw&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 1. 创建并授权宿主机目录 ===&quot;</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span></span><br><span class="line"><span class="built_in">chmod</span> 700 <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>          <span class="comment"># 严格权限，防止泄露 token/配置</span></span><br><span class="line"><span class="built_in">chown</span> root:root <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>    <span class="comment"># 确保 root 拥有（容器内以 root 运行）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 2. 清理旧容器（避免名字冲突） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 2. 清理旧 openclaw 容器 ===&quot;</span></span><br><span class="line">docker stop openclaw 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">docker <span class="built_in">rm</span> openclaw 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 3. 首次初始化 setup（必须） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 3. 执行 openclaw setup（交互式，耐心等待） ===&quot;</span></span><br><span class="line">docker run -it --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  --platform linux/amd64 \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw setup</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 4. 核心配置（顺序重要！） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 4. 设置必要配置 ===&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gateway.mode 必须为 local（否则闪退）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.mode <span class="built_in">local</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 允许远程访问（默认 loopback 只本地）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.bind lan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决 HTTP disconnected (1008) 错误（允许不安全认证，token-only）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.controlUi.allowInsecureAuth <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动修复常见问题 + 生成 token（强烈推荐！）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;运行 doctor --fix 生成 token（输出中会显示 token，请复制保存）&quot;</span></span><br><span class="line">docker run -it --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw doctor --fix</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 token（备用）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;查看当前 gateway token（用于访问 URL）:&quot;</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config get gateway.auth.token</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 5. 正式启动 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 5. 启动 OpenClaw gateway ===&quot;</span></span><br><span class="line">docker run -d \</span><br><span class="line">  --name openclaw \</span><br><span class="line">  --restart unless-stopped \</span><br><span class="line">  --platform linux/amd64 \</span><br><span class="line">  -p 13004:18789 \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw gateway run</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 6. 验证 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 6. 验证运行状态 ===&quot;</span></span><br><span class="line"><span class="built_in">sleep</span> 5  <span class="comment"># 等待启动</span></span><br><span class="line">docker ps | grep openclaw || &#123; <span class="built_in">echo</span> <span class="string">&quot;容器未运行！请检查 docker logs openclaw&quot;</span>; <span class="built_in">exit</span> 1; &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;查看日志（按 Ctrl+C 退出）：&quot;</span></span><br><span class="line">docker logs -f openclaw</span><br></pre></td></tr></table></figure>
+
+<h3 id="常见踩坑-amp-注意事项（博客核心内容）"><a href="#常见踩坑-amp-注意事项（博客核心内容）" class="headerlink" title="常见踩坑 &amp; 注意事项（博客核心内容）"></a>常见踩坑 &amp; 注意事项（博客核心内容）</h3><ol>
+<li><p><strong>镜像架构必须匹配</strong><br>服务器 amd64，但 nightly&#x2F;latest 版有时默认拉 arm64 → <code>exec format error</code>。<br>解决：始终加 <code>--platform linux/amd64</code>。</p>
+</li>
+<li><p><strong>volume 挂载路径写错最致命</strong><br>错误示例：<code>-v ~/.openclaw:...</code> 或多挂载 → 配置不生效、数据丢失。<br>正确：用绝对路径 <code>/root/xxx/...:/root/.openclaw</code>，且只挂载一个。</p>
+</li>
+<li><p><strong>gateway.mode 未设 local → 闪退</strong><br>日志：Missing config…<br>必须先 setup，再 set local。</p>
+</li>
+<li><p><strong>token 配置缺失 → Gateway auth error</strong><br>默认 token 模式但无值 → 启动失败。<br>用 <code>doctor --fix</code> 自动生成，或手动 <code>config set gateway.auth.token &quot;xxx&quot;</code>。</p>
+</li>
+<li><p><strong>远程访问 disconnected (1008)</strong><br>浏览器安全上下文要求 HTTPS 或 localhost。<br>解决：  </p>
+<ul>
+<li><code>gateway.controlUi.allowInsecureAuth true</code>（token-only，适合内网&#x2F;测试）  </li>
+<li>公网强烈推荐 Tailscale Serve &#x2F; Nginx + HTTPS 反代（更安全）  </li>
+<li>访问时必须带 token：<code>http://IP:13004/?token=你的token</code></li>
+</ul>
+</li>
+<li><p><strong>端口&#x2F;防火墙&#x2F;安全组</strong>  </p>
+<ul>
+<li>服务器本地：<code>ss -tuln | grep 13004</code> 看到监听  </li>
+<li>云控制台安全组 + firewalld&#x2F;ufw 必须放行 13004&#x2F;tcp  </li>
+<li>否则 curl&#x2F;telnet 超时，浏览器 Connection refused。</li>
+</ul>
+</li>
+<li><p><strong>其他高频坑</strong>  </p>
+<ul>
+<li>首次 dashboard 需 pairing：日志显示 request id，用 <code>openclaw pairing approve &lt;id&gt;</code> 批准（或用带 token 的 URL 自动）。  </li>
+<li>配置不生效？删目录重 init（备份先！）。  </li>
+<li>弱服务器：pull&#x2F;setup 阶段 CPU&#x2F;IO 高，耐心等，别 Ctrl+C 中断。  </li>
+<li>升级镜像：先 <code>docker pull</code> 新版，再重启容器（数据在宿主机目录，不丢）。</li>
+</ul>
+</li>
+</ol>
+<h3 id="安全提醒"><a href="#安全提醒" class="headerlink" title="安全提醒"></a>安全提醒</h3><ul>
+<li>定期备份 <code>/root/lee/openclaw/.openclaw</code> 目录。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+<!--以下为新增 -->
+<div>
+  
+    <div>
+    
+        <div style="text-align:center;color: #555;font-size:14px;">-------------The End-------------</div>
+    
+</div>
+  
+</div>
+
+<!--以上为新增 -->
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/chatGPT/" rel="tag"><i class="fa fa-tag"></i> chatGPT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/12/23/%E4%BF%A1%E5%88%9B%E8%BD%AF%E7%A1%AC%E4%BB%B6%E7%89%88%E6%9C%AC%E5%8F%B7%E6%9F%A5%E7%9C%8B%E6%96%B9%E6%B3%95/" rel="next" title="信创软硬件版本号查看方法">
+                <i class="fa fa-chevron-left"></i> 信创软硬件版本号查看方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Harrison Lee / Email (harrisonli60@163.com)</p>
+              <p class="site-description motion-element" itemprop="description">It is never too late to learn a new skill, even a challenging one.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/%20%7C%7C%20archive">
+                
+                    <span class="site-state-item-count">155</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">24</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">33</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%A8linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%83%A8%E7%BD%B2openclaw-zh%E6%B1%89%E5%8C%96%E7%89%88"><span class="nav-number">1.</span> <span class="nav-text">在linux服务器上部署openclaw-zh汉化版</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2openclaw%E7%9A%84%E5%AE%8C%E6%95%B4%E5%BF%85%E8%A6%81%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.1.</span> <span class="nav-text">部署openclaw的完整必要步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E9%83%A8%E7%BD%B2%E8%84%9A%E6%9C%AC%EF%BC%88%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4%E5%8D%B3%E5%8F%AF%EF%BC%89"><span class="nav-number">1.1.1.</span> <span class="nav-text">完整部署脚本（复制粘贴即可）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E8%B8%A9%E5%9D%91-amp-%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%EF%BC%88%E5%8D%9A%E5%AE%A2%E6%A0%B8%E5%BF%83%E5%86%85%E5%AE%B9%EF%BC%89"><span class="nav-number">1.1.2.</span> <span class="nav-text">常见踩坑 &amp; 注意事项（博客核心内容）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%8F%90%E9%86%92"><span class="nav-number">1.1.3.</span> <span class="nav-text">安全提醒</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Harrison Lee / Email (harrisonli60@163.com)</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> v6.3.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> v7.0.0</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="Total Visitors">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="Total Views">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.0"></script>
+
+  <script src="/js/src/motion.js?v=7.0.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.0"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.0"></script>
+<script src="/js/src/post-details.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.0"></script>
+
+
+
+  
+
+
+  
+
+
+  
+
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function(i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap');
+      $(e).after($wrap);
+      $wrap.append($('<button>').addClass('copy-btn').append('Copy').on('click', function(e) {
+        var code = $(this).parent().find('.code').find('.line').map(function(i, e) {
+          return $(e).text();
+        }).toArray().join('\n');
+        var ta = document.createElement('textarea');
+        var range = document.createRange(); //For Chrome
+        var sel = window.getSelection(); //For Chrome
+        var yPosition = window.pageYOffset || document.documentElement.scrollTop;
+        ta.style.top = yPosition + 'px'; //Prevent page scroll
+        ta.style.position = 'absolute';
+        ta.style.opacity = '0';
+        ta.value = code;
+        ta.textContent = code; //For FireFox
+        ta.contentEditable = true;
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        range.selectNode(ta);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        ta.setSelectionRange(0, code.length);
+        var result = document.execCommand('copy');
+        
+          if (result) $(this).text('Copied');
+          else $(this).text('Copy failed');
+        
+        ta.blur(); //For iOS
+        $(this).blur();
+      })).on('mouseleave', function(e) {
+        var $b = $(this).find('.copy-btn');
+        setTimeout(function() {
+          $b.text('Copy');
+        }, 300);
+      }).append(e);
+    })
+  </script>
+
+
+  
+
+</body>
+</html>
