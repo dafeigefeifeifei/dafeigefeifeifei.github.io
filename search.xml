@@ -19874,7 +19874,7 @@ image: flask-service:latest
 <li>volume 挂载路径写错导致数据丢失或不生效</li>
 </ul>
 <p>最终成功方案如下（已亲测稳定运行）。全文命令均基于 Docker + bind mount 宿主机目录方式（<code>/root/lee/openclaw/.openclaw</code>），避免 named volume 迁移麻烦。</p>
-<h3 id="完整部署脚本（复制粘贴即可）"><a href="#完整部署脚本（复制粘贴即可）" class="headerlink" title="完整部署脚本（复制粘贴即可）"></a>完整部署脚本（复制粘贴即可）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># OpenClaw-zh Docker 部署脚本（bind mount 方式，2026 年版）</span></span><br><span class="line"><span class="comment"># 作者：你的名字/博客链接</span></span><br><span class="line"><span class="comment"># 使用前：确保 Docker 已安装，服务器有公网 IP，端口 13004 已开放安全组/防火墙</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -e  <span class="comment"># 遇到错误立即退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 0. 前置检查 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 0. 前置检查 ===&quot;</span></span><br><span class="line"><span class="keyword">if</span> ! <span class="built_in">command</span> -v docker &amp;&gt; /dev/null; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;错误：Docker 未安装！请先安装 Docker。&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查镜像是否已拉取（可选加速器已配置）</span></span><br><span class="line">docker images | grep 1186258278/openclaw-zh || &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;拉取镜像（强制 amd64 平台）...&quot;</span></span><br><span class="line">    docker pull --platform linux/amd64 1186258278/openclaw-zh:latest</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 1. 准备宿主机目录 ====================</span></span><br><span class="line">HOST_DIR=<span class="string">&quot;/root/lee/openclaw/.openclaw&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 1. 创建并授权宿主机目录 ===&quot;</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span></span><br><span class="line"><span class="built_in">chmod</span> 700 <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>          <span class="comment"># 严格权限，防止泄露 token/配置</span></span><br><span class="line"><span class="built_in">chown</span> root:root <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>    <span class="comment"># 确保 root 拥有（容器内以 root 运行）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 2. 清理旧容器（避免名字冲突） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 2. 清理旧 openclaw 容器 ===&quot;</span></span><br><span class="line">docker stop openclaw 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">docker <span class="built_in">rm</span> openclaw 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 3. 首次初始化 setup（必须） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 3. 执行 openclaw setup（交互式，耐心等待） ===&quot;</span></span><br><span class="line">docker run -it --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  --platform linux/amd64 \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw setup</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 4. 核心配置（顺序重要！） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 4. 设置必要配置 ===&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gateway.mode 必须为 local（否则闪退）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.mode <span class="built_in">local</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 允许远程访问（默认 loopback 只本地）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.bind lan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决 HTTP disconnected (1008) 错误（允许不安全认证，token-only）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.controlUi.allowInsecureAuth <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动修复常见问题 + 生成 token（强烈推荐！）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;运行 doctor --fix 生成 token（输出中会显示 token，请复制保存）&quot;</span></span><br><span class="line">docker run -it --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw doctor --fix</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 token（备用）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;查看当前 gateway token（用于访问 URL）:&quot;</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config get gateway.auth.token</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 5. 正式启动 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 5. 启动 OpenClaw gateway ===&quot;</span></span><br><span class="line">docker run -d \</span><br><span class="line">  --name openclaw \</span><br><span class="line">  --restart unless-stopped \</span><br><span class="line">  --platform linux/amd64 \</span><br><span class="line">  -p 13004:18789 \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw gateway run</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 6. 验证 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 6. 验证运行状态 ===&quot;</span></span><br><span class="line"><span class="built_in">sleep</span> 5  <span class="comment"># 等待启动</span></span><br><span class="line">docker ps | grep openclaw || &#123; <span class="built_in">echo</span> <span class="string">&quot;容器未运行！请检查 docker logs openclaw&quot;</span>; <span class="built_in">exit</span> 1; &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;查看日志（按 Ctrl+C 退出）：&quot;</span></span><br><span class="line">docker logs -f openclaw</span><br></pre></td></tr></table></figure>
+<h3 id="完整部署脚本（复制粘贴即可）"><a href="#完整部署脚本（复制粘贴即可）" class="headerlink" title="完整部署脚本（复制粘贴即可）"></a>完整部署脚本（复制粘贴即可）</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># OpenClaw-zh Docker 部署脚本（bind mount 方式，2026 年版）</span></span><br><span class="line"><span class="comment"># 使用前：确保 Docker 已安装，服务器有公网 IP，端口 13004 已开放安全组/防火墙</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> -e  <span class="comment"># 遇到错误立即退出</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 0. 前置检查 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 0. 前置检查 ===&quot;</span></span><br><span class="line"><span class="keyword">if</span> ! <span class="built_in">command</span> -v docker &amp;&gt; /dev/null; <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;错误：Docker 未安装！请先安装 Docker。&quot;</span></span><br><span class="line">    <span class="built_in">exit</span> 1</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查镜像是否已拉取（可选加速器已配置）</span></span><br><span class="line">docker images | grep 1186258278/openclaw-zh || &#123;</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">&quot;拉取镜像（强制 amd64 平台）...&quot;</span></span><br><span class="line">    docker pull --platform linux/amd64 1186258278/openclaw-zh:latest</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果拉取过慢，可以用南京大学镜像</span></span><br><span class="line">docker pull --platform linux/amd64 ghcr.nju.edu.cn/1186258278/openclaw-zh:latest</span><br><span class="line"></span><br><span class="line">如果想保持原镜像名（方便后续使用），拉完后 tag 一下：</span><br><span class="line">docker tag ghcr.nju.edu.cn/1186258278/openclaw-zh:latest 1186258278/openclaw-zh:latest</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 1. 准备宿主机目录 ====================</span></span><br><span class="line">HOST_DIR=<span class="string">&quot;/root/lee/openclaw/.openclaw&quot;</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 1. 创建并授权宿主机目录 ===&quot;</span></span><br><span class="line"><span class="built_in">mkdir</span> -p <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span></span><br><span class="line"><span class="built_in">chmod</span> 700 <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>          <span class="comment"># 严格权限，防止泄露 token/配置</span></span><br><span class="line"><span class="built_in">chown</span> root:root <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>    <span class="comment"># 确保 root 拥有（容器内以 root 运行）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 2. 清理旧容器（避免名字冲突） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 2. 清理旧 openclaw 容器 ===&quot;</span></span><br><span class="line">docker stop openclaw 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line">docker <span class="built_in">rm</span> openclaw 2&gt;/dev/null || <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 3. 首次初始化 setup（必须） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 3. 执行 openclaw setup（交互式，耐心等待） ===&quot;</span></span><br><span class="line">docker run -it --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  --platform linux/amd64 \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw setup</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 4. 核心配置（顺序重要！） ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 4. 设置必要配置 ===&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gateway.mode 必须为 local（否则闪退）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.mode <span class="built_in">local</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 允许远程访问（默认 loopback 只本地）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.bind lan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解决 HTTP disconnected (1008) 错误（允许不安全认证，token-only）</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config <span class="built_in">set</span> gateway.controlUi.allowInsecureAuth <span class="literal">true</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自动修复常见问题 + 生成 token（强烈推荐！）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;运行 doctor --fix 生成 token（输出中会显示 token，请复制保存）&quot;</span></span><br><span class="line">docker run -it --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw doctor --fix</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看 token（备用）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;查看当前 gateway token（用于访问 URL）:&quot;</span></span><br><span class="line">docker run --<span class="built_in">rm</span> \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw config get gateway.auth.token</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 5. 正式启动 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 5. 启动 OpenClaw gateway ===&quot;</span></span><br><span class="line">docker run -d \</span><br><span class="line">  --name openclaw \</span><br><span class="line">  --restart unless-stopped \</span><br><span class="line">  --platform linux/amd64 \</span><br><span class="line">  -p 13004:18789 \</span><br><span class="line">  -v <span class="string">&quot;<span class="variable">$HOST_DIR</span>&quot;</span>:/root/.openclaw \</span><br><span class="line">  1186258278/openclaw-zh:latest \</span><br><span class="line">  openclaw gateway run</span><br><span class="line"></span><br><span class="line"><span class="comment"># ==================== 6. 验证 ====================</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;=== 6. 验证运行状态 ===&quot;</span></span><br><span class="line"><span class="built_in">sleep</span> 5  <span class="comment"># 等待启动</span></span><br><span class="line">docker ps | grep openclaw || &#123; <span class="built_in">echo</span> <span class="string">&quot;容器未运行！请检查 docker logs openclaw&quot;</span>; <span class="built_in">exit</span> 1; &#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;查看日志（按 Ctrl+C 退出）：&quot;</span></span><br><span class="line">docker logs -f openclaw</span><br></pre></td></tr></table></figure>
 
 <h3 id="常见踩坑-amp-注意事项（博客核心内容）"><a href="#常见踩坑-amp-注意事项（博客核心内容）" class="headerlink" title="常见踩坑 &amp; 注意事项（博客核心内容）"></a>常见踩坑 &amp; 注意事项（博客核心内容）</h3><ol>
 <li><p><strong>镜像架构必须匹配</strong><br>服务器 amd64，但 nightly&#x2F;latest 版有时默认拉 arm64 → <code>exec format error</code>。<br>解决：始终加 <code>--platform linux/amd64</code>。</p>
@@ -19929,6 +19929,9 @@ image: flask-service:latest
 <p>相关命令</p>
 <figure class="highlight gauss"><table><tr><td class="code"><pre><span class="line">按 Ctrl+A 然后 D 脱离 <span class="keyword">screen</span>（代理继续后台运行）。</span><br><span class="line"><span class="keyword">screen</span> -r litellm 进入</span><br><span class="line">Ctrl+C 停止</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<ol start="3">
+<li>验证<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">简单验证下，有没有返回正常模型列表，如果返回，则配置OK</span><br><span class="line">curl http:<span class="regexp">//</span><span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">4000</span><span class="regexp">/v1/m</span>odels</span><br></pre></td></tr></table></figure></li>
+</ol>
 ]]></content>
       <categories>
         <category>ML</category>
@@ -20025,6 +20028,302 @@ image: flask-service:latest
       </categories>
       <tags>
         <tag>me</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>省时间和杀时间的SaaS</title>
+    <url>/2026/05/08/%E7%9C%81%E6%97%B6%E9%97%B4%E5%92%8C%E6%9D%80%E6%97%B6%E9%97%B4%E7%9A%84SaaS/</url>
+    <content><![CDATA[<p>欧美市场里，“节省时间”和“杀时间”其实是两条都很大的消费线，而且很有意思的是——很多产品同时满足这两种需求：</p>
+<ul>
+<li>上班时：想省时间、省脑力</li>
+<li>下班后：又想“舒服地浪费时间”</li>
+</ul>
+<p>所以欧美消费品里，经常会出现一种“效率 + 情绪价值”混合型产品。</p>
+<span id="more"></span>
+
+<p>如果是 SaaS 方向，那欧美市场现在其实已经很明显分成两条主线了：</p>
+<h1 id="一、“帮我省时间”的-SaaS（赚钱）"><a href="#一、“帮我省时间”的-SaaS（赚钱）" class="headerlink" title="一、“帮我省时间”的 SaaS（赚钱）"></a>一、“帮我省时间”的 SaaS（赚钱）</h1><p>这是欧美企业最愿意付费的方向。</p>
+<p>核心价值：</p>
+<blockquote>
+<p>少雇人<br>少开会<br>少点按钮<br>少写东西<br>少做重复劳动</p>
+</blockquote>
+<p>现在欧美 SaaS 最大趋势就是：</p>
+<blockquote>
+<p>AI 不再是“辅助”<br>而是直接“代替执行”</p>
+</blockquote>
+<p>很多 SaaS 正在从：</p>
+<ul>
+<li>dashboard（仪表盘）<br>变成：</li>
+<li>agent（代理员工）</li>
+</ul>
+<p>行业里甚至开始出现“SaaSpocalypse（SaaS末日）”这种说法，因为传统 SaaS 正被 AI Agent 重构。(<a href="https://techcrunch.com/2026/03/01/saas-in-saas-out-heres-whats-driving-the-saaspocalypse/?utm_source=chatgpt.com">TechCrunch</a>)</p>
+<hr>
+<h1 id="欧美最容易付费的“节省时间-SaaS”"><a href="#欧美最容易付费的“节省时间-SaaS”" class="headerlink" title="欧美最容易付费的“节省时间 SaaS”"></a>欧美最容易付费的“节省时间 SaaS”</h1><h2 id="1-AI-行政助理"><a href="#1-AI-行政助理" class="headerlink" title="1. AI 行政助理"></a>1. AI 行政助理</h2><p>欧美特别买单。</p>
+<p>比如：</p>
+<ul>
+<li>AI 邮件回复</li>
+<li>AI 日程安排</li>
+<li>AI 会议总结</li>
+<li>AI CRM 填写</li>
+<li>AI 自动 follow-up</li>
+</ul>
+<p>因为欧美人工太贵。</p>
+<p>老板会想：</p>
+<blockquote>
+<p>“如果 30 美元&#x2F;月能省一个员工 5 小时”<br>“那简直白送”</p>
+</blockquote>
+<p>现在很多 SaaS 都在往：<br>“一个 AI 员工”<br>方向走。(<a href="https://www.bettercloud.com/monitor/saas-industry-2/?utm_source=chatgpt.com">BetterCloud</a>)</p>
+<hr>
+<h2 id="2-自动化工作流"><a href="#2-自动化工作流" class="headerlink" title="2. 自动化工作流"></a>2. 自动化工作流</h2><p>欧美 SaaS 永远的大市场。</p>
+<p>典型：</p>
+<ul>
+<li>自动同步数据</li>
+<li>自动生成报表</li>
+<li>自动审批</li>
+<li>自动录入</li>
+<li>自动整理 PDF</li>
+</ul>
+<p>因为欧美人极度讨厌：</p>
+<blockquote>
+<p>copy paste</p>
+</blockquote>
+<p>所以：<br>Zapier &#x2F; Make 这种思路一直很强。</p>
+<p>2026 一个明显趋势是：</p>
+<blockquote>
+<p>“AI + workflow”</p>
+</blockquote>
+<p>而不是单纯 automation。(<a href="https://saasscaledpodcast.squarespace.com/blog/saas-trends-in-2026?utm_source=chatgpt.com">SaaS Scaled</a>)</p>
+<hr>
+<h2 id="3-“减少思考”的-SaaS"><a href="#3-“减少思考”的-SaaS" class="headerlink" title="3. “减少思考”的 SaaS"></a>3. “减少思考”的 SaaS</h2><p>这是很多中国开发者容易忽略的点。</p>
+<p>欧美用户很愿意为：</p>
+<blockquote>
+<p>“不用想”</p>
+</blockquote>
+<p>付费。</p>
+<p>例如：</p>
+<h3 id="AI-写作"><a href="#AI-写作" class="headerlink" title="AI 写作"></a>AI 写作</h3><ul>
+<li>帮你写邮件</li>
+<li>帮你写 proposal</li>
+<li>帮你写 LinkedIn</li>
+</ul>
+<h3 id="AI-决策"><a href="#AI-决策" class="headerlink" title="AI 决策"></a>AI 决策</h3><ul>
+<li>帮你选时间</li>
+<li>帮你排优先级</li>
+<li>帮你总结重点</li>
+</ul>
+<h3 id="AI-整理"><a href="#AI-整理" class="headerlink" title="AI 整理"></a>AI 整理</h3><ul>
+<li>自动分类</li>
+<li>自动标签</li>
+<li>自动归档</li>
+</ul>
+<p>本质上：</p>
+<blockquote>
+<p>不是省操作时间<br>而是省脑力</p>
+</blockquote>
+<p>这个价值越来越大。</p>
+<hr>
+<h2 id="4-Vertical-SaaS（垂直-SaaS）"><a href="#4-Vertical-SaaS（垂直-SaaS）" class="headerlink" title="4. Vertical SaaS（垂直 SaaS）"></a>4. Vertical SaaS（垂直 SaaS）</h2><p>现在欧美最看好的方向之一。</p>
+<p>因为通用 SaaS 太卷了。</p>
+<p>而：</p>
+<ul>
+<li>牙医 SaaS</li>
+<li>律师 SaaS</li>
+<li>HVAC SaaS</li>
+<li>健身房 SaaS</li>
+<li>小型金融 SaaS</li>
+</ul>
+<p>反而护城河很深。</p>
+<p>行业数据也显示：<br>Vertical SaaS 增长明显快于通用 SaaS。(<a href="https://modall.ca/blog/saas-trends?utm_source=chatgpt.com">modall.ca</a>)</p>
+<hr>
+<h1 id="二、“帮我杀时间”的-SaaS（情绪消费）"><a href="#二、“帮我杀时间”的-SaaS（情绪消费）" class="headerlink" title="二、“帮我杀时间”的 SaaS（情绪消费）"></a>二、“帮我杀时间”的 SaaS（情绪消费）</h1><p>这个在欧美也越来越大。</p>
+<p>尤其：</p>
+<ul>
+<li>Gen Z</li>
+<li>Remote work</li>
+<li>孤独经济</li>
+<li>ADHD 文化</li>
+<li>焦虑经济</li>
+</ul>
+<p>带起来很多“看起来没用，但用户每天打开”的 SaaS。</p>
+<hr>
+<h1 id="欧美人喜欢的“杀时间-SaaS”"><a href="#欧美人喜欢的“杀时间-SaaS”" class="headerlink" title="欧美人喜欢的“杀时间 SaaS”"></a>欧美人喜欢的“杀时间 SaaS”</h1><h2 id="1-陪伴型-SaaS"><a href="#1-陪伴型-SaaS" class="headerlink" title="1. 陪伴型 SaaS"></a>1. 陪伴型 SaaS</h2><p>欧美已经越来越接受：</p>
+<blockquote>
+<p>AI companion</p>
+</blockquote>
+<p>例如：</p>
+<ul>
+<li>AI 聊天陪伴</li>
+<li>虚拟恋人</li>
+<li>AI friend</li>
+<li>AI roleplay</li>
+</ul>
+<p>亚洲很多人会觉得羞耻，<br>欧美尤其美国接受度高很多。</p>
+<p>因为：</p>
+<ul>
+<li>独居率高</li>
+<li>心理咨询贵</li>
+<li>社交疲劳</li>
+</ul>
+<p>所以：</p>
+<blockquote>
+<p>“低压力陪伴”</p>
+</blockquote>
+<p>本身就是需求。</p>
+<hr>
+<h2 id="2-“微多巴胺”-SaaS"><a href="#2-“微多巴胺”-SaaS" class="headerlink" title="2. “微多巴胺” SaaS"></a>2. “微多巴胺” SaaS</h2><p>很多 SaaS 本质是：</p>
+<blockquote>
+<p>给一点点快乐反馈</p>
+</blockquote>
+<p>例如：</p>
+<ul>
+<li>streak（连续签到）</li>
+<li>gamification</li>
+<li>tiny rewards</li>
+<li>AI 宠物</li>
+<li>focus tree</li>
+<li>virtual garden</li>
+</ul>
+<p>欧美用户特别容易沉迷：</p>
+<blockquote>
+<p>progress visualization（进度可视化）</p>
+</blockquote>
+<p>哪怕只是：<br>“今天完成了 3 个任务”<br>都能形成 dopamine loop。</p>
+<hr>
+<h2 id="3-ADHD-x2F-专注类-SaaS"><a href="#3-ADHD-x2F-专注类-SaaS" class="headerlink" title="3. ADHD &#x2F; 专注类 SaaS"></a>3. ADHD &#x2F; 专注类 SaaS</h2><p>这是欧美非常大的市场。</p>
+<p>典型：</p>
+<ul>
+<li>番茄钟</li>
+<li>body doubling</li>
+<li>白噪音</li>
+<li>专注房间</li>
+<li>虚拟 coworking</li>
+</ul>
+<p>欧美对 ADHD 文化接受度很高，<br>所以：</p>
+<blockquote>
+<p>“帮我进入状态”</p>
+</blockquote>
+<p>本身就是付费点。</p>
+<p>很多产品本质上：</p>
+<p>不是工具，<br>而是：</p>
+<blockquote>
+<p>“情绪启动器”</p>
+</blockquote>
+<hr>
+<h2 id="4-“假装-productive”的-SaaS"><a href="#4-“假装-productive”的-SaaS" class="headerlink" title="4. “假装 productive”的 SaaS"></a>4. “假装 productive”的 SaaS</h2><p>这个特别欧美互联网。</p>
+<p>用户其实未必真想提高效率。</p>
+<p>他们想的是：</p>
+<blockquote>
+<p>“感觉自己在变好”</p>
+</blockquote>
+<p>例如：</p>
+<ul>
+<li>habit tracker</li>
+<li>daily planner</li>
+<li>journaling</li>
+<li>mood tracking</li>
+<li>self-improvement app</li>
+</ul>
+<p>本质是：</p>
+<blockquote>
+<p>低成本自我安慰</p>
+</blockquote>
+<p>但用户粘性反而很强。</p>
+<hr>
+<h1 id="三、现在欧美-SaaS-一个特别重要的趋势"><a href="#三、现在欧美-SaaS-一个特别重要的趋势" class="headerlink" title="三、现在欧美 SaaS 一个特别重要的趋势"></a>三、现在欧美 SaaS 一个特别重要的趋势</h1><p>以前：</p>
+<h2 id="SaaS-x3D-工具"><a href="#SaaS-x3D-工具" class="headerlink" title="SaaS &#x3D; 工具"></a>SaaS &#x3D; 工具</h2><p>现在：</p>
+<h2 id="SaaS-x3D-情绪-自动化"><a href="#SaaS-x3D-情绪-自动化" class="headerlink" title="SaaS &#x3D; 情绪 + 自动化"></a>SaaS &#x3D; 情绪 + 自动化</h2><p>欧美用户越来越不关心：</p>
+<ul>
+<li>功能多不多</li>
+<li>页面强不强</li>
+</ul>
+<p>而更关心：</p>
+<ul>
+<li>我累不累</li>
+<li>我烦不烦</li>
+<li>我孤独不孤独</li>
+<li>我有没有被理解</li>
+<li>我有没有掌控感</li>
+</ul>
+<hr>
+<h1 id="四、所以现在欧美最好做的-SaaS，往往是："><a href="#四、所以现在欧美最好做的-SaaS，往往是：" class="headerlink" title="四、所以现在欧美最好做的 SaaS，往往是："></a>四、所以现在欧美最好做的 SaaS，往往是：</h1><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>真正卖点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AI assistant</td>
+<td>少干活</td>
+</tr>
+<tr>
+<td>AI automation</td>
+<td>少雇人</td>
+</tr>
+<tr>
+<td>AI writing</td>
+<td>少动脑</td>
+</tr>
+<tr>
+<td>AI companion</td>
+<td>少孤独</td>
+</tr>
+<tr>
+<td>habit app</td>
+<td>感觉变好了</td>
+</tr>
+<tr>
+<td>focus app</td>
+<td>帮我进入状态</td>
+</tr>
+<tr>
+<td>gamified SaaS</td>
+<td>给我小快乐</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="五、如果你想做欧美-SaaS"><a href="#五、如果你想做欧美-SaaS" class="headerlink" title="五、如果你想做欧美 SaaS"></a>五、如果你想做欧美 SaaS</h1><p>现在最容易死的是：</p>
+<blockquote>
+<p>“功能型 SaaS”</p>
+</blockquote>
+<p>因为 AI 很快就能复制。</p>
+<p>现在更值钱的是：</p>
+<h2 id="1-workflow-ownership（掌握工作流）"><a href="#1-workflow-ownership（掌握工作流）" class="headerlink" title="1. workflow ownership（掌握工作流）"></a>1. workflow ownership（掌握工作流）</h2><p>比如：</p>
+<ul>
+<li>某行业完整流程</li>
+<li>某职业完整流程</li>
+</ul>
+<hr>
+<h2 id="2-emotional-retention（情绪留存）"><a href="#2-emotional-retention（情绪留存）" class="headerlink" title="2. emotional retention（情绪留存）"></a>2. emotional retention（情绪留存）</h2><p>比如：</p>
+<ul>
+<li>用户天天打开</li>
+<li>用户形成依赖</li>
+<li>用户有陪伴感</li>
+</ul>
+<hr>
+<h2 id="3-community-x2F-identity"><a href="#3-community-x2F-identity" class="headerlink" title="3. community &#x2F; identity"></a>3. community &#x2F; identity</h2><p>欧美用户特别容易：</p>
+<ul>
+<li>用产品表达身份</li>
+<li>用产品进入圈层</li>
+</ul>
+<p>例如：</p>
+<ul>
+<li>Notion</li>
+<li>Obsidian</li>
+<li>Letterboxd</li>
+<li>Duolingo</li>
+</ul>
+<p>很多已经不只是工具，<br>而是：</p>
+<blockquote>
+<p>lifestyle 产品。</p>
+</blockquote>
+<p>AI 正在重塑 SaaS，但多数观点认为：<br>SaaS 不会消失，而是会从“工具”变成“AI-native 工作代理 + 情绪入口”。(<a href="https://techcrunch.com/2026/03/01/saas-in-saas-out-heres-whats-driving-the-saaspocalypse/?utm_source=chatgpt.com">TechCrunch</a>)</p>
+]]></content>
+      <categories>
+        <category>SEO</category>
+      </categories>
+      <tags>
+        <tag>theory</tag>
       </tags>
   </entry>
 </search>
