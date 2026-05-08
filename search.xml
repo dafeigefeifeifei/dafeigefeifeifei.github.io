@@ -20693,6 +20693,387 @@ image: flask-service:latest
 <li>identity</li>
 </ul>
 <p>这个特别值得学。</p>
+<hr>
+<p>典型的：</p>
+<h1 id="“欧美独立开发者（Indie-Hacker）路线”"><a href="#“欧美独立开发者（Indie-Hacker）路线”" class="headerlink" title="“欧美独立开发者（Indie Hacker）路线”"></a>“欧美独立开发者（Indie Hacker）路线”</h1><p>而且你这个方向，比：</p>
+<ul>
+<li>做企业大单</li>
+<li>做国内 SaaS</li>
+<li>卷私域销售</li>
+</ul>
+<p>更适合个人&#x2F;小团队。</p>
+<p>因为：</p>
+<blockquote>
+<p>Google Ads + 订阅<br>本质上是：</p>
+</blockquote>
+<h1 id="“流量生意-情绪产品”"><a href="#“流量生意-情绪产品”" class="headerlink" title="“流量生意 + 情绪产品”"></a>“流量生意 + 情绪产品”</h1><p>欧美市场对此非常成熟。</p>
+<hr>
+<h1 id="一、先说结论"><a href="#一、先说结论" class="headerlink" title="一、先说结论"></a>一、先说结论</h1><p>如果你想靠：</p>
+<ul>
+<li>Google Ads</li>
+<li>订阅制<br>赚钱，</li>
+</ul>
+<p>那么：</p>
+<h1 id="你最应该做的，不是“企业工具”"><a href="#你最应该做的，不是“企业工具”" class="headerlink" title="你最应该做的，不是“企业工具”"></a>你最应该做的，不是“企业工具”</h1><p>而是：</p>
+<h1 id="高频、轻量、长期打开的-SaaS"><a href="#高频、轻量、长期打开的-SaaS" class="headerlink" title="高频、轻量、长期打开的 SaaS"></a>高频、轻量、长期打开的 SaaS</h1><p>因为：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>最重要的</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ads</td>
+<td>PV &#x2F; 停留时长</td>
+</tr>
+<tr>
+<td>订阅</td>
+<td>留存</td>
+</tr>
+<tr>
+<td>两者兼顾</td>
+<td>高频打开</td>
+</tr>
+</tbody></table>
+<p>所以：</p>
+<h2 id="最差的方向"><a href="#最差的方向" class="headerlink" title="最差的方向"></a>最差的方向</h2><p>是：</p>
+<blockquote>
+<p>“低频但复杂的 B 端系统”</p>
+</blockquote>
+<p>例如：</p>
+<ul>
+<li>ERP</li>
+<li>OA</li>
+<li>招标系统</li>
+<li>工作流平台</li>
+</ul>
+<p>因为：</p>
+<ul>
+<li>打开频率低</li>
+<li>广告价值低</li>
+<li>传播性差</li>
+</ul>
+<hr>
+<h1 id="二、最适合-Ads-Subscription-的欧美-SaaS-类型"><a href="#二、最适合-Ads-Subscription-的欧美-SaaS-类型" class="headerlink" title="二、最适合 Ads + Subscription 的欧美 SaaS 类型"></a>二、最适合 Ads + Subscription 的欧美 SaaS 类型</h1><p>这非常重要。</p>
+<hr>
+<h1 id="1-AI-Productivity（目前最强）"><a href="#1-AI-Productivity（目前最强）" class="headerlink" title="1. AI + Productivity（目前最强）"></a>1. AI + Productivity（目前最强）</h1><p>这是现在欧美最赚钱的独立 SaaS 方向之一。</p>
+<p>例如：</p>
+<ul>
+<li>AI 总结</li>
+<li>AI 写作</li>
+<li>AI 转录</li>
+<li>AI Study</li>
+<li>AI Notes</li>
+<li>AI Resume</li>
+</ul>
+<p>因为：</p>
+<h2 id="用户会："><a href="#用户会：" class="headerlink" title="用户会："></a>用户会：</h2><ul>
+<li>高频打开</li>
+<li>搜 Google</li>
+<li>愿意订阅</li>
+<li>分享</li>
+</ul>
+<p>尤其：</p>
+<blockquote>
+<p>“省时间”</p>
+</blockquote>
+<p>非常容易转付费。</p>
+<hr>
+<h1 id="2-Gamified-Productivity（你很适合）"><a href="#2-Gamified-Productivity（你很适合）" class="headerlink" title="2. Gamified Productivity（你很适合）"></a>2. Gamified Productivity（你很适合）</h1><p>例如：</p>
+<ul>
+<li>streak</li>
+<li>排行榜</li>
+<li>XP</li>
+<li>专注</li>
+<li>习惯</li>
+<li>学习</li>
+<li>challenge</li>
+</ul>
+<p>欧美非常吃这套。</p>
+<p>因为：</p>
+<ul>
+<li>DAU 高</li>
+<li>留存高</li>
+<li>广告位自然</li>
+<li>容易形成 addiction loop</li>
+</ul>
+<hr>
+<h1 id="3-“小而持续”的工具"><a href="#3-“小而持续”的工具" class="headerlink" title="3. “小而持续”的工具"></a>3. “小而持续”的工具</h1><p>欧美独立开发者最赚钱的，<br>很多都不是“大平台”。</p>
+<p>而是：</p>
+<h2 id="小工具："><a href="#小工具：" class="headerlink" title="小工具："></a>小工具：</h2><ul>
+<li>PDF tool</li>
+<li>AI email</li>
+<li>transcription</li>
+<li>screenshot tool</li>
+<li>favicon generator</li>
+<li>SEO helper</li>
+<li>subtitle tool</li>
+</ul>
+<p>这些东西：</p>
+<ul>
+<li>SEO 流量巨大</li>
+<li>Google Ads 友好</li>
+<li>容易订阅升级</li>
+</ul>
+<hr>
+<h1 id="4-“杀时间型-SaaS”"><a href="#4-“杀时间型-SaaS”" class="headerlink" title="4. “杀时间型 SaaS”"></a>4. “杀时间型 SaaS”</h1><p>这个你可能低估了。</p>
+<p>例如：</p>
+<ul>
+<li>AI companion</li>
+<li>AI roleplay</li>
+<li>personality test</li>
+<li>movie tracker</li>
+<li>reading tracker</li>
+<li>dream journal</li>
+</ul>
+<p>这些：</p>
+<ul>
+<li>广告收益很强</li>
+<li>session 很长</li>
+<li>用户天天打开</li>
+</ul>
+<p>欧美广告生态很喜欢这种。</p>
+<hr>
+<h1 id="三、Google-Ads-模式下，欧美用户真正值钱的是："><a href="#三、Google-Ads-模式下，欧美用户真正值钱的是：" class="headerlink" title="三、Google Ads 模式下，欧美用户真正值钱的是："></a>三、Google Ads 模式下，欧美用户真正值钱的是：</h1><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>重要性</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Session 时长</td>
+<td>极高</td>
+</tr>
+<tr>
+<td>页面数</td>
+<td>高</td>
+</tr>
+<tr>
+<td>回访率</td>
+<td>极高</td>
+</tr>
+<tr>
+<td>SEO 流量</td>
+<td>极高</td>
+</tr>
+<tr>
+<td>搜索 intent</td>
+<td>极高</td>
+</tr>
+</tbody></table>
+<p>所以很多独立开发者会故意做：</p>
+<ul>
+<li>工具页</li>
+<li>排行榜页</li>
+<li>模板页</li>
+<li>gallery</li>
+<li>showcase</li>
+<li>explore</li>
+</ul>
+<p>因为：</p>
+<blockquote>
+<p>这些东西天然适合 SEO。</p>
+</blockquote>
+<hr>
+<h1 id="四、为什么排行榜特别适合你这个模式？"><a href="#四、为什么排行榜特别适合你这个模式？" class="headerlink" title="四、为什么排行榜特别适合你这个模式？"></a>四、为什么排行榜特别适合你这个模式？</h1><p>因为排行榜天然提供：</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>好处</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>无限内容页</td>
+<td>SEO</td>
+</tr>
+<tr>
+<td>用户生成内容</td>
+<td>免费内容</td>
+</tr>
+<tr>
+<td>刷新感</td>
+<td>高频访问</td>
+</tr>
+<tr>
+<td>社交传播</td>
+<td>免费流量</td>
+</tr>
+<tr>
+<td>成就感</td>
+<td>留存</td>
+</tr>
+<tr>
+<td>对比心理</td>
+<td>上瘾</td>
+</tr>
+</tbody></table>
+<p>所以欧美很多网站：<br>其实本质都是：</p>
+<h1 id="“排行榜网站”"><a href="#“排行榜网站”" class="headerlink" title="“排行榜网站”"></a>“排行榜网站”</h1><p>例如：</p>
+<table>
+<thead>
+<tr>
+<th>网站</th>
+<th>本质</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Product Hunt</td>
+<td>产品榜</td>
+</tr>
+<tr>
+<td>Hacker News</td>
+<td>内容榜</td>
+</tr>
+<tr>
+<td>Reddit</td>
+<td>热度榜</td>
+</tr>
+<tr>
+<td>IMDb</td>
+<td>电影榜</td>
+</tr>
+<tr>
+<td>Goodreads</td>
+<td>阅读榜</td>
+</tr>
+<tr>
+<td>Letterboxd</td>
+<td>电影人格榜</td>
+</tr>
+<tr>
+<td>Kaggle</td>
+<td>比赛榜</td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td>贡献榜</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="五、真正适合个人开发者的，是："><a href="#五、真正适合个人开发者的，是：" class="headerlink" title="五、真正适合个人开发者的，是："></a>五、真正适合个人开发者的，是：</h1><h1 id="“SEO-社区-排行榜-AI”"><a href="#“SEO-社区-排行榜-AI”" class="headerlink" title="“SEO + 社区 + 排行榜 + AI”"></a>“SEO + 社区 + 排行榜 + AI”</h1><p>这是现在欧美特别容易起飞的组合。</p>
+<p>因为：</p>
+<h2 id="SEO-负责："><a href="#SEO-负责：" class="headerlink" title="SEO 负责："></a>SEO 负责：</h2><ul>
+<li>新流量</li>
+</ul>
+<h2 id="排行榜负责："><a href="#排行榜负责：" class="headerlink" title="排行榜负责："></a>排行榜负责：</h2><ul>
+<li>留存</li>
+<li>刷新感</li>
+</ul>
+<h2 id="AI-负责："><a href="#AI-负责：" class="headerlink" title="AI 负责："></a>AI 负责：</h2><ul>
+<li>提升价值感</li>
+</ul>
+<h2 id="社区负责："><a href="#社区负责：" class="headerlink" title="社区负责："></a>社区负责：</h2><ul>
+<li>用户生成内容</li>
+</ul>
+<hr>
+<h1 id="六、你应该尽量避免的"><a href="#六、你应该尽量避免的" class="headerlink" title="六、你应该尽量避免的"></a>六、你应该尽量避免的</h1><hr>
+<h2 id="1-“重后台”产品"><a href="#1-“重后台”产品" class="headerlink" title="1. “重后台”产品"></a>1. “重后台”产品</h2><p>欧美用户不喜欢：</p>
+<ul>
+<li>配置复杂</li>
+<li>学习成本高</li>
+<li>enterprise 感</li>
+</ul>
+<hr>
+<h2 id="2-“中国式管理-SaaS”"><a href="#2-“中国式管理-SaaS”" class="headerlink" title="2. “中国式管理 SaaS”"></a>2. “中国式管理 SaaS”</h2><p>例如：</p>
+<ul>
+<li>审批流</li>
+<li>打卡</li>
+<li>KPI</li>
+</ul>
+<p>欧美个人用户不会买单。</p>
+<hr>
+<h2 id="3-纯工具无社区"><a href="#3-纯工具无社区" class="headerlink" title="3. 纯工具无社区"></a>3. 纯工具无社区</h2><p>AI 会迅速抹平。</p>
+<p>真正长期值钱的是：</p>
+<ul>
+<li>用户关系</li>
+<li>用户内容</li>
+<li>用户 identity</li>
+</ul>
+<hr>
+<h1 id="七、现在欧美最容易起量的套路"><a href="#七、现在欧美最容易起量的套路" class="headerlink" title="七、现在欧美最容易起量的套路"></a>七、现在欧美最容易起量的套路</h1><p>很多 Indie Hacker 都在做：</p>
+<h2 id="免费："><a href="#免费：" class="headerlink" title="免费："></a>免费：</h2><ul>
+<li>Ads</li>
+<li>SEO</li>
+</ul>
+<h2 id="高级版："><a href="#高级版：" class="headerlink" title="高级版："></a>高级版：</h2><ul>
+<li>去广告</li>
+<li>AI 功能</li>
+<li>高级统计</li>
+<li>排行榜特权</li>
+<li>自定义</li>
+<li>导出</li>
+</ul>
+<p>这套很成熟。</p>
+<hr>
+<h1 id="八、如果是我，我会优先考虑这几类"><a href="#八、如果是我，我会优先考虑这几类" class="headerlink" title="八、如果是我，我会优先考虑这几类"></a>八、如果是我，我会优先考虑这几类</h1><hr>
+<h2 id="第一梯队（最适合-Ads-Subscription）"><a href="#第一梯队（最适合-Ads-Subscription）" class="headerlink" title="第一梯队（最适合 Ads + Subscription）"></a>第一梯队（最适合 Ads + Subscription）</h2><h3 id="1-AI-学习-x2F-专注-x2F-排行榜"><a href="#1-AI-学习-x2F-专注-x2F-排行榜" class="headerlink" title="1. AI 学习 &#x2F; 专注 &#x2F; 排行榜"></a>1. AI 学习 &#x2F; 专注 &#x2F; 排行榜</h3><p>非常容易留存。</p>
+<hr>
+<h3 id="2-AI-内容工具"><a href="#2-AI-内容工具" class="headerlink" title="2. AI 内容工具"></a>2. AI 内容工具</h3><p>SEO 流量巨大。</p>
+<hr>
+<h3 id="3-兴趣-tracking"><a href="#3-兴趣-tracking" class="headerlink" title="3. 兴趣 tracking"></a>3. 兴趣 tracking</h3><p>例如：</p>
+<ul>
+<li>阅读</li>
+<li>电影</li>
+<li>健身</li>
+<li>游戏</li>
+<li>写作</li>
+</ul>
+<p>欧美用户极其喜欢“记录人生”。</p>
+<hr>
+<h3 id="4-AI-companion-x2F-personality"><a href="#4-AI-companion-x2F-personality" class="headerlink" title="4. AI companion &#x2F; personality"></a>4. AI companion &#x2F; personality</h3><p>停留时长惊人。</p>
+<hr>
+<h1 id="九、最后一个非常关键的现实"><a href="#九、最后一个非常关键的现实" class="headerlink" title="九、最后一个非常关键的现实"></a>九、最后一个非常关键的现实</h1><p>如果你走：</p>
+<h1 id="Google-Ads-Subscription"><a href="#Google-Ads-Subscription" class="headerlink" title="Google Ads + Subscription"></a>Google Ads + Subscription</h1><p>那你真正的敌人：</p>
+<p>不是技术。</p>
+<p>而是：</p>
+<h1 id="获取流量成本"><a href="#获取流量成本" class="headerlink" title="获取流量成本"></a>获取流量成本</h1><p>所以：</p>
+<h2 id="你应该优先研究："><a href="#你应该优先研究：" class="headerlink" title="你应该优先研究："></a>你应该优先研究：</h2><h3 id="1-SEO"><a href="#1-SEO" class="headerlink" title="1. SEO"></a>1. SEO</h3><h3 id="2-Reddit-引流"><a href="#2-Reddit-引流" class="headerlink" title="2. Reddit 引流"></a>2. Reddit 引流</h3><h3 id="3-TikTok-x2F-Shorts"><a href="#3-TikTok-x2F-Shorts" class="headerlink" title="3. TikTok&#x2F;Shorts"></a>3. TikTok&#x2F;Shorts</h3><h3 id="4-Product-Hunt"><a href="#4-Product-Hunt" class="headerlink" title="4. Product Hunt"></a>4. Product Hunt</h3><h3 id="5-Hacker-News"><a href="#5-Hacker-News" class="headerlink" title="5. Hacker News"></a>5. Hacker News</h3><h3 id="6-X（Twitter）"><a href="#6-X（Twitter）" class="headerlink" title="6. X（Twitter）"></a>6. X（Twitter）</h3><p>而不是先研究架构。</p>
+<hr>
+<h1 id="十、真正适合独立开发者的产品"><a href="#十、真正适合独立开发者的产品" class="headerlink" title="十、真正适合独立开发者的产品"></a>十、真正适合独立开发者的产品</h1><p>通常都有这几个特征：</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>高频打开</td>
+<td>广告收益</td>
+</tr>
+<tr>
+<td>情绪价值</td>
+<td>留存</td>
+</tr>
+<tr>
+<td>SEO友好</td>
+<td>免费流量</td>
+</tr>
+<tr>
+<td>可分享</td>
+<td>裂变</td>
+</tr>
+<tr>
+<td>有排行榜</td>
+<td>上瘾</td>
+</tr>
+<tr>
+<td>有身份感</td>
+<td>社区</td>
+</tr>
+<tr>
+<td>AI辅助</td>
+<td>提升价值</td>
+</tr>
+<tr>
+<td>小而轻</td>
+<td>易传播</td>
+</tr>
+</tbody></table>
+<p>这基本就是欧美 Indie SaaS 的核心公式。</p>
 ]]></content>
       <categories>
         <category>SEO</category>
