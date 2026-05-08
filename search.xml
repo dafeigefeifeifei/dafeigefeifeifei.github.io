@@ -21074,6 +21074,297 @@ image: flask-service:latest
 </tr>
 </tbody></table>
 <p>这基本就是欧美 Indie SaaS 的核心公式。</p>
+<hr>
+<p>那你现在的思路，其实已经开始接近欧美独立开发圈一个非常真实的方向了：</p>
+<blockquote>
+<p>不做“大 SaaS”<br>而做：<br>“OPC（One-Person Company）级别的产品实验”</p>
+</blockquote>
+<p>这时候：</p>
+<h1 id="你最重要的不是-SEO"><a href="#你最重要的不是-SEO" class="headerlink" title="你最重要的不是 SEO"></a>你最重要的不是 SEO</h1><p>而是：</p>
+<h1 id="找到："><a href="#找到：" class="headerlink" title="找到："></a>找到：</h1><ul>
+<li>用户会不会天天打开</li>
+<li>有没有情绪驱动力</li>
+<li>有没有自传播</li>
+<li>用户会不会“想回来”</li>
+</ul>
+<p>你这个阶段，<br>其实是在：</p>
+<h1 id="找-PMF（Product-Market-Fit）"><a href="#找-PMF（Product-Market-Fit）" class="headerlink" title="找 PMF（Product-Market Fit）"></a>找 PMF（Product-Market Fit）</h1><p>不是找流量。</p>
+<p>这个判断是对的。</p>
+<hr>
+<h1 id="一、你现在最应该避免的坑"><a href="#一、你现在最应该避免的坑" class="headerlink" title="一、你现在最应该避免的坑"></a>一、你现在最应该避免的坑</h1><hr>
+<h1 id="1-“一上来做完整-SaaS”"><a href="#1-“一上来做完整-SaaS”" class="headerlink" title="1. “一上来做完整 SaaS”"></a>1. “一上来做完整 SaaS”</h1><p>这是最大坑。</p>
+<p>很多人：</p>
+<ul>
+<li>用户系统</li>
+<li>权限</li>
+<li>多租户</li>
+<li>工作流</li>
+<li>管理后台</li>
+<li>支付体系</li>
+</ul>
+<p>做半年。</p>
+<p>然后：</p>
+<p>没人用。</p>
+<p>欧美 Indie Hacker 现在越来越强调：</p>
+<blockquote>
+<p>“先做一个让人上瘾的小核心。”</p>
+</blockquote>
+<hr>
+<h1 id="2-“工具思维”"><a href="#2-“工具思维”" class="headerlink" title="2. “工具思维”"></a>2. “工具思维”</h1><p>你现在其实不应该问：</p>
+<blockquote>
+<p>“这个功能有没有用”</p>
+</blockquote>
+<p>而应该问：</p>
+<h1 id="“用户会不会忍不住打开”"><a href="#“用户会不会忍不住打开”" class="headerlink" title="“用户会不会忍不住打开”"></a>“用户会不会忍不住打开”</h1><p>这是两个世界。</p>
+<hr>
+<h1 id="二、欧美当前最容易起飞的小产品"><a href="#二、欧美当前最容易起飞的小产品" class="headerlink" title="二、欧美当前最容易起飞的小产品"></a>二、欧美当前最容易起飞的小产品</h1><p>注意：</p>
+<p>这些很多技术都不复杂。</p>
+<p>复杂的是：</p>
+<h1 id="用户心理。"><a href="#用户心理。" class="headerlink" title="用户心理。"></a>用户心理。</h1><hr>
+<h1 id="现在欧美最容易火的小产品类型："><a href="#现在欧美最容易火的小产品类型：" class="headerlink" title="现在欧美最容易火的小产品类型："></a>现在欧美最容易火的小产品类型：</h1><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>核心驱动力</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>排行榜</td>
+<td>比较欲</td>
+</tr>
+<tr>
+<td>streak</td>
+<td>连续性</td>
+</tr>
+<tr>
+<td>AI 陪伴</td>
+<td>情绪</td>
+</tr>
+<tr>
+<td>tracker</td>
+<td>掌控感</td>
+</tr>
+<tr>
+<td>AI roast</td>
+<td>娱乐</td>
+</tr>
+<tr>
+<td>AI personality</td>
+<td>自我认知</td>
+</tr>
+<tr>
+<td>tiny productivity</td>
+<td>微成长</td>
+</tr>
+<tr>
+<td>daily challenge</td>
+<td>习惯</td>
+</tr>
+<tr>
+<td>public progress</td>
+<td>被看见</td>
+</tr>
+<tr>
+<td>ranking website</td>
+<td>FOMO</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="三、你现在应该做的，不是“完整-SaaS”"><a href="#三、你现在应该做的，不是“完整-SaaS”" class="headerlink" title="三、你现在应该做的，不是“完整 SaaS”"></a>三、你现在应该做的，不是“完整 SaaS”</h1><p>而是：</p>
+<h1 id="“一个会让人回来的网站”"><a href="#“一个会让人回来的网站”" class="headerlink" title="“一个会让人回来的网站”"></a>“一个会让人回来的网站”</h1><p>这个差别极大。</p>
+<hr>
+<h1 id="四、欧美用户最容易上瘾的几个机制"><a href="#四、欧美用户最容易上瘾的几个机制" class="headerlink" title="四、欧美用户最容易上瘾的几个机制"></a>四、欧美用户最容易上瘾的几个机制</h1><p>这是重点。</p>
+<hr>
+<h1 id="1-“今天更新了什么”"><a href="#1-“今天更新了什么”" class="headerlink" title="1. “今天更新了什么”"></a>1. “今天更新了什么”</h1><p>例如：</p>
+<ul>
+<li>今日榜单</li>
+<li>今日挑战</li>
+<li>今日总结</li>
+<li>今日 AI 分析</li>
+</ul>
+<p>这是 DAU 核心。</p>
+<hr>
+<h1 id="2-“我比昨天更强了吗”"><a href="#2-“我比昨天更强了吗”" class="headerlink" title="2. “我比昨天更强了吗”"></a>2. “我比昨天更强了吗”</h1><p>例如：</p>
+<ul>
+<li>streak</li>
+<li>XP</li>
+<li>progress</li>
+<li>weekly report</li>
+</ul>
+<p>欧美人非常吃：<br>self-improvement。</p>
+<hr>
+<h1 id="3-“别人怎么看我”"><a href="#3-“别人怎么看我”" class="headerlink" title="3. “别人怎么看我”"></a>3. “别人怎么看我”</h1><p>例如：</p>
+<ul>
+<li>public profile</li>
+<li>leaderboard</li>
+<li>badges</li>
+<li>percentile</li>
+</ul>
+<p>欧美互联网：<br>非常身份化。</p>
+<hr>
+<h1 id="4-“我想再刷一下”"><a href="#4-“我想再刷一下”" class="headerlink" title="4. “我想再刷一下”"></a>4. “我想再刷一下”</h1><p>例如：</p>
+<ul>
+<li>recommendation</li>
+<li>infinite scroll</li>
+<li>random discovery</li>
+<li>AI generation</li>
+</ul>
+<p>这是 session length。</p>
+<hr>
+<h1 id="五、为什么你现在不该太在意-SEO"><a href="#五、为什么你现在不该太在意-SEO" class="headerlink" title="五、为什么你现在不该太在意 SEO"></a>五、为什么你现在不该太在意 SEO</h1><p>因为：</p>
+<h1 id="SEO-是放大器"><a href="#SEO-是放大器" class="headerlink" title="SEO 是放大器"></a>SEO 是放大器</h1><p>不是发动机。</p>
+<p>如果：</p>
+<ul>
+<li>用户留不住</li>
+<li>没传播</li>
+<li>没情绪价值</li>
+</ul>
+<p>SEO 来了也没用。</p>
+<p>很多人误区：</p>
+<blockquote>
+<p>“我缺的是流量”</p>
+</blockquote>
+<p>其实缺的是：</p>
+<h1 id="“用户为什么第二天回来”"><a href="#“用户为什么第二天回来”" class="headerlink" title="“用户为什么第二天回来”"></a>“用户为什么第二天回来”</h1><hr>
+<h1 id="六、你现在真正该验证的是："><a href="#六、你现在真正该验证的是：" class="headerlink" title="六、你现在真正该验证的是："></a>六、你现在真正该验证的是：</h1><h2 id="用户有没有："><a href="#用户有没有：" class="headerlink" title="用户有没有："></a>用户有没有：</h2><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>意义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>第二天回来</td>
+<td>有瘾</td>
+</tr>
+<tr>
+<td>主动分享</td>
+<td>有情绪价值</td>
+</tr>
+<tr>
+<td>截图</td>
+<td>有身份价值</td>
+</tr>
+<tr>
+<td>刷排行榜</td>
+<td>有竞争</td>
+</tr>
+<tr>
+<td>每天打开</td>
+<td>有习惯</td>
+</tr>
+<tr>
+<td>想升级</td>
+<td>有价值</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="七、如果是-OPC"><a href="#七、如果是-OPC" class="headerlink" title="七、如果是 OPC"></a>七、如果是 OPC</h1><p>那你应该优先做：</p>
+<h1 id="“低开发成本-高心理刺激”"><a href="#“低开发成本-高心理刺激”" class="headerlink" title="“低开发成本 + 高心理刺激”"></a>“低开发成本 + 高心理刺激”</h1><p>而不是：</p>
+<h1 id="“高功能复杂度”"><a href="#“高功能复杂度”" class="headerlink" title="“高功能复杂度”"></a>“高功能复杂度”</h1><hr>
+<h1 id="八、特别适合-OPC-的方向（现在欧美很吃）"><a href="#八、特别适合-OPC-的方向（现在欧美很吃）" class="headerlink" title="八、特别适合 OPC 的方向（现在欧美很吃）"></a>八、特别适合 OPC 的方向（现在欧美很吃）</h1><hr>
+<h2 id="1-排行榜网站（极强）"><a href="#1-排行榜网站（极强）" class="headerlink" title="1. 排行榜网站（极强）"></a>1. 排行榜网站（极强）</h2><p>例如：</p>
+<ul>
+<li>AI tools 排行榜</li>
+<li>productivity 排行榜</li>
+<li>habit 排行榜</li>
+<li>side project 排行榜</li>
+<li>coding streak 排行榜</li>
+</ul>
+<p>因为：</p>
+<ul>
+<li>内容无限</li>
+<li>SEO 后期强</li>
+<li>用户天天看</li>
+<li>容易分享</li>
+</ul>
+<hr>
+<h2 id="2-AI-tracker"><a href="#2-AI-tracker" class="headerlink" title="2. AI + tracker"></a>2. AI + tracker</h2><p>例如：</p>
+<ul>
+<li>AI analyze my week</li>
+<li>AI study score</li>
+<li>AI mood trend</li>
+<li>AI reading insights</li>
+</ul>
+<p>欧美人特别喜欢：</p>
+<blockquote>
+<p>“被系统理解”。</p>
+</blockquote>
+<hr>
+<h2 id="3-AI-roast-x2F-judge-x2F-rank"><a href="#3-AI-roast-x2F-judge-x2F-rank" class="headerlink" title="3. AI roast &#x2F; judge &#x2F; rank"></a>3. AI roast &#x2F; judge &#x2F; rank</h2><p>欧美很爱这种：</p>
+<ul>
+<li>roast me</li>
+<li>judge me</li>
+<li>rate me</li>
+<li>rank me</li>
+</ul>
+<p>因为：</p>
+<ul>
+<li>娱乐性强</li>
+<li>分享率高</li>
+</ul>
+<hr>
+<h2 id="4-Public-progress"><a href="#4-Public-progress" class="headerlink" title="4. Public progress"></a>4. Public progress</h2><p>欧美特别喜欢：</p>
+<ul>
+<li>build in public</li>
+<li>public habit</li>
+<li>public learning</li>
+</ul>
+<p>因为：</p>
+<ul>
+<li>accountability culture</li>
+</ul>
+<hr>
+<h1 id="九、你现在最应该研究的不是技术"><a href="#九、你现在最应该研究的不是技术" class="headerlink" title="九、你现在最应该研究的不是技术"></a>九、你现在最应该研究的不是技术</h1><p>而是：</p>
+<h1 id="“用户为什么会再回来一次”"><a href="#“用户为什么会再回来一次”" class="headerlink" title="“用户为什么会再回来一次”"></a>“用户为什么会再回来一次”</h1><p>这个问题。</p>
+<hr>
+<h1 id="十、真正适合-OPC-的产品公式"><a href="#十、真正适合-OPC-的产品公式" class="headerlink" title="十、真正适合 OPC 的产品公式"></a>十、真正适合 OPC 的产品公式</h1><p>现在欧美越来越像：</p>
+<h1 id="高频小快乐系统"><a href="#高频小快乐系统" class="headerlink" title="高频小快乐系统"></a>高频小快乐系统</h1><p>而不是：</p>
+<h1 id="大而全系统"><a href="#大而全系统" class="headerlink" title="大而全系统"></a>大而全系统</h1><p>所以好的 OPC 通常：</p>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>原因</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>功能很少</td>
+<td>降低复杂度</td>
+</tr>
+<tr>
+<td>情绪反馈很多</td>
+<td>增加留存</td>
+</tr>
+<tr>
+<td>页面很轻</td>
+<td>快速使用</td>
+</tr>
+<tr>
+<td>有排行榜</td>
+<td>DAU</td>
+</tr>
+<tr>
+<td>有 streak</td>
+<td>习惯</td>
+</tr>
+<tr>
+<td>有身份页</td>
+<td>分享</td>
+</tr>
+<tr>
+<td>有 AI 点评</td>
+<td>新鲜感</td>
+</tr>
+<tr>
+<td>有 daily 内容</td>
+<td>回访</td>
+</tr>
+</tbody></table>
+<hr>
+<h1 id="十一、最后一个非常重要的现实"><a href="#十一、最后一个非常重要的现实" class="headerlink" title="十一、最后一个非常重要的现实"></a>十一、最后一个非常重要的现实</h1><p>很多欧美独立开发者赚钱的产品：</p>
+<h1 id="技术都不难。"><a href="#技术都不难。" class="headerlink" title="技术都不难。"></a>技术都不难。</h1><p>真正难的是：</p>
+<h2 id="1-命中情绪"><a href="#1-命中情绪" class="headerlink" title="1. 命中情绪"></a>1. 命中情绪</h2><h2 id="2-命中习惯"><a href="#2-命中习惯" class="headerlink" title="2. 命中习惯"></a>2. 命中习惯</h2><h2 id="3-命中身份"><a href="#3-命中身份" class="headerlink" title="3. 命中身份"></a>3. 命中身份</h2><h2 id="4-命中“我想再打开一次”"><a href="#4-命中“我想再打开一次”" class="headerlink" title="4. 命中“我想再打开一次”"></a>4. 命中“我想再打开一次”</h2><p>这才是现在 OPC SaaS 最核心的东西。</p>
 ]]></content>
       <categories>
         <category>SEO</category>
