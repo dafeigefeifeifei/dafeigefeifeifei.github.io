@@ -21373,4 +21373,15 @@ image: flask-service:latest
         <tag>theory</tag>
       </tags>
   </entry>
+  <entry>
+    <title>linux运维排查</title>
+    <url>/2026/06/04/linux%E8%BF%90%E7%BB%B4%E6%8E%92%E6%9F%A5/</url>
+    <content><![CDATA[<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">查看文件系统的整体磁盘空间占用</span><br><span class="line"><span class="built_in">df</span> -h   <span class="comment">#所有已挂载文件系统</span></span><br><span class="line"><span class="built_in">df</span> -h /home  <span class="comment">#该路径所在文件系统</span></span><br><span class="line"></span><br><span class="line">指定路径的总大小</span><br><span class="line"><span class="built_in">du</span> -sh /path</span><br><span class="line"></span><br><span class="line">当前目录下第一层子目录的大小</span><br><span class="line"><span class="built_in">du</span> -h --max-depth=1</span><br><span class="line"></span><br><span class="line">列出块设备信息，查看磁盘、分区及其挂载点的关系</span><br><span class="line">lsblk -f</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Operation</category>
+      </categories>
+      <tags>
+        <tag>operationSystem</tag>
+      </tags>
+  </entry>
 </search>
